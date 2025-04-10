@@ -6,7 +6,7 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "export": "next export",
-        "stg:local": "cross-env STAGE=github npm run build && npm run export"
+        "deploy:local": "cross-env STAGE=github pnpm build"
     },
     "dependencies": {
         "react": "^19.0.0",

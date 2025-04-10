@@ -1,35 +1,34 @@
-name: Deploy Staging to GitHub Pages
+name: Deploy to GitHub Pages (stg)
 
 on:
-    push:
-        branches: [stg]
+  push:
+    branches:
+      - stg
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      STAGE: ${{ secrets.STAGE }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-        steps:
-            - name: 📦 Checkout Repository
-              uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-            - name: 🔧 Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 18
+      - name: Install dependencies
+        run: npm install
 
-            - name: 📥 Install Dependencies
-              run: npm ci
+      - name: Build & Export
+        run: |
+          npm run build
+          npm run export
 
-            - name: 🚧 Build and Export
-              env:
-                  STAGE: github
-              run: |
-                  npm run build
-                  npm run export
-
-            - name: 🚀 Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./out
-                  publish_branch: gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
