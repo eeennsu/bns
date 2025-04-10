@@ -5,6 +5,9 @@ on:
         branches:
             - stg
 
+permissions:
+    contents: write
+
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -23,8 +26,7 @@ jobs:
               run: npm install
 
             - name: Build
-              run: |
-                  npm run build
+              run: npm run build
 
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
