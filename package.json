@@ -6,7 +6,7 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "export": "next export",
-        "deploy:local": "cross-env STAGE=github pnpm build",
+        "deploy:local": "cross-env STAGE=github pnpm build && pnpm serve out",
         "pretty": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css}\""
     },
     "dependencies": {
@@ -20,6 +20,7 @@
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "cross-env": "^7.0.3",
         "eslint": "^9",
         "eslint-config-next": "15.2.5",
         "prettier": "^3.5.3",
