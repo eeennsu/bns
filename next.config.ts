@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+
+const isStg = (process.env.STAGE = 'github')
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+    output: 'export',
+    ...(isStg && {
+        basePath: '/bnc',
+        assetPrefix: '/bnc/',
+    }),
+}
 
-export default nextConfig;
+export default nextConfig
