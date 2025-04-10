@@ -6,7 +6,8 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "export": "next export",
-        "deploy:local": "cross-env STAGE=github pnpm build"
+        "deploy:local": "cross-env STAGE=github pnpm build",
+        "pretty": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css}\""
     },
     "dependencies": {
         "react": "^19.0.0",
