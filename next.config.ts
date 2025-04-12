@@ -5,8 +5,8 @@ const isStg = process.env.STAGE === 'github'
 const nextConfig: NextConfig = {
     output: 'export',
     ...(isStg && {
-        basePath: '/bnc',
-        assetPrefix: '/bnc/',
+        basePath: '/bns',
+        assetPrefix: '/bns/',
     }),
 }
 
