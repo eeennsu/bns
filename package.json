@@ -6,8 +6,6 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "export": "next export",
-        "deploy:local": "cross-env STAGE=github pnpm build && npx serve@latest out",
         "pretty": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css}\""
     },
     "dependencies": {
