@@ -15,7 +15,7 @@ export default function RootLayout({
     return (
         <html lang='ko'>
             <body className={`${notoSansKr.variable} ${openSans.variable} antialiased`}>
-                <div className='min-h-dvh w-full'>{children}</div>
+                <div className='min-h-dvh w-full'>{children}</div>hello zzzz
             </body>
         </html>
     )
