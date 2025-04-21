@@ -7,7 +7,7 @@ const HomePage: FC = () => {
         <main>
             <h1 className='bg-black text-white'>Hello BNS!</h1>
             <span className='text-xs font-bold text-blue-400'>{process.env.NEXT_PUBLIC_API_URL} </span>
-            hello world!!!
+            hello world!!! update!
         </main>
     )
 }
