@@ -1,26 +1,24 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields" : true,
+    "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
-   /* Bundler mode */
-   "moduleResolution": "bundler",
-   "allowImportingTsExtensions": true,
-   "resolveJsonModule": true,
-   "isolatedModules": true,
-   "noEmit": true,
-   "jsx": "react-jsx",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
-
 
     "baseUrl": ".",
     "paths": {
@@ -40,16 +38,15 @@
       "@theme": ["src/shared/styles/theme.ts"],
       "@config": ["./config/config.json"],
       "@src/*": ["src/*"]
-    },
-
-    "include": ["src", "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
-    "exclude": [
-      "node_modules",
-      "dist",
-      "build",
-      "./cypress",
-      "cypress.config.ts",
-      "tailwind.config.js"
-    ],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    }
+  },
+  "include": ["src", "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "./cypress",
+    "cypress.config.ts",
+    "tailwind.config.js"
+  ]
 }
