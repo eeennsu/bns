@@ -20,6 +20,6 @@ module.exports = {
     '/sys',
     '/dev',
     '**/node_modules/**',
-    '**/dist/**'
+    '**/dist/**',
   ],
 };

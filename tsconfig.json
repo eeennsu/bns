@@ -1,55 +1,102 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields" : true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
-
-   /* Bundler mode */
-   "moduleResolution": "bundler",
-   "allowImportingTsExtensions": true,
-   "resolveJsonModule": true,
-   "isolatedModules": true,
-   "noEmit": true,
-   "jsx": "react-jsx",
-
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
-
-
+    /* Importing */
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@widgets/*": ["src/widgets/*"],
-      "@features/*": ["src/features/*"],
-      "@entities/*": ["src/entities/*"],
-      "@utils/*": ["src/shared/utils/*"],
-      "@shadcn-ui/*": ["src/shared/shadcn-ui/*"],
-      "@stores/*": ["src/shared/stores/*"],
-      "@hooks/*": ["src/shared/hooks/*"],
-      "@typings/*": ["src/shared/typings/*"],
-      "@consts/*": ["src/shared/consts/*"],
-      "@contracts/*": ["src/shared/contracts/*"],
-      "@components/*": ["src/shared/components/*"],
-      "@styles/*": ["src/shared/styles/*"],
-      "@theme": ["src/shared/styles/theme.ts"],
-      "@config": ["./config/config.json"],
-      "@src/*": ["src/*"]
+      "@app/*": [
+        "src/app/*"
+      ],
+      "@widgets/*": [
+        "src/widgets/*"
+      ],
+      "@features/*": [
+        "src/features/*"
+      ],
+      "@entities/*": [
+        "src/entities/*"
+      ],
+      "@libs/*": [
+        "src/shared/libs/*"
+      ],
+      "@utils/*": [
+        "src/shared/utils/*"
+      ],
+      "@shadcn-ui/*": [
+        "src/shared/shadcn-ui/*"
+      ],
+      "@stores/*": [
+        "src/shared/stores/*"
+      ],
+      "@hooks/*": [
+        "src/shared/hooks/*"
+      ],
+      "@typings/*": [
+        "src/shared/typings/*"
+      ],
+      "@consts/*": [
+        "src/shared/consts/*"
+      ],
+      "@contracts/*": [
+        "src/shared/contracts/*"
+      ],
+      "@components/*": [
+        "src/shared/components/*"
+      ],
+      "@styles/*": [
+        "src/shared/styles/*"
+      ],
+      "@theme": [
+        "src/shared/styles/theme.ts"
+      ],
+      "@config": [
+        "./config/config.json"
+      ],
+      "@src/*": [
+        "src/*"
+      ]
     },
-
-    "include": ["src", "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
-    "exclude": [
-      "node_modules",
-      "dist",
-      "build",
-      "./cypress",
-      "cypress.config.ts",
-      "tailwind.config.js"
-    ],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "allowJs": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "src",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "tailwind.config.js"
+  ]
 }
