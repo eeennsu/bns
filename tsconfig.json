@@ -30,6 +30,7 @@
       "@shadcn-ui/*": ["src/shared/shadcn-ui/*"],
       "@stores/*": ["src/shared/stores/*"],
       "@hooks/*": ["src/shared/hooks/*"],
+      "@libs/*": ["src/shared/libs/*"],
       "@typings/*": ["src/shared/typings/*"],
       "@consts/*": ["src/shared/consts/*"],
       "@contracts/*": ["src/shared/contracts/*"],
