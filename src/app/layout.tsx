@@ -1,6 +1,7 @@
-import '@libs/css/globals.css';
-import FONT from '@libs/fonts/font';
+import '@app/globals.css';
 import type { Metadata } from 'next';
+
+import FONT from '@consts/font';
 
 export const metadata: Metadata = {
   title: 'Bread & Sauce',
