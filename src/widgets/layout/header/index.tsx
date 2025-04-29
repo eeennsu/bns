@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { FC } from 'react';
+import { type FC } from 'react';
 
 import USER_PATHS from '@src/shared/configs/routes/userPaths';
 
