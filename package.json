@@ -8,14 +8,18 @@
     "build": "pnpm lint && pnpm prettier && next build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "start": "next start",
-    "prettier": "prettier --config .prettierrc --write \"**/*.{ts,tsx,md}\""
+    "prettier": "prettier --config .prettierrc --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx ./src/db/migrate.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
     "@radix-ui/react-alert-dialog": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.11",
     "@radix-ui/react-slot": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.43.1",
     "lucide-react": "^0.503.0",
     "next": "15.2.5",
     "postcss": "^8.5.3",
@@ -31,6 +35,8 @@
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
+    "dotenv": "^16.5.0",
+    "drizzle-kit": "^0.31.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
@@ -43,6 +49,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.1.4",
+    "tsx": "^4.19.4",
     "tw-animate-css": "^1.2.8",
     "typescript": "^5"
   }
