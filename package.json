@@ -10,7 +10,9 @@
     "start": "next start",
     "prettier": "prettier --config .prettierrc --write \"**/*.{ts,tsx,md}\"",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx ./src/db/migrate.ts"
+    "db:migrate": "tsx ./src/db/configs/migrate.ts",
+    "db:setup-schemas": "tsx ./src/db/configs/generateSchemas.ts",
+    "db:sync": "pnpm db:setup-schemas && pnpm db:generate && pnpm db:migrate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
@@ -19,13 +21,15 @@
     "@radix-ui/react-slot": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "drizzle-orm": "^0.43.1",
     "lucide-react": "^0.503.0",
     "next": "15.2.5",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.2.0"
+    "tailwind-merge": "^3.2.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.4",

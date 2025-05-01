@@ -8,6 +8,41 @@
       "when": 1745934217711,
       "tag": "0000_wealthy_serpent_society",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746097869751,
+      "tag": "0001_good_iron_patriot",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1746097963942,
+      "tag": "0002_uneven_silver_centurion",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1746098684634,
+      "tag": "0003_soft_stepford_cuckoos",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1746098701270,
+      "tag": "0004_medical_wallow",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1746099378599,
+      "tag": "0005_ambiguous_franklin_richards",
+      "breakpoints": true
     }
   ]
 }

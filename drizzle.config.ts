@@ -1,7 +1,8 @@
 import { defineConfig } from 'drizzle-kit';
+import { schemaFiles } from 'src/db/consts/schemaFiles';
 
 export default defineConfig({
-  schema: ['./src/db/schemas/bread.ts', './src/db/schemas/event.ts'],
+  schema: schemaFiles,
   out: './src/db/migrations',
   dialect: 'postgresql',
   dbCredentials: {
