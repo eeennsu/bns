@@ -5,7 +5,9 @@ export default defineConfig({
   schema: schemaFiles,
   out: './src/db/migrations',
   dialect: 'postgresql',
+  strict: true,
+  verbose: true,
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
+    url: process.env.DATABASE_URL as string,
   },
 });

@@ -9,6 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "start": "next start",
     "prettier": "prettier --config .prettierrc --write \"**/*.{ts,tsx,md}\"",
+    "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx ./src/db/configs/migrate.ts",
     "db:setup-schemas": "tsx ./src/db/configs/generateSchemas.ts",
