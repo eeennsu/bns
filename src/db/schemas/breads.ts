@@ -1,18 +1,21 @@
+import { relations } from 'drizzle-orm';
 import { pgTable, varchar, integer, index } from 'drizzle-orm/pg-core';
 
-import { auditColumns } from '../consts/commonColumns';
+import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, VARCHAR_LENGTH } from '../consts/commons';
+import { bundleBreads } from './bundles';
+import { sauceBreadRecommendations } from './sauces';
 
 export const breads = pgTable(
   'breads',
   {
     id: integer('id').primaryKey(),
-    name: varchar('name', { length: 256 }).notNull(),
-    description: varchar('description', { length: 256 }).notNull(),
-    image: varchar('image', { length: 256 }).notNull(),
+    name: varchar('name', { length: VARCHAR_LENGTH.NAME }).notNull(),
+    description: varchar('description', { length: VARCHAR_LENGTH.DESCRIPTION }).notNull(),
+    image: varchar('image', { length: VARCHAR_LENGTH.IMAGE }).notNull(),
     price: integer('price').notNull(),
     mbti: varchar('mbti', { length: 4 }).notNull(),
-    order: integer('order').notNull(),
-    ...auditColumns,
+    sortOrder: SORT_ORDER_COLUMN,
+    ...AUDIT_COLUMNS,
   },
   bread => ({
     nameIndex: index('breads_name_idx').on(bread.name),
@@ -20,3 +23,8 @@ export const breads = pgTable(
     priceIndex: index('breads_price_idx').on(bread.price),
   }),
 );
+
+export const breadsRelations = relations(breads, ({ many }) => ({
+  bundleBreads: many(bundleBreads),
+  sauceRecommendations: many(sauceBreadRecommendations),
+}));

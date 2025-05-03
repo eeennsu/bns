@@ -1,17 +1,18 @@
 import { pgTable, varchar, timestamp, integer, index } from 'drizzle-orm/pg-core';
 
-import { auditColumns } from '../consts/commonColumns';
+import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, VARCHAR_LENGTH } from '../consts/commons';
 
 export const events = pgTable(
   'events',
   {
     id: integer('id').primaryKey(),
-    name: varchar('name', { length: 256 }).notNull(),
-    description: varchar('description', { length: 256 }).notNull(),
-    image: varchar('image', { length: 256 }).notNull(),
+    name: varchar('name', { length: VARCHAR_LENGTH.NAME }).notNull(),
+    description: varchar('description', { length: VARCHAR_LENGTH.DESCRIPTION }).notNull(),
+    image: varchar('image', { length: VARCHAR_LENGTH.IMAGE }),
     startDate: timestamp('start_date').notNull(),
     endDate: timestamp('end_date').notNull(),
-    ...auditColumns,
+    sortOrder: SORT_ORDER_COLUMN,
+    ...AUDIT_COLUMNS,
   },
   event => ({
     startDateIndex: index('events_start_date_idx').on(event.startDate),

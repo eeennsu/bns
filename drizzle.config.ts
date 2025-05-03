@@ -1,13 +1,13 @@
+import { assertEnv } from '@libs/assertEnv';
 import { defineConfig } from 'drizzle-kit';
-import { schemaFiles } from 'src/db/consts/schemaFiles';
 
 export default defineConfig({
-  schema: schemaFiles,
+  schema: './src/db/schemas/*.ts',
   out: './src/db/migrations',
   dialect: 'postgresql',
   strict: true,
   verbose: true,
   dbCredentials: {
-    url: process.env.DATABASE_URL as string,
+    url: assertEnv({ env: process.env.DATABASE_URL, key: 'DATABASE_URL' }),
   },
 });

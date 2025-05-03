@@ -8,16 +8,18 @@ interface IProps {
 }
 
 const SidebarWidget: FC<IProps> = ({ currentRoute, nestedRoutes }) => {
+  console.log('SidebarWidget', currentRoute, nestedRoutes);
   const [isSidebarOpen, setIsSidebarOpen] = useSidebarStore(state => [
     state.isSidebarOpen,
     state.setIsSidebarOpen,
   ]);
 
-  const onToggleSiidebar = () => {
+  console.log('isSidebarOpen', isSidebarOpen);
+  const handleToggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
   };
 
-  return <div>SidebarWidget</div>;
+  return <div onClick={handleToggleSidebar}>SidebarWidget</div>;
 };
 
 export default SidebarWidget;

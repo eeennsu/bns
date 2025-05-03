@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import Footer from '@widgets/layout/Footer';
-import Header from '@widgets/layout/Header';
+import Footer from '@widgets/footer';
+import Header from '@widgets/header';
 
 import FONT from '@consts/font';
 

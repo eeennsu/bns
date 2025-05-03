@@ -12,8 +12,7 @@
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx ./src/db/configs/migrate.ts",
-    "db:setup-schemas": "tsx ./src/db/configs/generateSchemas.ts",
-    "db:sync": "pnpm db:setup-schemas && pnpm db:generate && pnpm db:migrate"
+    "db:sync": "pnpm db:generate && pnpm db:migrate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
