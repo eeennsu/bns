@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
-import Footer from '@widgets/footer';
-import Header from '@widgets/header';
+import LayoutShell from '@widgets/LayoutShell';
 
 import FONT from '@consts/font';
 
@@ -20,10 +19,8 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${FONT.NOTO_SANS_KR} ${FONT.OPEN_SANS} antialiased`}>
-        <div className='flex min-h-dvh w-full flex-col bg-yellow-400'>
-          <Header />
-          <div className='flex-grow bg-amber-400'>{children}</div>
-          <Footer />
+        <div className='flex min-h-dvh w-full flex-col'>
+          <LayoutShell>{children}</LayoutShell>
         </div>
       </body>
     </html>

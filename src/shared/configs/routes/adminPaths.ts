@@ -1,5 +1,5 @@
-const ADMIN_PATHS = {
-  root: '/',
+export const ADMIN_PATHS = {
+  root: '/admin' as const,
   home() {
     return ADMIN_PATHS.root;
   },
@@ -20,5 +20,3 @@ const ADMIN_PATHS = {
     },
   },
 };
-
-export default ADMIN_PATHS;
