@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { pgTable, varchar, integer, index } from 'drizzle-orm/pg-core';
+import { pgTable, varchar, integer, index, boolean } from 'drizzle-orm/pg-core';
 
 import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, VARCHAR_LENGTH } from '../consts/commons';
 import { bundleBreads } from './bundles';
@@ -14,6 +14,8 @@ export const breads = pgTable(
     image: varchar('image', { length: VARCHAR_LENGTH.IMAGE }).notNull(),
     price: integer('price').notNull(),
     mbti: varchar('mbti', { length: 4 }).notNull(),
+    isSignature: boolean('is_signature').notNull().default(false),
+    isNew: boolean('is_new').notNull().default(false),
     sortOrder: SORT_ORDER_COLUMN,
     ...AUDIT_COLUMNS,
   },
