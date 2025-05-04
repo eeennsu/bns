@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { integer, pgTable, serial, unique, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, serial, unique, varchar } from 'drizzle-orm/pg-core';
 
 import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, VARCHAR_LENGTH } from '../consts/commons';
 import { breads } from './breads';
@@ -12,6 +12,8 @@ export const sauces = pgTable(
     description: varchar('description', { length: VARCHAR_LENGTH.DESCRIPTION }).notNull(),
     image: varchar('image', { length: VARCHAR_LENGTH.IMAGE }).notNull(),
     price: integer('price').notNull(),
+    isSignature: boolean('is_signature').notNull().default(false),
+    isNew: boolean('is_new').notNull().default(false),
     sortOrder: SORT_ORDER_COLUMN,
     ...AUDIT_COLUMNS,
   },
