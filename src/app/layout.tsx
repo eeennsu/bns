@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import LayoutShell from '@widgets/user/layout-shell';
+import PageContainer from '@widgets/user/page-container';
 
 import { BRAND_TITLE, SITE_LINK } from '@consts/commons';
 import { NANUM_GOTHIC, OPEN_SANS } from '@consts/font';
@@ -50,7 +50,7 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={`${NANUM_GOTHIC.className} ${OPEN_SANS.className} antialiased`}>
         <div className='relative flex h-dvh w-full flex-col'>
-          <LayoutShell>{children}</LayoutShell>
+          <PageContainer>{children}</PageContainer>
         </div>
       </body>
     </html>

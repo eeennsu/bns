@@ -17,7 +17,7 @@ const Header: FC = () => {
           <h1 className='text-xl font-bold text-[#8B4513]'>{BRAND_TITLE.EN}</h1>
         </Link>
         <DrawerMenu>
-          <Menu />
+          <Menu className='cursor-pointer' />
         </DrawerMenu>
 
         <nav className='mr-20 hidden gap-8 lg:flex'>

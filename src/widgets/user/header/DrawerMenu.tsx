@@ -24,7 +24,7 @@ const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children }) => {
           <DrawerTitle className={`text-lg font-bold text-[#8b5e3c] ${NANUM_GOTHIC.className}`}>
             메뉴
           </DrawerTitle>
-          <DrawerClose>
+          <DrawerClose className='cursor-pointer'>
             <X className='h-6 w-6 text-[#8b5e3c] hover:text-[#a86b4c]' />
           </DrawerClose>
         </div>

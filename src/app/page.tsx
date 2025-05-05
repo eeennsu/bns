@@ -5,9 +5,9 @@ import ContactUs from '@features/user/home/ui/ContactUs';
 import Hero from '@features/user/home/ui/Hero';
 import Signature from '@features/user/home/ui/Signature';
 
-const LandingPage: FC = () => {
+const HomePage: FC = () => {
   return (
-    <main className='flex-1 pt-19'>
+    <main className='size-full'>
       <div className='relative container space-y-20 px-4 py-8'>
         <Hero />
         <Signature />
@@ -255,4 +255,4 @@ const LandingPage: FC = () => {
     </main>
   );
 };
-export default LandingPage;
+export default HomePage;
