@@ -15,7 +15,7 @@ const NotFoundPage: FC = () => {
       <main className='flex flex-grow items-center justify-center px-4 py-16'>
         <div className='flex w-full max-w-lg flex-col items-center gap-8 text-center'>
           <div className='space-y-4'>
-            <h1 className='flex w-full items-center justify-center gap-2 text-4xl font-bold text-[#8B4513]'>
+            <h1 className='text-wood flex w-full items-center justify-center gap-2 text-4xl font-bold'>
               페이지를 찾을 수 없습니다
             </h1>
 
@@ -23,7 +23,7 @@ const NotFoundPage: FC = () => {
               요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
             </p>
 
-            <div className='mx-auto my-6 h-px w-76 bg-[#8B4513]/20' />
+            <div className='bg-wood/20 mx-auto my-6 h-px w-76' />
 
             <p className='text-gray-800'>아래 버튼을 클릭하여 홈페이지로 돌아가세요.</p>
           </div>

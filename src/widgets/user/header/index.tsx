@@ -11,10 +11,13 @@ import MenuButton from './MenuButton';
 
 const Header: FC = () => {
   return (
-    <header className='fixed top-0 z-40 w-full border-b bg-white/90 backdrop-blur-xs'>
-      <div className='flex w-full items-center justify-between px-7 py-6'>
-        <Link href={USER_PATHS.home()} className={`flex items-center gap-2 ${BALOO_2.className}`}>
-          <h1 className='text-xl font-bold text-[#8B4513]'>{BRAND_TITLE.EN}</h1>
+    <header className='bg-clip fixed top-0 z-40 w-full border-b opacity-94 shadow-md backdrop-blur-xl backdrop-filter transition-all duration-300'>
+      <div className='bg-g flex w-full items-center justify-between px-7 py-6'>
+        <Link
+          href={USER_PATHS.home()}
+          className={`flex items-center gap-2 text-xl font-bold text-[#8B4513] ${BALOO_2.className}`}
+        >
+          <h1>{BRAND_TITLE.EN}</h1>
         </Link>
         <DrawerMenu>
           <Menu className='cursor-pointer' />

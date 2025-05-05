@@ -5,17 +5,17 @@ import { useEffect } from 'react';
 
 import ErrorLayout from '@widgets/error';
 
-type Props = {
+interface IProps {
   error: Error & { digest?: string };
   reset: () => void;
-};
+}
 
-const ErrorPage: NextPage<Props> = ({ error, reset }) => {
+const ErrorPage: NextPage<IProps> = ({ error }) => {
   useEffect(() => {
     console.log(error);
   }, [error]);
 
-  return <ErrorLayout error={error} reset={reset} />;
+  return <ErrorLayout />;
 };
 
 export default ErrorPage;

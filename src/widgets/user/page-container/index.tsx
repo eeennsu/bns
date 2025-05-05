@@ -6,7 +6,6 @@ import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
 import Footer from '../footer';
 import Header from '../header';
-import { cn } from '@shadcn-ui/utils';
 
 const PageContainer: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
@@ -15,7 +14,7 @@ const PageContainer: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       {!isAdmin && <Header />}
-      <div className={cn('flex-1', !isAdmin && 'pt-19')}>{children}</div>
+      <div className='flex-1'>{children}</div>
       {!isAdmin && <Footer />}
     </>
   );
