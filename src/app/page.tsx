@@ -1,416 +1,258 @@
-import { ChevronRight, Star, MapPin, Clock, Phone, Instagram } from 'lucide-react';
-import Image from 'next/image';
 import { FC } from 'react';
 
-import { Button } from '@shadcn-ui/ui/button';
+import BrushBackground from '@features/user/home/ui/BrushBackground';
+import ContactUs from '@features/user/home/ui/ContactUs';
+import Hero from '@features/user/home/ui/Hero';
+import Signature from '@features/user/home/ui/Signature';
 
 const LandingPage: FC = () => {
   return (
-    <main className='flex-1'>
-      <section className='bg-[#FFFFF0] py-16 md:py-24'>
-        <div className='container grid items-center gap-12 md:grid-cols-2'>
-          <div className='space-y-6'>
-            <div className='inline-block rounded-full bg-[#F5F5DC] px-3 py-1 text-sm font-medium text-[#8B4513]'>
-              Artisanal Bakery
-            </div>
-            <h1 className='text-4xl leading-tight font-bold text-[#8B4513] md:text-5xl lg:text-6xl'>
-              Bread Crafted with Passion & Tradition
-            </h1>
-            <p className='max-w-md text-lg text-gray-700'>
-              Every loaf tells a story of time-honored techniques, premium ingredients, and the art
-              of slow fermentation.
-            </p>
-            <div className='flex flex-col gap-4 sm:flex-row'>
-              <Button className='bg-[#8B4513] text-[#FFFFF0] hover:bg-[#A0522D]'>
-                Explore Our Breads
-              </Button>
-              <Button variant='outline' className='border-[#8B4513] text-[#8B4513]'>
-                Our Baking Process
-              </Button>
-            </div>
-          </div>
-          <div className='relative'>
-            <div className='absolute -top-6 -left-6 -z-10 h-24 w-24 rounded-full bg-[#F5F5DC]'></div>
+    <main className='flex-1 pt-19'>
+      <div className='relative container space-y-20 px-4 py-8'>
+        <Hero />
+        <Signature />
+        <BrushBackground />
+      </div>
+
+      <ContactUs />
+
+      {/* <div className='relative hidden flex-grow justify-center md:flex'>
+          <div className='relative h-[400px] w-full max-w-[500px]'>
             <Image
-              src='/placeholder.svg?height=600&width=600'
-              width={600}
-              height={600}
-              alt='Artisan sourdough bread'
-              className='relative z-10 rounded-2xl shadow-lg'
-              priority
+              src='https://picsum.photos/seed/picsum/400/500'
+              alt='Artisan bread'
+              fill
+              className='img-fade z-1 rounded-lg shadow-lg'
             />
-            <div className='absolute -right-6 -bottom-6 -z-10 h-32 w-32 rounded-full bg-[#F5F5DC]'></div>
-          </div>
-        </div>
-      </section>
 
-      <section id='products' className='py-20'>
-        <div className='container'>
-          <div className='mb-12 flex flex-col items-center justify-between md:flex-row'>
-            <div>
-              <h2 className='text-3xl font-bold text-[#8B4513]'>Our Signature Breads</h2>
-              <p className='mt-2 max-w-xl text-gray-600'>
-                Handcrafted daily using organic flour and our decades-old sourdough starter.
-              </p>
-            </div>
-            <Button variant='link' className='flex items-center gap-1 text-[#8B4513]'>
-              View All <ChevronRight className='h-4 w-4' />
-            </Button>
-          </div>
+            <Image
+              src='https://picsum.photos/id/237/400/500'
+              alt='Artisan bread'
+              fill
+              className='img-fade z-2 -translate-x-40 translate-y-4 -rotate-14 rounded-lg shadow-lg'
+              style={{
+                animationDelay: '1s',
+              }}
+            />
 
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
-            {featuredBreads.map(bread => (
-              <div key={bread.name} className='group'>
-                <div className='relative mb-4 overflow-hidden rounded-xl'>
-                  <Image
-                    src={bread.image || '/placeholder.svg'}
-                    width={400}
-                    height={300}
-                    alt={bread.name}
-                    className='aspect-[4/3] w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                  />
-                  <div className='absolute top-4 right-4 rounded-full bg-white px-3 py-1 text-sm font-medium text-[#8B4513]'>
-                    ${bread.price.toFixed(2)}
-                  </div>
-                </div>
-                <h3 className='text-xl font-semibold text-[#8B4513]'>{bread.name}</h3>
-                <p className='mt-1 text-gray-600'>{bread.description}</p>
-                <Button
-                  variant='ghost'
-                  className='mt-3 p-0 text-[#8B4513] hover:bg-[#F5F5DC] hover:text-[#A0522D]'
-                >
-                  Add to Cart
-                </Button>
-              </div>
-            ))}
+            <Image
+              src='https://picsum.photos/400/500?grayscale'
+              alt='Artisan bread'
+              fill
+              className='img-fade z-3 translate-x-40 rotate-16 rounded-lg shadow-lg'
+              style={{
+                animationDelay: '2s',
+              }}
+            />
           </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className='bg-[#F5F5DC] py-20'>
-        <div className='container'>
-          <div className='mb-16 text-center'>
-            <h2 className='text-3xl font-bold text-[#8B4513]'>Our Artisanal Process</h2>
-            <p className='mx-auto mt-2 max-w-2xl text-gray-700'>
-              We believe great bread takes time. Our process honors traditional methods that have
-              been perfected over generations.
-            </p>
-          </div>
-
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-4'>
-            {breadProcess.map((step, index) => (
-              <div key={index} className='text-center'>
-                <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#8B4513] text-xl font-bold text-white'>
-                  {index + 1}
-                </div>
-                <h3 className='mb-2 text-xl font-semibold text-[#8B4513]'>{step.title}</h3>
-                <p className='text-gray-700'>{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </div> */}
 
       {/* About Section */}
-      <section id='about' className='py-20'>
+      {/* <section id='about' className='bg-amber-900 py-16 text-amber-50'>
         <div className='container'>
-          <div className='grid items-center gap-12 md:grid-cols-2'>
-            <div className='relative'>
-              <Image
-                src='/placeholder.svg?height=600&width=600'
-                width={600}
-                height={600}
-                alt='Baker working with dough'
-                className='rounded-2xl'
-              />
-              <div className='absolute -right-8 -bottom-8 max-w-xs rounded-xl bg-[#FFFFF0] p-6 shadow-lg'>
-                <p className='font-medium text-[#8B4513] italic'>
-                  "Our sourdough starter has been nurtured for over 15 years, giving our bread its
-                  distinctive character."
-                </p>
-                <div className='mt-4 flex items-center'>
-                  <Image
-                    src='/placeholder.svg?height=40&width=40'
-                    width={40}
-                    height={40}
-                    alt='Head Baker'
-                    className='mr-3 rounded-full'
-                  />
-                  <div>
-                    <p className='font-medium text-[#8B4513]'>Emma Laurent</p>
-                    <p className='text-sm text-gray-600'>Head Baker & Founder</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='space-y-6'>
-              <div className='inline-block rounded-full bg-[#F5F5DC] px-3 py-1 text-sm font-medium text-[#8B4513]'>
-                Our Story
-              </div>
-              <h2 className='text-3xl font-bold text-[#8B4513]'>Baking Traditions, Reimagined</h2>
-              <p className='text-gray-700'>
-                Founded in 2010, Hearth & Grain began with a simple mission: to bring traditional,
-                handcrafted bread back to our community. Our founder, Emma, learned the art of
-                breadmaking from her grandmother and was determined to share these time-honored
-                techniques.
+          <div className='grid grid-cols-1 items-center gap-12 md:grid-cols-2'>
+            <div>
+              <h2 className='mb-6 text-3xl font-bold tracking-tight'>Our Baking Philosophy</h2>
+              <p className='mb-4'>
+                At Artisan Bread Co., we believe that great bread requires time, patience, and
+                respect for tradition. Our journey began 15 years ago with a simple mission: to
+                bring authentic, artisanal bread to our community.
               </p>
-              <p className='text-gray-700'>
-                We use only organic flour, natural fermentation, and traditional methods that
-                require time and patience. Every loaf is shaped by hand and baked in our stone
-                hearth oven, resulting in bread with exceptional crust, texture, and flavor.
+              <p className='mb-6'>
+                Every loaf we create is shaped by hand, fermented naturally, and baked on stone
+                hearths to develop that perfect crust and complex flavor that can only come from
+                traditional methods.
               </p>
-              <Button className='bg-[#8B4513] text-[#FFFFF0] hover:bg-[#A0522D]'>
+              <Button
+                variant='outline'
+                className='border-amber-200 text-amber-50 hover:bg-amber-800'
+              >
                 Learn More About Us
               </Button>
             </div>
+            <div className='relative h-[400px] overflow-hidden rounded-lg'>
+              <Image
+                src='/placeholder.svg?height=800&width=600'
+                alt='Baker working with dough'
+                fill
+                className='object-cover'
+              />
+            </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials */}
-      <section id='testimonials' className='bg-[#FFFFF0] py-20'>
-        <div className='container'>
-          <div className='mb-16 text-center'>
-            <h2 className='text-3xl font-bold text-[#8B4513]'>What Our Customers Say</h2>
-            <p className='mx-auto mt-2 max-w-2xl text-gray-700'>
-              Don't just take our word for it. Here's what bread lovers in our community have to
-              say.
-            </p>
-          </div>
-
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className='rounded-xl bg-white p-8 shadow-md'>
-                <div className='mb-4 flex text-yellow-400'>
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className='h-5 w-5 fill-current' />
-                  ))}
-                </div>
-                <p className='mb-6 text-gray-700 italic'>"{testimonial.text}"</p>
-                <div className='flex items-center'>
-                  <Image
-                    src={testimonial.avatar || '/placeholder.svg'}
-                    width={48}
-                    height={48}
-                    alt={testimonial.name}
-                    className='mr-4 rounded-full'
-                  />
-                  <div>
-                    <p className='font-medium text-[#8B4513]'>{testimonial.name}</p>
-                    <p className='text-sm text-gray-600'>{testimonial.location}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Instagram Feed */}
-      <section className='py-20'>
+      {/* <section id='testimonials' className='py-16'>
         <div className='container'>
           <div className='mb-12 text-center'>
-            <h2 className='text-3xl font-bold text-[#8B4513]'>Follow Our Baking Journey</h2>
-            <p className='mx-auto mt-2 max-w-2xl text-gray-700'>
-              Join us on Instagram for daily bread inspiration, behind-the-scenes content, and
-              special announcements.
+            <h2 className='text-3xl font-bold tracking-tight'>What Our Customers Say</h2>
+            <p className='text-muted-foreground mx-auto mt-4 max-w-2xl'>
+              Don't just take our word for it – here's what bread lovers have to say about our
+              artisanal creations.
             </p>
           </div>
-
-          <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
-            {[...Array(8)].map((_, index) => (
-              <div key={index} className='group relative overflow-hidden rounded-xl'>
-                <Image
-                  src={`/placeholder.svg?height=300&width=300`}
-                  width={300}
-                  height={300}
-                  alt='Instagram post'
-                  className='aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-110'
-                />
-                <div className='absolute inset-0 flex items-center justify-center bg-[#8B4513]/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                  <Instagram className='h-8 w-8 text-white' />
+          <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
+            {[
+              {
+                quote:
+                  "The sourdough from Artisan Bread Co. is simply the best I've ever tasted. It's become a weekend tradition in our family.",
+                author: 'Sarah M.',
+              },
+              {
+                quote:
+                  "As someone with a gluten sensitivity, I can actually enjoy their slow-fermented breads without discomfort. It's changed my life!",
+                author: 'Michael T.',
+              },
+              {
+                quote:
+                  "Their olive bread is to die for. I've tried to recreate it at home but nothing compares to the real thing.",
+                author: 'Jessica K.',
+              },
+            ].map((testimonial, index) => (
+              <div key={index} className='rounded-lg border border-amber-100 bg-amber-50 p-8'>
+                <div className='flex h-full flex-col'>
+                  <div className='mb-4 text-amber-500'>
+                    {Array(5)
+                      .fill(0)
+                      .map((_, i) => (
+                        <span key={i} className='text-lg'>
+                          ★
+                        </span>
+                      ))}
+                  </div>
+                  <blockquote className='text-muted-foreground mb-4 flex-1 italic'>
+                    "{testimonial.quote}"
+                  </blockquote>
+                  <footer className='font-medium'>— {testimonial.author}</footer>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className='mt-8 text-center'>
-            <Button variant='outline' className='border-[#8B4513] text-[#8B4513]'>
-              Follow Us @HearthAndGrain
-            </Button>
-          </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* Contact Section */}
-      <section id='contact' className='bg-[#8B4513] py-20 text-white'>
+      {/* CTA Section */}
+      {/* <section className='bg-amber-600 py-16'>
         <div className='container'>
-          <div className='grid gap-12 md:grid-cols-2'>
+          <div className='grid grid-cols-1 items-center gap-8 md:grid-cols-2'>
             <div>
-              <h2 className='mb-6 text-3xl font-bold'>Visit Our Bakery</h2>
-              <p className='mb-8 max-w-md'>
-                Stop by our bakery to experience the aroma of freshly baked bread and take home a
-                loaf still warm from the oven.
+              <h2 className='mb-4 text-3xl font-bold tracking-tight text-white'>
+                Join Our Bread Subscription
+              </h2>
+              <p className='mb-6 text-amber-50'>
+                Never run out of fresh bread again. Get your favorite loaves delivered to your door
+                weekly.
               </p>
-
-              <div className='space-y-6'>
-                <div className='flex items-start'>
-                  <MapPin className='mr-4 h-6 w-6 flex-shrink-0' />
-                  <div>
-                    <h3 className='mb-1 text-xl font-semibold'>Location</h3>
-                    <p>123 Bakery Street</p>
-                    <p>Breadtown, BT 12345</p>
-                  </div>
-                </div>
-                <div className='flex items-start'>
-                  <Clock className='mr-4 h-6 w-6 flex-shrink-0' />
-                  <div>
-                    <h3 className='mb-1 text-xl font-semibold'>Hours</h3>
-                    <p>Monday - Friday: 7am - 6pm</p>
-                    <p>Saturday: 7am - 4pm</p>
-                    <p>Sunday: 8am - 2pm</p>
-                  </div>
-                </div>
-                <div className='flex items-start'>
-                  <Phone className='mr-4 h-6 w-6 flex-shrink-0' />
-                  <div>
-                    <h3 className='mb-1 text-xl font-semibold'>Contact</h3>
-                    <p>Phone: (555) 123-4567</p>
-                    <p>Email: hello@hearthandgrain.com</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className='mt-8 flex gap-4'>
-                <Button className='bg-white text-[#8B4513] hover:bg-[#FFFFF0]'>
-                  Get Directions
+              <div className='flex flex-col gap-4 sm:flex-row'>
+                <Button size='lg' className='bg-white text-amber-600 hover:bg-amber-50'>
+                  Subscribe Now
                 </Button>
-                <Button variant='outline' className='border-white text-white hover:bg-white/10'>
-                  Contact Us
+                <Button
+                  size='lg'
+                  variant='outline'
+                  className='border-white text-white hover:bg-amber-700'
+                >
+                  Learn More
                 </Button>
               </div>
             </div>
-
-            <div className='relative'>
-              <Image
-                src='/placeholder.svg?height=600&width=600'
-                width={600}
-                height={600}
-                alt='Our bakery storefront'
-                className='h-full rounded-2xl object-cover'
-              />
-              <div className='absolute top-0 left-0 -z-10 h-full w-full translate-x-6 translate-y-6 transform rounded-2xl border-8 border-[#A0522D]'></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section className='py-20'>
-        <div className='container'>
-          <div className='rounded-2xl bg-[#F5F5DC] p-8 md:p-12'>
-            <div className='grid items-center gap-8 md:grid-cols-2'>
-              <div>
-                <h2 className='mb-4 text-3xl font-bold text-[#8B4513]'>Join Our Bread Club</h2>
-                <p className='mb-6 text-gray-700'>
-                  Subscribe to our newsletter for seasonal recipes, special offers, and be the first
-                  to know about new bread varieties.
-                </p>
-                <div className='flex flex-col gap-3 sm:flex-row'>
+            <div className='rounded-lg bg-white p-6 shadow-lg'>
+              <h3 className='mb-4 text-xl font-semibold'>Sign up for bread-making classes</h3>
+              <form className='space-y-4'>
+                <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                  <div>
+                    <label htmlFor='first-name' className='mb-1 block text-sm font-medium'>
+                      First Name
+                    </label>
+                    <input
+                      type='text'
+                      id='first-name'
+                      className='w-full rounded-md border px-3 py-2'
+                      placeholder='Your first name'
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor='last-name' className='mb-1 block text-sm font-medium'>
+                      Last Name
+                    </label>
+                    <input
+                      type='text'
+                      id='last-name'
+                      className='w-full rounded-md border px-3 py-2'
+                      placeholder='Your last name'
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor='email' className='mb-1 block text-sm font-medium'>
+                    Email
+                  </label>
                   <input
                     type='email'
-                    placeholder='Your email address'
-                    className='flex-1 rounded-lg border border-[#D2B48C] px-4 py-3'
+                    id='email'
+                    className='w-full rounded-md border px-3 py-2'
+                    placeholder='your@email.com'
                   />
-                  <Button className='bg-[#8B4513] text-[#FFFFF0] hover:bg-[#A0522D]'>
-                    Subscribe
-                  </Button>
                 </div>
-                <p className='mt-3 text-xs text-gray-600'>
-                  By subscribing, you agree to our Privacy Policy. We promise not to spam you.
-                </p>
-              </div>
-              <div className='relative hidden md:block'>
-                <Image
-                  src='/placeholder.svg?height=300&width=400'
-                  width={400}
-                  height={300}
-                  alt='Fresh bread basket'
-                  className='rounded-xl'
-                />
-                <div className='absolute -right-4 -bottom-4 rounded-lg bg-white p-4 shadow-md'>
-                  <p className='font-medium text-[#8B4513]'>
-                    Subscribers get 10% off their first order!
-                  </p>
-                </div>
-              </div>
+                <Button className='w-full bg-amber-600 hover:bg-amber-700'>
+                  Register for Classes
+                </Button>
+              </form>
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      {/* Contact Section */}
+      {/* <section id='contact' className='py-16'>
+        <div className='container'>
+          <div className='grid grid-cols-1 gap-12 md:grid-cols-2'>
+            <div>
+              <h2 className='mb-6 text-3xl font-bold tracking-tight'>Visit Our Bakery</h2>
+              <div className='space-y-4'>
+                <div>
+                  <h3 className='mb-2 font-semibold'>Address</h3>
+                  <p className='text-muted-foreground'>123 Bread Street, Flourville, CA 94101</p>
+                </div>
+                <div>
+                  <h3 className='mb-2 font-semibold'>Hours</h3>
+                  <p className='text-muted-foreground'>Monday - Friday: 7am - 6pm</p>
+                  <p className='text-muted-foreground'>Saturday - Sunday: 8am - 4pm</p>
+                </div>
+                <div>
+                  <h3 className='mb-2 font-semibold'>Contact</h3>
+                  <p className='text-muted-foreground'>Phone: (555) 123-4567</p>
+                  <p className='text-muted-foreground'>Email: hello@artisanbread.co</p>
+                </div>
+              </div>
+              <div className='mt-8 flex gap-4'>
+                <Button variant='outline' size='icon'>
+                  <Instagram className='h-5 w-5' />
+                  <span className='sr-only'>Instagram</span>
+                </Button>
+                <Button variant='outline' size='icon'>
+                  <Facebook className='h-5 w-5' />
+                  <span className='sr-only'>Facebook</span>
+                </Button>
+                <Button variant='outline' size='icon'>
+                  <Twitter className='h-5 w-5' />
+                  <span className='sr-only'>Twitter</span>
+                </Button>
+              </div>
+            </div>
+            <div className='relative h-[400px] overflow-hidden rounded-lg'>
+              <Image
+                src='/placeholder.svg?height=800&width=600&text=Map'
+                alt='Map to bakery location'
+                fill
+                className='object-cover'
+              />
+            </div>
+          </div>
+        </div>
+      </section> */}
     </main>
   );
 };
 export default LandingPage;
-
-const featuredBreads = [
-  {
-    name: 'Classic Sourdough',
-    description: 'Our signature sourdough with a perfectly crisp crust and tender, tangy interior.',
-    price: 7.99,
-    image: '/placeholder.svg?height=400&width=400',
-  },
-  {
-    name: 'Rustic Baguette',
-    description: 'Traditional French-style baguette with a crispy crust and light, airy crumb.',
-    price: 4.99,
-    image: '/placeholder.svg?height=400&width=400',
-  },
-  {
-    name: 'Cranberry Walnut',
-    description: 'Artisan loaf packed with dried cranberries and toasted walnuts.',
-    price: 8.99,
-    image: '/placeholder.svg?height=400&width=400',
-  },
-];
-
-const breadProcess = [
-  {
-    title: 'Select Ingredients',
-    description: 'We source organic flour, filtered water, and sea salt for the purest flavor.',
-  },
-  {
-    title: 'Mix & Ferment',
-    description: 'Our dough ferments for 24-48 hours to develop complex flavors.',
-  },
-  {
-    title: 'Shape by Hand',
-    description: 'Each loaf is carefully shaped by our skilled bakers.',
-  },
-  {
-    title: 'Bake in Stone Oven',
-    description: 'Baked in our traditional stone hearth oven for the perfect crust.',
-  },
-];
-
-const testimonials = [
-  {
-    name: 'Sarah Johnson',
-    location: 'Local Customer',
-    text: "The sourdough from Hearth & Grain is absolutely incredible. I've never tasted bread with such depth of flavor and perfect texture.",
-    avatar: '/placeholder.svg?height=48&width=48',
-  },
-  {
-    name: 'Michael Chen',
-    location: 'Food Blogger',
-    text: "I drive 30 minutes every weekend just to get their olive rosemary bread. It's that good. The quality and craftsmanship is evident in every bite.",
-    avatar: '/placeholder.svg?height=48&width=48',
-  },
-  {
-    name: 'Emma Rodriguez',
-    location: 'Chef',
-    text: 'As someone who appreciates traditional baking methods, I can say that Hearth & Grain is the real deal. Their commitment to quality ingredients shows.',
-    avatar: '/placeholder.svg?height=48&width=48',
-  },
-];

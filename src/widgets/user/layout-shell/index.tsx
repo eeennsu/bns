@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
-import Footer from '@widgets/Footer';
-import Header from '@widgets/Header';
+import Footer from '../footer/LoginDialog';
+import Header from '../header';
 
 const LayoutShell: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
@@ -14,7 +14,7 @@ const LayoutShell: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       {!isAdmin && <Header />}
-      <main>{children}</main>
+      <main className='flex-grow'>{children}</main>
       {!isAdmin && <Footer />}
     </>
   );

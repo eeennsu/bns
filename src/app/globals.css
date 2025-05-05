@@ -1,7 +1,13 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+
+@layer utilities {
+  .container {
+    @apply mx-auto max-w-full px-6 md:px-20;
+  }
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -39,6 +45,8 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-ivory: #fffff0;
+  --color-wood: #a0522d;
 }
 
 :root {
@@ -117,4 +125,34 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.img-fade {
+  opacity: 0;
+  animation: fade-in 2s ease-in-out forwards;
+}
+
+.img-fade-transition {
+  opacity: 0;
+  animation: fade-slide-down 1.5s ease-out forwards;
 }
