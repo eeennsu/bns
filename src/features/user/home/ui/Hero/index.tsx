@@ -1,15 +1,13 @@
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import type { FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 import { BlurFade } from 'src/shared/magic-ui/blur-fade';
 import { BoxReveal } from 'src/shared/magic-ui/box-reveal';
 
-import { Button } from '@shadcn-ui/ui/button';
+import { HERO_ANIM_DURATIONS, HERO_TITLE_DURATIONS } from '@consts/brand';
 
-import { HERO_ANIM_DURATIONS, HERO_TITLE_DURATIONS } from '@consts/commons';
-import { GOWUN_DODUM } from '@consts/font';
+import LinkButton from '@components/LinkButton';
 
 const DUMMY_IMAGES = [
   'https://picsum.photos/id/237/200/300',
@@ -21,9 +19,7 @@ const Hero: FC = () => {
   return (
     <section className='flex w-full flex-row items-center justify-between gap-4 pt-5 xl:pt-0'>
       <div className='flex flex-col justify-center gap-4 xl:w-[40dvw]'>
-        <h1
-          className={`text-wood text-4xl font-bold tracking-tighter lg:text-5xl ${GOWUN_DODUM.className}`}
-        >
+        <h1 className='text-wood font-gowun-dodum text-4xl font-bold tracking-tighter lg:text-5xl'>
           정성으로 구워낸 수제 빵
         </h1>
 
@@ -35,11 +31,9 @@ const Hero: FC = () => {
         </BoxReveal>
 
         <div className='flex justify-center gap-4 pt-4 sm:flex-row lg:justify-start'>
-          <Link href={USER_PATHS.bread.list()}>
-            <Button size='lg' variant='wood' className='flex items-center'>
-              어떤 빵이 있나요? <ArrowRight />
-            </Button>
-          </Link>
+          <LinkButton href={USER_PATHS.bread.list()} size='lg'>
+            어떤 빵이 있나요? <ArrowRight />
+          </LinkButton>
         </div>
       </div>
       <div className='p-2-xl hidden h-[68dvh] flex-grow gap-2 rounded-lg bg-white shadow-2xl xl:flex'>

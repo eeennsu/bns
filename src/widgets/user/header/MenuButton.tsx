@@ -9,7 +9,7 @@ const MenuButton: FC<PropsWithChildren<IProps>> = ({ children, className, ...lin
   return (
     <Link
       className={cn(
-        'text-wood after:bg-wood relative text-sm font-medium after:absolute after:-bottom-[1.5px] after:left-0 after:h-[1.5px] after:w-0 after:rounded-xl after:transition-all after:duration-300 hover:after:w-full',
+        'text-wood after:bg-wood relative text-sm font-semibold after:absolute after:-bottom-[1.5px] after:left-0 after:h-[1.5px] after:w-0 after:rounded-xl after:transition-all after:duration-300 hover:after:w-full',
         className,
       )}
       {...linkProps}

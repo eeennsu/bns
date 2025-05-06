@@ -1,9 +1,8 @@
 import { ArrowRight, PhoneCall } from 'lucide-react';
-import Link from 'next/link';
 import type { FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
-import { Button } from '@shadcn-ui/ui/button';
+import LinkButton from '@components/LinkButton';
 
 const ContactUs: FC = () => {
   return (
@@ -19,11 +18,9 @@ const ContactUs: FC = () => {
       </p>
 
       <div className='flex justify-center'>
-        <Link href={USER_PATHS.bread.list()}>
-          <Button className='border-wood rounded-xl border-2 !px-6 py-4' variant='wood'>
-            세트 메뉴 보기 <ArrowRight />
-          </Button>
-        </Link>
+        <LinkButton href={USER_PATHS.bread.list()}>
+          세트 메뉴 보기 <ArrowRight />
+        </LinkButton>
       </div>
     </section>
   );

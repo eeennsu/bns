@@ -5,8 +5,6 @@ import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
 import { Card, CardContent } from '@shadcn-ui/ui/card';
 
-import { NANUM_GOTHIC } from '@consts/font';
-
 interface IProps {
   bread: any;
   index: number;
@@ -14,7 +12,7 @@ interface IProps {
 
 const SignatureCard: FC<IProps> = ({ bread, index }) => {
   return (
-    <Card className={`h-full rounded-2xl p-0 ${NANUM_GOTHIC.className}`}>
+    <Card className='h-full rounded-2xl p-0'>
       <CardContent className='flex aspect-square items-center justify-center p-0'>
         <Link
           href={USER_PATHS.bread.bySlug({ slug: bread.name })}

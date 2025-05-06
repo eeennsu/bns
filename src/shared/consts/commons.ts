@@ -20,12 +20,3 @@ export const USER_MENU_LIST = [
   },
 ];
 
-export const HERO_TITLE_DURATIONS = {
-  DESCRIPTION: 0.2,
-};
-
-export const HERO_ANIM_DURATIONS = {
-  IMAGE: HERO_TITLE_DURATIONS.DESCRIPTION + 0.5,
-};
-
-export const SITE_LINK = ''; // TODO: 링크 추가
