@@ -19,4 +19,3 @@ export const USER_MENU_LIST = [
     href: USER_PATHS.sauce.list(),
   },
 ];
-

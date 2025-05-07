@@ -13,7 +13,7 @@ const BrushBackground: FC = () => {
         />
       </div>
 
-      <div className='pointer-events-none absolute top-[84.88vh] right-0 left-0 -z-20 h-[120vh]'>
+      <div className='pointer-events-none absolute top-[84.88vh] right-0 left-0 -z-20 h-[97vh]'>
         <Image
           src='/svg/wave-bottom.svg'
           alt='background texture'
