@@ -6,7 +6,7 @@ import LinkButton from '@components/LinkButton';
 
 const ContactUs: FC = () => {
   return (
-    <section className='container border-y border-[#8B4513]/20 bg-[#fffbd3]/85 py-24 text-center'>
+    <section className='container border-y border-[#8B4513]/20 bg-[#fffcdf] py-12 text-center lg:py-24'>
       <h2 className='mb-4 flex w-full items-center justify-center gap-3 text-3xl text-[#8B4513]'>
         <PhoneCall />
         <a href='tel:+1234567890' className='font-medium underline-offset-2 hover:underline'>
