@@ -26,7 +26,7 @@ const Info: FC = () => {
               </p>
             </div>
 
-            <div className='mt-6 flex flex-col justify-center gap-4 sm:flex-row'>
+            <div className='mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row'>
               <LinkButton href={USER_PATHS.bread.list()} className='flex-1 justify-center'>
                 세트 메뉴 보기 <ArrowRight className='h-4 w-4' />
               </LinkButton>

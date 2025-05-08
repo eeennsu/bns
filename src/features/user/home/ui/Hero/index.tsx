@@ -36,7 +36,7 @@ const Hero: FC = () => {
           </LinkButton>
         </div>
       </div>
-      <div className='p-2-xl hidden h-[68dvh] flex-grow gap-2 rounded-lg bg-white shadow-2xl xl:flex'>
+      <div className='p-2-xl hidden h-[68dvh] flex-1 gap-2 rounded-lg bg-white shadow-2xl xl:flex'>
         <figure className='relative w-[70%] overflow-hidden rounded-l-lg'>
           <Image
             src='https://picsum.photos/seed/picsum/580/580'
@@ -46,7 +46,7 @@ const Hero: FC = () => {
           />
         </figure>
 
-        <figure className='flex flex-grow flex-col gap-2 overflow-hidden rounded-r-lg'>
+        <figure className='flex flex-1 flex-col gap-2 overflow-hidden rounded-r-lg'>
           {DUMMY_IMAGES.map((src, index) => (
             <BlurFade
               key={index}

@@ -14,7 +14,7 @@ const ContactUs: FC = () => {
         </a>
       </h2>
       <p className='mx-auto mb-6 max-w-2xl text-[#3E2723]/90'>
-        주문하거나 오늘의 특별 메뉴에 대해 문의하려면 전화주세요.
+        단체 주문하거나 오늘의 특별 메뉴에 대해 문의하려면 전화주세요.
       </p>
 
       <div className='flex justify-center'>

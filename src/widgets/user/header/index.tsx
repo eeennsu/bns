@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { type FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
-import { BRAND_TITLE, USER_MENU_LIST } from '@consts/commons';
+import { BRAND_TITLE } from '@consts/commons';
 
 import DrawerMenu from './DrawerMenu';
-import MenuButton from './MenuButton';
+import Menus from './Menus';
 
 const Header: FC = () => {
   return (
@@ -14,7 +14,7 @@ const Header: FC = () => {
       <div className='bg-g flex w-full items-center justify-between px-7 py-6'>
         <Link
           href={USER_PATHS.home()}
-          className='font-baloo-2 flex items-center gap-2 text-xl font-bold text-[#8B4513]'
+          className='font-baloo-2 text-wood-secondary flex items-center gap-2 text-xl font-bold'
         >
           <h1>{BRAND_TITLE.EN}</h1>
         </Link>
@@ -22,13 +22,7 @@ const Header: FC = () => {
           <Menu className='cursor-pointer' />
         </DrawerMenu>
 
-        <nav className='mr-20 hidden gap-8 lg:flex'>
-          {USER_MENU_LIST.map(menu => (
-            <MenuButton key={menu.title} href={menu.href}>
-              {menu.title}
-            </MenuButton>
-          ))}
-        </nav>
+        <Menus />
       </div>
     </header>
   );

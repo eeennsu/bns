@@ -1,1 +1,1 @@
-export const LIST_PAGE_ROUTE = '/all-list/1';
+export const LIST_PAGE_ROUTE = '?page=1';

@@ -15,15 +15,9 @@ const Location: FC = () => {
       <h2 className='text-wood mb-8 text-center text-3xl font-bold'>오시는 길</h2>
 
       <div className='grid items-start gap-8 lg:grid-cols-2'>
-        <div>
+        <div className='flex flex-col gap-1'>
           <div className='relative mb-6 h-[300px] overflow-hidden rounded-lg shadow-md lg:h-[400px]'>
             <NaverMap />
-            {/* <Image
-              src='https://picsum.photos/id/45/400/300'
-              alt='지도'
-              fill
-              className='object-cover'
-            /> */}
           </div>
 
           <div className='space-y-3'>
@@ -57,16 +51,18 @@ const Location: FC = () => {
             <TransportInfo icon={<Car />} title='자가용 이용 시' description={BRAND_TRAFFIC.CAR} />
           </div>
 
-          <LinkButton
-            href={NAVER_MAP_DIRECTION_LINK}
-            target='_blank'
-            rel='noopener noreferrer'
-            variant='ivory'
-            className='mt-4'
-          >
-            <MapPin />
-            네이버지도로 길찾기
-          </LinkButton>
+          <div className='flex justify-center'>
+            <LinkButton
+              href={NAVER_MAP_DIRECTION_LINK}
+              target='_blank'
+              rel='noopener noreferrer'
+              variant='ivory'
+              className='mt-4'
+            >
+              <MapPin />
+              네이버지도로 길찾기
+            </LinkButton>
+          </div>
         </div>
       </div>
     </section>
