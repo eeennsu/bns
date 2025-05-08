@@ -7,7 +7,7 @@ import { Button } from '@shadcn-ui/ui/button';
 
 const NotFoundPage: FC = () => {
   return (
-    <main className='font-nanum-gothic flex size-full flex-grow items-center justify-center bg-gradient-to-br from-[#FFFFF0] to-[#E8D0A9] px-4 pt-19 pb-16'>
+    <main className='font-nanum-gothic flex size-full flex-1 items-center justify-center bg-gradient-to-br from-[#FFFFF0] to-[#E8D0A9] px-4 pt-19 pb-16'>
       <div className='flex w-full max-w-lg flex-col items-center gap-8 text-center'>
         <div className='space-y-4'>
           <h1 className='text-wood flex w-full items-center justify-center gap-2 text-4xl font-bold'>
