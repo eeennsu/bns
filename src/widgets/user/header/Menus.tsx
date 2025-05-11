@@ -1,27 +1,43 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import type { FC } from 'react';
-import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
+
+import useCurrentPathname from '@hooks/useCurrentPathname';
 
 import { USER_MENU_LIST } from '@consts/commons';
 
+import HeaderDropdownMenu from './HeaderDropdownMenu';
 import MenuButton from './MenuButton';
 
 const Menus: FC = () => {
-  const pathname = usePathname();
+  const { getIsCurPathname } = useCurrentPathname();
 
   return (
-    <nav className='mr-20 hidden gap-8 lg:flex'>
-      {USER_MENU_LIST.map(menu => (
-        <MenuButton
-          key={menu.title}
-          href={menu.href}
-          isCurrentRoute={pathname !== USER_PATHS.home() && menu.href.includes(pathname)}
-        >
-          {menu.title}
-        </MenuButton>
-      ))}
+    <nav className='mr-20 hidden items-center gap-8 lg:flex'>
+      {USER_MENU_LIST.map(menu => {
+        const isCurrentRoute = getIsCurPathname(menu.href);
+
+        if (menu?.subMenus) {
+          return (
+            <HeaderDropdownMenu
+              key={menu.title}
+              href={menu.href}
+              isCurrentRoute={Object.values(menu.subMenus).some(subMenu =>
+                getIsCurPathname(subMenu.href),
+              )}
+              subMenus={menu.subMenus}
+            >
+              {menu.title}
+            </HeaderDropdownMenu>
+          );
+        }
+
+        return (
+          <MenuButton key={menu.title} href={menu.href} isCurrentRoute={isCurrentRoute}>
+            {menu.title}
+          </MenuButton>
+        );
+      })}
     </nav>
   );
 };

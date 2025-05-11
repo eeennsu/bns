@@ -31,7 +31,7 @@ const Hero: FC = () => {
         </BoxReveal>
 
         <div className='flex justify-center gap-4 pt-4 sm:flex-row lg:justify-start'>
-          <LinkButton href={USER_PATHS.bread.list()} size='lg'>
+          <LinkButton href={USER_PATHS.product.bread.list()} size='lg'>
             어떤 빵이 있나요? <ArrowRight />
           </LinkButton>
         </div>

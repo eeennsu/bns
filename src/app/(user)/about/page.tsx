@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import BriefHistory from '@features/user/about/ui/BriefHistory';
-import Info from '@features/user/about/ui/Info';
 import Location from '@features/user/about/ui/Location';
 import NaverMapScript from '@features/user/about/ui/NaverMap/NaverMapScript';
 import Story from '@features/user/about/ui/Story';
@@ -17,7 +16,6 @@ const AboutPage: FC = () => {
         <Story />
         <BriefHistory />
         <Location />
-        <Info />
       </UserPageWrapper>
     </>
   );

@@ -15,7 +15,7 @@ const SignatureCard: FC<IProps> = ({ bread, index }) => {
     <Card className='h-full rounded-2xl p-0'>
       <CardContent className='flex aspect-square items-center justify-center p-0'>
         <Link
-          href={USER_PATHS.bread.bySlug({ slug: bread.name })}
+          href={USER_PATHS.product.bread.detail({ slug: bread.name })}
           key={bread.name}
           className='group relative overflow-hidden rounded-lg'
         >

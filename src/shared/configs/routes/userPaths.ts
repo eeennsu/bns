@@ -10,26 +10,42 @@ export const USER_PATHS = {
   about() {
     return USER_PATHS.root.concat('about');
   },
-  bread: {
+  product: {
     root() {
-      return USER_PATHS.root.concat('bread');
+      return USER_PATHS.root.concat('product');
     },
-    list() {
-      return USER_PATHS.bread.root().concat(LIST_PAGE_ROUTE);
+    bread: {
+      root() {
+        return USER_PATHS.product.root().concat('/bread');
+      },
+      list() {
+        return USER_PATHS.product.bread.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail({ slug }: IPathSlug) {
+        return USER_PATHS.product.bread.root().concat(`/${slug}`);
+      },
     },
-    bySlug: ({ slug }: IPathSlug) => {
-      return USER_PATHS.bread.root().concat(`/${slug}`);
+    sauce: {
+      root() {
+        return USER_PATHS.product.root().concat('/sauce');
+      },
+      list() {
+        return USER_PATHS.product.sauce.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail({ slug }: IPathSlug) {
+        return USER_PATHS.product.sauce.root().concat(`/${slug}`);
+      },
     },
-  },
-  sauce: {
-    root() {
-      return USER_PATHS.root.concat('sauce');
-    },
-    list() {
-      return USER_PATHS.sauce.root().concat(LIST_PAGE_ROUTE);
-    },
-    bySlug: ({ slug }: IPathSlug) => {
-      return USER_PATHS.sauce.root().concat(`/${slug}`);
+    set: {
+      root() {
+        return USER_PATHS.product.root().concat('/set');
+      },
+      list() {
+        return USER_PATHS.product.set.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail({ slug }: IPathSlug) {
+        return USER_PATHS.product.set.root().concat(`/${slug}`);
+      },
     },
   },
 } as const;

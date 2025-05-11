@@ -18,7 +18,7 @@ const Header: FC = () => {
         >
           <h1>{BRAND_TITLE.EN}</h1>
         </Link>
-        <DrawerMenu>
+        <DrawerMenu triggerClassName='block md:hidden'>
           <Menu className='cursor-pointer' />
         </DrawerMenu>
 
