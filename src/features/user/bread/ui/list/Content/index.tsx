@@ -12,7 +12,7 @@ const breadProducts = [
     description: '24시간 저온 발효한 클래식 사워도우 빵입니다. 바삭한 겉면과 쫄깃한 속을 즐기세요.',
     image: 'https://picsum.photos/id/14/200/300',
     isNew: false,
-    isSignature: true,
+    isBest: true,
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const breadProducts = [
     description: '영양가 높은 통밀로 만든 건강한 사워도우 빵입니다. 고소한 맛이 일품입니다.',
     image: 'https://picsum.photos/id/12/200/300',
     isNew: false,
-    isSignature: false,
+    isBest: false,
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ const breadProducts = [
     description: '프랑스 전통 방식으로 만든 바게트입니다. 겉은 바삭하고 속은 부드럽습니다.',
     image: 'https://picsum.photos/id/35/200/300',
     isNew: false,
-    isSignature: true,
+    isBest: true,
   },
   {
     id: 4,
@@ -42,7 +42,7 @@ const breadProducts = [
     description: '고급 프랑스 버터로 만든 정통 크루아상입니다. 층이 살아있는 식감을 느껴보세요.',
     image: 'https://picsum.photos/id/67/200/300',
     isNew: true,
-    isSignature: true,
+    isBest: true,
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ const breadProducts = [
     description: '벨기에 다크 초콜릿을 넣어 만든 달콤한 크루아상입니다.',
     image: 'https://picsum.photos/id/14/200/300',
     isNew: true,
-    isSignature: false,
+    isBest: false,
   },
   {
     id: 6,
@@ -62,7 +62,7 @@ const breadProducts = [
     description: '부드러운 크림치즈와 신선한 생크림으로 만든 케이크입니다. 6-8인분 크기입니다.',
     image: 'https://picsum.photos/id/63/200/300',
     isNew: false,
-    isSignature: false,
+    isBest: false,
   },
   {
     id: 7,
@@ -72,7 +72,7 @@ const breadProducts = [
     description: '호밀가루를 넣어 깊은 풍미가 특징인 건강한 사워도우 빵입니다.',
     image: 'https://picsum.photos/id/54/200/300',
     isNew: true,
-    isSignature: false,
+    isBest: false,
   },
   {
     id: 8,
@@ -82,7 +82,7 @@ const breadProducts = [
     description: '직접 구운 빵에 수제 햄과 치즈를 넣은 샌드위치입니다. 점심 식사로 완벽합니다.',
     image: 'https://picsum.photos/id/20/200/300',
     isNew: false,
-    isSignature: false,
+    isBest: false,
   },
 ];
 
@@ -112,7 +112,7 @@ const Content: FC = () => {
                     NEW
                   </div>
                 )}
-                {bread.isSignature && (
+                {bread.isBest && (
                   <div className='rounded bg-[#8B4513] px-2 py-1 text-xs font-bold text-[#FFFFF0]'>
                     Signature
                   </div>

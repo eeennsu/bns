@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import DetailBread from '@features/user/bread/ui/Detail';
+import DetailBread from '@features/user/bread/ui/detail/Detail';
 
 import PageModal from '@components/PageModal';
 

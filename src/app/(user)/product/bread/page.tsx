@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
-import Contact from '@features/user/bread/ui/Contact';
-import Content from '@features/user/bread/ui/Content';
-import Head from '@features/user/bread/ui/Head';
+import Contact from '@features/user/bread/ui/list/Contact';
+import Content from '@features/user/bread/ui/list/Content';
+import Head from '@features/user/bread/ui/list/Head';
 
 interface IParams {
   searchParams: Promise<{

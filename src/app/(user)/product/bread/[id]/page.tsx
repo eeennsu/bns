@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import DetailBread from '@features/user/bread/ui/Detail';
+import DetailBread from '@features/user/bread/ui/detail/Detail';
 
 interface IParams {
   params: Promise<{ id: string }>;

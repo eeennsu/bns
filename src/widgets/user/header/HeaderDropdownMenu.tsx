@@ -46,7 +46,7 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
               <NavigationMenuLink key={subMenu.title} asChild>
                 <Link
                   href={subMenu.href}
-                  className='text-wood hover:text-wood !min-w-22 px-3 py-2 font-semibold'
+                  className='text-wood hover:text-wood focus:text-wood !min-w-22 px-3 py-2 font-semibold'
                 >
                   {subMenu.title}
                 </Link>

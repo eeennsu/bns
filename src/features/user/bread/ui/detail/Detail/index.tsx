@@ -32,7 +32,7 @@ const bread = {
   mbti: 'INTJ',
 };
 
-const DetailBread: FC<IProps> = ({ id = 1 }) => {
+const DetailSauce: FC<IProps> = ({ id = 1 }) => {
   console.log(id);
   return (
     <div className='flex items-center justify-center bg-gradient-to-br'>
@@ -93,7 +93,7 @@ const DetailBread: FC<IProps> = ({ id = 1 }) => {
   );
 };
 
-export default DetailBread;
+export default DetailSauce;
 
 function getMbtiDescription(mbti: string): string {
   const descriptions: { [key: string]: string } = {
