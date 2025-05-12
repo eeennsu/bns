@@ -1,9 +1,14 @@
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 
-const ProductLayout: FC<PropsWithChildren> = ({ children }) => {
+interface IProps {
+  modal: ReactNode;
+}
+
+const ProductLayout: FC<PropsWithChildren<IProps>> = ({ children, modal }) => {
   return (
     <main className='from-ivory container h-full bg-gradient-to-br to-[#E8D0A9] py-12 lg:py-26'>
       {children}
+      {modal}
     </main>
   );
 };

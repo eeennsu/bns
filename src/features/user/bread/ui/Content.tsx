@@ -1,5 +1,7 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { FC } from 'react';
+import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
 const breadProducts = [
   {
@@ -89,9 +91,11 @@ const Content: FC = () => {
     <>
       <section className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
         {breadProducts.map(bread => (
-          <div
+          <Link
             key={bread.id}
             className='overflow-hidden rounded-lg bg-[#FFFFF0]/80 shadow-sm transition-shadow hover:shadow-md'
+            href={USER_PATHS.product.bread.detail({ slug: bread.id })}
+            scroll={false}
           >
             <div className='relative'>
               <div className='relative h-64 w-full'>
@@ -122,7 +126,7 @@ const Content: FC = () => {
               </div>
               <p className='line-clamp-2 text-sm text-[#3E2723]'>{bread.description}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </section>
     </>

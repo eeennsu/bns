@@ -1,5 +1,5 @@
 export interface IPathSlug {
-  slug: string;
+  slug: string | number;
 }
 
 export interface IMenu {
