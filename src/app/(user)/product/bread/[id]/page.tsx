@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import DetailBread from '@features/user/bread/ui/Detail';
+
 interface IParams {
   params: Promise<{ id: string }>;
 }
@@ -7,14 +9,7 @@ interface IParams {
 const DetailBreadPage: FC<IParams> = async ({ params }) => {
   const breadId = (await params).id;
 
-  return (
-    <div>
-      <div>
-        <h2>Bread ID: {breadId}</h2>
-        <p>This is the modal content for bread {breadId}.</p>
-      </div>
-    </div>
-  );
+  return <DetailBread id={breadId} />;
 };
 
 export default DetailBreadPage;
