@@ -133,7 +133,11 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground !scroll-smooth underline-offset-4;
+  }
+
+  html {
+    @apply scroll-smooth;
   }
   .font-nanum-gothic {
     font-family: var(--font-nanum-gothic);

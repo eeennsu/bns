@@ -28,6 +28,7 @@
     "dayjs": "^1.11.13",
     "drizzle-orm": "^0.43.1",
     "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.11.0",
     "lucide-react": "^0.503.0",
     "motion": "^12.9.4",
     "next": "15.2.5",

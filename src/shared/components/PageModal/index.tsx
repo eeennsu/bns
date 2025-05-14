@@ -31,7 +31,7 @@ const PageModal: FC<PropsWithChildren<IProps>> = ({ className, children }) => {
         <DialogContent
           closeButtonClassName='cursor-pointer hover:bg-gray-100 rounded-full p-1.5 focus:ring-0 focus:ring-offset-0'
           className={cn(
-            'overflow-y-auto sm:max-h-[85vh] sm:max-w-[75vw] 2xl:max-w-[55vw]',
+            'overflow-y-auto sm:max-h-[85vh] sm:max-w-[70vw] 2xl:max-w-[55vw]',
             className,
           )}
         >

@@ -13,7 +13,7 @@ const Footer: FC = () => {
     <>
       <footer
         onClick={() => setCount(prev => prev + 1)}
-        className='bg-brand border-t bg-[repeating-linear-gradient(0deg,_#1a1a1a,_#1a1a1a_4px,_#484848_4px,_#484848_10px)]'
+        className='bg-brand z-10 border-t bg-[repeating-linear-gradient(0deg,_#1a1a1a,_#1a1a1a_4px,_#484848_4px,_#484848_10px)]'
       >
         <div className='border-border space-y-1 border-t py-3 text-center lg:space-y-4 lg:py-5'>
           <h2 className='font-baloo-2 text-lg font-bold text-amber-200 text-shadow-lg lg:text-3xl'>

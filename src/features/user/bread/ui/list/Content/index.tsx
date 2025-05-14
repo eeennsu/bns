@@ -1,8 +1,14 @@
+import { ChevronDown, Filter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
+const categories = [
+  { id: 'all', name: '전체' },
+  { id: 'signature', name: '시그니처' },
+  { id: 'new', name: '신제품' },
+];
 const breadProducts = [
   {
     id: 1,
@@ -89,6 +95,30 @@ const breadProducts = [
 const Content: FC = () => {
   return (
     <>
+      <section className='mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center'>
+        <div className='flex flex-wrap gap-2'>
+          {categories.map(category => (
+            <button
+              key={category.id}
+              className={`rounded-full px-4 py-2 text-sm ${
+                category.id === 'all'
+                  ? 'bg-[#8B4513] text-[#FFFFF0]'
+                  : 'bg-[#FFFFF0]/70 text-[#3E2723] hover:bg-[#8B4513]/10'
+              }`}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+
+        <div className='flex items-center'>
+          <button className='flex items-center gap-2 rounded-lg bg-[#FFFFF0]/70 px-4 py-2 text-[#3E2723] hover:bg-[#FFFFF0]'>
+            <Filter size={16} />
+            <span>필터</span>
+            <ChevronDown size={16} />
+          </button>
+        </div>
+      </section>
       <section className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
         {breadProducts.map(bread => (
           <Link

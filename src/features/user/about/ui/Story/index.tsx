@@ -7,9 +7,12 @@ import StoryCard from './StoryCard';
 
 const Story: FC = () => {
   return (
-    <section className='grid items-center gap-12 lg:grid-cols-2'>
+    <section
+      className='grid scroll-m-25 items-center gap-12 rounded-xl lg:grid-cols-2'
+      id='brand-story'
+    >
       <div className='order-2 lg:order-1'>
-        <h1 className='text-wood mb-6 text-3xl font-bold'>
+        <h1 className='text-wood mb-6 text-3xl font-bold xl:text-4xl'>
           <span className='font-baloo-2'>{BRAND_TITLE.EN}</span> 이야기
         </h1>
         <div className='text-wood/85 space-y-4'>
