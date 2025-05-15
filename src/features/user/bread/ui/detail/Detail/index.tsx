@@ -53,7 +53,7 @@ const DetailSauce: FC<IProps> = ({ id = 1 }) => {
             </div>
 
             <div className='flex h-full flex-col justify-between gap-2 pt-2'>
-              <div>
+              <div className='space-y-4'>
                 <h2 className='text-3xl font-bold text-[#8B4513] md:text-4xl'>{bread.name}</h2>
 
                 <div className='flex items-center justify-between'>
@@ -76,7 +76,7 @@ const DetailSauce: FC<IProps> = ({ id = 1 }) => {
                   )}
                 </div>
               </div>
-              <div className='space-y-4'>
+              <div className='space-y-6'>
                 <div className='space-y-3'>
                   <h3 className='mb-2 text-lg font-bold text-[#8B4513]'>상세 설명</h3>
                   <p className='text-sm whitespace-pre-line text-[#3E2723]'>

@@ -15,11 +15,13 @@ const BreadListPage: FC<IParams> = async ({ searchParams }) => {
   console.log('page', page);
 
   return (
-    <div className='container flex !max-w-7xl flex-col'>
+    <>
       <Head />
-      <Content />
-      <Contact />
-    </div>
+      <div className='container flex !max-w-7xl flex-col'>
+        <Content />
+        <Contact />
+      </div>
+    </>
   );
 };
 

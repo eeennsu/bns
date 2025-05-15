@@ -6,7 +6,7 @@ interface IProps {
 
 const ProductLayout: FC<PropsWithChildren<IProps>> = ({ children, modal }) => {
   return (
-    <main className='from-ivory h-full bg-gradient-to-br to-[#E8D0A9] py-12 lg:py-26'>
+    <main className='from-ivory h-full bg-gradient-to-br to-[#E8D0A9] py-12 lg:py-19'>
       {children}
       {modal}
     </main>

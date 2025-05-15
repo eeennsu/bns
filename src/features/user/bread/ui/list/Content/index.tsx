@@ -4,6 +4,8 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
+import Pagination from '@components/Pagination';
+
 const categories = [
   { id: 'all', name: '전체' },
   { id: 'signature', name: '시그니처' },
@@ -159,6 +161,7 @@ const Content: FC = () => {
           </Link>
         ))}
       </section>
+      <Pagination totalPages={10} currentPage={1} handlePageChange={() => {}} />
     </>
   );
 };
