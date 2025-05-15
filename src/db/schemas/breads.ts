@@ -3,7 +3,6 @@ import { pgTable, varchar, integer, index, boolean } from 'drizzle-orm/pg-core';
 
 import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, VARCHAR_LENGTH } from '../consts/commons';
 import { bundleBreads } from './bundles';
-import { sauceBreadRecommendations } from './sauces';
 
 export const breads = pgTable(
   'breads',
@@ -28,5 +27,4 @@ export const breads = pgTable(
 
 export const breadsRelations = relations(breads, ({ many }) => ({
   bundleBreads: many(bundleBreads),
-  sauceRecommendations: many(sauceBreadRecommendations),
 }));

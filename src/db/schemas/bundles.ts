@@ -17,7 +17,6 @@ export const bundles = pgTable(
     ...AUDIT_COLUMNS,
   },
   bundle => ({
-    nameIndex: index('bundle_name_idx').on(bundle.name),
     priceIndex: index('bundle_price_idx').on(bundle.price),
   }),
 );

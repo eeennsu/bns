@@ -6,25 +6,21 @@ import NaverMapScript from '@features/user/about/ui/NaverMap/NaverMapScript';
 import Slogun from '@features/user/about/ui/Slogun';
 import Story from '@features/user/about/ui/Story';
 
-import UserPageWrapper from '../UserPageWrapper';
-
 const AboutPage: FC = () => {
   return (
     <>
       <NaverMapScript />
 
-      <UserPageWrapper className='flex flex-col gap-10 lg:gap-20'>
+      <main className='from-ivory mx-auto h-full bg-gradient-to-br to-[#E8D0A9] py-12 lg:py-19'>
         <Slogun />
         <div className='container flex flex-col gap-10 lg:gap-20'>
           <Story />
           <BriefHistory />
           <Location />
         </div>
-      </UserPageWrapper>
+      </main>
     </>
   );
 };
 
 export default AboutPage;
-
-// https://composecoffee.com/about

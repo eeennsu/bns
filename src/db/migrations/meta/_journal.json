@@ -15,6 +15,20 @@
       "when": 1746319407641,
       "tag": "0001_shallow_jane_foster",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1747311533451,
+      "tag": "0002_lazy_typhoid_mary",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1747311846790,
+      "tag": "0003_mixed_blue_blade",
+      "breakpoints": true
     }
   ]
 }
