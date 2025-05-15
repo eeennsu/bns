@@ -13,6 +13,7 @@ export const bundles = pgTable(
     description: varchar('description', { length: VARCHAR_LENGTH.DESCRIPTION }).notNull(),
     image: varchar('image', { length: VARCHAR_LENGTH.IMAGE }),
     price: integer('price').notNull(),
+    discountedPrice: integer('discounted_price'),
     sortOrder: SORT_ORDER_COLUMN,
     ...AUDIT_COLUMNS,
   },
