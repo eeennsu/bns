@@ -11,7 +11,7 @@ const AboutPage: FC = () => {
     <>
       <NaverMapScript />
 
-      <main className='from-ivory mx-auto h-full bg-gradient-to-br to-[#E8D0A9] py-12 lg:py-19'>
+      <main className='from-ivory mx-auto h-full space-y-20 bg-gradient-to-br to-[#E8D0A9] py-12 lg:py-19'>
         <Slogun />
         <div className='container flex flex-col gap-10 lg:gap-20'>
           <Story />
