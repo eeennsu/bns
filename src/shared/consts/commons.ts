@@ -25,7 +25,7 @@ export const USER_MENU_LIST: IHeaderMenu[] = [
         href: USER_PATHS.product.sauce.list(),
       },
       set: {
-        title: '세트 메뉴',
+        title: '세트 구성',
         href: USER_PATHS.product.set.list(),
       },
     } as const,
