@@ -24,9 +24,10 @@ const Pagination: FC<IProps> = ({
 
   return (
     <section className='flex justify-center'>
-      <nav className='inline-flex items-center rounded-lg bg-[#FFFFF0]/80 p-1.5 shadow-sm'>
+      <nav className='inline-flex items-center gap-3 rounded-lg bg-[#FFFFF0]/80 p-1.5 shadow-sm'>
         <PaginationPrevious
           className={cn(
+            'hover:bg-wood/10',
             isPrevPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
           )}
           onClick={() => onChangePage(currentPage - 1)}
@@ -49,6 +50,7 @@ const Pagination: FC<IProps> = ({
 
         <PaginationNext
           className={cn(
+            'hover:bg-wood/10',
             isNextPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
           )}
           onClick={() => onChangePage(currentPage + 1)}

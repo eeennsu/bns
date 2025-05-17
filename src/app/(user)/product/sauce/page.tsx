@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
-import Contact from '@features/user/bread/ui/list/Contact';
-import Content from '@features/user/sauce/ui/list/Content';
-import Head from '@features/user/sauce/ui/list/Head';
+import SauceListContact from '@features/user/bread/ui/list/Contact';
+import SauceListContent from '@features/user/sauce/ui/list/Content';
+import SauceListHead from '@features/user/sauce/ui/list/Head';
 
-import PageContainer from '../bread/PageContainer';
+import BaseContainer from '../bread/BaseContainer';
 
 interface IParams {
   searchParams: Promise<{
@@ -18,11 +18,11 @@ const SauceListPage: FC<IParams> = async ({ searchParams }) => {
 
   return (
     <>
-      <Head />
-      <PageContainer>
-        <Content />
-        <Contact />
-      </PageContainer>
+      <SauceListHead />
+      <BaseContainer>
+        <SauceListContent />
+        <SauceListContact />
+      </BaseContainer>
     </>
   );
 };

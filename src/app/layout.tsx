@@ -48,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={`${OPEN_SANS.className} ${NANUM_GOTHIC.className} antialiased`}>
+      <body className={`${NANUM_GOTHIC.className} ${OPEN_SANS.className} antialiased`}>
         <div className='relative flex h-dvh w-full flex-col'>
           <RootPageContainer>{children}</RootPageContainer>
         </div>

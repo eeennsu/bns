@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { ChevronDown, Filter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
-import Pagination from '@components/Pagination';
 import useChangePage from '@hooks/useChangePage';
+
+import Pagination from '@components/Pagination';
 
 const categories = [
   { id: 'all', name: '전체' },
@@ -102,37 +102,27 @@ const sauces = [
   },
 ];
 
-const Content: FC = () => {
+const SauceListContent: FC = () => {
   const paginationData = useChangePage({
-    total: 20 // TODO: 실제 값으로
-  })
+    total: 20, // TODO: 실제 값으로
+  });
 
   return (
     <>
-      <section className='mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center'>
-        <div className='flex flex-wrap gap-2'>
-          {categories.map(category => (
-            <button
-              key={category.id}
-              className={`rounded-full px-4 py-2 text-sm ${
-                category.id === 'all'
-                  ? 'bg-[#8B4513] text-[#FFFFF0]'
-                  : 'bg-[#FFFFF0]/70 text-[#3E2723] hover:bg-[#8B4513]/10'
-              }`}
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
-
-        <div className='flex items-center'>
-          <button className='flex items-center gap-2 rounded-lg bg-[#FFFFF0]/70 px-4 py-2 text-[#3E2723] hover:bg-[#FFFFF0]'>
-            <Filter size={16} />
-            <span>필터</span>
-            <ChevronDown size={16} />
+      <div className='flex flex-wrap justify-center gap-2 sm:justify-start'>
+        {categories.map(category => (
+          <button
+            key={category.id}
+            className={`rounded-full px-4 py-2 text-sm ${
+              category.id === 'all'
+                ? 'bg-[#8B4513] text-[#FFFFF0]'
+                : 'bg-[#FFFFF0]/70 text-[#3E2723] hover:bg-[#8B4513]/10'
+            }`}
+          >
+            {category.name}
           </button>
-        </div>
-      </section>
+        ))}
+      </div>
 
       <section className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
         {sauces.map(sauce => (
@@ -175,11 +165,9 @@ const Content: FC = () => {
         ))}
       </section>
 
-      <Pagination
-        {...paginationData}
-      />
+      <Pagination {...paginationData} />
     </>
   );
 };
 
-export default Content;
+export default SauceListContent;

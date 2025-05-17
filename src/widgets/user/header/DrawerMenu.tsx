@@ -21,6 +21,12 @@ interface IProps {
 const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName }) => {
   const [open, setOpen] = useState(false);
 
+  const onCloseDrawer = () => setOpen(false);
+
+  const menuItems = USER_MENU_LIST.flatMap(item =>
+    item.subMenus ? Object.values(item.subMenus) : [item],
+  );
+
   return (
     <Drawer direction='right' open={open} onOpenChange={setOpen}>
       <DrawerTrigger className={triggerClassName}>{children}</DrawerTrigger>
@@ -34,15 +40,9 @@ const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName 
           </DrawerClose>
         </div>
         <nav className='space-y-7'>
-          {USER_MENU_LIST.map(item => {
-            if (item.subMenus) {
-              return Object.values(item.subMenus).map(subMenu => (
-                <DrawerMenuItem key={subMenu.title} href={subMenu.href} title={subMenu.title} />
-              ));
-            }
-
-            return <DrawerMenuItem key={item.title} href={item.href} title={item.title} />;
-          })}
+          {menuItems.map(({ href, title }) => (
+            <DrawerMenuItem key={title} href={href} title={title} onCloseDrawer={onCloseDrawer} />
+          ))}
         </nav>
       </DrawerContent>
     </Drawer>

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-const Head: FC = () => {
+const BreadListHead: FC = () => {
   return (
     <>
       <section className='relative h-[270px] bg-[url("/images/bread-list.jpg")] bg-cover bg-center bg-no-repeat'>
@@ -9,7 +9,7 @@ const Head: FC = () => {
           정통 유럽 빵을 만나보세요.
         </p>
       </section>
-      <div className='mx-auto flex max-w-6xl flex-col items-center px-4 py-10 backdrop-blur-sm'>
+      <div className='mx-auto flex max-w-6xl flex-col items-center px-4 py-6 backdrop-blur-sm sm:py-10'>
         <h1 className='text-lg font-bold text-[#8B4513] md:text-3xl'>Bread Store</h1>
 
         <div className='mx-auto mt-4 h-1 w-24 bg-[#8B4513]/30' />
@@ -18,4 +18,4 @@ const Head: FC = () => {
   );
 };
 
-export default Head;
+export default BreadListHead;

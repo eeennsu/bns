@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
-import Contact from '@features/user/bread/ui/list/Contact';
-import Content from '@features/user/bread/ui/list/Content';
-import Head from '@features/user/bread/ui/list/Head';
+import BreadListContact from '@features/user/bread/ui/list/Contact';
+import BreadListContent from '@features/user/bread/ui/list/Content';
+import BreadListHead from '@features/user/bread/ui/list/Head';
 
-import PageContainer from './PageContainer';
+import BaseContainer from './BaseContainer';
 
 interface IParams {
   searchParams: Promise<{
@@ -18,11 +18,11 @@ const BreadListPage: FC<IParams> = async ({ searchParams }) => {
 
   return (
     <>
-      <Head />
-      <PageContainer>
-        <Content />
-        <Contact />
-      </PageContainer>
+      <BreadListHead />
+      <BaseContainer>
+        <BreadListContent />
+        <BreadListContact />
+      </BaseContainer>
     </>
   );
 };
