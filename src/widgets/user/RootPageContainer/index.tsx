@@ -4,10 +4,10 @@ import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
-import Footer from '../footer';
-import Header from '../header';
+import Footer from '../Footer';
+import Header from '../Header';
 
-const PageContainer: FC<PropsWithChildren> = ({ children }) => {
+const RootPageContainer: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith(ADMIN_PATHS.home());
 
@@ -20,4 +20,4 @@ const PageContainer: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default PageContainer;
+export default RootPageContainer;

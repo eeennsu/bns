@@ -21,7 +21,7 @@ export const USER_MENU_LIST: IHeaderMenu[] = [
       },
       bundle: {
         title: '세트 구성',
-        href: USER_PATHS.product.bundle.list(),
+        href: USER_PATHS.product.bundle(),
       },
     } as const,
   },

@@ -1,5 +1,4 @@
 import { X } from 'lucide-react';
-import Link from 'next/link';
 import { useState, type FC, type PropsWithChildren } from 'react';
 
 import {
@@ -9,12 +8,11 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@shadcn-ui/ui/drawer';
-import { cn } from '@shadcn-ui/utils';
-
-import useCurrentPathname from '@hooks/useCurrentPathname';
 
 import { NANUM_GOTHIC } from '@consts/font';
 import { USER_MENU_LIST } from '@consts/nav';
+
+import DrawerMenuItem from './DrawerMenuItem';
 
 interface IProps {
   triggerClassName?: string;
@@ -22,7 +20,6 @@ interface IProps {
 
 const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName }) => {
   const [open, setOpen] = useState(false);
-  const { getIsCurPathname } = useCurrentPathname();
 
   return (
     <Drawer direction='right' open={open} onOpenChange={setOpen}>
@@ -37,19 +34,15 @@ const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName 
           </DrawerClose>
         </div>
         <nav className='space-y-7'>
-          {USER_MENU_LIST.map(menu => (
-            <Link
-              key={menu.title}
-              href={menu.href}
-              className={cn(
-                'border-wood-tertiary/20 block border-b pb-2 text-lg font-medium text-[#8b5e3c] transition-colors duration-300 hover:text-[#a86b4c]',
-                getIsCurPathname(menu.href) && 'font-bold',
-              )}
-              onClick={() => setOpen(false)}
-            >
-              {menu.title}
-            </Link>
-          ))}
+          {USER_MENU_LIST.map(item => {
+            if (item.subMenus) {
+              return Object.values(item.subMenus).map(subMenu => (
+                <DrawerMenuItem key={subMenu.title} href={subMenu.href} title={subMenu.title} />
+              ));
+            }
+
+            return <DrawerMenuItem key={item.title} href={item.href} title={item.title} />;
+          })}
         </nav>
       </DrawerContent>
     </Drawer>

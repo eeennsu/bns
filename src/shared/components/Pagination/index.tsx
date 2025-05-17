@@ -1,86 +1,58 @@
-import { Fragment, type FC } from 'react';
+import { type FC } from 'react';
 
-import { PaginationItem, PaginationLink } from '@shadcn-ui/ui/pagination';
+import { PaginationLink, PaginationNext, PaginationPrevious } from '@shadcn-ui/ui/pagination';
+import { cn } from '@shadcn-ui/utils';
+
+import { PER_PAGE_SIZE } from '@consts/commons';
 
 interface IProps {
-  totalPages: number;
+  total: number;
   currentPage: number;
-  handlePageChange: (page: number) => void;
+  perPage?: number;
+  onChangePage: (page: number) => void;
 }
 
-const Pagination: FC<IProps> = ({ totalPages }) => {
-  const paginationItems = new Array(totalPages).fill(0).map((_, i) => {
-    const pageNumber = i + 1;
-
-    return (
-      <Fragment key={pageNumber}>
-        <PaginationItem key={pageNumber}>
-          <PaginationLink className=''>{pageNumber}</PaginationLink>
-        </PaginationItem>
-      </Fragment>
-    );
-  });
-
-  console.log('paginationItems', paginationItems);
+const Pagination: FC<IProps> = ({
+  total,
+  currentPage,
+  perPage = PER_PAGE_SIZE.DEFAULT,
+  onChangePage,
+}) => {
+  const maxEndPage = Math.ceil(total / perPage);
+  const isPrevPage = currentPage > 1;
+  const isNextPage = currentPage < maxEndPage;
 
   return (
-    <section className='mt-12 flex justify-center'>
+    <section className='flex justify-center'>
       <nav className='inline-flex items-center rounded-lg bg-[#FFFFF0]/80 p-1.5 shadow-sm'>
-        <button
-          className='flex h-9 w-9 items-center justify-center rounded-md text-[#3E2723] transition-all duration-200 hover:bg-[#8B4513]/10 hover:text-[#8B4513]'
-          aria-label='이전 페이지'
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='18'
-            height='18'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          >
-            <polyline points='15 18 9 12 15 6'></polyline>
-          </svg>
-        </button>
+        <PaginationPrevious
+          className={cn(
+            isPrevPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
+          )}
+          onClick={() => onChangePage(currentPage - 1)}
+        />
 
-        <div className='mx-1 flex items-center'>
-          <button className='flex h-9 w-9 items-center justify-center rounded-md bg-[#8B4513] font-medium text-[#FFFFF0] shadow-sm transition-all duration-200'>
-            1
-          </button>
-          <button className='flex h-9 w-9 items-center justify-center rounded-md font-medium text-[#3E2723] transition-all duration-200 hover:bg-[#8B4513]/10 hover:text-[#8B4513]'>
-            2
-          </button>
-          <button className='flex h-9 w-9 items-center justify-center rounded-md font-medium text-[#3E2723] transition-all duration-200 hover:bg-[#8B4513]/10 hover:text-[#8B4513]'>
-            3
-          </button>
-          <button className='flex h-9 w-9 items-center justify-center rounded-md font-medium text-[#3E2723] transition-all duration-200 hover:bg-[#8B4513]/10 hover:text-[#8B4513]'>
-            4
-          </button>
-          <button className='flex h-9 w-9 items-center justify-center rounded-md font-medium text-[#3E2723] transition-all duration-200 hover:bg-[#8B4513]/10 hover:text-[#8B4513]'>
-            5
-          </button>
+        <div className='mx-1 flex items-center gap-1.5'>
+          {Array.from({ length: maxEndPage }, (_, index) => index + 1).map(page => (
+            <PaginationLink
+              className={cn(
+                'hover:bg-wood/10',
+                currentPage === page && 'bg-wood hover:bg-wood text-white hover:text-white',
+              )}
+              key={page}
+              onClick={() => onChangePage(page)}
+            >
+              {page}
+            </PaginationLink>
+          ))}
         </div>
 
-        <button
-          className='flex h-9 w-9 items-center justify-center rounded-md text-[#3E2723] transition-all duration-200 hover:bg-[#8B4513]/10 hover:text-[#8B4513]'
-          aria-label='다음 페이지'
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='18'
-            height='18'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          >
-            <polyline points='9 18 15 12 9 6'></polyline>
-          </svg>
-        </button>
+        <PaginationNext
+          className={cn(
+            isNextPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
+          )}
+          onClick={() => onChangePage(currentPage + 1)}
+        />
       </nav>
     </section>
   );

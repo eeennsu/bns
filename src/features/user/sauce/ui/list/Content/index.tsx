@@ -1,3 +1,5 @@
+'use client'
+
 import { ChevronDown, Filter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -5,6 +7,7 @@ import type { FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
 import Pagination from '@components/Pagination';
+import useChangePage from '@hooks/useChangePage';
 
 const categories = [
   { id: 'all', name: '전체' },
@@ -100,6 +103,10 @@ const sauces = [
 ];
 
 const Content: FC = () => {
+  const paginationData = useChangePage({
+    total: 20 // TODO: 실제 값으로
+  })
+
   return (
     <>
       <section className='mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center'>
@@ -168,7 +175,9 @@ const Content: FC = () => {
         ))}
       </section>
 
-      <Pagination totalPages={10} currentPage={1} handlePageChange={() => {}} />
+      <Pagination
+        {...paginationData}
+      />
     </>
   );
 };

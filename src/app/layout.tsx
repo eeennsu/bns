@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import PageContainer from '@widgets/user/page-container';
+import RootPageContainer from '@widgets/user/RootPageContainer';
 
 import { BRAND_TITLE, SITE_LINK } from '@consts/brand';
 import { NANUM_GOTHIC, OPEN_SANS } from '@consts/font';
@@ -50,7 +50,7 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={`${OPEN_SANS.className} ${NANUM_GOTHIC.className} antialiased`}>
         <div className='relative flex h-dvh w-full flex-col'>
-          <PageContainer>{children}</PageContainer>
+          <RootPageContainer>{children}</RootPageContainer>
         </div>
       </body>
     </html>

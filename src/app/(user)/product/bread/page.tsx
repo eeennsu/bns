@@ -4,6 +4,8 @@ import Contact from '@features/user/bread/ui/list/Contact';
 import Content from '@features/user/bread/ui/list/Content';
 import Head from '@features/user/bread/ui/list/Head';
 
+import PageContainer from './PageContainer';
+
 interface IParams {
   searchParams: Promise<{
     page: string;
@@ -17,10 +19,10 @@ const BreadListPage: FC<IParams> = async ({ searchParams }) => {
   return (
     <>
       <Head />
-      <div className='container flex !max-w-7xl flex-col'>
+      <PageContainer>
         <Content />
         <Contact />
-      </div>
+      </PageContainer>
     </>
   );
 };

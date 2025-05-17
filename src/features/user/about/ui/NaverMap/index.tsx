@@ -9,8 +9,8 @@ import Loader from './Loader';
 import ResetPositionButton from './ResetPositionButton';
 
 const MarkerTag = `
-<div class="w-[180px] text-center p-[10px] bg-wood-tertiary border-ivory-tertiary border-3 rounded-full shadow-xl font-sans hover:opacity-0 transition-opacity duration-300">
-  <div class="text-[16px] font-bold text-ivory">브레드엔소스</div>
+<div class="w-[140px] sm:w-[180px] text-center p-[8px] sm:p-[10px] bg-wood-tertiary border-ivory-tertiary border-3 rounded-full shadow-xl font-sans hover:opacity-0 transition-opacity duration-300">
+  <div class="text-[14px] sm:text-[16px] font-bold text-ivory">브레드엔소스</div>
 </div>`;
 
 const DEFAULT_ZOOM = 15;
@@ -49,6 +49,7 @@ const NaverMap: FC = () => {
 
   const resetPosition = () => {
     if (!mapRef.current) return;
+    if (!mapRef.current.getZoom()) return;
 
     const bnsPosition = new naver.maps.LatLng(GEO_DATA.LAT, GEO_DATA.LON);
 
