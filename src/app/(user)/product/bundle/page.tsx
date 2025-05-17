@@ -55,14 +55,14 @@ const bundleList: Bundle[] = [
 
 const BundleListPage: FC = () => {
   return (
-    <section className='bg-[#fefcf7] sm:pb-10'>
+    <div className='bg-[#fefcf7] sm:pb-10'>
       <BundleListHead />
 
       <div className='space-y-10'>
         <BundleListContent list={bundleList} />
         <BundleListContact />
       </div>
-    </section>
+    </div>
   );
 };
 
