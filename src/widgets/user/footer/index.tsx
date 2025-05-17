@@ -1,8 +1,11 @@
 'use client';
 
+import dayjs from 'dayjs';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useState, type FC } from 'react';
 
-import { BRAND_TITLE } from '@consts/commons';
+import { BUSINESS_INFO, BRAND_TITLE, SNS_INFO } from '@consts/brand';
 
 import LoginDialog from './LoginDialog';
 
@@ -11,19 +14,40 @@ const Footer: FC = () => {
 
   return (
     <>
-      <footer
-        onClick={() => setCount(prev => prev + 1)}
-        className='bg-brand z-10 border-t bg-[repeating-linear-gradient(0deg,_#1a1a1a,_#1a1a1a_4px,_#484848_4px,_#484848_10px)]'
-      >
-        <div className='border-border space-y-1 border-t py-3 text-center lg:space-y-4 lg:py-5'>
-          <h2 className='font-baloo-2 text-lg font-bold text-amber-200 text-shadow-lg lg:text-3xl'>
-            {BRAND_TITLE.EN}
-          </h2>
-          <p className='text-xs font-semibold text-gray-200'>
-            &copy; {new Date().getFullYear()} All rights reserved.
+      <footer className='bg-[#5D4037] py-10 text-[#FFFDF4]' onClick={() => setCount(count + 1)}>
+        <div className='mx-auto max-w-6xl space-y-4 px-4 text-center'>
+          <h2 className='text-xl font-bold tracking-wide'>{BRAND_TITLE.KO}</h2>
+
+          <div className='flex justify-center gap-4'>
+            {Object.entries(SNS_INFO).map(([key, value]) => (
+              <Link key={key} href={value.URL}>
+                <Image
+                  src={value.IMAGE_URL}
+                  alt={key}
+                  width={24}
+                  height={24}
+                  className='transition-all hover:scale-110'
+                />
+              </Link>
+            ))}
+          </div>
+          <ul className='flex flex-col items-center gap-2 text-sm text-[#FAF9F6] sm:flex-row sm:justify-center sm:gap-0'>
+            {Object.entries(BUSINESS_INFO).map(([key, v]) => (
+              <li
+                key={key}
+                className="flex items-center gap-1 sm:after:mx-4 sm:after:h-4 sm:after:w-px sm:after:bg-[#FAF9F6]/30 sm:after:content-[''] last:sm:after:hidden"
+              >
+                {v.label}
+                <span className='font-medium'>: {v.value}</span>
+              </li>
+            ))}
+          </ul>
+          <p className='text-xs opacity-70'>
+            &copy; {dayjs().year()} {BRAND_TITLE.EN} All rights reserved.
           </p>
         </div>
       </footer>
+
       {count > 2 && <LoginDialog onClose={() => setCount(0)} />}
     </>
   );

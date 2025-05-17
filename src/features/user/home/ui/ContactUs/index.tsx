@@ -18,7 +18,7 @@ const ContactUs: FC = () => {
       </p>
 
       <div className='flex justify-center'>
-        <LinkButton href={USER_PATHS.product.set.list()}>
+        <LinkButton href={USER_PATHS.product.bundle.list()}>
           세트 구성 보기 <ArrowRight />
         </LinkButton>
       </div>

@@ -1,0 +1,42 @@
+/* Basic styles for the skeleton element */
+.skeleton {
+  background-color: #e0e0e0; /* Light grey background color */
+  animation: pulse 1.5s infinite ease-in-out; /* Apply the pulse animation */
+  display: block; /* Ensure the element takes up space */
+  overflow: hidden; /* Hide potential overflow */
+  position: relative; /* Needed for potential pseudo-elements like shimmer */
+}
+
+/* Keyframes for the pulse animation */
+@keyframes pulse {
+  0% {
+    opacity: 1; /* Start fully visible */
+  }
+  50% {
+    opacity: 0.5; /* Fade to half opacity */
+  }
+  100% {
+    opacity: 1; /* Return to full visibility */
+  }
+}
+
+/*
+  Optional: Shimmer animation effect
+  Uncomment the following rules to use a shimmer effect instead of pulse.
+*/
+/*
+.skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+*/

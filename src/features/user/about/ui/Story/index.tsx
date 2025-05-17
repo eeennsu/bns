@@ -1,18 +1,18 @@
 import Image from 'next/image';
 import type { FC } from 'react';
 
-import { BRAND_TITLE } from '@consts/commons';
+import { BRAND_TITLE } from '@consts/brand';
 
 import StoryCard from './StoryCard';
 
 const Story: FC = () => {
   return (
     <section
-      className='grid scroll-m-25 items-center gap-12 rounded-xl lg:grid-cols-2'
+      className='grid scroll-m-25 items-center gap-x-12 gap-y-4 rounded-xl lg:grid-cols-2'
       id='brand-story'
     >
-      <div className='order-2 lg:order-1'>
-        <h1 className='text-wood mb-6 text-3xl font-bold xl:text-4xl'>
+      <div className='order-2 space-y-4 lg:order-1'>
+        <h1 className='text-wood text-center text-3xl font-bold sm:text-left xl:text-4xl'>
           <span className='font-baloo-2'>{BRAND_TITLE.EN}</span> 이야기
         </h1>
         <div className='text-wood/85 space-y-4'>
@@ -33,7 +33,7 @@ const Story: FC = () => {
           </p>
         </div>
 
-        <div className='mt-8 grid grid-cols-2 gap-6'>
+        <div className='mt-8 grid gap-6 sm:grid-cols-2'>
           <StoryCard
             title='우리의 철학'
             description='자연의 맛을 살린 건강한 빵으로 일상에 행복을 더합니다.'

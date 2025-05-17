@@ -36,15 +36,15 @@ export const USER_PATHS = {
         return USER_PATHS.product.sauce.root().concat(`/${slug}`);
       },
     },
-    set: {
+    bundle: {
       root() {
-        return USER_PATHS.product.root().concat('/set');
+        return USER_PATHS.product.root().concat('/bundle');
       },
       list() {
-        return USER_PATHS.product.set.root().concat(LIST_PAGE_ROUTE);
+        return USER_PATHS.product.bundle.root().concat(LIST_PAGE_ROUTE);
       },
       detail({ slug }: IPathSlug) {
-        return USER_PATHS.product.set.root().concat(`/${slug}`);
+        return USER_PATHS.product.bundle.root().concat(`/${slug}`);
       },
     },
   },

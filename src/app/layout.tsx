@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 
 import PageContainer from '@widgets/user/page-container';
 
-import { SITE_LINK } from '@consts/brand';
-import { BRAND_TITLE } from '@consts/commons';
+import { BRAND_TITLE, SITE_LINK } from '@consts/brand';
 import { NANUM_GOTHIC, OPEN_SANS } from '@consts/font';
 
 import './globals.css';

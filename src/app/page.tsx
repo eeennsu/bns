@@ -8,7 +8,7 @@ import Signature from '@features/user/home/ui/Signature';
 const HomePage: FC = () => {
   return (
     <main className='size-full'>
-      <div className='relative container flex flex-col gap-20 px-4 pt-24'>
+      <div className='relative container flex flex-col gap-10 px-4 pt-24'>
         <Hero />
         <Signature />
         <BrushBackground />

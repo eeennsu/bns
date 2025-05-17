@@ -5,11 +5,12 @@ import { useEffect, useRef, type FC } from 'react';
 
 import { GEO_DATA } from '@consts/brand';
 
+import Loader from './Loader';
 import ResetPositionButton from './ResetPositionButton';
 
 const MarkerTag = `
-<div style="width:180px; text-align:center; padding:10px; background:#fff8f0; border:1px solid #d9bfa9; border-radius:40px; box-shadow:0 2px 6px rgba(0,0,0,0.15); font-family:sans-serif;">
-  <div style="font-size:16px; font-weight:bold; color:#8B4513;">브레드엔소스</div>
+<div class="w-[180px] text-center p-[10px] bg-wood-tertiary border-ivory-tertiary border-3 rounded-full shadow-xl font-sans hover:opacity-0 transition-opacity duration-300">
+  <div class="text-[16px] font-bold text-ivory">브레드엔소스</div>
 </div>`;
 
 const DEFAULT_ZOOM = 15;
@@ -63,4 +64,7 @@ const NaverMap: FC = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(NaverMap), { ssr: false });
+export default dynamic(() => Promise.resolve(NaverMap), {
+  ssr: false,
+  loading: () => <Loader />,
+});

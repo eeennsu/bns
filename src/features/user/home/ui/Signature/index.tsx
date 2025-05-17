@@ -46,29 +46,34 @@ const DUMMY_SIGNATURES = [
 ];
 const Signature: FC = () => {
   return (
-    <section className='relative container space-y-8 rounded-2xl px-10 py-16 lg:space-y-12'>
-      <div className='text-center'>
-        <h2 className='flex w-full flex-col items-center justify-center text-center text-3xl font-bold tracking-tight lg:flex-row lg:gap-2'>
+    <section className='relative container space-y-8 rounded-2xl px-4 py-12 sm:px-6 md:px-10 lg:space-y-12'>
+      <div className='space-y-2 text-center'>
+        <h2 className='flex flex-col items-center justify-center text-center text-2xl font-bold tracking-tight sm:text-3xl lg:flex-row lg:gap-2'>
           Our Signature
           <WordRotate
             words={['Breads', 'Sauces']}
-            className='text-wood flex w-28 justify-start'
+            className='text-wood flex w-28 justify-center'
             duration={2200}
           />
         </h2>
-        <p>빵과 소스가 어우러져 만들어내는 완벽한 조화를 경험해보세요.</p>
+        <p className='text-sm sm:text-base'>
+          빵과 소스가 어우러져 만들어내는 완벽한 조화를 경험해보세요.
+        </p>
       </div>
       <Carousel
         opts={{
           align: 'start',
           loop: true,
         }}
-        className='mx-auto max-w-[1200px]'
+        className='mx-auto w-full max-w-[1200px]'
       >
         <CarouselContent>
           {DUMMY_SIGNATURES.map((bread, index) => (
-            <CarouselItem key={bread.name} className='md:basis-1/2 lg:basis-1/3 xl:basis-1/4'>
-              <SignatureCard key={bread.name} bread={bread} index={index} />
+            <CarouselItem
+              key={bread.name}
+              className='basis-full px-2 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4'
+            >
+              <SignatureCard bread={bread} index={index} />
             </CarouselItem>
           ))}
         </CarouselContent>

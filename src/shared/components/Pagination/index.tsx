@@ -8,8 +8,7 @@ interface IProps {
   handlePageChange: (page: number) => void;
 }
 
-const Pagination: FC<IProps> = ({ totalPages, currentPage, handlePageChange }) => {
-  console.log(currentPage, handlePageChange);
+const Pagination: FC<IProps> = ({ totalPages }) => {
   const paginationItems = new Array(totalPages).fill(0).map((_, i) => {
     const pageNumber = i + 1;
 

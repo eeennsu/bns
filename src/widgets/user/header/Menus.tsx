@@ -4,7 +4,7 @@ import type { FC } from 'react';
 
 import useCurrentPathname from '@hooks/useCurrentPathname';
 
-import { USER_MENU_LIST } from '@consts/commons';
+import { USER_MENU_LIST } from '@consts/nav';
 
 import HeaderDropdownMenu from './HeaderDropdownMenu';
 import MenuButton from './MenuButton';

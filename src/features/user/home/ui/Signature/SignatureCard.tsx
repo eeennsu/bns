@@ -12,12 +12,11 @@ interface IProps {
 
 const SignatureCard: FC<IProps> = ({ bread, index }) => {
   return (
-    <Card className='h-full rounded-2xl p-0'>
+    <Card className='h-full rounded-2xl p-0 transition'>
       <CardContent className='flex aspect-square items-center justify-center p-0'>
         <Link
           href={USER_PATHS.product.bread.detail({ slug: bread.name })}
-          key={bread.name}
-          className='group relative overflow-hidden rounded-lg'
+          className='group relative block w-full overflow-hidden rounded-lg'
         >
           <div className='aspect-square overflow-hidden'>
             <Image
@@ -25,12 +24,14 @@ const SignatureCard: FC<IProps> = ({ bread, index }) => {
               alt={bread.name}
               width={500}
               height={500}
-              className='object-cover transition-transform group-hover:scale-105'
+              className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
             />
           </div>
           <div className='bg-ivory space-y-2 p-4'>
-            <h3 className='text-wood line-clamp-1 truncate font-semibold'>{bread.name}</h3>
-            <p className='text-sm font-semibold text-black'>
+            <h3 className='text-wood line-clamp-1 truncate text-base font-semibold sm:text-lg'>
+              {bread.name}
+            </h3>
+            <p className='text-sm font-medium text-black'>
               {bread.description.length > 50
                 ? `${bread.description.slice(0, 50)}...`
                 : bread.description}

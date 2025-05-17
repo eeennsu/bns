@@ -13,8 +13,8 @@ import { cn } from '@shadcn-ui/utils';
 
 import useCurrentPathname from '@hooks/useCurrentPathname';
 
-import { USER_MENU_LIST } from '@consts/commons';
 import { NANUM_GOTHIC } from '@consts/font';
+import { USER_MENU_LIST } from '@consts/nav';
 
 interface IProps {
   triggerClassName?: string;

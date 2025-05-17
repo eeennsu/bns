@@ -12,7 +12,7 @@ export const BRAND_INFO = {
   TEL: '0507-1380-3068',
   LOCATION: '인천 서구 서곶로 45 B108호',
   MAIL: '보겸s이메일@naver.com',
-  BUSINESS_HOURS: '영업시간: 매일 오전 10시 - 오후 8시',
+  BUSINESS_HOURS: '매일 오전 10시 - 오후 8시',
 };
 
 export const BRAND_TRAFFIC = {
@@ -28,3 +28,34 @@ export const GEO_DATA = {
   LAT: 37.52062,
   LON: 126.67747,
 };
+
+export const BRAND_TITLE = {
+  EN: 'Bread & Sauce',
+  KO: '브래드앤소스',
+} as const;
+
+export const BUSINESS_INFO = {
+  BUSINESS_NUMBER: {
+    label: '사업자 등록번호',
+    value: '123-45-67890',
+  },
+  REPRESENTATIVE: {
+    label: '대표자명',
+    value: '김현겸',
+  },
+  PHONE: {
+    label: '전화번호',
+    value: '010-1234-5678',
+  },
+} as const;
+
+export const SNS_INFO = {
+  INSTAGRAM: {
+    URL: 'https://www.instagram.com/bread_n_sauce?igsh=MTF4Z3AzN3Jsanc1aw==',
+    IMAGE_URL: '/images/insta.png',
+  },
+  KAKAO: {
+    URL: 'https://open.kakao.com',
+    IMAGE_URL: '/images/kakao.png',
+  },
+} as const;
