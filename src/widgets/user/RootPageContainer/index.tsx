@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
-import Footer from '../FooterT';
-import Header from '../HeaderT';
+import Footer from '../Footer';
+import Header from '../Header';
 
 const RootPageContainer: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
