@@ -1,6 +1,8 @@
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { cloneSearchParams } from '@utils/searchParams';
+
 interface IParams {
   total: number;
   perPage: number;
@@ -17,9 +19,7 @@ const useChangePage = ({ currentPage, total, perPage }: IParams) => {
   const isNextPage = currentPage < maxEndPage;
 
   const onChangePage = (newPage: number) => {
-    const prevSearchParams = Array.from(searchParams.entries());
-    const newSearchParams = new URLSearchParams(prevSearchParams);
-
+    const newSearchParams = cloneSearchParams(searchParams);
     newSearchParams.set('page', newPage.toString());
 
     if (currentPage !== newPage) {
@@ -29,12 +29,10 @@ const useChangePage = ({ currentPage, total, perPage }: IParams) => {
 
   useEffect(() => {
     if (isNextPage) {
-      const prevSearchParams = Array.from(searchParams.entries());
-      const newSearchParams = new URLSearchParams(prevSearchParams);
-
+      const newSearchParams = cloneSearchParams(searchParams);
       newSearchParams.set('page', (currentPage + 1).toString());
+
       router.prefetch(`${pathname}?${newSearchParams.toString()}`);
-      console.log('prefetch!!!!!');
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
