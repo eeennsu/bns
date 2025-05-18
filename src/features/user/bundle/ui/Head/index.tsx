@@ -10,7 +10,7 @@ const BundleListHead: FC = () => {
         </p>
       </section>
 
-      <section className='mx-auto flex max-w-6xl flex-col items-center px-4 py-10 text-center'>
+      <section className='mx-auto flex max-w-6xl flex-col items-center py-7 text-center sm:px-4 sm:py-10'>
         <h1 className='text-4xl font-extrabold text-[#5D4037]'>Set Products</h1>
         <div className='mt-3 h-1 w-24 rounded bg-[#A47551]' />
       </section>

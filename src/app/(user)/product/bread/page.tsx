@@ -9,18 +9,19 @@ import BaseContainer from './BaseContainer';
 interface IParams {
   searchParams: Promise<{
     page: string;
+    category?: string;
   }>;
 }
 
 const BreadListPage: FC<IParams> = async ({ searchParams }) => {
-  const page = (await searchParams).page;
-  console.log('page', page);
+  const page = (await searchParams)?.page || '1';
+  const category = (await searchParams)?.category || 'all';
 
   return (
     <>
       <BreadListHead />
       <BaseContainer>
-        <BreadListContent />
+        <BreadListContent currentPage={page} category={category} />
         <BreadListContact />
       </BaseContainer>
     </>

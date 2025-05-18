@@ -1,25 +1,22 @@
-'use client';
-
-import Image from 'next/image';
-import Link from 'next/link';
-import type { FC } from 'react';
-import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
-
-import useChangePage from '@hooks/useChangePage';
+import { FC } from 'react';
 
 import { PER_PAGE_SIZE } from '@consts/commons';
 
 import Pagination from '@components/Pagination';
+
+import BreadCard from './Card';
+import CategoryLink from './CategoryLink';
 
 const categories = [
   { id: 'all', name: '전체' },
   { id: 'signature', name: '시그니처' },
   { id: 'new', name: '신제품' },
 ];
+
 const breadProducts = [
   {
     id: 1,
-    name: '클래식 사워도우',
+    name: '클래식 사워도우 어쩌라고 크크킄크크킄',
     category: 'sourdough',
     price: 6800,
     description: '24시간 저온 발효한 클래식 사워도우 빵입니다. 바삭한 겉면과 쫄깃한 속을 즐기세요.',
@@ -99,68 +96,38 @@ const breadProducts = [
   },
 ];
 
-const BreadListContent: FC = () => {
-  const paginationData = useChangePage({
-    total: 20, // TODO: 실제 값으로
-  });
+interface IProps {
+  currentPage: string;
+  category: string;
+}
 
+const BreadListContent: FC<IProps> = ({ currentPage, category }) => {
   return (
     <>
-      <div className='flex flex-wrap justify-center gap-2 sm:justify-start'>
-        {categories.map(category => (
-          <button
-            key={category.id}
-            className={`rounded-full px-4 py-2 text-sm ${
-              category.id === 'all'
-                ? 'bg-[#8B4513] text-[#FFFFF0]'
-                : 'bg-[#FFFFF0]/70 text-[#3E2723] hover:bg-[#8B4513]/10'
-            }`}
+      <section className='flex flex-wrap justify-center gap-2 sm:justify-start'>
+        {categories.map(categoryItem => (
+          <CategoryLink
+            key={categoryItem.id}
+            selected={categoryItem.id === category}
+            href={{
+              query: {
+                page: 1,
+                category: categoryItem.id,
+              },
+            }}
           >
-            {category.name}
-          </button>
-        ))}
-      </div>
-      <section className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
-        {breadProducts.map(bread => (
-          <Link
-            key={bread.id}
-            className='overflow-hidden rounded-lg bg-[#FFFFF0]/80 shadow-sm transition-shadow hover:shadow-md'
-            href={USER_PATHS.product.bread.detail({ slug: bread.id })}
-            scroll={false}
-          >
-            <div className='relative'>
-              <div className='relative h-64 w-full'>
-                <Image
-                  src={bread.image || '/placeholder.svg'}
-                  alt={bread.name}
-                  fill
-                  className='object-cover'
-                />
-              </div>
-              <div className='absolute top-4 left-4 flex items-center gap-2'>
-                {bread.isNew && (
-                  <div className='rounded bg-[#E74C3C] px-2 py-1 text-xs font-bold text-white'>
-                    NEW
-                  </div>
-                )}
-                {bread.isBest && (
-                  <div className='rounded bg-[#8B4513] px-2 py-1 text-xs font-bold text-[#FFFFF0]'>
-                    Signature
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className='p-5'>
-              <div className='mb-2 flex items-start justify-between'>
-                <h3 className='text-xl font-bold text-[#8B4513]'>{bread.name}</h3>
-              </div>
-              <p className='line-clamp-2 text-sm text-[#3E2723]'>{bread.description}</p>
-            </div>
-          </Link>
+            {categoryItem.name}
+          </CategoryLink>
         ))}
       </section>
-      <Pagination {...paginationData} perPage={PER_PAGE_SIZE.PRODUCT} />
+
+      <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
+        {breadProducts.map(bread => (
+          <BreadCard key={bread.id} bread={bread} />
+        ))}
+      </section>
+
+      <Pagination total={30} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
     </>
   );
 };

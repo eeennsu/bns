@@ -1,13 +1,14 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import type { FC } from 'react';
-import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
-import useChangePage from '@hooks/useChangePage';
+import CategoryLink from '@features/user/bread/ui/list/Content/CategoryLink';
+
+import { PER_PAGE_SIZE } from '@consts/commons';
 
 import Pagination from '@components/Pagination';
+
+import SauceCard from './Card';
 
 const categories = [
   { id: 'all', name: '전체' },
@@ -102,70 +103,38 @@ const sauces = [
   },
 ];
 
-const SauceListContent: FC = () => {
-  const paginationData = useChangePage({
-    total: 20, // TODO: 실제 값으로
-  });
+interface IProps {
+  currentPage: string;
+  category: string;
+}
 
+const SauceListContent: FC<IProps> = ({ currentPage, category }) => {
   return (
     <>
       <div className='flex flex-wrap justify-center gap-2 sm:justify-start'>
-        {categories.map(category => (
-          <button
-            key={category.id}
-            className={`rounded-full px-4 py-2 text-sm ${
-              category.id === 'all'
-                ? 'bg-[#8B4513] text-[#FFFFF0]'
-                : 'bg-[#FFFFF0]/70 text-[#3E2723] hover:bg-[#8B4513]/10'
-            }`}
+        {categories.map(categoryItem => (
+          <CategoryLink
+            key={categoryItem.id}
+            selected={categoryItem.id === category}
+            href={{
+              query: {
+                page: 1,
+                category: categoryItem.id,
+              },
+            }}
           >
-            {category.name}
-          </button>
+            {categoryItem.name}
+          </CategoryLink>
         ))}
       </div>
 
-      <section className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
+      <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
         {sauces.map(sauce => (
-          <Link
-            key={sauce.id}
-            className='overflow-hidden rounded-lg bg-[#FFFFF0]/80 shadow-sm transition-shadow hover:shadow-md'
-            href={USER_PATHS.product.sauce.detail({ slug: sauce.id })}
-            scroll={false}
-          >
-            <div className='relative'>
-              <div className='relative h-64 w-full'>
-                <Image
-                  src={sauce.image || '/placeholder.svg'}
-                  alt={sauce.name}
-                  fill
-                  className='object-cover'
-                />
-              </div>
-              <div className='absolute top-4 left-4 flex items-center gap-2'>
-                {sauce.isNew && (
-                  <div className='rounded bg-[#E74C3C] px-2 py-1 text-xs font-bold text-white'>
-                    NEW
-                  </div>
-                )}
-                {sauce.isBest && (
-                  <div className='rounded bg-[#8B4513] px-2 py-1 text-xs font-bold text-[#FFFFF0]'>
-                    Signature
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className='p-5'>
-              <div className='mb-2 flex items-start justify-between'>
-                <h3 className='text-xl font-bold text-[#8B4513]'>{sauce.name}</h3>
-              </div>
-              <p className='line-clamp-2 text-sm text-[#3E2723]'>{sauce.description}</p>
-            </div>
-          </Link>
+          <SauceCard key={sauce.id} sauce={sauce} />
         ))}
       </section>
 
-      <Pagination {...paginationData} />
+      <Pagination total={30} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
     </>
   );
 };
