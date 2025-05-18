@@ -12,7 +12,7 @@ import {
   NavigationMenuList,
 } from '@shadcn-ui/ui/navigation-menu';
 
-import { SubMenu } from '@typings/typings';
+import { SubMenu } from '@typings/commons';
 
 import MenuButton from './MenuButton';
 

@@ -1,4 +1,4 @@
-import { IHeaderMenu } from '@typings/typings';
+import { IHeaderMenu } from '@typings/commons';
 
 import { USER_PATHS } from '../configs/routes/userPaths';
 

@@ -1,3 +1,4 @@
+import { Direction } from '@typings/commons';
 import dayjs from 'dayjs';
 import { useLayoutEffect, useState } from 'react';
 
@@ -9,6 +10,7 @@ interface IParams {
 
 const useEventPopup = ({ events }: IParams) => {
   const [currentEventIndex, setCurrentEventIndex] = useState<number>(0);
+  const [direction, setDirection] = useState<Direction>('left');
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [dontShowForThreeDays, setDontShowForThreeDays] = useState<boolean>(false);
 
@@ -41,21 +43,29 @@ const useEventPopup = ({ events }: IParams) => {
 
   const onPrevEvent = () => {
     setCurrentEventIndex(prev => (prev - 1 + events.length) % events.length);
+    setDirection('left');
   };
 
   const onNextEvent = () => {
     setCurrentEventIndex(prev => (prev + 1 + events.length) % events.length);
+    setDirection('right');
+  };
+
+  const onDotChange = (index: number) => {
+    setCurrentEventIndex(index);
+    setDirection(index > currentEventIndex ? 'right' : 'left');
   };
 
   return {
     currentEventIndex,
     showPopup,
     dontShowForThreeDays,
-    setCurrentEventIndex,
+    direction,
     setDontShowForThreeDays,
     onHideEvent,
     onPrevEvent,
     onNextEvent,
+    onDotChange,
   };
 };
 

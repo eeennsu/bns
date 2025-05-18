@@ -14,17 +14,19 @@ interface IProps {
 
 const EventPopup: FC<IProps> = ({ title, description, startDate, endDate }) => {
   return (
-    <div className='p-5'>
-      <div className='mb-3 flex items-center gap-2'>
+    <>
+      <div className='mb-2 flex items-center gap-2 sm:mb-3'>
         <Calendar className='h-4 w-4 text-[#a87c50]' />
         <span className='text-xs text-[#6c6055]'>
           {dayjs(startDate).format('YYYY.MM.DD')} ~ {dayjs(endDate).format('YYYY.MM.DD')}
         </span>
       </div>
 
-      <h3 className='mb-3 text-xl font-bold text-[#5e503f]'>{title}</h3>
-      <p className='rounded-md bg-[#f0e9df] p-3 text-[#6c6055]'>{description}</p>
-    </div>
+      <h3 className='mb-2 text-lg font-bold text-[#5e503f] sm:mb-3 sm:text-xl'>{title}</h3>
+      <p className='rounded-md bg-[#f0e9df] p-3 text-sm text-[#6c6055] sm:text-base'>
+        {description}
+      </p>
+    </>
   );
 };
 

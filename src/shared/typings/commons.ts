@@ -12,3 +12,5 @@ export type SubMenu = Record<string, IMenu>;
 export interface IHeaderMenu extends IMenu {
   subMenus?: SubMenu;
 }
+
+export type Direction = 'left' | 'right';

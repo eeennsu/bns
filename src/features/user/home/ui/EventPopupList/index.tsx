@@ -1,15 +1,16 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Gift, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { FC } from 'react';
 
-import { Checkbox } from '@shadcn-ui/ui/checkbox';
-import { cn } from '@shadcn-ui/utils';
-
-import EventPopup from '@features/user/event/ui/Popup';
-
 import useEventPopup from '../../hooks/useEventPopup';
+import AnimatedEventPopup from './AnimatedEventPopup';
+import ArrowButton from './ArrowButton';
+import CloseButton from './CloseButton';
+import DontShowOption from './DontShowOption';
+import DotButton from './DotButton';
+import EventPopupHeader from './EventPopupHeader';
 
 const events = [
   {
@@ -43,11 +44,12 @@ export const EventPopupList: FC = () => {
     currentEventIndex,
     showPopup,
     dontShowForThreeDays,
+    direction,
     setDontShowForThreeDays,
-    setCurrentEventIndex,
     onHideEvent,
     onPrevEvent,
     onNextEvent,
+    onDotChange,
   } = useEventPopup({ events });
 
   if (!showPopup || events.length === 0) return null;
@@ -62,85 +64,46 @@ export const EventPopupList: FC = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 transition-all duration-300 ease-in-out'
+      className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 transition-all duration-300 ease-in-out sm:p-6'
     >
       <motion.div
         initial={{ y: 10 }}
         animate={{ y: 0 }}
         exit={{ y: -10 }}
-        transition={{ duration: 0.3, delay: 0.3, ease: 'easeOut' }}
-        className='relative max-h-[90vh] w-full max-w-md rounded-lg border border-[#e8e0d0] bg-[#faf7f2] shadow-lg'
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className='relative flex max-h-[90vh] w-full max-w-[95%] flex-col gap-4 rounded-lg border border-[#e8e0d0] bg-[#faf7f2] shadow-lg sm:max-w-md'
       >
-        <button
-          onClick={onHideEvent}
-          className='absolute top-3 right-3 z-20 cursor-pointer rounded-full bg-white/80 p-1 text-gray-700 shadow-md backdrop-blur-sm transition hover:bg-white hover:shadow-lg'
-        >
-          <X className='size-4' />
-        </button>
-        <div className='overflow-hidden'>
-          <div className='rounded-t-lg bg-gradient-to-r from-[#d4a373] to-[#a87c50] p-4 text-center text-white'>
-            <div className='mb-2 flex justify-center'>
-              <Gift className='size-10' />
-            </div>
-            <h2 className='text-xl font-bold'>특별 이벤트</h2>
-          </div>
+        <CloseButton onClick={onHideEvent} />
+        <section className='overflow-hidden'>
+          <EventPopupHeader />
+          <AnimatedEventPopup direction={direction} event={currentEvent} />
+        </section>
+        <section className='flex flex-col gap-2 px-4 pb-4'>
+          {events.length > 1 && (
+            <nav className='z-20 flex items-center justify-center gap-5'>
+              <ArrowButton onClick={onPrevEvent}>
+                <ChevronLeft className='size-3.5' />
+              </ArrowButton>
+              <div className='flex justify-center space-x-1'>
+                {events.map((event, index) => (
+                  <DotButton
+                    key={event.id}
+                    onClick={() => onDotChange(index)}
+                    className={index === currentEventIndex ? 'bg-[#a87c50]' : 'bg-[#d4a373]/50'}
+                  />
+                ))}
+              </div>
+              <ArrowButton onClick={onNextEvent}>
+                <ChevronRight className='size-3.5' />
+              </ArrowButton>
+            </nav>
+          )}
 
-          <AnimatePresence initial={false} mode='wait'>
-            <motion.div
-              key={currentEvent.id}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              className='w-full'
-            >
-              <EventPopup {...currentEvent} />
-            </motion.div>
-          </AnimatePresence>
-          <div className='flex items-center gap-1.5 px-5 pb-7'>
-            <Checkbox
-              id='dontShow'
-              checked={dontShowForThreeDays}
-              onCheckedChange={checked => setDontShowForThreeDays(checked === true)}
-              className='border-[#a87c50] data-[state=checked]:bg-[#a87c50] data-[state=checked]:text-white'
-            />
-            <label htmlFor='dontShow' className='cursor-pointer text-sm text-[#6c6055]'>
-              3일간 보지 않기
-            </label>
-          </div>
-        </div>
-
-        {events.length > 1 && (
-          <nav>
-            <button
-              onClick={onPrevEvent}
-              className='absolute top-[64%] left-1 cursor-pointer rounded-full bg-yellow-600 p-1 text-white transition-colors hover:brightness-110'
-            >
-              <ChevronLeft className='size-4' />
-            </button>
-            <button
-              onClick={onNextEvent}
-              className='absolute top-[64%] right-1 cursor-pointer rounded-full bg-yellow-600 p-1 text-white transition-colors hover:brightness-110'
-            >
-              <ChevronRight className='size-4' />
-            </button>
-          </nav>
-        )}
-
-        {events.length > 1 && (
-          <div className='absolute right-0 bottom-3 left-0 z-20 flex justify-center space-x-1'>
-            {events.map((event, index) => (
-              <button
-                key={event.id}
-                onClick={() => setCurrentEventIndex(index)}
-                className={cn(
-                  'hover:bg-wood-tertiary h-2 w-2 cursor-pointer rounded-full',
-                  index === currentEventIndex ? 'bg-[#a87c50]' : 'bg-[#d4a373]/50',
-                )}
-              />
-            ))}
-          </div>
-        )}
+          <DontShowOption
+            checked={dontShowForThreeDays}
+            onCheckedChange={setDontShowForThreeDays}
+          />
+        </section>
       </motion.div>
     </motion.div>
   );

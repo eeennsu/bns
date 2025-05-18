@@ -1,4 +1,4 @@
-import { IPathSlug } from '@typings/typings';
+import { IPathSlug } from '@typings/commons';
 
 import { LIST_PAGE_ROUTE } from './consts';
 

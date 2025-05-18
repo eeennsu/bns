@@ -18,7 +18,6 @@ const AboutPage: FC = () => {
           <Location />
         </div>
       </main>
-      container flex flex-col gap-10 lg:gap-20
     </>
   );
 };
