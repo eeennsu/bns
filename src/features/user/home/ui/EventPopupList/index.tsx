@@ -41,8 +41,8 @@ const events = [
 
 export const EventPopupList: FC = () => {
   const {
+    isShow,
     currentEventIndex,
-    showPopup,
     dontShowForThreeDays,
     direction,
     setDontShowForThreeDays,
@@ -52,7 +52,7 @@ export const EventPopupList: FC = () => {
     onDotChange,
   } = useEventPopup({ events });
 
-  if (!showPopup || events.length === 0) return null;
+  if (!isShow || events.length === 0) return null;
 
   const currentEvent = events[currentEventIndex];
 

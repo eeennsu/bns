@@ -14,7 +14,7 @@ const DontShowOption: FC<Props> = ({ checked, onCheckedChange }) => {
         id='dontShow'
         checked={checked}
         onCheckedChange={checked => onCheckedChange(checked === true)}
-        className='border-[#a87c50] data-[state=checked]:bg-[#a87c50] data-[state=checked]:text-white'
+        className='cursor-pointer border-[#a87c50] data-[state=checked]:bg-[#a87c50] data-[state=checked]:text-white'
       />
       <label htmlFor='dontShow' className='cursor-pointer text-xs text-[#6c6055] sm:text-sm'>
         3일간 보지 않기

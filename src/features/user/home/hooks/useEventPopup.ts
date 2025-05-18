@@ -1,31 +1,36 @@
-import { Direction } from '@typings/commons';
+'use client';
+
 import dayjs from 'dayjs';
 import { useLayoutEffect, useState } from 'react';
 
-const DO_NOT_SHOW_KEY = 'popup-hide-until';
+import { Direction } from '@typings/commons';
+
+import useEventPopupStore from '@stores/evenPopup';
+
+import { STORAGE_KEYS } from '@consts/storage';
 
 interface IParams {
   events: any[];
 }
 
 const useEventPopup = ({ events }: IParams) => {
+  const { isShow, setIsShow } = useEventPopupStore();
+
   const [currentEventIndex, setCurrentEventIndex] = useState<number>(0);
   const [direction, setDirection] = useState<Direction>('left');
-  const [showPopup, setShowPopup] = useState<boolean>(false);
   const [dontShowForThreeDays, setDontShowForThreeDays] = useState<boolean>(false);
 
   useLayoutEffect(() => {
     if (events.length === 0) return;
+
     const now = dayjs();
-    const hiddenUntil = localStorage.getItem(DO_NOT_SHOW_KEY);
-    const isHidden = hiddenUntil && dayjs(hiddenUntil).isAfter(now);
+    const hideUntil = localStorage.getItem(STORAGE_KEYS.POPUP_HIDE_UNTIL);
+    const isHidden = hideUntil && dayjs(hideUntil).isAfter(now);
 
-    if (events.length > 0 && !isHidden) {
-      const timer = setTimeout(() => {
-        setShowPopup(true);
+    if (hideUntil === null || !isHidden) {
+      setTimeout(() => {
+        setIsShow(true);
       }, 500);
-
-      return () => clearTimeout(timer);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,10 +40,10 @@ const useEventPopup = ({ events }: IParams) => {
     if (dontShowForThreeDays) {
       const threeDaysLater = dayjs().add(3, 'day');
 
-      localStorage.setItem(DO_NOT_SHOW_KEY, threeDaysLater.toISOString());
+      localStorage.setItem(STORAGE_KEYS.POPUP_HIDE_UNTIL, threeDaysLater.toISOString());
     }
 
-    setShowPopup(false);
+    setIsShow(false);
   };
 
   const onPrevEvent = () => {
@@ -57,8 +62,8 @@ const useEventPopup = ({ events }: IParams) => {
   };
 
   return {
+    isShow,
     currentEventIndex,
-    showPopup,
     dontShowForThreeDays,
     direction,
     setDontShowForThreeDays,

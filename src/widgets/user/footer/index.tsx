@@ -5,16 +5,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type FC } from 'react';
 
-import { BUSINESS_INFO, BRAND_TITLE, SNS_INFO } from '@consts/brand';
+import LoginDialog from '@features/admin/auth/ui/LoginDialog';
 
-import LoginDialog from './LoginDialog';
+import { BUSINESS_INFO, BRAND_TITLE, SNS_INFO } from '@consts/brand';
 
 const Footer: FC = () => {
   const [count, setCount] = useState<number>(0);
 
   return (
     <>
-      <footer className='bg-[#5D4037] py-10 text-[#FFFDF4]' onClick={() => setCount(count + 1)}>
+      <footer className='bg-[#5D4037] py-10 text-[#FFFDF4]'>
         <div className='mx-auto max-w-6xl space-y-4 px-4 text-center'>
           <h2 className='text-xl font-bold tracking-wide'>{BRAND_TITLE.KO}</h2>
 
@@ -32,13 +32,15 @@ const Footer: FC = () => {
             ))}
           </div>
           <ul className='flex flex-col items-center gap-2 text-sm text-[#FAF9F6] sm:flex-row sm:justify-center sm:gap-0'>
-            {Object.entries(BUSINESS_INFO).map(([key, v]) => (
+            {Object.entries(BUSINESS_INFO).map(([key, v], i) => (
               <li
                 key={key}
                 className="flex items-center gap-1 sm:after:mx-4 sm:after:h-4 sm:after:w-px sm:after:bg-[#FAF9F6]/30 sm:after:content-[''] last:sm:after:hidden"
               >
                 {v.label}
-                <span className='font-medium'>: {v.value}</span>
+                <span className='font-medium' onClick={() => i === 1 && setCount(count + 1)}>
+                  : {v.value}
+                </span>
               </li>
             ))}
           </ul>

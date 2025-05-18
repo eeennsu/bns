@@ -19,6 +19,28 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         ivory: 'bg-ivory shadow-xs text-wood hover:bg-wood hover:text-ivory border-2 border-wood',
         wood: 'bg-wood shadow-xs text-ivory hover:bg-wood/90',
+        sage: 'bg-[#9CAF88] text-white shadow-xs hover:bg-[#9CAF88]/90',
+        lavender: 'bg-[#E6E6FA] text-[#483D8B] shadow-xs hover:bg-[#E6E6FA]/90',
+        peach: 'bg-[#FFDAB9] text-[#8B4513] shadow-xs hover:bg-[#FFDAB9]/90',
+        mint: 'bg-[#98FF98] text-[#006400] shadow-xs hover:bg-[#98FF98]/90',
+        sageOutline:
+          'bg-white text-[#9CAF88] shadow-xs hover:bg-[#9CAF88] hover:text-white border-2 border-[#9CAF88]',
+        lavenderOutline:
+          'bg-white text-[#483D8B] shadow-xs hover:bg-[#E6E6FA] hover:text-[#483D8B] border-2 border-[#483D8B]',
+        peachOutline:
+          'bg-white text-[#8B4513] shadow-xs hover:bg-[#FFDAB9] hover:text-[#8B4513] border-2 border-[#8B4513]',
+        mintOutline:
+          'bg-white text-[#006400] shadow-xs hover:bg-[#98FF98] hover:text-[#006400] border-2 border-[#006400]',
+        navy: 'bg-[#000080] text-white shadow-xs hover:bg-[#000080]/90',
+        wine: 'bg-[#722F37] text-white shadow-xs hover:bg-[#722F37]/90',
+        forest: 'bg-[#228B22] text-white shadow-xs hover:bg-[#228B22]/90',
+        plum: 'bg-[#673147] text-white shadow-xs hover:bg-[#673147]/90',
+        sunset:
+          'bg-gradient-to-r from-[#FF8C00] to-[#FF4500] text-white shadow-xs hover:opacity-90',
+        ocean: 'bg-gradient-to-r from-[#4682B4] to-[#00CED1] text-white shadow-xs hover:opacity-90',
+        meadow:
+          'bg-gradient-to-r from-[#90EE90] to-[#3CB371] text-white shadow-xs hover:opacity-90',
+        berry: 'bg-gradient-to-r from-[#C71585] to-[#FF69B4] text-white shadow-xs hover:opacity-90',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

@@ -1,3 +1,4 @@
+export type Nullable<T> = T | null;
 export interface IPathSlug {
   slug: string | number;
 }

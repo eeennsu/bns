@@ -9,6 +9,8 @@ import { HERO_ANIM_DURATIONS, HERO_TITLE_DURATIONS } from '@consts/brand';
 
 import LinkButton from '@components/LinkButton';
 
+import EventPopupButton from './EventPopupButton';
+
 const DUMMY_IMAGES = [
   'https://picsum.photos/id/237/200/300',
   'https://picsum.photos/200/300?grayscale',
@@ -30,10 +32,11 @@ const Hero: FC = () => {
           </p>
         </BoxReveal>
 
-        <div className='flex justify-center gap-4 pt-4 sm:flex-row lg:justify-start'>
-          <LinkButton href={USER_PATHS.product.bread.list()} size='lg'>
+        <div className='flex flex-col justify-center gap-4 pt-4'>
+          <LinkButton href={USER_PATHS.product.bread.list()} variant='wood' size='lg'>
             어떤 빵이 있나요? <ArrowRight />
           </LinkButton>
+          <EventPopupButton />
         </div>
       </div>
       <div className='p-2-xl hidden h-[68dvh] flex-1 gap-2 rounded-lg bg-white shadow-2xl xl:flex'>
