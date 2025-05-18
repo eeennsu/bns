@@ -3,8 +3,6 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
-import { Card, CardContent } from '@shadcn-ui/ui/card';
-
 interface IProps {
   bread: any;
   index: number;
@@ -12,34 +10,29 @@ interface IProps {
 
 const SignatureCard: FC<IProps> = ({ bread, index }) => {
   return (
-    <Card className='h-full rounded-2xl p-0 transition'>
-      <CardContent className='flex aspect-square items-center justify-center p-0'>
+    <div className='h-full rounded-2xl p-0 transition-all'>
+      <div className='flex h-full flex-grow items-center justify-center p-0'>
         <Link
           href={USER_PATHS.product.bread.detail({ slug: bread.name })}
-          className='group relative block w-full overflow-hidden rounded-lg'
+          className='group relative inline-flex h-full w-full flex-col overflow-hidden rounded-lg'
         >
-          <div className='aspect-square overflow-hidden'>
+          <div className='relative aspect-square max-h-[500px] overflow-hidden'>
             <Image
               src={`https://picsum.photos/id/${index + 24}/500/500`}
               alt={bread.name}
-              width={500}
-              height={500}
+              fill
               className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
             />
           </div>
-          <div className='bg-ivory space-y-2 p-4'>
+          <div className='rounded-x-lg z-10 flex-1 space-y-2 rounded-b-lg border border-gray-200 p-4'>
             <h3 className='text-wood line-clamp-1 truncate text-base font-semibold sm:text-lg'>
               {bread.name}
             </h3>
-            <p className='text-sm font-medium text-black'>
-              {bread.description.length > 50
-                ? `${bread.description.slice(0, 50)}...`
-                : bread.description}
-            </p>
+            <p className='line-clamp-3 text-sm font-medium text-black'>{bread.description}</p>
           </div>
         </Link>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

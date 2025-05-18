@@ -7,7 +7,10 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 const DotButton: FC<IProps> = ({ className, ...props }) => {
   return (
     <button
-      className={cn('h-2 w-2 cursor-pointer rounded-full transition sm:h-2.5 sm:w-2.5', className)}
+      className={cn(
+        'size-3 cursor-pointer rounded-full transition sm:size-2 sm:h-2.5 sm:w-2.5',
+        className,
+      )}
       {...props}
     />
   );

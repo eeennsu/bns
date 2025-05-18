@@ -1,12 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { FC } from 'react';
 
 import useEventPopup from '../../hooks/useEventPopup';
 import AnimatedEventPopup from './AnimatedEventPopup';
-import ArrowButton from './ArrowButton';
 import CloseButton from './CloseButton';
 import DontShowOption from './DontShowOption';
 import DotButton from './DotButton';
@@ -47,8 +45,6 @@ export const EventPopupList: FC = () => {
     direction,
     setDontShowForThreeDays,
     onHideEvent,
-    onPrevEvent,
-    onNextEvent,
     onDotChange,
   } = useEventPopup({ events });
 
@@ -81,10 +77,10 @@ export const EventPopupList: FC = () => {
         <section className='flex flex-col gap-2 px-4 pb-4'>
           {events.length > 1 && (
             <nav className='z-20 flex items-center justify-center gap-5'>
-              <ArrowButton onClick={onPrevEvent}>
-                <ChevronLeft className='size-3.5' />
-              </ArrowButton>
-              <div className='flex justify-center space-x-1'>
+              {/* <ArrowButton onClick={onPrevEvent}>
+                  <ChevronLeft className='size-3.5' />
+                </ArrowButton> */}
+              <div className='flex justify-center space-x-3 sm:space-x-1'>
                 {events.map((event, index) => (
                   <DotButton
                     key={event.id}
@@ -93,9 +89,9 @@ export const EventPopupList: FC = () => {
                   />
                 ))}
               </div>
-              <ArrowButton onClick={onNextEvent}>
+              {/* <ArrowButton onClick={onNextEvent}>
                 <ChevronRight className='size-3.5' />
-              </ArrowButton>
+              </ArrowButton> */}
             </nav>
           )}
 

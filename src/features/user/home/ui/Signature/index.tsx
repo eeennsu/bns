@@ -71,7 +71,7 @@ const Signature: FC = () => {
           {DUMMY_SIGNATURES.map((bread, index) => (
             <CarouselItem
               key={bread.name}
-              className='basis-full px-2 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4'
+              className='basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4'
             >
               <SignatureCard bread={bread} index={index} />
             </CarouselItem>

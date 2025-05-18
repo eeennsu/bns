@@ -1,3 +1,5 @@
+import UtilLocalImage from '@utils/utilImage';
+
 export const HERO_TITLE_DURATIONS = {
   DESCRIPTION: 0.2,
 };
@@ -52,10 +54,10 @@ export const BUSINESS_INFO = {
 export const SNS_INFO = {
   INSTAGRAM: {
     URL: 'https://www.instagram.com/bread_n_sauce?igsh=MTF4Z3AzN3Jsanc1aw==',
-    IMAGE_URL: '/images/insta.png',
+    IMAGE_URL: UtilLocalImage.IMAGES.SNS.INSTAGRAM,
   },
   KAKAO: {
     URL: 'https://open.kakao.com',
-    IMAGE_URL: '/images/kakao.png',
+    IMAGE_URL: UtilLocalImage.IMAGES.SNS.KAKAO,
   },
 } as const;

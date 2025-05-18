@@ -5,7 +5,7 @@ import type { FC } from 'react';
 
 import { Button } from '@shadcn-ui/ui/button';
 
-import useEventPopupStore from '@stores/evenPopup';
+import useEventPopupStore from '@stores/eventPopup';
 
 import { STORAGE_KEYS } from '@consts/storage';
 

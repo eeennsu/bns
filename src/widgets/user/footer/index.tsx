@@ -7,6 +7,8 @@ import { useState, type FC } from 'react';
 
 import LoginDialog from '@features/admin/auth/ui/LoginDialog';
 
+import UtilLocalImage from '@utils/utilImage';
+
 import { BUSINESS_INFO, BRAND_TITLE, SNS_INFO } from '@consts/brand';
 
 const Footer: FC = () => {
@@ -16,8 +18,16 @@ const Footer: FC = () => {
     <>
       <footer className='bg-[#5D4037] py-10 text-[#FFFDF4]'>
         <div className='mx-auto max-w-6xl space-y-4 px-4 text-center'>
-          <h2 className='text-xl font-bold tracking-wide'>{BRAND_TITLE.KO}</h2>
-
+          <div className='flex items-center justify-center gap-2'>
+            <h2 className='text-xl font-bold tracking-wide'>{BRAND_TITLE.KO}</h2>
+            <Image
+              src={UtilLocalImage.IMAGES.LOGO}
+              alt='logo'
+              width={45}
+              height={45}
+              className='rounded-xl bg-white'
+            />
+          </div>
           <div className='flex justify-center gap-4'>
             {Object.entries(SNS_INFO).map(([key, value]) => (
               <Link key={key} href={value.URL}>

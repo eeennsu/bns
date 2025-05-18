@@ -5,7 +5,7 @@ import { useLayoutEffect, useState } from 'react';
 
 import { Direction } from '@typings/commons';
 
-import useEventPopupStore from '@stores/evenPopup';
+import useEventPopupStore from '@stores/eventPopup';
 
 import { STORAGE_KEYS } from '@consts/storage';
 
@@ -46,15 +46,15 @@ const useEventPopup = ({ events }: IParams) => {
     setIsShow(false);
   };
 
-  const onPrevEvent = () => {
-    setCurrentEventIndex(prev => (prev - 1 + events.length) % events.length);
-    setDirection('left');
-  };
+  // const onPrevEvent = () => {
+  //   setCurrentEventIndex(prev => (prev - 1 + events.length) % events.length);
+  //   setDirection('left');
+  // };
 
-  const onNextEvent = () => {
-    setCurrentEventIndex(prev => (prev + 1 + events.length) % events.length);
-    setDirection('right');
-  };
+  // const onNextEvent = () => {
+  //   setCurrentEventIndex(prev => (prev + 1 + events.length) % events.length);
+  //   setDirection('right');
+  // };
 
   const onDotChange = (index: number) => {
     setCurrentEventIndex(index);
@@ -68,8 +68,8 @@ const useEventPopup = ({ events }: IParams) => {
     direction,
     setDontShowForThreeDays,
     onHideEvent,
-    onPrevEvent,
-    onNextEvent,
+    // onPrevEvent,
+    // onNextEvent,
     onDotChange,
   };
 };

@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { cloneSearchParams } from '@utils/searchParams';
+import { cloneSearchParams } from '@libs/searchParams';
 
 interface IParams {
   total: number;
