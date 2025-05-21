@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { FC } from 'react';
-import { TextAnimate } from 'src/shared/magicui/text-animate';
+import { TextAnimate } from 'src/shared/magic-ui/text-animate';
 
 const BriefHistory: FC = () => {
   return (

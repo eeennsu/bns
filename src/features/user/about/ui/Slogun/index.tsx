@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { TypingAnimation } from 'src/shared/magicui/typing-animation';
+import { TypingAnimation } from 'src/shared/magic-ui/typing-animation';
 
 import UtilLocalImage from '@utils/utilImage';
 

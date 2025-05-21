@@ -1,10 +1,24 @@
+import { verifyToken } from '@libs/auth';
 import { NextResponse, type NextRequest } from 'next/server';
 import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
 
-export const middleware = (request: NextRequest) => {
-  const token = request.cookies.get('token')?.value;
+import { TOKEN_TYPE } from './shared/api/consts';
 
-  if (!token) {
+export const middleware = (request: NextRequest) => {
+  const accessToken = request.cookies.get(TOKEN_TYPE.ACCESS)?.value;
+
+  if (!accessToken) {
+    return NextResponse.redirect(new URL(USER_PATHS.home(), request.url));
+  }
+
+  try {
+    const payload = verifyToken(accessToken);
+
+    if (typeof payload !== 'object' || !payload?.id || !payload?.username) {
+      return NextResponse.redirect(new URL(USER_PATHS.home(), request.url));
+    }
+  } catch (error) {
+    console.error('Access Token error : ', error);
     return NextResponse.redirect(new URL(USER_PATHS.home(), request.url));
   }
 
@@ -12,5 +26,5 @@ export const middleware = (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ['/admin', '/admin/:path*'],
+  matcher: ['/admin', '/admin/:path*', '/api/admin/:path*'],
 };

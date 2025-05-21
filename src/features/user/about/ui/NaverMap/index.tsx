@@ -9,8 +9,8 @@ import Loader from './Loader';
 import ResetPositionButton from './ResetPositionButton';
 
 const MarkerTag = `
-<div class="w-[140px] sm:w-[180px] text-center p-[8px] sm:p-[10px] bg-wood-tertiary border-ivory-tertiary border-3 rounded-full shadow-xl font-sans hover:opacity-0 transition-opacity duration-300">
-  <div class="text-[14px] sm:text-[16px] font-bold text-ivory">브레드엔소스</div>
+<div class="w-[100px] sm:w-[120px] text-center px-4 sm:p-[10px] bg-wood-tertiary border-ivory-tertiary border-3 rounded-full shadow-xl font-sans hover:opacity-0 transition-opacity duration-300">
+  <div class="text-[10px] sm:text-[12px] font-bold text-ivory">브레드엔소스</div>
 </div>`;
 
 const DEFAULT_ZOOM = 15;

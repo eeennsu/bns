@@ -9,17 +9,14 @@ interface Props {
 
 const DontShowOption: FC<Props> = ({ checked, onCheckedChange }) => {
   return (
-    <div className='flex items-center gap-2'>
+    <label className='flex w-fit cursor-pointer items-center gap-2'>
       <Checkbox
-        id='dontShow'
         checked={checked}
         onCheckedChange={checked => onCheckedChange(checked === true)}
         className='cursor-pointer border-[#a87c50] data-[state=checked]:bg-[#a87c50] data-[state=checked]:text-white'
       />
-      <label htmlFor='dontShow' className='cursor-pointer text-xs text-[#6c6055] sm:text-sm'>
-        3일간 보지 않기
-      </label>
-    </div>
+      <span className='cursor-pointer text-xs text-[#6c6055] sm:text-sm'>3일간 보지 않기</span>
+    </label>
   );
 };
 

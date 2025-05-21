@@ -1,9 +1,55 @@
 {
-  "id": "2e5c0de2-ee12-4816-b401-1624cd21e511",
+  "id": "ae12fafe-7f93-4971-ab74-4e1d6bd78679",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.admins": {
+      "name": "admins",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_logged_at": {
+          "name": "last_logged_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "admins_username_unique": {
+          "name": "admins_username_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "username"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.breads": {
       "name": "breads",
       "schema": "",
@@ -43,6 +89,20 @@
           "type": "varchar(4)",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_signature": {
+          "name": "is_signature",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "is_new": {
+          "name": "is_new",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "sort_order": {
           "name": "sort_order",
@@ -404,6 +464,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "discounted_price": {
+          "name": "discounted_price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "sort_order": {
           "name": "sort_order",
           "type": "integer",
@@ -441,21 +507,6 @@
         }
       },
       "indexes": {
-        "bundle_name_idx": {
-          "name": "bundle_name_idx",
-          "columns": [
-            {
-              "expression": "name",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "bundle_price_idx": {
           "name": "bundle_price_idx",
           "columns": [
@@ -594,87 +645,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.sauce_bread_recommendations": {
-      "name": "sauce_bread_recommendations",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "sauce_id": {
-          "name": "sauce_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "bread_id": {
-          "name": "bread_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "compatibility_score": {
-          "name": "compatibility_score",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 50
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "sauce_bread_recommendations_sauce_id_sauces_id_fk": {
-          "name": "sauce_bread_recommendations_sauce_id_sauces_id_fk",
-          "tableFrom": "sauce_bread_recommendations",
-          "tableTo": "sauces",
-          "columnsFrom": [
-            "sauce_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "sauce_bread_recommendations_bread_id_breads_id_fk": {
-          "name": "sauce_bread_recommendations_bread_id_breads_id_fk",
-          "tableFrom": "sauce_bread_recommendations",
-          "tableTo": "breads",
-          "columnsFrom": [
-            "bread_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "sauce_bread_unique": {
-          "name": "sauce_bread_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "sauce_id",
-            "bread_id"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.sauces": {
       "name": "sauces",
       "schema": "",
@@ -708,6 +678,20 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_signature": {
+          "name": "is_signature",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "is_new": {
+          "name": "is_new",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "sort_order": {
           "name": "sort_order",

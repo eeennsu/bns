@@ -3,7 +3,7 @@ interface IParams {
   key: string;
 }
 
-export const assertEnv = ({ env, key }: IParams) => {
+export const assertEnv = ({ env, key }: IParams): string => {
   if (env === undefined || env === null) {
     throw new Error(`${key} - Environment variable is not defined`);
   }

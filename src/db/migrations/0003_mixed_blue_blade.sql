@@ -1,1 +1,0 @@
-DROP INDEX "bundle_name_idx";

@@ -36,7 +36,8 @@
       "@components/*": ["src/shared/components/*"],
       "@styles/*": ["src/shared/styles/*"],
       "@theme": ["src/shared/styles/theme.ts"],
-      "@config": ["./config/config.json"]
+      "@config": ["./config/config.json"],
+      "@db/*": ["src/db/*"]
     },
     "allowJs": true,
     "incremental": true,
