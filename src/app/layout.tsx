@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { ReactNode } from 'react';
+import ConfigProviders from 'src/shared/configs/providers/root';
 
 import RootPageContainer from '@widgets/user/RootPageContainer';
 
@@ -41,18 +43,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: { children: Readonly<ReactNode> }) => {
   return (
     <html lang='ko'>
       <body className={`${NANUM_GOTHIC.className} ${OPEN_SANS.className} antialiased`}>
-        <div className='relative flex h-dvh w-full flex-col'>
-          <RootPageContainer>{children}</RootPageContainer>
-        </div>
+        <ConfigProviders>
+          <div className='relative flex h-dvh w-full flex-col'>
+            <RootPageContainer>{children}</RootPageContainer>
+          </div>
+        </ConfigProviders>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

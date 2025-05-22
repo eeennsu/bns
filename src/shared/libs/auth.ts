@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
 
-import { TOKEN_EXPIRES, TOKEN_TYPE } from '../api/consts';
-import { AccessTokenPayload, RefreshTokenPayload, TokenType } from '../api/typings';
+import { TOKEN_EXPIRES, TOKEN_EXPIRES_MS, TOKEN_TYPE } from '../api/consts';
+import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from '../api/typings';
 import { assertEnv } from './assertEnv';
 
 export const comparePassword = async (password: string, hashed: string) => {
@@ -16,7 +16,7 @@ export const comparePassword = async (password: string, hashed: string) => {
 };
 
 export const generateToken = (
-  payload: Omit<AccessTokenPayload, 'type'> | Omit<RefreshTokenPayload, 'type'>,
+  payload: Omit<IAccessTokenPayload, 'type'> | Omit<IRefreshTokenPayload, 'type'>,
   tokenType: TokenType,
   jwtOption?: SignOptions,
 ) => {
@@ -47,7 +47,7 @@ export const setAccessTokenCookie = (response: NextResponse, token: string) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: TOKEN_EXPIRES.ACCESS,
+    maxAge: TOKEN_EXPIRES_MS.ACCESS,
   });
 };
 
@@ -56,6 +56,6 @@ export const setRefreshTokenCookie = (response: NextResponse, token: string) => 
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: TOKEN_EXPIRES.REFRESH,
+    maxAge: TOKEN_EXPIRES_MS.REFRESH,
   });
 };

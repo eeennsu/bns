@@ -6,6 +6,6 @@ export const AUTH_ERRORS = {
   ID_OR_PASSWORD_INCORRECT: 'ID or password is incorrect',
   MISSING_REFRESH_TOKEN: 'Refresh token is missing',
   REFRESH_TOKEN_EXPIRED: 'Refresh token is expired',
-  INVALID_TOKEN_PAYLOAD: 'Invalid token payload', 
+  INVALID_TOKEN_PAYLOAD: 'Invalid token payload',
   INVALID_REFRESH_TOKEN: 'Invalid refresh token',
 };

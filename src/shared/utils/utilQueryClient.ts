@@ -6,8 +6,8 @@ const utilQueryClient = (config?: QueryClientConfig) =>
     defaultOptions: {
       queries: {
         gcTime: 1000 * 60 * 10,
-        staleTime: 1000 * 60 * 5,
-        notifyOnChangeProps: ['data'],
+        staleTime: 1000 * 60 * 5, //
+        notifyOnChangeProps: 'all',
         refetchOnWindowFocus: false,
         retry: 2,
         ...config?.defaultOptions?.queries,

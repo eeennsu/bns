@@ -15,3 +15,9 @@ export interface IHeaderMenu extends IMenu {
 }
 
 export type Direction = 'left' | 'right';
+
+export interface IList<T> {
+  page: number;
+  total: number;
+  items: T[];
+}

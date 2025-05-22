@@ -21,25 +21,30 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: AUTH_ERRORS.MISSING_USERNAME_OR_PASSWORD }, { status: 400 });
   }
 
-  const admin = await db
+  const findAdmin = await db
     .select()
     .from(admins)
     .where(eq(admins.username, username))
     .then(res => res.at(0));
 
-  if (!admin) {
+  if (!findAdmin) {
     return NextResponse.json({ error: AUTH_ERRORS.ADMIN_NOT_FOUND }, { status: 404 });
   }
 
-  const isPasswordCorrect = await comparePassword(password, admin.password);
+  const isPasswordCorrect = await comparePassword(password, findAdmin.password);
 
   if (!isPasswordCorrect) {
     return NextResponse.json({ error: AUTH_ERRORS.ID_OR_PASSWORD_INCORRECT }, { status: 401 });
   }
 
-  const accessToken = generateToken({ id: admin.id, username: admin.username }, TOKEN_TYPE.ACCESS);
+  await db.update(admins).set({ lastLoggedAt: new Date() }).where(eq(admins.id, findAdmin.id));
+
+  const accessToken = generateToken(
+    { id: findAdmin.id, username: findAdmin.username },
+    TOKEN_TYPE.ACCESS,
+  );
   const refreshToken = generateToken(
-    { id: admin.id, username: admin.username },
+    { id: findAdmin.id, username: findAdmin.username },
     TOKEN_TYPE.REFRESH,
   );
 

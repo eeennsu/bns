@@ -4,7 +4,7 @@ import type { FC } from 'react';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@shadcn-ui/ui/dialog';
 
-import useAdminAuthLogin from '../../hooks/useAdminAuthLogin';
+import useAdminAuthLogin from '../../hooks/useAuthLogin';
 import AdminLoginForm from '../Form';
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const LoginDialog: FC<IProps> = ({ onClose }) => {
-  const { form, onSubmit } = useAdminAuthLogin();
+  const { form, onSubmit } = useAdminAuthLogin({ onCloseLoginModal: onClose });
 
   return (
     <Dialog defaultOpen onOpenChange={() => onClose()}>
