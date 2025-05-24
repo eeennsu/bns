@@ -1,6 +1,6 @@
 import db from '@db/index';
+import { users } from '@db/schemas/users';
 import bcrypt from 'bcryptjs';
-import { admins } from 'src/db/schemas/admins';
 
 const seedAdmin = async () => {
   const password = process.env.SEED_ADMIN_PW;
@@ -12,7 +12,12 @@ const seedAdmin = async () => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    await db.insert(admins).values({ username: '엄준식', password: hashedPassword });
+    await db.insert(users).values({
+      username: '엄준식',
+      password: hashedPassword,
+      role: 'admin',
+      createdAt: new Date(),
+    });
   } catch (error) {
     console.error('seedAdmin error: ', error);
   }

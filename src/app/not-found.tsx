@@ -1,7 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
-import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
+import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
 import { Button } from '@shadcn-ui/ui/button';
 
@@ -23,7 +23,7 @@ const NotFoundPage: FC = () => {
           <p className='text-gray-800'>아래 버튼을 클릭하여 홈페이지로 돌아가세요.</p>
         </div>
 
-        <Link href={USER_PATHS.home()}>
+        <Link href={MAIN_PATHS.home()}>
           <Button variant='wood' size='lg'>
             <ArrowLeft />
             홈으로 돌아가기

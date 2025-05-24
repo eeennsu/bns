@@ -1,6 +1,6 @@
 import { AlertTriangle, Home } from 'lucide-react';
 import type { FC } from 'react';
-import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
+import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
 import LinkButton from '@components/LinkButton';
 
@@ -29,7 +29,7 @@ const ErrorLayout: FC = () => {
         </section>
 
         <section className='flex flex-col justify-center gap-4 sm:flex-row'>
-          <LinkButton href={USER_PATHS.home()} variant='ivory'>
+          <LinkButton href={MAIN_PATHS.home()} variant='ivory'>
             <Home className='size-4' />
             홈으로 돌아가기
           </LinkButton>

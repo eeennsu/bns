@@ -1,15 +1,14 @@
-'use client';
-
-import { usePathname } from 'next/navigation';
+import { headers } from 'next/headers';
 import { FC, PropsWithChildren } from 'react';
-import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
 import Footer from '../Footer';
 import Header from '../Header';
 
-const RootPageContainer: FC<PropsWithChildren> = ({ children }) => {
-  const pathname = usePathname();
-  const isAdmin = pathname.startsWith(ADMIN_PATHS.home());
+const RootPageContainer: FC<PropsWithChildren> = async ({ children }) => {
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') ?? '';
+
+  const isAdmin = pathname.startsWith('/admin');
 
   return (
     <>

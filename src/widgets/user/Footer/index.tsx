@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type FC } from 'react';
 
-import LoginDialog from '@features/admin/auth/ui/LoginDialog';
+import LoginDialog from '@features/auth/ui/LoginDialog';
 
 import UtilLocalImage from '@utils/utilImage';
 

@@ -1,4 +1,5 @@
 import db from '@db/index';
+import { users } from '@db/schemas/users';
 import {
   comparePassword,
   generateToken,
@@ -7,7 +8,6 @@ import {
 } from '@libs/auth';
 import { eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
-import { admins } from 'src/db/schemas/admins';
 import { TOKEN_TYPE } from 'src/shared/api/consts';
 import { AUTH_ERRORS } from 'src/shared/api/errorResponse';
 
@@ -21,30 +21,30 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: AUTH_ERRORS.MISSING_USERNAME_OR_PASSWORD }, { status: 400 });
   }
 
-  const findAdmin = await db
+  const findUser = await db
     .select()
-    .from(admins)
-    .where(eq(admins.username, username))
+    .from(users)
+    .where(eq(users.username, username))
     .then(res => res.at(0));
 
-  if (!findAdmin) {
+  if (!findUser) {
     return NextResponse.json({ error: AUTH_ERRORS.ADMIN_NOT_FOUND }, { status: 404 });
   }
 
-  const isPasswordCorrect = await comparePassword(password, findAdmin.password);
+  const isPasswordCorrect = await comparePassword(password, findUser.password);
 
   if (!isPasswordCorrect) {
     return NextResponse.json({ error: AUTH_ERRORS.ID_OR_PASSWORD_INCORRECT }, { status: 401 });
   }
 
-  await db.update(admins).set({ lastLoggedAt: new Date() }).where(eq(admins.id, findAdmin.id));
+  await db.update(users).set({ lastLoggedAt: new Date() }).where(eq(users.id, findUser.id));
 
   const accessToken = generateToken(
-    { id: findAdmin.id, username: findAdmin.username },
+    { id: findUser.id, username: findUser.username, role: findUser.role },
     TOKEN_TYPE.ACCESS,
   );
   const refreshToken = generateToken(
-    { id: findAdmin.id, username: findAdmin.username },
+    { id: findUser.id, username: findUser.username, role: findUser.role },
     TOKEN_TYPE.REFRESH,
   );
 

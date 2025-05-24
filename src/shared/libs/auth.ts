@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
 
-import { TOKEN_EXPIRES, TOKEN_EXPIRES_MS, TOKEN_TYPE } from '../api/consts';
+import { TOKEN_EXPIRES_EXP, TOKEN_EXPIRES_MAX_AGE, TOKEN_TYPE } from '../api/consts';
 import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from '../api/typings';
 import { assertEnv } from './assertEnv';
 
@@ -24,7 +24,8 @@ export const generateToken = (
 
   const tokenPayloadWithType = { ...payload, type: tokenType };
 
-  const expiresIn = tokenType === TOKEN_TYPE.ACCESS ? TOKEN_EXPIRES.ACCESS : TOKEN_EXPIRES.REFRESH;
+  const expiresIn =
+    tokenType === TOKEN_TYPE.ACCESS ? TOKEN_EXPIRES_EXP.ACCESS : TOKEN_EXPIRES_EXP.REFRESH;
 
   return sign(tokenPayloadWithType, jwtSecret, {
     expiresIn,
@@ -47,7 +48,7 @@ export const setAccessTokenCookie = (response: NextResponse, token: string) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: TOKEN_EXPIRES_MS.ACCESS,
+    maxAge: TOKEN_EXPIRES_MAX_AGE.ACCESS,
   });
 };
 
@@ -56,6 +57,6 @@ export const setRefreshTokenCookie = (response: NextResponse, token: string) => 
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: TOKEN_EXPIRES_MS.REFRESH,
+    maxAge: TOKEN_EXPIRES_MAX_AGE.REFRESH,
   });
 };

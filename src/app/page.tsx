@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
-import BrushBackground from '@features/user/home/ui/BrushBackground';
-import ContactUs from '@features/user/home/ui/ContactUs';
-import EventPopupList from '@features/user/home/ui/EventPopupList';
-import Hero from '@features/user/home/ui/Hero';
-import Signature from '@features/user/home/ui/Signature';
+import BrushBackground from '@features/home/ui/BrushBackground';
+import ContactUs from '@features/home/ui/ContactUs';
+import EventPopupList from '@features/home/ui/EventPopupList';
+import Hero from '@features/home/ui/Hero';
+import Signature from '@features/home/ui/Signature';
 
 const HomePage: FC = () => {
   return (

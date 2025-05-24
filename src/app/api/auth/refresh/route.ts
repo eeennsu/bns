@@ -2,14 +2,14 @@ import { generateToken, setAccessTokenCookie, verifyToken } from '@libs/auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { TOKEN_TYPE } from 'src/shared/api/consts';
 import { AUTH_ERRORS } from 'src/shared/api/errorResponse';
-import { USER_PATHS } from 'src/shared/configs/routes/userPaths';
+import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
 export const POST = async (request: NextRequest) => {
   try {
     const refreshToken = request.cookies.get(TOKEN_TYPE.REFRESH)?.value;
 
     if (!refreshToken) {
-      const response = NextResponse.redirect(new URL(USER_PATHS.home(), request.url));
+      const response = NextResponse.redirect(new URL(MAIN_PATHS.home(), request.url));
       response.cookies.delete(TOKEN_TYPE.REFRESH);
       response.cookies.delete(TOKEN_TYPE.ACCESS);
 
@@ -23,9 +23,11 @@ export const POST = async (request: NextRequest) => {
     }
 
     const accessToken = generateToken(
-      { id: payload.id, username: payload.username },
+      { id: payload.id, username: payload.username, role: payload.role },
       TOKEN_TYPE.ACCESS,
     );
+
+    console.log('Regenerate AccessToken!');
 
     const response = NextResponse.json({ ok: true });
     setAccessTokenCookie(response, accessToken);

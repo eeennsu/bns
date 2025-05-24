@@ -1,4 +1,8 @@
-export const ADMIN_ERRORS = {};
+export const ADMIN_ERRORS = {
+  MISSING_ACCESS_TOKEN: 'Access token is missing',
+  INVALID_TOKEN_PAYLOAD: 'Invalid token payload',
+  INVALID_ACCESS_TOKEN: 'Invalid access token',
+};
 
 export const AUTH_ERRORS = {
   MISSING_USERNAME_OR_PASSWORD: 'Username or password is missing',
