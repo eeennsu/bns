@@ -9,11 +9,11 @@ import useLogin from '@features/auth/hooks/useLogin';
 import AdminLoginForm from '../Form';
 
 interface IProps {
-  onClose: () => void;
+  onCloseModal: () => void;
 }
 
-const AdminLoginDialog: FC<IProps> = ({ onClose }) => {
-  const { form, onSubmit } = useLogin({ onCloseLoginModal: onClose });
+const LoginDialog: FC<IProps> = ({ onCloseModal }) => {
+  const { form, onSubmit } = useLogin({ onCloseModal });
 
   return (
     <DialogContent>
@@ -25,4 +25,4 @@ const AdminLoginDialog: FC<IProps> = ({ onClose }) => {
   );
 };
 
-export default AdminLoginDialog;
+export default LoginDialog;

@@ -1,5 +1,5 @@
-import { verifyToken } from '@libs/auth';
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyToken } from 'src/shared/api/auth';
 
 import { TOKEN_TYPE } from './consts';
 import { ADMIN_ERRORS } from './errorResponse';

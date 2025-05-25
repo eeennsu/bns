@@ -1,5 +1,5 @@
-import { generateToken, setAccessTokenCookie, verifyToken } from '@libs/auth';
 import { NextRequest, NextResponse } from 'next/server';
+import { generateToken, setAccessTokenCookie, verifyToken } from 'src/shared/api/auth';
 import { TOKEN_TYPE } from 'src/shared/api/consts';
 import { AUTH_ERRORS } from 'src/shared/api/errorResponse';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';

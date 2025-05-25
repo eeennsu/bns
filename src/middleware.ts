@@ -12,9 +12,6 @@ export const middleware = (request: NextRequest) => {
 
   const response = NextResponse.next();
 
-  // 요청 경로를 커스텀 헤더로 추가
-  response.headers.set('x-pathname', request.nextUrl.pathname);
-
   return response;
 };
 

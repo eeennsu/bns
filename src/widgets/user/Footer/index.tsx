@@ -1,11 +1,13 @@
 'use client';
 
 import dayjs from 'dayjs';
+import { useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, type FC } from 'react';
+import { useRef, useState, type FC } from 'react';
 
 import AdminEntryPoint from '@features/admin/ui/EntryPoint';
+import useSession from '@features/auth/hooks/useSession';
 
 import UtilLocalImage from '@utils/utilImage';
 
@@ -14,9 +16,13 @@ import { BUSINESS_INFO, BRAND_TITLE, SNS_INFO } from '@consts/brand';
 const Footer: FC = () => {
   const [count, setCount] = useState<number>(0);
 
+  const footerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(footerRef, { once: true, amount: 0.3 });
+  const { session } = useSession({ enabled: isInView });
+
   return (
     <>
-      <footer className='bg-[#5D4037] py-10 text-[#FFFDF4]'>
+      <footer ref={footerRef} className='bg-[#5D4037] py-10 text-[#FFFDF4]'>
         <div className='mx-auto max-w-6xl space-y-4 px-4 text-center'>
           <div className='flex items-center justify-center gap-2'>
             <h2 className='text-xl font-bold tracking-wide'>{BRAND_TITLE.KO}</h2>
@@ -60,7 +66,7 @@ const Footer: FC = () => {
         </div>
       </footer>
 
-      {count > 2 && <AdminEntryPoint onClose={() => setCount(0)} />}
+      {count > 2 && <AdminEntryPoint onCloseModal={() => setCount(0)} isLogin={session?.isLogin} />}
     </>
   );
 };

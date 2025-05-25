@@ -1,13 +1,13 @@
 import db from '@db/index';
 import { users } from '@db/schemas/users';
+import { eq } from 'drizzle-orm';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   comparePassword,
   generateToken,
   setAccessTokenCookie,
   setRefreshTokenCookie,
-} from '@libs/auth';
-import { eq } from 'drizzle-orm';
-import { NextRequest, NextResponse } from 'next/server';
+} from 'src/shared/api/auth';
 import { TOKEN_TYPE } from 'src/shared/api/consts';
 import { AUTH_ERRORS } from 'src/shared/api/errorResponse';
 

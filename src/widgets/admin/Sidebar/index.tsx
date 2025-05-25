@@ -22,7 +22,6 @@ const SidebarWidget: FC = () => {
 
   return (
     <aside className='relative'>
-      {/* Toggle Button */}
       <div
         className={cn(
           'absolute top-4 z-30 transition-all duration-300',
@@ -31,7 +30,7 @@ const SidebarWidget: FC = () => {
       >
         <button
           onClick={handleToggleSidebar}
-          className='rounded-full border border-gray-300 bg-white p-1.5 shadow-md transition hover:bg-gray-100'
+          className='cursor-pointer rounded-full border border-gray-300 bg-white p-1.5 shadow-md transition hover:bg-gray-100'
           aria-label={isSidebarOpen ? 'Close sidebar' : 'Open sidebar'}
         >
           {isSidebarOpen ? <PanelLeftClose size={20} /> : <PanelLeftOpen size={20} />}
@@ -58,19 +57,17 @@ const SidebarWidget: FC = () => {
 
             return (
               <div key={index} className='space-y-1'>
-                {/* Main Group Item */}
                 <Link
                   href={group[0].path}
                   className={cn(
                     'flex items-center justify-between rounded-md px-2.5 py-1.5 text-[14px] font-medium transition-colors',
-                    active ? 'bg-sky-100 text-sky-700' : 'text-neutral-700 hover:bg-neutral-100',
+                    active ? 'bg-sky-100/80 text-sky-700' : 'text-neutral-700 hover:bg-neutral-100',
                   )}
                 >
                   {group[0].menuName}
                   <Pin className='ml-1 size-3.5' color={active ? 'skyblue' : 'lightgray'} />
                 </Link>
 
-                {/* Sub Menu */}
                 <div className='flex flex-col gap-0.5 pl-3'>
                   {group
                     .filter(item => item.order === 1)
@@ -83,7 +80,7 @@ const SidebarWidget: FC = () => {
                           className={cn(
                             'rounded-md px-2 py-1 text-[13px] transition-colors',
                             isSubActive
-                              ? 'bg-sky-100 font-semibold text-sky-700'
+                              ? 'bg-sky-100/80 text-sky-700'
                               : 'text-neutral-600 hover:bg-neutral-100',
                           )}
                         >

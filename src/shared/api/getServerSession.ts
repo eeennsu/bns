@@ -6,16 +6,16 @@ import apiRefresh from '@features/auth/apis/refresh';
 
 import { IMe } from '@entities/user/types';
 
-import { TOKEN_TYPE } from '../api/consts';
-import { ITokenPayload } from '../api/typings';
 import { verifyToken } from './auth';
+import { TOKEN_TYPE } from './consts';
+import { ITokenPayload } from './typings';
 
 const DEFAULT_AUTH_CONTEXT: IMe = {
   isLogin: false,
   role: 'user',
 };
 
-export const getServerContext = async (): Promise<IMe> => {
+export const getServerSession = async (): Promise<IMe> => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(TOKEN_TYPE.ACCESS)?.value;
   const refreshToken = cookieStore.get(TOKEN_TYPE.REFRESH)?.value;

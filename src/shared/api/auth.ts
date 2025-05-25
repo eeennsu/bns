@@ -2,9 +2,9 @@ import bcrypt from 'bcryptjs';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
 
-import { TOKEN_EXPIRES_EXP, TOKEN_EXPIRES_MAX_AGE, TOKEN_TYPE } from '../api/consts';
-import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from '../api/typings';
-import { assertEnv } from './assertEnv';
+import { assertEnv } from '../libs/assertEnv';
+import { TOKEN_EXPIRES_EXP, TOKEN_EXPIRES_MAX_AGE, TOKEN_TYPE } from './consts';
+import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from './typings';
 
 export const comparePassword = async (password: string, hashed: string) => {
   try {
