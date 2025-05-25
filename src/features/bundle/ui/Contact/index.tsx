@@ -4,7 +4,7 @@ import { BRAND_INFO } from '@consts/brand';
 
 const BreadListContact: FC = () => {
   return (
-    <section className='border-ivory mx-auto w-full max-w-4xl rounded-2xl border bg-[#fdfaf5] px-4 py-10 text-center shadow-md transition-all duration-300 sm:px-6 sm:py-12 md:px-10 md:py-14 lg:rounded-3xl lg:shadow-lg'>
+    <section className='mx-auto w-full max-w-4xl text-center sm:px-6 sm:py-12 md:px-10 md:py-14'>
       <h2 className='text-wood mb-3 text-2xl font-bold tracking-tight sm:mb-4 sm:text-3xl md:text-4xl'>
         단체 주문 안내
       </h2>

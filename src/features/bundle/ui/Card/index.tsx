@@ -22,7 +22,7 @@ const BundleCard: FC<IProps> = ({ bundle }) => {
   );
 
   return (
-    <Card className='rounded-2xl border border-[#e6dccf] bg-white p-6 shadow-sm hover:shadow-lg'>
+    <Card className='rounded-2xl border border-[#e6dccf] bg-transparent p-6 shadow-xs hover:shadow-lg'>
       <div className='relative h-40 w-full overflow-hidden rounded-xl sm:h-48'>
         <Image
           src={bundle.imageUrl}

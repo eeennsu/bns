@@ -48,7 +48,7 @@ export const POST = async (req: NextRequest) => {
     TOKEN_TYPE.REFRESH,
   );
 
-  const response = NextResponse.json({ ok: true });
+  const response = NextResponse.json({ ok: true, role: findUser.role });
 
   setAccessTokenCookie(response, accessToken);
   setRefreshTokenCookie(response, refreshToken);

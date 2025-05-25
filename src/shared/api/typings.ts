@@ -1,13 +1,12 @@
-import { User } from '@entities/user/types';
+import { IUserRole } from '@entities/user/types';
 
 import { TOKEN_TYPE } from './consts';
 
 export type TokenType = (typeof TOKEN_TYPE)[keyof typeof TOKEN_TYPE];
 
-export interface ITokenPayload {
+export interface ITokenPayload extends IUserRole {
   id: string;
   username: string;
-  role: User['role'];
 }
 
 export interface IAccessTokenPayload extends ITokenPayload {

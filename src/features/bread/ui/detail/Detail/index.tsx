@@ -42,7 +42,6 @@ const DetailSauce: FC<IProps> = ({ id = 1 }) => {
     <DrawerAnimation>
       <div className='flex items-center justify-center bg-gradient-to-br px-4 py-6 sm:px-6 md:px-8'>
         <div className='w-full max-w-4xl space-y-6 md:grid md:grid-cols-2 md:gap-8 md:space-y-0'>
-          {/* 이미지 */}
           <div className='relative h-60 w-full overflow-hidden rounded-lg shadow-2xl sm:h-72 md:h-[400px]'>
             <Image
               src='https://picsum.photos/id/600/400/300'
@@ -52,12 +51,11 @@ const DetailSauce: FC<IProps> = ({ id = 1 }) => {
             />
           </div>
 
-          {/* 텍스트 */}
           <div className='flex flex-col justify-between gap-4 pt-2'>
-            <div className='space-y-4'>
+            <div className='space-y-2'>
               <h2 className='text-2xl font-bold text-[#8B4513] md:text-3xl'>{bread.name}</h2>
 
-              <div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+              <div className='flex items-center justify-between gap-3 sm:gap-2'>
                 <p className='text-lg font-bold text-[#3E2723] md:text-xl'>
                   {bread.price.toLocaleString()}원
                 </p>
@@ -86,7 +84,6 @@ const DetailSauce: FC<IProps> = ({ id = 1 }) => {
                 </p>
               </div>
 
-              {/* MBTI 정보 */}
               <Mbti mbti={bread.mbti} />
             </div>
           </div>

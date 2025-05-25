@@ -4,7 +4,7 @@ import type { FC } from 'react';
 
 import useCurrentPathname from '@hooks/useCurrentPathname';
 
-import { USER_MENU_LIST } from '@consts/nav';
+import { MAIN_MENU_LIST } from '@consts/nav';
 
 import HeaderDropdownMenu from './HeaderDropdownMenu';
 import MenuButton from './MenuButton';
@@ -14,16 +14,16 @@ const Menus: FC = () => {
 
   return (
     <nav className='mr-20 hidden items-center gap-8 lg:flex'>
-      {USER_MENU_LIST.map(menu => {
-        const isCurrentRoute = getIsCurPathname(menu.href);
+      {MAIN_MENU_LIST.map(menu => {
+        const isCurrentRoute = getIsCurPathname(menu.path);
 
         if (menu?.subMenus) {
           return (
             <HeaderDropdownMenu
               key={menu.title}
-              href={menu.href}
+              href={menu.path}
               isCurrentRoute={Object.values(menu.subMenus).some(subMenu =>
-                getIsCurPathname(subMenu.href),
+                getIsCurPathname(subMenu.path),
               )}
               subMenus={menu.subMenus}
             >
@@ -33,7 +33,7 @@ const Menus: FC = () => {
         }
 
         return (
-          <MenuButton key={menu.title} href={menu.href} isCurrentRoute={isCurrentRoute}>
+          <MenuButton key={menu.title} href={menu.path} isCurrentRoute={isCurrentRoute}>
             {menu.title}
           </MenuButton>
         );

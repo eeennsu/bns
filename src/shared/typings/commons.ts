@@ -1,11 +1,21 @@
+import { JSX } from 'react';
+
 export type Nullable<T> = T | null;
+
+export interface IMenuRoute {
+  parentMenuName: string;
+  path: string;
+  menuName: string;
+  order: number;
+  icon?: ({ isActive }: { isActive: boolean }) => JSX.Element;
+}
 export interface IPathSlug {
   slug: string | number;
 }
 
 export interface IMenu {
   title: string;
-  href: string;
+  path: string;
 }
 
 export type SubMenu = Record<string, IMenu>;
@@ -20,4 +30,10 @@ export interface IList<T> {
   page: number;
   total: number;
   items: T[];
+}
+
+export interface IAdminMenuRoute {
+  path: string;
+  menuName: string;
+  order: number;
 }

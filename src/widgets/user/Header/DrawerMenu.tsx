@@ -12,7 +12,7 @@ import {
 } from '@shadcn-ui/ui/drawer';
 
 import { NANUM_GOTHIC } from '@consts/font';
-import { USER_MENU_LIST } from '@consts/nav';
+import { MAIN_MENU_LIST } from '@consts/nav';
 
 import DrawerMenuItem from './DrawerMenuItem';
 
@@ -25,7 +25,7 @@ const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName 
 
   const onCloseDrawer = () => setOpen(false);
 
-  const menuItems = USER_MENU_LIST.flatMap(item =>
+  const menuItems = MAIN_MENU_LIST.flatMap(item =>
     item.subMenus ? Object.values(item.subMenus) : [item],
   );
 
@@ -42,8 +42,8 @@ const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName 
           </DrawerClose>
         </div>
         <nav className='space-y-7'>
-          {menuItems.map(({ href, title }) => (
-            <DrawerMenuItem key={title} href={href} title={title} onCloseDrawer={onCloseDrawer} />
+          {menuItems.map(({ title, path }) => (
+            <DrawerMenuItem key={title} href={path} title={title} onCloseDrawer={onCloseDrawer} />
           ))}
         </nav>
       </DrawerContent>

@@ -11,7 +11,7 @@ interface ISidebarStore {
 const useSidebarStore = create<ISidebarStore>()(
   persist(
     set => ({
-      isSidebarOpen: false,
+      isSidebarOpen: true,
       setIsSidebarOpen: data => {
         set(prev => ({
           isSidebarOpen: typeof data === 'boolean' ? data : data(prev.isSidebarOpen),

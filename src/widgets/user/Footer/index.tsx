@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type FC } from 'react';
 
-import LoginDialog from '@features/auth/ui/LoginDialog';
+import AdminEntryPoint from '@features/admin/ui/EntryPoint';
 
 import UtilLocalImage from '@utils/utilImage';
 
@@ -60,7 +60,7 @@ const Footer: FC = () => {
         </div>
       </footer>
 
-      {count > 2 && <LoginDialog onClose={() => setCount(0)} />}
+      {count > 2 && <AdminEntryPoint onClose={() => setCount(0)} />}
     </>
   );
 };

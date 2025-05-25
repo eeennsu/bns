@@ -9,6 +9,8 @@ import { AUTH_KEYS } from '@entities/auth/consts';
 import { adminLoginFormDtoSchema } from '@entities/auth/contracts';
 import { AdminLoginFormDto } from '@entities/auth/types';
 
+import useMeStore from '@stores/me';
+
 import apiLogin from '../apis/login';
 
 interface IParams {
@@ -17,14 +19,16 @@ interface IParams {
 
 const useLogin = ({ onCloseLoginModal }: IParams) => {
   const router = useRouter();
+  const setMe = useMeStore(state => state.setMe);
 
   const { mutate: login } = useMutation({
     mutationKey: [AUTH_KEYS.LOGIN],
     mutationFn: apiLogin,
-    onSuccess: () => {
+    onSuccess: data => {
       onCloseLoginModal();
-      router.push(ADMIN_PATHS.home());
+      router.push(ADMIN_PATHS.dashboard());
       toast.success('로그인에 성공했습니다.', { position: 'top-right' });
+      setMe({ isLogin: true, role: data.role });
     },
     onError: () => {
       toast.error('로그인에 실패했습니다.');

@@ -27,9 +27,7 @@ export const POST = async (request: NextRequest) => {
       TOKEN_TYPE.ACCESS,
     );
 
-    console.log('Regenerate AccessToken!');
-
-    const response = NextResponse.json({ ok: true });
+    const response = NextResponse.json({ ok: true, role: payload.role });
     setAccessTokenCookie(response, accessToken);
 
     return response;
