@@ -40,22 +40,7 @@ const SidebarWidget: FC = () => {
             홈으로
           </Link>
 
-          <nav className='flex max-h-[calc(100vh-12rem)] flex-col gap-3 overflow-y-auto'>
-            {ADMIN_MENUS.map(group => {
-              const isActive = isGroupActive(group, pathname);
-
-              return <GroupMenuItem key={group[0].path} isActive={isActive} group={group} />;
-            })}
-            {ADMIN_MENUS.map(group => {
-              const isActive = isGroupActive(group, pathname);
-
-              return <GroupMenuItem key={group[0].path} isActive={isActive} group={group} />;
-            })}
-            {ADMIN_MENUS.map(group => {
-              const isActive = isGroupActive(group, pathname);
-
-              return <GroupMenuItem key={group[0].path} isActive={isActive} group={group} />;
-            })}
+          <nav className='flex max-h-[calc(100vh-10rem)] flex-col gap-3 overflow-y-auto'>
             {ADMIN_MENUS.map(group => {
               const isActive = isGroupActive(group, pathname);
 

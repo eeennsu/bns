@@ -10,7 +10,7 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div
       className={cn(
-        'flex min-h-screen w-full flex-col px-10 py-6 transition-all duration-300 ease-in-out',
+        'flex min-h-screen w-full flex-col px-7 pt-5 transition-all duration-300 ease-in-out',
         isSidebarOpen ? 'ml-58' : 'ml-0',
       )}
     >

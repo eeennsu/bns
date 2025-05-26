@@ -7,12 +7,10 @@ import SidebarWidget from '@widgets/admin/Sidebar';
 
 const AdminLayoutPage: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <>
-      <main className='flex'>
-        <SidebarWidget />
-        <RightWidget>{children}</RightWidget>
-      </main>
-    </>
+    <main className='flex'>
+      <SidebarWidget />
+      <RightWidget>{children}</RightWidget>
+    </main>
   );
 };
 
