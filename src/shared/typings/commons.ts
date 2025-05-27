@@ -1,4 +1,7 @@
 import { JSX } from 'react';
+import { z } from 'zod';
+
+import { SearchFormDtoSchema } from '@contracts/common';
 
 export type Nullable<T> = T | null;
 
@@ -48,3 +51,5 @@ export interface ITableDefaultItem {
   rank?: string | number;
   image?: string;
 }
+
+export type SearchFormDto = z.infer<typeof SearchFormDtoSchema>;

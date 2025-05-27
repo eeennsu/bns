@@ -4,27 +4,27 @@ import type { ReactNode, SyntheticEvent } from 'react';
 import {
   Table as ShadcnTable,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@shadcn-ui/ui/table';
+import { cn } from '@shadcn-ui/utils';
 
 import { ITableDefaultItem } from '@typings/commons';
 
 import TableSkeleton from './Skeleton';
-import Td from './Td';
+import TableCell from './TableCell';
 
-interface IProps<T> {
+interface IProps<T extends ITableDefaultItem> {
   headers: string[];
   items: T[];
-  itemKeys: Array<keyof T>;
+  showItems: Array<keyof T>;
   renderItemProps?: Array<{
     itemKey: string;
     children: (item: T) => ReactNode;
   }>;
   isLoading?: boolean;
-  onClickItem?: (item: T) => () => void;
+  onClickItem?: (id: T) => () => void;
   emptyDataText?: string;
   className?: string;
   tableHeaderClassName?: string;
@@ -34,7 +34,7 @@ interface IProps<T> {
 const Table = <T extends ITableDefaultItem>({
   headers,
   items,
-  itemKeys,
+  showItems,
   renderItemProps,
   isLoading,
   onClickItem,
@@ -55,61 +55,69 @@ const Table = <T extends ITableDefaultItem>({
 
       if (renderItemProp) {
         return (
-          <Td key={itemKey} isStopPropagation>
+          <TableCell key={itemKey} isStopPropagation>
             {renderItemProp.children(rowItem)}
-          </Td>
+          </TableCell>
         );
       }
     }
 
     if (itemKey === 'image' && rowItem?.image) {
       return (
-        <Td key={itemKey} isStopPropagation>
+        <TableCell key={itemKey} isStopPropagation>
           <img
             src={rowItem.image}
             alt={rowItem?.name || 'image'}
-            className='m-auto size-14 object-cover'
+            className='size-14 object-cover'
             onError={onImageError}
           />
-        </Td>
+        </TableCell>
       );
     }
 
     if (typeof cellValue === 'boolean') {
       return (
-        <Td key={itemKey}>
+        <TableCell key={itemKey}>
           {cellValue === true ? (
             <CircleCheckBig className='text-green-500' />
           ) : (
             <X className='text-red-500' />
           )}
-        </Td>
+        </TableCell>
       );
     }
 
     if (typeof cellValue === 'number') {
-      return <Td key={itemKey}>{cellValue.toLocaleString('ko-KR')}</Td>;
+      return <TableCell key={itemKey}>{cellValue.toLocaleString('ko-KR')}</TableCell>;
     }
 
     if (cellValue === undefined || cellValue === null || cellValue === '') {
       return (
-        <Td key={itemKey} className='text-slate-500'>
+        <TableCell key={itemKey} className='text-slate-500'>
           -
-        </Td>
+        </TableCell>
       );
     }
 
-    return <Td key={itemKey}>{String(cellValue)}</Td>;
+    return <TableCell key={itemKey}>{String(cellValue)}</TableCell>;
   };
 
   return isLoading ? (
     <TableSkeleton />
   ) : (
-    <ShadcnTable className={className}>
+    <ShadcnTable
+      className={cn(
+        className,
+        'w-full border-separate border-spacing-0 overflow-hidden rounded-lg shadow-sm',
+      )}
+    >
       <TableHeader>
-        <TableRow className={tableHeaderClassName}>
+        <TableRow className={cn('', tableHeaderClassName)}>
           {headers.map(header => (
-            <TableHead key={header} className='max-w-20 p-4 break-words'>
+            <TableHead
+              key={header}
+              className='max-w-20 bg-gray-50 px-6 py-4 text-xs font-semibold tracking-wider break-words whitespace-normal text-gray-600 uppercase'
+            >
               {header}
             </TableHead>
           ))}
@@ -118,17 +126,18 @@ const Table = <T extends ITableDefaultItem>({
       <TableBody>
         {items.length === 0 ? (
           <TableRow>
-            <TableCell
-              colSpan={headers.length}
-              className='flex h-10 items-center justify-center text-gray-600'
-            >
+            <TableCell colSpan={headers.length} className='py-10 text-center text-sm text-gray-500'>
               {emptyDataText || '데이터가 없습니다.'}
             </TableCell>
           </TableRow>
         ) : (
           items?.map(rowItem => (
-            <TableRow key={rowItem.id} onClick={onClickItem(rowItem)} className={tableRowClassName}>
-              {itemKeys.map(itemKey => renderItem(rowItem, String(itemKey)))}
+            <TableRow
+              key={rowItem.id}
+              onClick={onClickItem(rowItem)}
+              className={cn(onClickItem !== undefined && 'cursor-pointer', tableRowClassName)}
+            >
+              {[...new Set(showItems)].map(itemKey => renderItem(rowItem, String(itemKey)))}
             </TableRow>
           ))
         )}

@@ -12,7 +12,7 @@ import {
 } from '@shadcn-ui/ui/pagination';
 import { cn } from '@shadcn-ui/utils';
 
-import useChangePage from '@hooks/useChangePage';
+import usePagination from '@hooks/usePagination';
 
 import { PER_PAGE_SIZE } from '@consts/commons';
 
@@ -20,23 +20,38 @@ interface IProps {
   total: number;
   currentPage: number;
   perPage?: number;
+  contentClassName?: string;
+  arrowClassName?: string;
+  buttonClassName?: string;
 }
 
-const Pagination: FC<IProps> = ({ total, currentPage, perPage = PER_PAGE_SIZE.DEFAULT }) => {
-  const { onChangePage, maxEndPage, isPrevPage, isNextPage } = useChangePage({
-    currentPage,
+const Pagination: FC<IProps> = ({
+  total,
+  currentPage,
+  perPage = PER_PAGE_SIZE.DEFAULT,
+  contentClassName,
+  arrowClassName,
+  buttonClassName,
+}) => {
+  const { onChangePage, maxEndPage, isPrevPage, isNextPage } = usePagination({
     total,
     perPage,
   });
 
   return (
     <ShadcnPagination className='flex justify-center'>
-      <PaginationContent className='inline-flex items-center gap-3 rounded-lg bg-[#FFFFF0]/80 p-1.5 shadow-sm'>
+      <PaginationContent
+        className={cn(
+          'inline-flex items-center gap-3 rounded-lg bg-[#FFFFF0]/80 p-1.5 shadow-sm',
+          contentClassName,
+        )}
+      >
         <PaginationItem>
           <PaginationPrevious
             className={cn(
               'hover:bg-wood/10',
               isPrevPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
+              arrowClassName,
             )}
             onClick={() => onChangePage(currentPage - 1)}
           />
@@ -46,9 +61,11 @@ const Pagination: FC<IProps> = ({ total, currentPage, perPage = PER_PAGE_SIZE.DE
           {Array.from({ length: maxEndPage }, (_, index) => index + 1).map(page => (
             <PaginationItem key={`pageNum-${page}`}>
               <PaginationLink
+                aria-current={currentPage === page ? 'page' : undefined}
                 className={cn(
                   'hover:bg-wood/10',
                   currentPage === page && 'bg-wood hover:bg-wood text-white hover:text-white',
+                  buttonClassName,
                 )}
                 key={page}
                 onClick={() => onChangePage(page)}
@@ -64,6 +81,7 @@ const Pagination: FC<IProps> = ({ total, currentPage, perPage = PER_PAGE_SIZE.DE
             className={cn(
               'hover:bg-wood/10',
               isNextPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
+              arrowClassName,
             )}
             onClick={() => onChangePage(currentPage + 1)}
           />

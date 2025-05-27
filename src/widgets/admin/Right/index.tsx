@@ -15,17 +15,17 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
   return (
     <main
       className={cn(
-        'flex min-h-screen w-full flex-col transition-all duration-300 ease-in-out',
-        isSidebarOpen ? 'ml-58' : 'ml-0',
+        'flex min-h-screen w-full flex-col bg-slate-100 transition-all duration-300 ease-in-out',
+        isSidebarOpen ? 'ml-56' : 'ml-0',
       )}
     >
       {pageName && (
-        <div className='bg-primary sticky top-0 z-10 w-full rounded-b-3xl px-7 py-6 text-white shadow-md'>
-          <h2 className='font-bold tracking-tight'>{pageName}</h2>
+        <div className='bg-primary z-10 w-full rounded-b-3xl px-7 py-6 text-white shadow-md'>
+          <h2 className='ml-6 font-bold tracking-tight'>{pageName}</h2>
         </div>
       )}
 
-      <div className='w-full flex-1 px-8 pt-8'>{children}</div>
+      <div className='flex w-full flex-1 flex-col px-14 pt-8'>{children}</div>
     </main>
   );
 };

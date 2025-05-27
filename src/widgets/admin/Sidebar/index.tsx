@@ -22,10 +22,10 @@ const SidebarWidget: FC = () => {
   const pathname = usePathname();
 
   return (
-    <aside className='relative'>
+    <div className='relative'>
       <FoldingButton />
 
-      <div
+      <aside
         className={cn(
           'fixed top-0 left-0 z-20 flex min-h-screen w-56 flex-col justify-between border-r border-gray-200 bg-white p-4 transition-all duration-300',
           isSidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0',
@@ -49,8 +49,8 @@ const SidebarWidget: FC = () => {
           </nav>
         </section>
         <SidebarActions />
-      </div>
-    </aside>
+      </aside>
+    </div>
   );
 };
 
