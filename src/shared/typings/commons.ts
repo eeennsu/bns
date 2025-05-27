@@ -37,3 +37,14 @@ export interface IAdminMenuRoute {
   menuName: string;
   order: number;
 }
+
+type TableItemType = string | number | boolean;
+export type ITableItem = Record<string, TableItemType>;
+
+export interface ITableDefaultItem {
+  id: string | number;
+  name?: string;
+  type?: string;
+  rank?: string | number;
+  image?: string;
+}

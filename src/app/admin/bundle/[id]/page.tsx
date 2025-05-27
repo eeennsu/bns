@@ -1,12 +1,7 @@
 import type { FC } from 'react';
 
-const AdminBundleDetailPage: FC = () => {
+const AdminBundleModifyPage: FC = () => {
+  return <div></div>;
+};
 
-  return (
-    <div>
-      AdminBundleDetailPage
-    </div>
-  );
-}
-
-export default AdminBundleDetailPage;
+export default AdminBundleModifyPage;

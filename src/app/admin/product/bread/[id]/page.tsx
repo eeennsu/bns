@@ -1,12 +1,7 @@
 import type { FC } from 'react';
 
-const AdminBreadDetailPage: FC = () => {
+const AdminBreadModifyPage: FC = () => {
+  return <div></div>;
+};
 
-  return (
-    <div>
-      AdminBreadDetailPage
-    </div>
-  );
-}
-
-export default AdminBreadDetailPage;
+export default AdminBreadModifyPage;

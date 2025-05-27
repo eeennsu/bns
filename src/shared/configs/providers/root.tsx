@@ -1,9 +1,7 @@
 import { ReactNode } from 'react';
 
-
-// 또는 '@shadcn-ui/ui/sonner'
-import TanstackQueryProvider from './tanstackQuery';
 import SonnerToaster from './SonnerToaster';
+import TanstackQueryProvider from './tanstackQuery';
 
 const ConfigProviders = ({ children }: { children: ReactNode }) => {
   return (

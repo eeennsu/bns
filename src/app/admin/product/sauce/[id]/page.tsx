@@ -1,12 +1,7 @@
 import type { FC } from 'react';
 
-const AdminSauceDetailPage: FC = () => {
+const AdminSauceModifyPage: FC = () => {
+  return <div></div>;
+};
 
-  return (
-    <div>
-      AdminSauceDetailPage
-    </div>
-  );
-}
-
-export default AdminSauceDetailPage;
+export default AdminSauceModifyPage;

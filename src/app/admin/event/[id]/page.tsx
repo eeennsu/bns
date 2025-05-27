@@ -1,12 +1,7 @@
 import type { FC } from 'react';
 
-const AdminEventDetailPage: FC = () => {
+const AdminEventModifyPage: FC = () => {
+  return <div></div>;
+};
 
-  return (
-    <div>
-      AdminEventDetailPage
-    </div>
-  );
-}
-
-export default AdminEventDetailPage;
+export default AdminEventModifyPage;

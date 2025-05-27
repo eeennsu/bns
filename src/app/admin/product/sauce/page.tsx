@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 const AdminSauceListPage: FC = () => {
-  return <div>AdminSauceListPage</div>;
+  return <div></div>;
 };
 
 export default AdminSauceListPage;
