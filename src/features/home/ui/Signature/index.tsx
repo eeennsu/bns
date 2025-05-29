@@ -7,7 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@shadcn-ui/ui/carousel';
+} from '@shadcn-ui/ui';
 
 import SignatureCard from './SignatureCard';
 

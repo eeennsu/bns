@@ -3,13 +3,7 @@
 import { X } from 'lucide-react';
 import { useState, type FC, type PropsWithChildren } from 'react';
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@shadcn-ui/ui/drawer';
+import { Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger } from '@shadcn-ui/ui';
 
 import { NANUM_GOTHIC } from '@consts/font';
 import { MAIN_MENU_LIST } from '@consts/nav';

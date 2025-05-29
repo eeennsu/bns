@@ -1,8 +1,7 @@
 import type { FC, HTMLAttributes, InputHTMLAttributes } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 
-import { FormControl, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui/form';
-import { Input } from '@shadcn-ui/ui/input';
+import { FormControl, FormItem, FormLabel, FormMessage, Input } from '@shadcn-ui/ui';
 
 interface IProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;

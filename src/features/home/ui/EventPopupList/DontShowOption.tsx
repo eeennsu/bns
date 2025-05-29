@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Checkbox } from '@shadcn-ui/ui/checkbox';
+import { Checkbox } from '@shadcn-ui/ui';
 
 interface Props {
   checked: boolean;

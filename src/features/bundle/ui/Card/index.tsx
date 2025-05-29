@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
-import { Badge } from '@shadcn-ui/ui/badge';
-import { Card, CardContent } from '@shadcn-ui/ui/card';
+import { Card, CardContent, Badge } from '@shadcn-ui/ui';
 
 export interface BakerySetItem {
   id: string;

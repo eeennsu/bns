@@ -1,7 +1,7 @@
 import { Fan, LogOut } from 'lucide-react';
 import type { FC } from 'react';
 
-import { Button } from '@shadcn-ui/ui/button';
+import { Button } from '@shadcn-ui/ui';
 
 import useAuthHealthCheck from '@features/auth/hooks/useHealthCheck';
 import useLogout from '@features/auth/hooks/useLogout';

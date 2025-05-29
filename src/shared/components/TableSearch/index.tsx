@@ -1,10 +1,7 @@
 import type { FC } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { Badge } from '@shadcn-ui/ui/badge';
-import { Button } from '@shadcn-ui/ui/button';
-import { Form, FormControl, FormField, FormItem } from '@shadcn-ui/ui/form';
-import { Input } from '@shadcn-ui/ui/input';
+import { Form, FormControl, FormField, FormItem, Badge, Button, Input } from '@shadcn-ui/ui';
 
 import { SearchFormDto } from '@typings/commons';
 
@@ -31,7 +28,12 @@ const TableSearch: FC<IProps> = ({ total, form, onSubmit, placeholder }) => {
             render={({ field }) => (
               <FormItem className='flex w-full justify-end'>
                 <FormControl>
-                  <Input type='text' className='max-w-80' placeholder={placeholder} {...field} />
+                  <Input
+                    type='text'
+                    className='max-w-70 !text-xs placeholder:!text-xs'
+                    placeholder={placeholder || '키워드를 입력해주세요.'}
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}

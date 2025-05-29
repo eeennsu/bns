@@ -9,7 +9,7 @@ import {
   PaginationPrevious,
   PaginationContent,
   PaginationItem,
-} from '@shadcn-ui/ui/pagination';
+} from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 import usePagination from '@hooks/usePagination';

@@ -3,7 +3,7 @@
 import { Calendar } from 'lucide-react';
 import type { FC } from 'react';
 
-import { Button } from '@shadcn-ui/ui/button';
+import { Button } from '@shadcn-ui/ui';
 
 import useEventPopupStore from '@stores/eventPopup';
 

@@ -15,7 +15,7 @@ const FoldingButton: FC = () => {
   return (
     <div
       className={cn(
-        'absolute top-4 z-30 transition-all duration-300',
+        'fixed top-4 z-30 transition-all duration-300',
         isSidebarOpen ? 'left-52' : 'left-0',
       )}
     >

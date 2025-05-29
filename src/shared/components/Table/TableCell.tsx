@@ -1,6 +1,6 @@
 import type { ComponentProps, FC, PropsWithChildren } from 'react';
 
-import { TableCell as ShadcnTd } from '@shadcn-ui/ui/table';
+import { TableCell as ShadcnTd } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 interface IProps extends ComponentProps<typeof ShadcnTd> {

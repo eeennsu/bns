@@ -173,3 +173,7 @@
   opacity: 0;
   animation: fade-slide-down 1.5s ease-out forwards;
 }
+
+.required {
+  color: #ff0000;
+}

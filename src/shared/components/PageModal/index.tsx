@@ -4,7 +4,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FC, type PropsWithChildren } from 'react';
 
-import { Dialog, DialogContent, DialogOverlay, DialogTitle } from '@shadcn-ui/ui/dialog';
+import { Dialog, DialogContent, DialogOverlay, DialogTitle } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 interface IProps {

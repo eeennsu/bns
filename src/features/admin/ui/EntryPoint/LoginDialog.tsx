@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import { DialogContent, DialogHeader, DialogTitle } from '@shadcn-ui/ui/dialog';
+import { DialogContent, DialogHeader, DialogTitle } from '@shadcn-ui/ui';
 
 import useLogin from '@features/auth/hooks/useLogin';
 

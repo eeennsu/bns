@@ -1,13 +1,7 @@
 import { CircleCheckBig, X } from 'lucide-react';
 import type { ReactNode, SyntheticEvent } from 'react';
 
-import {
-  Table as ShadcnTable,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@shadcn-ui/ui/table';
+import { Table as ShadcnTable, TableBody, TableHead, TableHeader, TableRow } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 import { ITableDefaultItem } from '@typings/commons';

@@ -10,7 +10,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from '@shadcn-ui/ui/navigation-menu';
+} from '@shadcn-ui/ui';
 
 import { SubMenu } from '@typings/commons';
 

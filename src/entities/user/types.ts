@@ -8,5 +8,5 @@ export interface IUserRole {
 }
 
 export interface IMe extends IUserRole {
-  isLogin: boolean;
+  authorization: string
 }

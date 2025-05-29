@@ -3,8 +3,7 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
-import { Button } from '@shadcn-ui/ui/button';
-import { DialogContent, DialogFooter, DialogTitle } from '@shadcn-ui/ui/dialog';
+import { DialogContent, DialogFooter, DialogTitle, Button } from '@shadcn-ui/ui';
 
 import useLogout from '@features/auth/hooks/useLogout';
 

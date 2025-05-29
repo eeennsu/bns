@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { AnchorHTMLAttributes, ComponentProps, FC, PropsWithChildren } from 'react';
 
-import { Button } from '@shadcn-ui/ui/button';
+import { Button } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 interface IProps extends ComponentProps<typeof Button> {

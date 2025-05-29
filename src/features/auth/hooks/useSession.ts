@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 
-import apiSession from '../apis/session';
 import { AUTH_KEYS } from '@entities/auth/consts';
+
+import apiSession from '../apis/session';
 
 interface IParams {
   enabled?: boolean;
 }
 
-const useSession = ({ enabled = true }: IParams) => {
+const useSession = ({ enabled = true }: IParams = {}) => {
   const {
     data: session,
     isLoading,

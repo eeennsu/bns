@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
-import { Button } from '@shadcn-ui/ui/button';
+import { Button } from '@shadcn-ui/ui';
 
 const NotFoundPage: FC = () => {
   return (

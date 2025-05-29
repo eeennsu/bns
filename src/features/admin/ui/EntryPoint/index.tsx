@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import { Dialog } from '@shadcn-ui/ui/dialog';
+import { Dialog } from '@shadcn-ui/ui';
 
 import AdminDialog from './AdminDialog';
 import LoginDialog from './LoginDialog';

@@ -66,7 +66,9 @@ const Footer: FC = () => {
         </div>
       </footer>
 
-      {count > 2 && <AdminEntryPoint onCloseModal={() => setCount(0)} isLogin={session?.isLogin} />}
+      {count > 2 && (
+        <AdminEntryPoint onCloseModal={() => setCount(0)} isLogin={!!session?.authorization} />
+      )}
     </>
   );
 };
