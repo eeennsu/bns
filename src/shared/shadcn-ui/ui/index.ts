@@ -17,3 +17,4 @@ export * from './switch';
 export * from './table';
 export * from './form';
 export * from './switch';
+export * from './textarea';

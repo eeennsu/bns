@@ -1,4 +1,5 @@
 import { IMe } from '@entities/user/types';
+
 import axiosAdmin from '@utils/axios/utilAdminInstance';
 
 const apiSession = async () => {

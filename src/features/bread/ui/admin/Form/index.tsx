@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
+import { Button, Form } from '@shadcn-ui/ui';
+
 import { BreadFormDto } from '@entities/bread/types';
-import { Form } from '@shadcn-ui/ui';
 
 interface IProps {
   form: UseFormReturn<BreadFormDto>;
@@ -16,7 +17,13 @@ const BreadForm: FC<IProps> = ({ submitProps, form }) => {
   console.log('submitProps', submitProps);
   return (
     <Form {...form}>
-      <form onSubmit={e => e.stopPropagation()}></form>
+      <form onSubmit={e => e.stopPropagation()}>
+        <div className='flex justify-end gap-4'>
+          <Button type='button' onClick={submitProps.onSubmit}>
+            {submitProps.label}
+          </Button>
+        </div>
+      </form>
     </Form>
   );
 };

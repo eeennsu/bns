@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { FC } from 'react';
 
-import { IAdminMenuRoute } from '@typings/commons';
 import { cn } from '@shadcn-ui/utils';
+
+import { IAdminMenuRoute } from '@typings/commons';
 
 interface IProps {
   isActive: boolean;
@@ -17,7 +18,7 @@ const GroupMenuItem: FC<IProps> = ({ isActive, group }) => {
   return (
     <div className='space-y-1'>
       <Link
-        href={group[0]?.path || ''} 
+        href={group[0]?.path || ''}
         className={cn(
           'flex items-center justify-between rounded-md px-2.5 py-1.5 text-[14px] font-medium transition-colors',
           isActive ? 'bg-sky-100/80 text-sky-700' : 'text-neutral-700 hover:bg-neutral-100',
