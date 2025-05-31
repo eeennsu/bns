@@ -17,11 +17,12 @@ export const ourFileRouter = {
 
       if (!user) throw new UploadThingError('Unauthorized');
 
-      return null;
+      return { userId: user.id };
+    })
+    .onUploadError(async res => {
+      console.log('file error', res);
     })
     .onUploadComplete(async ({ file }) => {
-      console.log('file url', file.ufsUrl);
-
       return { url: file.ufsUrl };
     }),
 } satisfies FileRouter;

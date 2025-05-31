@@ -10,13 +10,15 @@ import usePreventRefresh from '@hooks/usePreventRefresh';
 import PageContainer from '@components/PageContainer';
 
 const AdminBreadCreatePage: FC = () => {
-  const { form, onSubmit } = useCreateBreadForm();
+  const { form, onSubmit, files, setFiles } = useCreateBreadForm();
   usePreventRefresh();
 
   return (
     <PageContainer>
       <BreadForm
         form={form}
+        files={files}
+        setFiles={setFiles}
         submitProps={{
           label: '생성',
           onSubmit,

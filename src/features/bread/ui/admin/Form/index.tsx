@@ -7,6 +7,8 @@ import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { BreadFormDto } from '@entities/bread/types';
 
+import { ImageFile } from '@typings/commons';
+
 import { MBTI_TYPE } from '@consts/brand';
 
 import SharedFormFieldRender from '@components/FormFieldRender';
@@ -17,13 +19,15 @@ import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
 interface IProps {
   form: UseFormReturn<BreadFormDto>;
+  files: ImageFile[];
+  setFiles: React.Dispatch<React.SetStateAction<ImageFile[]>>;
   submitProps: {
     label: string;
     onSubmit: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
   };
 }
 
-const BreadForm: FC<IProps> = ({ submitProps, form }) => {
+const BreadForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
   return (
     <Form {...form}>
       <form onSubmit={e => e.stopPropagation()}>
@@ -107,7 +111,14 @@ const BreadForm: FC<IProps> = ({ submitProps, form }) => {
             name='imageFiles'
             control={form.control}
             render={({ field }) => (
-              <SharedImageFormFieldRender label='이미지' field={field} isRequired />
+              <SharedImageFormFieldRender
+                files={files}
+                setFiles={setFiles}
+                label='이미지'
+                desc='빵 사진은 최대 한개까지 업로드 가능합니다.'
+                field={field}
+                isRequired
+              />
             )}
           />
 

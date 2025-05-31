@@ -1,13 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { uploadFiles } from '@libs/uploadImage';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { BreadFormDtoSchema } from '@entities/bread/contracts';
 import { BreadFormDto } from '@entities/bread/types';
 
+import useImageFiles from '@hooks/useImageFiles';
+
 import apiCreateVersion from '../apis/create';
 
 const useCreateBreadForm = () => {
+  const { files, setFiles } = useImageFiles();
+
   const form = useForm<BreadFormDto>({
     resolver: zodResolver(BreadFormDtoSchema),
     defaultValues: {
@@ -18,6 +23,7 @@ const useCreateBreadForm = () => {
       isSigniture: false,
       mbti: '',
       sortOrder: '',
+      imageFiles: [],
     },
   });
 
@@ -26,12 +32,19 @@ const useCreateBreadForm = () => {
     mutationFn: apiCreateVersion,
   });
 
-  const onSubmit = form.handleSubmit((data: BreadFormDto) => {
-    console.log(data);
+  const onSubmit = form.handleSubmit(async (data: BreadFormDto) => {
+    console.log('data', data);
+    const response = await uploadFiles('imageUploader', {
+      files,
+      onUploadBegin: () => {
+        console.log('onUploadBegin');
+      },
+    });
     createBread({ ...data });
+    console.log(response);
   });
 
-  return { form, onSubmit };
+  return { form, onSubmit, files, setFiles };
 };
 
 export default useCreateBreadForm;
