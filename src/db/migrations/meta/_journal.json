@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1747828264497,
-      "tag": "0000_rapid_supernaut",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1747829054563,
-      "tag": "0001_youthful_sumo",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1748061490603,
-      "tag": "0002_optimal_rawhide_kid",
+      "when": 1748678661093,
+      "tag": "0000_easy_malice",
       "breakpoints": true
     }
   ]

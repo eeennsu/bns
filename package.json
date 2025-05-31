@@ -12,7 +12,8 @@
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx ./src/db/configs/migrate.ts",
-    "db:push": "pnpm drizzle-kit push"
+    "db:push": "pnpm drizzle-kit push",
+    "db:pull": "pnpm drizzle-kit pull"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

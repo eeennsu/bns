@@ -1,1 +1,0 @@
-ALTER TABLE "admins" ALTER COLUMN "username" SET DATA TYPE varchar(18);

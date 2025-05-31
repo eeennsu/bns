@@ -1,16 +1,8 @@
-CREATE TABLE "admins" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"username" varchar(20) NOT NULL,
-	"password" varchar(255) NOT NULL,
-	"last_logged_at" timestamp with time zone,
-	CONSTRAINT "admins_username_unique" UNIQUE("username")
-);
---> statement-breakpoint
 CREATE TABLE "breads" (
 	"id" integer PRIMARY KEY NOT NULL,
 	"name" varchar(64) NOT NULL,
-	"description" varchar(256) NOT NULL,
-	"image" varchar(256) NOT NULL,
+	"description" varchar(1000) NOT NULL,
+	"image" varchar(2048) NOT NULL,
 	"price" integer NOT NULL,
 	"mbti" varchar(4) NOT NULL,
 	"is_signature" boolean DEFAULT false NOT NULL,
@@ -45,8 +37,8 @@ CREATE TABLE "bundle_sauces" (
 CREATE TABLE "bundles" (
 	"id" integer PRIMARY KEY NOT NULL,
 	"name" varchar(64) NOT NULL,
-	"description" varchar(256) NOT NULL,
-	"image" varchar(256),
+	"description" varchar(1000) NOT NULL,
+	"image" varchar(2048),
 	"price" integer NOT NULL,
 	"discounted_price" integer,
 	"sort_order" integer DEFAULT 1 NOT NULL,
@@ -59,8 +51,8 @@ CREATE TABLE "bundles" (
 CREATE TABLE "events" (
 	"id" integer PRIMARY KEY NOT NULL,
 	"name" varchar(64) NOT NULL,
-	"description" varchar(256) NOT NULL,
-	"image" varchar(256),
+	"description" varchar(1000) NOT NULL,
+	"image" varchar(2048),
 	"start_date" timestamp NOT NULL,
 	"end_date" timestamp NOT NULL,
 	"sort_order" integer DEFAULT 1 NOT NULL,
@@ -73,8 +65,8 @@ CREATE TABLE "events" (
 CREATE TABLE "sauces" (
 	"id" integer PRIMARY KEY NOT NULL,
 	"name" varchar(64) NOT NULL,
-	"description" varchar(256) NOT NULL,
-	"image" varchar(256) NOT NULL,
+	"description" varchar(1000) NOT NULL,
+	"image" varchar(2048) NOT NULL,
 	"price" integer NOT NULL,
 	"is_signature" boolean DEFAULT false NOT NULL,
 	"is_new" boolean DEFAULT false NOT NULL,
@@ -85,6 +77,16 @@ CREATE TABLE "sauces" (
 	"deleted_at" timestamp DEFAULT null,
 	CONSTRAINT "sauces_name_idx" UNIQUE("name"),
 	CONSTRAINT "sauces_price_idx" UNIQUE("price")
+);
+--> statement-breakpoint
+CREATE TABLE "users" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"username" varchar(18) NOT NULL,
+	"password" varchar(255) NOT NULL,
+	"last_logged_at" timestamp with time zone,
+	"role" varchar NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "users_username_unique" UNIQUE("username")
 );
 --> statement-breakpoint
 ALTER TABLE "bundle_breads" ADD CONSTRAINT "bundle_breads_bundle_id_bundles_id_fk" FOREIGN KEY ("bundle_id") REFERENCES "public"."bundles"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint

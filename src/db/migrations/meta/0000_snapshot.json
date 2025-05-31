@@ -1,55 +1,9 @@
 {
-  "id": "ae12fafe-7f93-4971-ab74-4e1d6bd78679",
+  "id": "b99e35de-fbf0-4131-9c4f-009af65c5556",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.admins": {
-      "name": "admins",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "username": {
-          "name": "username",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "password": {
-          "name": "password",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "last_logged_at": {
-          "name": "last_logged_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "admins_username_unique": {
-          "name": "admins_username_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "username"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.breads": {
       "name": "breads",
       "schema": "",
@@ -68,13 +22,13 @@
         },
         "description": {
           "name": "description",
-          "type": "varchar(256)",
+          "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": true
         },
         "image": {
           "name": "image",
-          "type": "varchar(256)",
+          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": true
         },
@@ -448,13 +402,13 @@
         },
         "description": {
           "name": "description",
-          "type": "varchar(256)",
+          "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": true
         },
         "image": {
           "name": "image",
-          "type": "varchar(256)",
+          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": false
         },
@@ -548,13 +502,13 @@
         },
         "description": {
           "name": "description",
-          "type": "varchar(256)",
+          "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": true
         },
         "image": {
           "name": "image",
-          "type": "varchar(256)",
+          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": false
         },
@@ -663,13 +617,13 @@
         },
         "description": {
           "name": "description",
-          "type": "varchar(256)",
+          "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": true
         },
         "image": {
           "name": "image",
-          "type": "varchar(256)",
+          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": true
         },
@@ -745,6 +699,65 @@
           "nullsNotDistinct": false,
           "columns": [
             "price"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(18)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_logged_at": {
+          "name": "last_logged_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_username_unique": {
+          "name": "users_username_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "username"
           ]
         }
       },
