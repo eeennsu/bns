@@ -1,16 +1,16 @@
 import { relations } from 'drizzle-orm';
 import { pgTable, varchar, integer, index, boolean } from 'drizzle-orm/pg-core';
 
-import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, VARCHAR_LENGTH } from '../consts/commons';
+import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, STRING_LENGTH } from '../consts/commons';
 import { bundleBreads } from './bundles';
 
 export const breads = pgTable(
   'breads',
   {
     id: integer('id').primaryKey(),
-    name: varchar('name', { length: VARCHAR_LENGTH.NAME }).notNull(),
-    description: varchar('description', { length: VARCHAR_LENGTH.DESCRIPTION }).notNull(),
-    image: varchar('image', { length: VARCHAR_LENGTH.IMAGE }).notNull(),
+    name: varchar('name', { length: STRING_LENGTH.NAME }).notNull(),
+    description: varchar('description', { length: STRING_LENGTH.DESCRIPTION }).notNull(),
+    image: varchar('image', { length: STRING_LENGTH.IMAGE }).notNull(),
     price: integer('price').notNull(),
     mbti: varchar('mbti', { length: 4 }).notNull(),
     isSignature: boolean('is_signature').notNull().default(false),

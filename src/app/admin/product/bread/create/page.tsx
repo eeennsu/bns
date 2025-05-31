@@ -1,7 +1,29 @@
+'use client';
+
 import type { FC } from 'react';
 
+import useCreateBreadForm from '@features/bread/hooks/useCreateBreadForm';
+import BreadForm from '@features/bread/ui/admin/Form';
+
+import usePreventRefresh from '@hooks/usePreventRefresh';
+
+import PageContainer from '@components/PageContainer';
+
 const AdminBreadCreatePage: FC = () => {
-  return <div></div>;
+  const { form, onSubmit } = useCreateBreadForm();
+  usePreventRefresh();
+
+  return (
+    <PageContainer>
+      <BreadForm
+        form={form}
+        submitProps={{
+          label: '생성',
+          onSubmit,
+        }}
+      />
+    </PageContainer>
+  );
 };
 
 export default AdminBreadCreatePage;

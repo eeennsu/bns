@@ -5,6 +5,7 @@ export const NANUM_GOTHIC = Nanum_Gothic({
   display: 'swap',
   variable: '--font-nanum-gothic',
   weight: ['400', '700'],
+  preload: false,
 });
 
 export const OPEN_SANS = Open_Sans({
@@ -12,6 +13,7 @@ export const OPEN_SANS = Open_Sans({
   display: 'swap',
   variable: '--font-open-sans',
   weight: ['400', '700'],
+  preload: false,
 });
 
 export const NUNITO = Nunito({
@@ -19,6 +21,7 @@ export const NUNITO = Nunito({
   weight: ['400', '700'],
   variable: '--font-nunito',
   display: 'swap',
+  preload: false,
 });
 
 export const BALOO_2 = Baloo_2({
@@ -26,6 +29,7 @@ export const BALOO_2 = Baloo_2({
   weight: ['400', '700'],
   variable: '--font-baloo-2',
   display: 'swap',
+  preload: false,
 });
 
 export const GOWUN_DODUM = Gowun_Dodum({
@@ -33,4 +37,5 @@ export const GOWUN_DODUM = Gowun_Dodum({
   weight: ['400'],
   variable: '--font-gowun-dodum',
   display: 'swap',
+  preload: false,
 });

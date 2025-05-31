@@ -15,12 +15,16 @@ const usePreventRefresh = ({
   };
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') return;
+
     window.addEventListener('beforeunload', preventClose);
 
     return () => {
       window.removeEventListener('beforeunload', preventClose);
     };
-  }, [message]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };
 
 export default usePreventRefresh;

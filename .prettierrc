@@ -13,6 +13,7 @@
     "lodash",
     "<THIRD_PARTY_MODULES>",
     "^@shadcn-ui/(.*)$",
+    "^@app/(.*)$",
     "^@pages/(.*)$",
     "^@widgets/(.*)$",
     "^@features/(.*)$",

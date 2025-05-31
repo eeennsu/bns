@@ -28,7 +28,7 @@ const SharedSelectFormFieldRender = <TName extends string>({
       ) : null}
       <Select onValueChange={field.onChange} value={field.value} {...restProps}>
         <FormControl>
-          <SelectTrigger data-testid={`${field.name}-select`}>
+          <SelectTrigger className='w-full'>
             <SelectValue placeholder={`${label}선택`} />
           </SelectTrigger>
         </FormControl>

@@ -1,6 +1,6 @@
-import type { FC } from 'react';
+'use client';
 
-import BreadForm from '@features/bread/ui/admin/Form';
+import type { FC } from 'react';
 
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
@@ -8,11 +8,7 @@ import PageContainer from '@components/PageContainer';
 
 const AdminBundleCreatePage: FC = () => {
   usePreventRefresh();
-  return (
-    <PageContainer>
-      <BreadForm />
-    </PageContainer>
-  );
+  return <PageContainer></PageContainer>;
 };
 
 export default AdminBundleCreatePage;

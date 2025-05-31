@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import type { FC, PropsWithChildren } from 'react';
+import { Suspense, type FC, type PropsWithChildren } from 'react';
 
 import { cn } from '@shadcn-ui/utils';
 
@@ -13,20 +13,22 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
   const pageName = getAdminPageName(pathname);
 
   return (
-    <main
-      className={cn(
-        'flex min-h-screen w-full flex-col bg-slate-100 transition-all duration-300 ease-in-out',
-        isSidebarOpen ? 'ml-56' : 'ml-0',
-      )}
-    >
-      {pageName && (
-        <div className='bg-primary z-10 w-full rounded-b-3xl px-7 py-6 text-white shadow-md'>
-          <h2 className='ml-6 font-bold tracking-tight'>{pageName}</h2>
-        </div>
-      )}
+    <Suspense fallback={<div className='flex min-h-screen items-center justify-center'>...</div>}>
+      <main
+        className={cn(
+          'flex min-h-screen w-full flex-col bg-slate-100 transition-all duration-300 ease-in-out',
+          isSidebarOpen ? 'ml-56' : 'ml-0',
+        )}
+      >
+        {pageName && (
+          <div className='bg-primary z-10 w-full rounded-b-3xl px-7 py-6 text-white shadow-md'>
+            <h2 className='ml-6 font-bold tracking-tight'>{pageName}</h2>
+          </div>
+        )}
 
-      <div className='flex w-full flex-1 flex-col px-14 pt-8'>{children}</div>
-    </main>
+        <div className='flex w-full flex-1 flex-col px-18 pt-12'>{children}</div>
+      </main>
+    </Suspense>
   );
 };
 

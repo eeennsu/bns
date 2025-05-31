@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { pgTable, varchar, integer, index, unique } from 'drizzle-orm/pg-core';
 
-import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, VARCHAR_LENGTH } from '../consts/commons';
+import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, STRING_LENGTH } from '../consts/commons';
 import { breads } from './breads';
 import { sauces } from './sauces';
 
@@ -9,9 +9,9 @@ export const bundles = pgTable(
   'bundles',
   {
     id: integer('id').primaryKey(),
-    name: varchar('name', { length: VARCHAR_LENGTH.NAME }).notNull(),
-    description: varchar('description', { length: VARCHAR_LENGTH.DESCRIPTION }).notNull(),
-    image: varchar('image', { length: VARCHAR_LENGTH.IMAGE }),
+    name: varchar('name', { length: STRING_LENGTH.NAME }).notNull(),
+    description: varchar('description', { length: STRING_LENGTH.DESCRIPTION }).notNull(),
+    image: varchar('image', { length: STRING_LENGTH.IMAGE }),
     price: integer('price').notNull(),
     discountedPrice: integer('discounted_price'),
     sortOrder: SORT_ORDER_COLUMN,

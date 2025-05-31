@@ -1,6 +1,6 @@
 import type { ControllerRenderProps } from 'react-hook-form';
 
-import { FormControl, FormItem, FormLabel, FormMessage, Switch } from '@shadcn-ui/ui';
+import { Switch, FormControl, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
 
 interface IProps<TName extends string> {
   field: ControllerRenderProps<any, TName>;
@@ -28,6 +28,7 @@ const SharedSwitchFormFieldRender = <TName extends string>({
           checked={field.value}
           onCheckedChange={field.onChange}
           disabled={disabled}
+          data-testid={`${field.name}-switch`}
           {...restProps}
         />
       </FormControl>

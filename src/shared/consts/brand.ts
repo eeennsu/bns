@@ -61,3 +61,22 @@ export const SNS_INFO = {
     IMAGE_URL: UtilLocalImage.IMAGES.SNS.KAKAO,
   },
 } as const;
+
+export const MBTI_TYPE: string[] = [
+  'ISTJ',
+  'ISFJ',
+  'INFJ',
+  'INTJ',
+  'ISTP',
+  'ISFP',
+  'INFP',
+  'INTP',
+  'ESTP',
+  'ESFP',
+  'ENFP',
+  'ENTP',
+  'ESTJ',
+  'ESFJ',
+  'ENFJ',
+  'ENTJ',
+] as const;

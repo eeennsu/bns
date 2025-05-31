@@ -10,10 +10,10 @@ export const AUDIT_COLUMNS = {
   deletedAt: timestamp('deleted_at').default(null),
 };
 
-export const VARCHAR_LENGTH = {
+export const STRING_LENGTH = {
   NAME: 64,
-  DESCRIPTION: 256,
-  IMAGE: 256,
+  DESCRIPTION: 1000,
+  IMAGE: 2048,
 };
 
 export const SORT_ORDER_COLUMN = integer('sort_order').notNull().default(1);
