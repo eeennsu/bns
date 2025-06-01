@@ -14,7 +14,7 @@ interface IProps<T extends ITableDefaultItem> {
   items: T[];
   showItems: Array<keyof T>;
   renderItemProps?: Array<{
-    itemKey: string;
+    itemKey: keyof T;
     children: (item: T) => ReactNode;
   }>;
   isLoading?: boolean;
@@ -72,11 +72,13 @@ const Table = <T extends ITableDefaultItem>({
     if (typeof cellValue === 'boolean') {
       return (
         <TableCell key={itemKey}>
-          {cellValue === true ? (
-            <CircleCheckBig className='text-green-500' />
-          ) : (
-            <X className='text-red-500' />
-          )}
+          <div className='flex items-center justify-center'>
+            {cellValue === true ? (
+              <CircleCheckBig className='text-green-500' size={16} />
+            ) : (
+              <X className='text-red-500' size={16} />
+            )}
+          </div>
         </TableCell>
       );
     }
@@ -110,7 +112,7 @@ const Table = <T extends ITableDefaultItem>({
           {headers.map(header => (
             <TableHead
               key={header}
-              className='max-w-20 bg-gray-50 px-6 py-4 text-xs font-semibold tracking-wider break-words whitespace-normal text-gray-600 uppercase'
+              className='max-w-20 bg-gray-50 px-6 py-4 text-center text-xs font-semibold tracking-wider break-words whitespace-normal text-gray-600 uppercase'
             >
               {header}
             </TableHead>

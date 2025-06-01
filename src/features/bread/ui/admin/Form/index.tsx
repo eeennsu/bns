@@ -138,6 +138,14 @@ const BreadForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
                 <SharedSwitchFormFieldRender label='시그니처 여부' field={field} />
               )}
             />
+
+            <FormField
+              name='isHidden'
+              control={form.control}
+              render={({ field }) => (
+                <SharedSwitchFormFieldRender label='숨김 여부' field={field} />
+              )}
+            />
           </div>
         </section>
       </form>

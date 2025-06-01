@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
-import { Button } from '@shadcn-ui/ui';
+import { Badge, Button } from '@shadcn-ui/ui';
 
 import ListPageContainer from '@widgets/admin/Containers/ListPageContainer';
 
@@ -43,17 +43,23 @@ const AdminBreadListPage: FC = () => {
         placeholder='빵 이름을 입력해주세요'
       />
       <Table<IBreadItem>
-        headers={['순서', '빵 이름', '가격', 'MBTI']}
+        headers={['순서', '이름', '가격', 'MBTI', '시그니처 여부', '신메뉴 여부', '활성화 여부']}
         items={DummyBreads}
-        showItems={['sortOrder', 'name', 'price', 'mbti']}
+        showItems={['sortOrder', 'name', 'price', 'mbti', 'isSignature', 'isNew', 'isHidden']}
         onClickItem={onClickModifyBread}
+        renderItemProps={[
+          {
+            itemKey: 'mbti',
+            children: item => <Badge variant='secondary'>{item.mbti}</Badge>,
+          },
+        ]}
       />
 
       <AdminPagination {...paginationData} />
       <BottomRightWrapper>
         <Button onClick={onClickCreateBread}>
-          <Plus />
           신규 등록
+          <Plus />
         </Button>
       </BottomRightWrapper>
     </ListPageContainer>
@@ -72,4 +78,9 @@ const DummyBreads: IBreadItem[] = Array.from({ length: 10 }, (_, index) => ({
   isSigniture: true,
   isNew: true,
   sortOrder: index + 1,
+  createdAt: new Date('2025-04-03'),
+  updatedAt: new Date('2025-04-03'),
+  deletedAt: null,
+  isHidden: !false,
+  isSignature: true,
 }));

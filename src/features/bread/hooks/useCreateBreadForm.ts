@@ -36,6 +36,7 @@ const useCreateBreadForm = () => {
       price: '',
       isNew: false,
       isSigniture: false,
+      isHidden: false,
       mbti: '',
       sortOrder: '',
       imageFiles: [],
