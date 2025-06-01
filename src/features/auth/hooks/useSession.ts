@@ -13,6 +13,7 @@ const useSession = ({ enabled = true }: IParams = {}) => {
     data: session,
     isLoading,
     status,
+    error,
   } = useQuery({
     queryKey: [AUTH_KEYS.SESSION],
     queryFn: apiSession,
@@ -25,6 +26,7 @@ const useSession = ({ enabled = true }: IParams = {}) => {
     session,
     isLoading,
     status,
+    error,
   };
 };
 

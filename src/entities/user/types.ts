@@ -7,6 +7,4 @@ export interface IUserRole {
   role: UserRole;
 }
 
-export interface IMe extends IUserRole {
-  authorization: string | null;
-}
+export interface IMe extends Pick<User, 'id' | 'username' | 'role'> {}

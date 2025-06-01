@@ -1,8 +1,8 @@
-import { IUserRole } from '@entities/user/types';
+import { IMe } from '@entities/user/types';
 
 import axiosAdmin from '@utils/axios/utilAdminInstance';
 
-interface IResponse extends IUserRole {
+interface IResponse extends IMe {
   ok: boolean;
 }
 

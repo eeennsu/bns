@@ -1,7 +1,7 @@
 import { boolean, integer, timestamp } from 'drizzle-orm/pg-core';
 
 export const AUDIT_COLUMNS = {
-  isActive: boolean('is_active').default(true).notNull(),
+  isHidden: boolean('is_active').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()

@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import { boolean, integer, pgTable, unique, varchar } from 'drizzle-orm/pg-core';
 
 import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, STRING_LENGTH } from '../consts/commons';
@@ -20,6 +21,8 @@ export const sauces = pgTable(
     priceIndex: unique('sauces_price_idx').on(sauce.price),
   }),
 );
+
+export const saucesRelations = relations(sauces, () => ({}));
 
 // 소스별 빵 추천 목록은 보류. 사장님 의견 듣기
 // export const sauceBreadRecommendations = pgTable(

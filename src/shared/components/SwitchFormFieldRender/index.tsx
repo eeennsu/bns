@@ -18,13 +18,13 @@ const SharedSwitchFormFieldRender = <TName extends string>({
   return (
     <FormItem className='flex items-center gap-2 py-2'>
       {label ? (
-        <FormLabel className='!mt-0'>
+        <FormLabel className='!mt-0 cursor-pointer'>
           {label} {isRequired ? <strong className='required'>*</strong> : ''}
         </FormLabel>
       ) : null}
       <FormControl>
         <Switch
-          className='!mt-0'
+          className='!mt-0 cursor-pointer'
           checked={field.value}
           onCheckedChange={field.onChange}
           disabled={disabled}

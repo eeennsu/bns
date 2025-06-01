@@ -8,10 +8,10 @@ import { IMe } from '@entities/user/types';
 
 import { verifyToken } from './auth';
 import { TOKEN_TYPE } from './consts';
-import { ITokenPayload } from './typings';
 
 const DEFAULT_AUTH_CONTEXT: IMe = {
-  authorization: null,
+  id: '',
+  username: '',
   role: 'user',
 };
 
@@ -22,19 +22,18 @@ export const getServerSession = async (): Promise<IMe> => {
 
   try {
     if (accessToken) {
-      const user = verifyToken(accessToken) as ITokenPayload;
-      return { authorization: accessToken, role: user.role };
+      const user = verifyToken(accessToken) as IMe;
+      return user;
     }
 
-    if (refreshToken) {
+    if (refreshToken && !accessToken) {
       const user = await apiRefresh();
-      const cookieStore = await cookies();
-      const newAccessToken = cookieStore.get(TOKEN_TYPE.ACCESS)?.value;
-      return { authorization: newAccessToken, role: user.role };
+      return user;
     }
 
     return DEFAULT_AUTH_CONTEXT;
-  } catch {
-    return DEFAULT_AUTH_CONTEXT;
+  } catch (error) {
+    console.error('getServerSession error : ', error);
+    throw error;
   }
 };

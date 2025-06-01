@@ -6,12 +6,13 @@ const SonnerToaster: FC = () => {
     <Toaster
       toastOptions={{
         classNames: {
-          toast: 'border shadow-xl rounded-xl text-sm font-medium px-4 py-3', // 공통 스타일
+          toast: 'border shadow-xl rounded-xl text-sm font-medium px-4 py-3 !min-w-fit',
+          content: 'whitespace-nowrap !min-w-fit',
           title: 'font-semibold',
           description: 'text-sm opacity-80',
           success: '!bg-emerald-500 !text-white border-emerald-600',
           error: '!bg-red-500 !text-white border-rose-600',
-          warning: '!bg-amber-400 !text-white border-amber-500',
+          warning: '!bg-amber-400 !text-amber-900 border-amber-500',
           info: '!bg-sky-500 !text-white border-sky-600',
         },
         duration: 4000,

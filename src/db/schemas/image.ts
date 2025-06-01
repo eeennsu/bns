@@ -9,7 +9,7 @@ export const images = pgTable('images', {
 
 export const imageReferences = pgTable('image_references', {
   id: integer('id').primaryKey(),
-  imageId: integer('image_id').notNull().unique(),
+  imageId: integer('image_id').notNull(),
   refTable: varchar('ref_table', { length: 50 }).notNull(),
   refId: integer('ref_id').notNull(),
   order: integer('order').notNull(),

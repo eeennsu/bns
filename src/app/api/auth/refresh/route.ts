@@ -27,7 +27,12 @@ export const POST = async (request: NextRequest) => {
       TOKEN_TYPE.ACCESS,
     );
 
-    const response = NextResponse.json({ ok: true, role: payload.role });
+    const response = NextResponse.json({
+      ok: true,
+      id: payload.id,
+      username: payload.username,
+      role: payload.role,
+    });
     setAccessTokenCookie(response, accessToken);
 
     return response;

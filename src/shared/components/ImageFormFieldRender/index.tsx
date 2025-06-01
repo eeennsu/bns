@@ -2,11 +2,14 @@ import { useDropzone } from '@uploadthing/react';
 import { UploadCloud, X } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 import { ImageFile } from '@typings/commons';
+
+import { FILE_UPLOAD_TOAST_MESSAGES } from '@consts/commons';
 
 interface IProps<TName extends string> {
   files: ImageFile[];
@@ -36,13 +39,18 @@ const SharedImageFormFieldRender = <TName extends string>({
   maxFiles = 1,
 }: IProps<TName>) => {
   const onDrop = (acceptedFiles: File[]) => {
-    const restored = acceptedFiles.map((file: File) => {
+    if (files.length >= maxFiles) {
+      toast.warning(FILE_UPLOAD_TOAST_MESSAGES.MAX_COUNT_EXCEEDED);
+      return;
+    }
+
+    const restoredFiles = acceptedFiles.map((file: File) => {
       return Object.assign(file, {
         preview: URL.createObjectURL(file),
       });
     });
 
-    setFiles(prev => (multiple ? [...prev, ...restored] : restored));
+    setFiles(prev => (multiple ? [...prev, ...restoredFiles] : restoredFiles));
     field.onChange(multiple ? [...files, ...acceptedFiles] : acceptedFiles);
   };
 
@@ -66,7 +74,9 @@ const SharedImageFormFieldRender = <TName extends string>({
     <FormItem>
       <FormLabel className='block'>
         {label} {isRequired ? <strong className='required'>*</strong> : ''}
-        {desc && <FormDescription className='text-xs text-blue-600'>{desc}</FormDescription>}
+        {desc && (
+          <FormDescription className='mt-px text-[10px] text-blue-600'>{desc}</FormDescription>
+        )}
       </FormLabel>
 
       <FormControl className='min-w-full'>

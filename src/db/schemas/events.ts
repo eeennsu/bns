@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import { pgTable, varchar, timestamp, integer, index } from 'drizzle-orm/pg-core';
 
 import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, STRING_LENGTH } from '../consts/commons';
@@ -19,3 +20,5 @@ export const events = pgTable(
     endDateIndex: index('events_end_date_idx').on(event.endDate),
   }),
 );
+
+export const eventRelations = relations(events, () => ({}));

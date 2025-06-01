@@ -115,7 +115,7 @@ const BreadForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
                 files={files}
                 setFiles={setFiles}
                 label='이미지'
-                desc='빵 사진은 최대 한개까지 업로드 가능합니다.'
+                desc=' 최대 1개까지 업로드 가능합니다.'
                 field={field}
                 isRequired
               />
