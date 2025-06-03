@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import useCreateBreadForm from '@features/bread/hooks/useCreateBreadForm';
+import useCreateBreadForm from '@features/bread/hooks/useCreateForm';
 import BreadForm from '@features/bread/ui/admin/Form';
 
 import usePreventRefresh from '@hooks/usePreventRefresh';

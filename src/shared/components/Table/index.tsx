@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { CircleCheckBig, X } from 'lucide-react';
 import type { ReactNode, SyntheticEvent } from 'react';
 
@@ -8,6 +9,8 @@ import { ITableDefaultItem } from '@typings/commons';
 
 import TableSkeleton from './Skeleton';
 import TableCell from './TableCell';
+
+const DATE_KEYS = ['createdAt', 'updatedAt', 'deletedAt'];
 
 interface IProps<T extends ITableDefaultItem> {
   headers: string[];
@@ -41,24 +44,33 @@ const Table = <T extends ITableDefaultItem>({
     (e.target as HTMLImageElement).src = '';
   };
 
-  const renderItem = (rowItem: T, itemKey: string) => {
+  const renderItemMap = new Map<keyof T, (item: T) => ReactNode>(
+    renderItemProps?.map(p => [p.itemKey, p.children]) ?? [],
+  );
+
+  const renderItem = (rowItem: T, itemKey: keyof T) => {
     const cellValue = rowItem[itemKey];
+    const key = String(itemKey);
 
-    if (renderItemProps?.length > 0) {
-      const renderItemProp = renderItemProps.find(prop => prop.itemKey === itemKey);
+    if (cellValue === undefined || cellValue === null || cellValue === '') {
+      return (
+        <TableCell key={key} className='text-slate-500'>
+          -
+        </TableCell>
+      );
+    }
 
-      if (renderItemProp) {
-        return (
-          <TableCell key={itemKey} isStopPropagation>
-            {renderItemProp.children(rowItem)}
-          </TableCell>
-        );
-      }
+    if (renderItemMap.has(itemKey)) {
+      return (
+        <TableCell key={key} isStopPropagation>
+          {renderItemMap.get(itemKey)!(rowItem)}
+        </TableCell>
+      );
     }
 
     if (itemKey === 'image' && rowItem?.image) {
       return (
-        <TableCell key={itemKey} isStopPropagation>
+        <TableCell key={key} isStopPropagation>
           <img
             src={rowItem.image}
             alt={rowItem?.name || 'image'}
@@ -71,7 +83,7 @@ const Table = <T extends ITableDefaultItem>({
 
     if (typeof cellValue === 'boolean') {
       return (
-        <TableCell key={itemKey}>
+        <TableCell key={key}>
           <div className='flex items-center justify-center'>
             {cellValue === true ? (
               <CircleCheckBig className='text-green-500' size={16} />
@@ -84,18 +96,23 @@ const Table = <T extends ITableDefaultItem>({
     }
 
     if (typeof cellValue === 'number') {
-      return <TableCell key={itemKey}>{cellValue.toLocaleString('ko-KR')}</TableCell>;
+      return <TableCell key={key}>{cellValue.toLocaleString('ko-KR')}</TableCell>;
     }
 
-    if (cellValue === undefined || cellValue === null || cellValue === '') {
-      return (
-        <TableCell key={itemKey} className='text-slate-500'>
+    if (typeof cellValue === 'string' && (DATE_KEYS.includes(key) || key.endsWith('At'))) {
+      const parsedDate = dayjs(cellValue);
+      return parsedDate.isValid() ? (
+        <TableCell key={key} className='px-4 py-3 text-xs whitespace-nowrap text-gray-500'>
+          {parsedDate.format('YYYY-MM-DD HH:mm')}
+        </TableCell>
+      ) : (
+        <TableCell key={key} className='text-slate-500'>
           -
         </TableCell>
       );
     }
 
-    return <TableCell key={itemKey}>{String(cellValue)}</TableCell>;
+    return <TableCell key={key}>{String(cellValue)}</TableCell>;
   };
 
   return isLoading ? (
@@ -108,7 +125,7 @@ const Table = <T extends ITableDefaultItem>({
       )}
     >
       <TableHeader>
-        <TableRow className={cn('', tableHeaderClassName)}>
+        <TableRow className={tableHeaderClassName}>
           {headers.map(header => (
             <TableHead
               key={header}
@@ -133,7 +150,7 @@ const Table = <T extends ITableDefaultItem>({
               onClick={onClickItem(rowItem)}
               className={cn(onClickItem !== undefined && 'cursor-pointer', tableRowClassName)}
             >
-              {[...new Set(showItems)].map(itemKey => renderItem(rowItem, String(itemKey)))}
+              {[...new Set(showItems)].map(itemKey => renderItem(rowItem, itemKey))}
             </TableRow>
           ))
         )}

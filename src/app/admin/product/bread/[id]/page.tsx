@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import DetailWidget from '@widgets/admin/detail';
 
 import useGetBread from '@features/bread/hooks/useGetBread';
-import useModifyBread from '@features/bread/hooks/useModifyBread';
+import useModifyBread from '@features/bread/hooks/useModifyForm';
 import BreadForm from '@features/bread/ui/admin/Form';
 
 import { IBreadItem } from '@entities/bread/types';

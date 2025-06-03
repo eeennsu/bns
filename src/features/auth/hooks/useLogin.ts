@@ -31,7 +31,8 @@ const useLogin = ({ onCloseModal }: IParams = {}) => {
         queryKey: [AUTH_KEYS.SESSION],
       });
     },
-    onError: () => {
+    onError: error => {
+      console.log(error);
       toast.error(AUTH_TOAST_MESSAGES.LOGIN_FAILED);
     },
   });

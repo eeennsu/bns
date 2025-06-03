@@ -1,7 +1,7 @@
-import axiosAdmin from '@utils/axios/utilAdminInstance';
+import axiosMain from '@utils/axios/utilMainInstance';
 
 const apiLogout = async () => {
-  const response = await axiosAdmin.post('/auth/logout');
+  const response = await axiosMain.post('/auth/logout');
 
   return response.data;
 };

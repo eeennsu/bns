@@ -1,11 +1,11 @@
-import axios from 'axios';
-
 import { BreadFormDto } from '@entities/bread/types';
+
+import axiosAdmin from '@utils/axios/utilAdminInstance';
 
 interface IParams extends BreadFormDto {}
 
 const apiCreateBread = async (data: IParams): Promise<void> => {
-  await axios.post('/api/', data);
+  await axiosAdmin.post('/admin/bread', data);
 };
 
 export default apiCreateBread;

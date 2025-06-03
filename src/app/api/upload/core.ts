@@ -9,7 +9,7 @@ export const ourFileRouter = {
   imageUploader: f({
     image: {
       maxFileSize: '4MB',
-      maxFileCount: 5,
+      maxFileCount: 10,
     },
   })
     .input(ImageFileInputSchema)

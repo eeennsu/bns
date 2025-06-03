@@ -11,6 +11,7 @@ import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
 
+import { SAUCE_TABLE_HEADERS } from '@entities/sauce/consts';
 import { ISauceItem } from '@entities/sauce/types';
 
 import useChangePage from '@hooks/useChangePage';
@@ -27,9 +28,9 @@ const AdminSauceListPage: FC = () => {
     total: 10,
   });
 
-  // const onClickModifySauce = (sauce: IBreadItem) => () => {
-  //   router.push(ADMIN_PATHS.product.sauce.detail({ slug: sauce?.id }));
-  // };
+  const onClickModifySauce = (sauce: ISauceItem) => () => {
+    router.push(ADMIN_PATHS.product.sauce.detail({ slug: sauce?.id }));
+  };
 
   const onClickCreateSauce = () => {
     router.push(ADMIN_PATHS.product.sauce.create());
@@ -43,10 +44,19 @@ const AdminSauceListPage: FC = () => {
         placeholder='빵 이름을 입력해주세요'
       />
       <Table<ISauceItem>
-        headers={['순서', '이름', '가격']}
-        items={[]}
-        showItems={['sortOrder', 'name', 'price']}
-        // onClickItem={onClickModifySauce}
+        headers={SAUCE_TABLE_HEADERS}
+        items={DUMMY_SAUCES}
+        showItems={[
+          'sortOrder',
+          'name',
+          'price',
+          'isSignature',
+          'isNew',
+          'isHidden',
+          'createdAt',
+          'updatedAt',
+        ]}
+        onClickItem={onClickModifySauce}
       />
 
       <AdminPagination {...paginationData} />
@@ -61,3 +71,28 @@ const AdminSauceListPage: FC = () => {
 };
 
 export default AdminSauceListPage;
+
+const DUMMY_SAUCES: ISauceItem[] = Array.from({ length: 10 }, (_, index) => ({
+  id: index + 1,
+  name: '메론 소스',
+  description: '소스 설명',
+  image: 'https://picsum.photos/id/63/350/256',
+  price: 12000,
+  isSigniture: true,
+  isNew: true,
+  sortOrder: index + 1,
+  createdAt: new Date('2025-04-03').toISOString(),
+  updatedAt: new Date('2025-04-04').toISOString(),
+  deletedAt: null,
+  isHidden: !false,
+  isSignature: true,
+  imageFile: {
+    imageId: '1',
+    key: '1',
+    name: '1',
+    type: '1',
+    url: '1',
+    lastModified: 1,
+    size: 1,
+  },
+}));

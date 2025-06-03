@@ -11,13 +11,13 @@ interface IProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   onCloseModal: () => void;
-  isLogin: boolean;
+  isAuthorized: boolean;
 }
 
-const AdminEntryPoint: FC<IProps> = ({ isOpen, setIsOpen, onCloseModal, isLogin }) => {
+const AdminEntryPoint: FC<IProps> = ({ isOpen, setIsOpen, onCloseModal, isAuthorized }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {isLogin ? (
+      {isAuthorized ? (
         <AdminDialog onCloseModal={onCloseModal} />
       ) : (
         <LoginDialog onCloseModal={onCloseModal} />

@@ -4,7 +4,7 @@ import { ADMIN_ERRORS } from 'src/shared/api/errorResponse';
 import apiRefresh from '@features/auth/apis/refresh';
 
 const axiosAdmin = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

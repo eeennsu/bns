@@ -1,6 +1,6 @@
-import axios from 'axios';
-
 import { IBreadItem } from '@entities/bread/types';
+
+import axiosAdmin from '@utils/axios/utilAdminInstance';
 
 import { filterBreadResponse } from '../libs/filterResponse';
 
@@ -11,7 +11,7 @@ interface IParams {
 const apiGetBread = async (params: IParams): Promise<IBreadItem> => {
   if (!params?.id) throw new Error('id is required');
 
-  const response = await axios.get(`/api/${params.id}`);
+  const response = await axiosAdmin.get(`/admin/bread/${params.id}`);
 
   const data = filterBreadResponse(response.data);
 

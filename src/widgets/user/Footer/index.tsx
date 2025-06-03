@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { MouseEvent, useRef, type FC } from 'react';
 
 import AdminEntryPoint from '@features/admin/ui/EntryPoint';
-import useSession from '@features/auth/hooks/useGetSession';
+import useGetSession from '@features/auth/hooks/useGetSession';
 
 import useModal from '@hooks/useModal';
 
@@ -19,8 +19,8 @@ const Footer: FC = () => {
   const { isOpen, setIsOpen, openModal, closeModal } = useModal();
 
   const footerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(footerRef, { once: true, amount: 0.3 });
-  const { session } = useSession({ enabled: isInView });
+  const isInView = useInView(footerRef, { amount: 0.1, once: true });
+  const { session } = useGetSession({ enabled: isInView });
 
   const onOpenLoginModal = (e: MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
@@ -81,7 +81,7 @@ const Footer: FC = () => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           onCloseModal={closeModal}
-          isLogin={session.isAuthenticated && session.role === 'admin'}
+          isAuthorized={session?.isAuthenticated}
         />
       )}
     </>

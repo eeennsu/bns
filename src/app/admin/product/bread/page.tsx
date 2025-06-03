@@ -10,7 +10,9 @@ import { Badge, Button } from '@shadcn-ui/ui';
 import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
+import useGetBreadList from '@features/bread/hooks/useGetList';
 
+import { BREAD_TABLE_HEADERS } from '@entities/bread/consts';
 import { IBreadItem } from '@entities/bread/types';
 
 import useChangePage from '@hooks/useChangePage';
@@ -22,6 +24,9 @@ import TableSearch from '@components/TableSearch';
 
 const AdminBreadListPage: FC = () => {
   const router = useRouter();
+
+  const { data, isLoading } = useGetBreadList();
+
   const searchForm = useTableSearch();
   const paginationData = useChangePage({
     total: 10,
@@ -43,9 +48,19 @@ const AdminBreadListPage: FC = () => {
         placeholder='빵 이름을 입력해주세요'
       />
       <Table<IBreadItem>
-        headers={['순서', '이름', '가격', 'MBTI', '시그니처 여부', '신메뉴 여부', '활성화 여부']}
-        items={DummyBreads}
-        showItems={['sortOrder', 'name', 'price', 'mbti', 'isSignature', 'isNew', 'isHidden']}
+        headers={BREAD_TABLE_HEADERS}
+        items={data?.items || DUMMY_BREADS}
+        showItems={[
+          'sortOrder',
+          'name',
+          'price',
+          'mbti',
+          'isSignature',
+          'isNew',
+          'isHidden',
+          'createdAt',
+          'updatedAt',
+        ]}
         onClickItem={onClickModifyBread}
         renderItemProps={[
           {
@@ -53,6 +68,7 @@ const AdminBreadListPage: FC = () => {
             children: item => <Badge variant='secondary'>{item.mbti}</Badge>,
           },
         ]}
+        isLoading={isLoading}
       />
 
       <AdminPagination {...paginationData} />
@@ -68,7 +84,7 @@ const AdminBreadListPage: FC = () => {
 
 export default AdminBreadListPage;
 
-const DummyBreads: IBreadItem[] = Array.from({ length: 10 }, (_, index) => ({
+const DUMMY_BREADS: IBreadItem[] = Array.from({ length: 10 }, (_, index) => ({
   id: index + 1,
   name: '메론 빵',
   description: '빵 설명',
@@ -78,8 +94,8 @@ const DummyBreads: IBreadItem[] = Array.from({ length: 10 }, (_, index) => ({
   isSigniture: true,
   isNew: true,
   sortOrder: index + 1,
-  createdAt: new Date('2025-04-03'),
-  updatedAt: new Date('2025-04-03'),
+  createdAt: new Date('2025-04-03').toISOString(),
+  updatedAt: new Date('2025-04-04').toISOString(),
   deletedAt: null,
   isHidden: !false,
   isSignature: true,

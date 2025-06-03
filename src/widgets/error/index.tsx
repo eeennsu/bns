@@ -6,7 +6,7 @@ import LinkButton from '@components/LinkButton';
 
 const ErrorLayout: FC = () => {
   return (
-    <main className='font-nanum-gothic flex size-full flex-1 items-center justify-center bg-gradient-to-br from-[#FFFFF0] to-[#E8D0A9] px-4 py-16'>
+    <main className='font-nanum-gothic flex size-full flex-1 items-center justify-center bg-white px-4 py-16'>
       <div className='w-full max-w-md space-y-8 text-center'>
         <section className='flex items-center justify-center'>
           <div className='bg-wood/10 rounded-full p-4'>

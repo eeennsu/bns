@@ -65,3 +65,16 @@ export interface IImageFile {
   size: number;
   imageId: string;
 }
+
+interface IAuditDate {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+export type FilterDate<T> = Omit<T, 'createdAt' | 'updatedAt' | 'deletedAt'> & IAuditDate;
+export interface IGetListParams {
+  page: string | number;
+  pageSize: string | number;
+  search?: string;
+}
