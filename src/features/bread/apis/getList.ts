@@ -4,8 +4,9 @@ import { IBreadList } from '@entities/bread/types';
 
 import axiosAdmin from '@utils/axios/utilAdminInstance';
 
-import { filterBreadListResponse } from '../libs/filterResponse';
 import { IGetListParams } from '@typings/commons';
+
+import { filterBreadListResponse } from '../libs/filterResponse';
 
 interface IParams extends IGetListParams {}
 

@@ -15,3 +15,5 @@ export const IMAGE_REF_TYPE = {
   BUNDLE: 'bundle',
   EVENT: 'event',
 } as const;
+
+export const MAX_FILE_SIZE = '4MB';

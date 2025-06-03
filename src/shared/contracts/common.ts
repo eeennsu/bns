@@ -1,5 +1,6 @@
-import { MAX_FILE_SIZE } from '@libs/uploadImage';
 import { z } from 'zod';
+
+import { MAX_FILE_SIZE } from '@consts/commons';
 
 export const SearchFormDtoSchema = z.object({
   search: z.string(),

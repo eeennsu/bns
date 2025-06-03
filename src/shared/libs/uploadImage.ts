@@ -11,5 +11,3 @@ export const UploadDropzone = generateUploadDropzone<OurFileRouter>({ url: '/api
 export const { useUploadThing, uploadFiles } = generateReactHelpers<OurFileRouter>({
   url: '/api/upload',
 });
-
-export const MAX_FILE_SIZE = '4MB';
