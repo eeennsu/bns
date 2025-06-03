@@ -7,7 +7,7 @@ import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
 import { Button } from '@shadcn-ui/ui';
 
-import ListPageContainer from '@widgets/admin/Containers/ListPageContainer';
+import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
 
@@ -36,7 +36,7 @@ const AdminSauceListPage: FC = () => {
   };
 
   return (
-    <ListPageContainer>
+    <ListPageWidget>
       <TableSearch
         {...searchForm}
         total={paginationData.total}
@@ -56,7 +56,7 @@ const AdminSauceListPage: FC = () => {
           <Plus />
         </Button>
       </BottomRightWrapper>
-    </ListPageContainer>
+    </ListPageWidget>
   );
 };
 

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { IMe } from '@entities/user/types';
+import { IMe } from '@entities/auth/types';
 
 import { Nullable } from '@typings/commons';
 

@@ -7,7 +7,7 @@ import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
 import { Badge, Button } from '@shadcn-ui/ui';
 
-import ListPageContainer from '@widgets/admin/Containers/ListPageContainer';
+import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
 
@@ -36,7 +36,7 @@ const AdminBreadListPage: FC = () => {
   };
 
   return (
-    <ListPageContainer>
+    <ListPageWidget>
       <TableSearch
         {...searchForm}
         total={paginationData.total}
@@ -62,7 +62,7 @@ const AdminBreadListPage: FC = () => {
           <Plus />
         </Button>
       </BottomRightWrapper>
-    </ListPageContainer>
+    </ListPageWidget>
   );
 };
 
@@ -83,4 +83,13 @@ const DummyBreads: IBreadItem[] = Array.from({ length: 10 }, (_, index) => ({
   deletedAt: null,
   isHidden: !false,
   isSignature: true,
+  imageFile: {
+    imageId: '1',
+    key: '1',
+    name: '1',
+    type: '1',
+    url: '1',
+    lastModified: 1,
+    size: 1,
+  },
 }));

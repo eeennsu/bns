@@ -1,6 +1,6 @@
 import { STRING_LENGTH } from '@db/consts/commons';
 import { inputOnlyNumber } from '@libs/inputOnlyNumber';
-import { FC } from 'react';
+import { BaseSyntheticEvent, Dispatch, FC, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 import { Button, Form, FormField } from '@shadcn-ui/ui';
@@ -20,10 +20,10 @@ import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 interface IProps {
   form: UseFormReturn<BreadFormDto>;
   files: ImageFile[];
-  setFiles: React.Dispatch<React.SetStateAction<ImageFile[]>>;
+  setFiles: Dispatch<SetStateAction<ImageFile[]>>;
   submitProps: {
     label: string;
-    onSubmit: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
+    onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
   };
 }
 

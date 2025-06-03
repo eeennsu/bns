@@ -1,4 +1,4 @@
-import { IMe } from '@entities/user/types';
+import { IMe } from '@entities/auth/types';
 
 import axiosAdmin from '@utils/axios/utilAdminInstance';
 

@@ -14,7 +14,6 @@ export const ourFileRouter = {
   })
     .input(ImageFileInputSchema)
     .middleware(async ({ input }) => {
-      console.log('input', input);
       const user = await getServerSession();
 
       return {

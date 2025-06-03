@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 import apiRefresh from '@features/auth/apis/refresh';
 
-import { IMe } from '@entities/user/types';
+import { IMe } from '@entities/auth/types';
 
 import { verifyToken } from './auth';
 import { TOKEN_TYPE } from './consts';
@@ -13,6 +13,7 @@ const DEFAULT_AUTH_CONTEXT: IMe = {
   id: '',
   username: '',
   role: 'user',
+  isAuthenticated: false,
 };
 
 export const getServerSession = async (): Promise<IMe> => {
@@ -22,13 +23,25 @@ export const getServerSession = async (): Promise<IMe> => {
 
   try {
     if (accessToken) {
-      const user = verifyToken(accessToken) as IMe;
-      return user;
+      const user = verifyToken(accessToken);
+
+      return {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        isAuthenticated: true,
+      };
     }
 
     if (refreshToken && !accessToken) {
       const user = await apiRefresh();
-      return user;
+
+      return {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        isAuthenticated: true,
+      };
     }
 
     return DEFAULT_AUTH_CONTEXT;

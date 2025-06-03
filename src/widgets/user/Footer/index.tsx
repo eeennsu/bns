@@ -4,21 +4,28 @@ import dayjs from 'dayjs';
 import { useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState, type FC } from 'react';
+import { MouseEvent, useRef, type FC } from 'react';
 
 import AdminEntryPoint from '@features/admin/ui/EntryPoint';
-import useSession from '@features/auth/hooks/useSession';
+import useSession from '@features/auth/hooks/useGetSession';
+
+import useModal from '@hooks/useModal';
 
 import UtilLocalImage from '@utils/utilImage';
 
 import { BUSINESS_INFO, BRAND_TITLE, SNS_INFO } from '@consts/brand';
 
 const Footer: FC = () => {
-  const [count, setCount] = useState<number>(0);
+  const { isOpen, setIsOpen, openModal, closeModal } = useModal();
 
   const footerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(footerRef, { once: true, amount: 0.3 });
   const { session } = useSession({ enabled: isInView });
+
+  const onOpenLoginModal = (e: MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+    openModal();
+  };
 
   return (
     <>
@@ -54,7 +61,10 @@ const Footer: FC = () => {
                 className="flex items-center gap-1 sm:after:mx-4 sm:after:h-4 sm:after:w-px sm:after:bg-[#FAF9F6]/30 sm:after:content-[''] last:sm:after:hidden"
               >
                 {v.label}
-                <span className='font-medium' onClick={() => i === 1 && setCount(count + 1)}>
+                <span
+                  className='font-medium'
+                  onContextMenu={i === 1 ? onOpenLoginModal : undefined}
+                >
                   : {v.value}
                 </span>
               </li>
@@ -66,8 +76,13 @@ const Footer: FC = () => {
         </div>
       </footer>
 
-      {count > 2 && (
-        <AdminEntryPoint onCloseModal={() => setCount(0)} isLogin={!!session?.authorization} />
+      {isOpen && (
+        <AdminEntryPoint
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          onCloseModal={closeModal}
+          isLogin={session.isAuthenticated && session.role === 'admin'}
+        />
       )}
     </>
   );

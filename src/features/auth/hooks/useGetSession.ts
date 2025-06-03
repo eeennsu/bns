@@ -8,7 +8,7 @@ interface IParams {
   enabled?: boolean;
 }
 
-const useSession = ({ enabled = true }: IParams = {}) => {
+const useGetSession = ({ enabled = true }: IParams = {}) => {
   const {
     data: session,
     isLoading,
@@ -30,4 +30,4 @@ const useSession = ({ enabled = true }: IParams = {}) => {
   };
 };
 
-export default useSession;
+export default useGetSession;

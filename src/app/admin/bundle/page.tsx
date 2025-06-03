@@ -2,8 +2,10 @@
 
 import type { FC } from 'react';
 
+import ListPageWidget from '@widgets/admin/list';
+
 const AdminBundleListPage: FC = () => {
-  return <div></div>;
+  return <ListPageWidget></ListPageWidget>;
 };
 
 export default AdminBundleListPage;

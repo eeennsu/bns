@@ -3,40 +3,39 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import useUploadImage from '@features/upload/hooks/useUploadImage';
+import getImageId from '@features/upload/apis/getImageId';
 
 import { ADMIN_BREAD_KEYS, BREAD_TOAST_MESSAGES } from '@entities/bread/consts';
 import { BreadFormDtoSchema } from '@entities/bread/contracts';
-import { BreadFormDto } from '@entities/bread/types';
+import { BreadFormDto, IBreadItem } from '@entities/bread/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
 import { IMAGE_REF_TYPE } from '@consts/commons';
 
-import apiCreateVersion from '../apis/create';
+import apiModifyBread from '../apis/modify';
 
-const useCreateBreadForm = () => {
+const useModifyBread = (bread: IBreadItem) => {
   const { files, setFiles } = useImageFiles();
-  const { startUpload } = useUploadImage();
 
   const form = useForm<BreadFormDto>({
     resolver: zodResolver(BreadFormDtoSchema),
     defaultValues: {
-      name: '',
-      description: '',
-      price: 0,
-      isNew: false,
-      isSigniture: false,
-      isHidden: false,
-      mbti: '',
-      sortOrder: 0,
+      name: bread?.name || '',
+      description: bread?.description || '',
+      price: bread?.price || 0,
+      isNew: bread?.isNew ?? false,
+      isSigniture: bread?.isSignature ?? false,
+      isHidden: bread?.isHidden ?? false,
+      mbti: bread?.mbti || '',
+      sortOrder: bread?.sortOrder,
       imageFiles: [],
     },
   });
 
-  const { mutate: createBread } = useMutation({
-    mutationKey: [ADMIN_BREAD_KEYS.CREATE],
-    mutationFn: apiCreateVersion,
+  const { mutate: modifyBread } = useMutation({
+    mutationKey: [ADMIN_BREAD_KEYS.MODIFY],
+    mutationFn: apiModifyBread,
     onSuccess: () => {
       toast.success(BREAD_TOAST_MESSAGES.CREATE_SUCCESS);
     },
@@ -46,19 +45,19 @@ const useCreateBreadForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: BreadFormDto) => {
-    const imageIds = await startUpload(files, IMAGE_REF_TYPE.BREAD);
-
-    delete data.imageFiles;
+    const imageId = await getImageId<BreadFormDto, IBreadItem>(data, IMAGE_REF_TYPE.BREAD, bread);
 
     const newData = {
       ...data,
-      imageId: imageIds.at(0).imageId,
+      imageId,
     };
 
-    createBread(newData);
+    modifyBread({
+      id: bread.id,
+      data: newData,
+    });
   });
 
   return { form, onSubmit, files, setFiles };
 };
-
-export default useCreateBreadForm;
+export default useModifyBread;

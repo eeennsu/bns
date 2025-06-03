@@ -5,27 +5,32 @@ import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
 import { AUTH_KEYS } from '@entities/auth/consts';
 
+import useMeStore from '@stores/me';
+
 import apiLogout from '../apis/logout';
 
 interface IParams {
   onCloseModal?: () => void;
+  navigatePath?: string;
 }
 
-const useLogout = ({ onCloseModal }: IParams = {}) => {
+const useLogout = ({ onCloseModal, navigatePath = MAIN_PATHS.home() }: IParams = {}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const setMe = useMeStore(state => state.setMe);
 
   const { mutate: logout } = useMutation({
     mutationKey: [AUTH_KEYS.LOGOUT],
     mutationFn: apiLogout,
+    onError: error => {
+      console.error('Logout Error : ', error);
+    },
     onSettled: async () => {
-      router.push(MAIN_PATHS.home());
-      toast.success('로그아웃 되었습니다.', { position: 'top-right' });
+      router.push(navigatePath);
+      setMe(null);
+      toast.info('로그아웃 되었습니다.', { position: 'top-right' });
       onCloseModal?.();
-
-      await queryClient.invalidateQueries({
-        queryKey: [AUTH_KEYS.SESSION],
-      });
+      queryClient.clear();
     },
   });
 

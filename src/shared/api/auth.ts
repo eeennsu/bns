@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
 
+import { IVerifyToken } from '@entities/auth/types';
+
 import { assertEnv } from '../libs/assertEnv';
 import { TOKEN_EXPIRES_EXP, TOKEN_EXPIRES_MAX_AGE, TOKEN_TYPE } from './consts';
 import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from './typings';
@@ -40,7 +42,7 @@ export const verifyToken = (token: string) => {
 
   const jwtSecret = assertEnv({ env: process.env.JWT_SECRET, key: 'JWT_SECRET' });
 
-  return verify(token, jwtSecret);
+  return verify(token, jwtSecret) as IVerifyToken;
 };
 
 export const setAccessTokenCookie = (response: NextResponse, token: string) => {

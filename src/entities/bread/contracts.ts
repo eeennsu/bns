@@ -12,7 +12,7 @@ export const BreadFormDtoSchema = z.object({
     .max(STRING_LENGTH.DESCRIPTION, {
       message: `최대 ${STRING_LENGTH.DESCRIPTION}자 까지 입력할 수 있습니다.`,
     }),
-  price: z.string().min(1, { message: '가격을 입력해주세요.' }),
+  price: z.number().min(1, { message: '가격을 입력해주세요.' }),
   mbti: z.string().min(1, { message: 'MBTI를 선택해주세요.' }),
   imageFiles: z
     .array(z.instanceof(File), { message: '이미지가 선택되어야 합니다.' })
@@ -24,5 +24,5 @@ export const BreadFormDtoSchema = z.object({
   isSigniture: z.boolean(),
   isNew: z.boolean(),
   isHidden: z.boolean(),
-  sortOrder: z.string().min(1, { message: '순서를 입력해주세요.' }),
+  sortOrder: z.number().min(1, { message: '순서를 입력해주세요.' }),
 });

@@ -34,10 +34,10 @@ const SidebarWidget: FC = () => {
         <section className='flex flex-col gap-4'>
           <Link
             href={MAIN_PATHS.home()}
-            className='flex items-center gap-2 text-[14px] font-bold text-sky-600 transition-colors hover:text-sky-800'
+            className='flex items-center gap-2 py-2 text-sm font-bold text-sky-600 transition-colors hover:text-sky-800'
           >
             <House size={20} />
-            홈으로
+            Back To Main
           </Link>
 
           <nav className='flex max-h-[calc(100vh-10rem)] flex-col gap-3 overflow-y-auto'>

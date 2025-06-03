@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
-import { AUTH_KEYS } from '@entities/auth/consts';
+import { AUTH_KEYS, AUTH_TOAST_MESSAGES } from '@entities/auth/consts';
 import { adminLoginFormDtoSchema } from '@entities/auth/contracts';
 import { AdminLoginFormDto } from '@entities/auth/types';
 
@@ -24,15 +24,15 @@ const useLogin = ({ onCloseModal }: IParams = {}) => {
     mutationFn: apiLogin,
     onSuccess: async () => {
       onCloseModal();
-      router.push(ADMIN_PATHS.dashboard());
-      toast.success('로그인에 성공했습니다.', { position: 'top-right' });
+      router.push(ADMIN_PATHS.product.bread.list());
+      toast.success(AUTH_TOAST_MESSAGES.LOGIN_SUCCESS, { position: 'top-right' });
 
       await queryClient.invalidateQueries({
         queryKey: [AUTH_KEYS.SESSION],
       });
     },
     onError: () => {
-      toast.error('로그인에 실패했습니다.');
+      toast.error(AUTH_TOAST_MESSAGES.LOGIN_FAILED);
     },
   });
 

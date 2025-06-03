@@ -15,9 +15,9 @@ const AdminDialog: FC<IProps> = ({ onCloseModal }) => {
   const onLogout = useLogout({ onCloseModal });
 
   return (
-    <DialogContent className='sm:max-w-md'>
+    <DialogContent className='sm:max-w-lg'>
       <DialogTitle className='text-sm font-medium'>
-        로그인이 되어있습니다. 관리자 페이지로 이동하시겠습니까?
+        관리자로 로그인이 되어있습니다. 관리자 페이지로 이동하시겠습니까?
       </DialogTitle>
       <DialogFooter className='flex justify-end gap-4'>
         <Button onClick={onLogout} className='flex-[0.5] text-xs' variant='outline'>
