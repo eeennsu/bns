@@ -2,8 +2,8 @@
 
 import type { FC, PropsWithChildren } from 'react';
 
-import RightWidget from '@widgets/admin/right';
-import SidebarWidget from '@widgets/admin/sidebar';
+import RightWidget from '@widgets/admin/rightW';
+import SidebarWidget from '@widgets/admin/sidebarW';
 
 import useGetAuthenticate from '@features/auth/hooks/useGetAuthenticate';
 
