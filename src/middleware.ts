@@ -10,9 +10,7 @@ export const middleware = (request: NextRequest) => {
     return NextResponse.redirect(new URL(MAIN_PATHS.home(), request.url));
   }
 
-  const response = NextResponse.next();
-
-  return response;
+  return NextResponse.next();
 };
 
 export const config = {

@@ -33,6 +33,7 @@ const useGetAuthenticate = () => {
     me,
     isLoading: status === 'pending',
     isError: status === 'error',
+    isAuthorized: me?.role === 'admin' && me?.isAuthenticated,
   };
 };
 

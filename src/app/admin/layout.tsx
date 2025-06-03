@@ -2,16 +2,16 @@
 
 import type { FC, PropsWithChildren } from 'react';
 
-import RightWidget from '@widgets/admin/rightW';
-import SidebarWidget from '@widgets/admin/sidebarW';
+import RightWidget from '@widgets/admin/right';
+import SidebarWidget from '@widgets/admin/sidebar';
 
 import useGetAuthenticate from '@features/auth/hooks/useGetAuthenticate';
 
 const AdminLayoutPage: FC<PropsWithChildren> = ({ children }) => {
-  const { me } = useGetAuthenticate();
+  const { isAuthorized } = useGetAuthenticate();
 
   return (
-    me?.role === 'admin' && (
+    isAuthorized && (
       <main className='flex'>
         <SidebarWidget />
         <RightWidget>{children}</RightWidget>
