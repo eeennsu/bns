@@ -24,7 +24,7 @@ const AdminDialog: FC<IProps> = ({ onCloseModal }) => {
           로그아웃
         </Button>
         <Button className='flex-[0.5] text-xs'>
-          <Link className='flex items-center gap-2' href={ADMIN_PATHS.dashboard()}>
+          <Link className='flex items-center gap-2' href={ADMIN_PATHS.product.bread.list()}>
             <MonitorCog />
             관리자 페이지로 이동
           </Link>

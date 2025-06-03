@@ -26,7 +26,7 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
           </div>
         )}
 
-        <div className='flex w-full flex-1 flex-col px-18 pt-12'>{children}</div>
+        <div className='flex w-full flex-1 flex-col px-10 pt-8'>{children}</div>
       </main>
     </Suspense>
   );

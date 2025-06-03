@@ -1,5 +1,5 @@
-
 import { IMe } from '@entities/auth/types';
+
 import { TOKEN_TYPE } from './consts';
 
 export type TokenType = (typeof TOKEN_TYPE)[keyof typeof TOKEN_TYPE];

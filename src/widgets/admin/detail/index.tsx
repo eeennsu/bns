@@ -5,13 +5,12 @@ import PageContainer from '@components/PageContainer';
 
 interface IProps {
   isLoading: boolean;
-  isError: boolean;
+  isError: any;
 }
 
 const DetailWidget: FC<PropsWithChildren<IProps>> = ({ isError, isLoading, children }) => {
   if (isLoading) return <DetailPageLoading />;
-
-  if (isError) throw new Error('오류가 발생했습니다.');
+  if (isError) throw Error();
 
   return <PageContainer>{children}</PageContainer>;
 };
