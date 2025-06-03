@@ -1,9 +1,9 @@
-import { IMe } from '@entities/auth/types';
+import { ISessionResponse } from '@entities/auth/types';
 
 import axiosAdmin from '@utils/axios/utilAdminInstance';
 
 const apiSession = async () => {
-  const response = await axiosAdmin.get<IMe>('/auth/session');
+  const response = await axiosAdmin.get<ISessionResponse>('/auth/session');
 
   return response.data;
 };

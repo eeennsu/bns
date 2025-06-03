@@ -32,8 +32,7 @@ const useUploadImage = () => {
   const startUpload = async (files: File[], type: ImageFileInput['ref']) => {
     const response = await _startUpload(files, { ref: type } as any);
     if (!response) {
-      toast.error(FILE_UPLOAD_TOAST_MESSAGES.IMAGE_UPLOAD_FAILED);
-      return [];
+      return [{ imageId: null }];
     }
 
     return response.map(file => ({

@@ -2,20 +2,22 @@ import 'server-only';
 
 import { cookies } from 'next/headers';
 
-import { IMe } from '@entities/auth/types';
+import { ISessionResponse } from '@entities/auth/types';
 
 import { verifyToken } from './auth';
 import { TOKEN_TYPE } from './consts';
-import { AUTH_ERRORS } from './errorResponse';
 
-const DEFAULT_AUTH_CONTEXT: IMe = {
-  id: '',
-  username: '',
-  role: 'user',
-  isAuthenticated: false,
+const DEFAULT_AUTH_CONTEXT: ISessionResponse = {
+  user: {
+    id: '',
+    username: '',
+    role: 'user',
+    isAuthenticated: false,
+  },
+  shouldRefresh: false,
 };
 
-export const getServerSession = async (): Promise<IMe> => {
+export const getServerSession = async (): Promise<ISessionResponse> => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(TOKEN_TYPE.ACCESS)?.value;
   const refreshToken = cookieStore.get(TOKEN_TYPE.REFRESH)?.value;
@@ -25,26 +27,13 @@ export const getServerSession = async (): Promise<IMe> => {
       const user = verifyToken(accessToken);
 
       return {
-        id: user.id,
-        username: user.username,
-        role: user.role,
-        isAuthenticated: true,
+        user: { id: user.id, username: user.username, role: user.role, isAuthenticated: true },
+        shouldRefresh: false,
       };
     }
 
     if (refreshToken && !accessToken) {
-      const user = await serverRefresh();
-
-      if (!user) {
-        return DEFAULT_AUTH_CONTEXT;
-      }
-
-      return {
-        id: user.id,
-        username: user.username,
-        role: user.role,
-        isAuthenticated: true,
-      };
+      return { shouldRefresh: true, user: null };
     }
 
     return DEFAULT_AUTH_CONTEXT;
@@ -52,26 +41,4 @@ export const getServerSession = async (): Promise<IMe> => {
     console.error('getServerSession error : ', error);
     throw error;
   }
-};
-
-export const serverRefresh = async (): Promise<IMe> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/refresh`, {
-    method: 'POST',
-    headers: {
-      Cookie: (await cookies()).toString(),
-    },
-    cache: 'no-store',
-    credentials: 'include',
-  });
-
-  if (!response.ok) throw new Error(AUTH_ERRORS.REFRESH_FAILED);
-
-  const user = await response.json();
-
-  return {
-    id: user.id,
-    username: user.username,
-    role: user.role,
-    isAuthenticated: true,
-  };
 };

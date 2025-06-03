@@ -24,11 +24,11 @@ const useCreateSauceForm = () => {
     defaultValues: {
       name: '',
       description: '',
-      price: 0,
+      price: '',
       isNew: false,
       isSigniture: false,
       isHidden: false,
-      sortOrder: 0,
+      sortOrder: '',
       imageFiles: [],
     },
   });

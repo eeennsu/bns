@@ -25,3 +25,8 @@ export interface IVerifyToken {
   iat: number;
   exp: number;
 }
+
+export interface ISessionResponse {
+  user?: IMe;
+  shouldRefresh?: boolean;
+}

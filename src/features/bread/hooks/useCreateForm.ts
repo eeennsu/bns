@@ -24,12 +24,12 @@ const useCreateBreadForm = () => {
     defaultValues: {
       name: '',
       description: '',
-      price: 0,
+      price: '',
       isNew: false,
       isSigniture: false,
       isHidden: false,
       mbti: '',
-      sortOrder: 0,
+      sortOrder: '',
       imageFiles: [],
     },
   });
