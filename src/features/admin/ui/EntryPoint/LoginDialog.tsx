@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import { DialogContent, DialogHeader, DialogTitle } from '@shadcn-ui/ui';
+import { DialogHeader, DialogTitle } from '@shadcn-ui/ui';
 
 import useLogin from '@features/auth/hooks/useLogin';
 
@@ -16,12 +16,12 @@ const LoginDialog: FC<IProps> = ({ onCloseModal }) => {
   const { form, onSubmit } = useLogin({ onCloseModal });
 
   return (
-    <DialogContent>
+    <>
       <DialogHeader>
         <DialogTitle>관리자 로그인</DialogTitle>
       </DialogHeader>
       <AdminLoginForm form={form} onSubmit={onSubmit} />
-    </DialogContent>
+    </>
   );
 };
 

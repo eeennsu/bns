@@ -1,3 +1,5 @@
+import 'server-only';
+
 import bcrypt from 'bcryptjs';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';

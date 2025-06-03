@@ -12,4 +12,5 @@ export const AUTH_ERRORS = {
   REFRESH_TOKEN_EXPIRED: 'Refresh token is expired',
   INVALID_TOKEN_PAYLOAD: 'Invalid token payload',
   INVALID_REFRESH_TOKEN: 'Invalid refresh token',
+  REFRESH_FAILED: 'Refresh failed',
 };

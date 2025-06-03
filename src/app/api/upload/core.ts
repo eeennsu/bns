@@ -17,8 +17,8 @@ export const ourFileRouter = {
       const user = await getServerSession();
 
       return {
-        id: user.id,
         imageRef: input.ref,
+        userId: user.id,
       };
     })
     .onUploadError(async res => {

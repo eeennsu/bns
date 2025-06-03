@@ -2,7 +2,9 @@
 
 import type { Dispatch, FC, SetStateAction } from 'react';
 
-import { Dialog } from '@shadcn-ui/ui';
+import { Dialog, DialogContent, DialogTitle } from '@shadcn-ui/ui';
+
+import Skeleton from '@components/Skeleton';
 
 import AdminDialog from './AdminDialog';
 import LoginDialog from './LoginDialog';
@@ -11,17 +13,32 @@ interface IProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   onCloseModal: () => void;
+  isLoading: boolean;
   isAuthorized: boolean;
 }
 
-const AdminEntryPoint: FC<IProps> = ({ isOpen, setIsOpen, onCloseModal, isAuthorized }) => {
+const AdminEntryPoint: FC<IProps> = ({
+  isOpen,
+  setIsOpen,
+  onCloseModal,
+  isLoading,
+  isAuthorized,
+}) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {isAuthorized ? (
-        <AdminDialog onCloseModal={onCloseModal} />
-      ) : (
-        <LoginDialog onCloseModal={onCloseModal} />
-      )}
+      <DialogContent className='sm:max-w-lg'>
+        {isLoading ? (
+          <DialogTitle className='mt-4 h-full space-y-4'>
+            <Skeleton className='h-5 w-1/4' />
+            <Skeleton className='h-9' />
+            <Skeleton className='h-9' />
+          </DialogTitle>
+        ) : isAuthorized ? (
+          <AdminDialog onCloseModal={onCloseModal} />
+        ) : (
+          <LoginDialog onCloseModal={onCloseModal} />
+        )}
+      </DialogContent>
     </Dialog>
   );
 };

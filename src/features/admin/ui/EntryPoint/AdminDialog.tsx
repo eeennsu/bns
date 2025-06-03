@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
-import { DialogContent, DialogFooter, DialogTitle, Button } from '@shadcn-ui/ui';
+import { DialogFooter, DialogTitle, Button } from '@shadcn-ui/ui';
 
 import useLogout from '@features/auth/hooks/useLogout';
 
@@ -15,7 +15,7 @@ const AdminDialog: FC<IProps> = ({ onCloseModal }) => {
   const onLogout = useLogout({ onCloseModal });
 
   return (
-    <DialogContent className='sm:max-w-lg'>
+    <>
       <DialogTitle className='text-sm font-medium'>
         관리자로 로그인이 되어있습니다. 관리자 페이지로 이동하시겠습니까?
       </DialogTitle>
@@ -30,7 +30,7 @@ const AdminDialog: FC<IProps> = ({ onCloseModal }) => {
           </Link>
         </Button>
       </DialogFooter>
-    </DialogContent>
+    </>
   );
 };
 

@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from 'src/shared/api/auth';
 

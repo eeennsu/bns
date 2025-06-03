@@ -20,7 +20,7 @@ const Footer: FC = () => {
 
   const footerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(footerRef, { amount: 0.1, once: true });
-  const { session } = useGetSession({ enabled: isInView });
+  const { session, isLoading: isSessionLoading } = useGetSession({ enabled: isInView });
 
   const onOpenLoginModal = (e: MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
@@ -81,6 +81,7 @@ const Footer: FC = () => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           onCloseModal={closeModal}
+          isLoading={isSessionLoading}
           isAuthorized={session?.isAuthenticated}
         />
       )}

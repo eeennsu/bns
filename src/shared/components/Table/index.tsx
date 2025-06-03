@@ -115,47 +115,52 @@ const Table = <T extends ITableDefaultItem>({
     return <TableCell key={key}>{String(cellValue)}</TableCell>;
   };
 
-  return isLoading ? (
-    <TableSkeleton />
-  ) : (
-    <ShadcnTable
-      className={cn(
-        className,
-        'w-full border-separate border-spacing-0 overflow-hidden rounded-lg shadow-sm',
-      )}
-    >
-      <TableHeader>
-        <TableRow className={tableHeaderClassName}>
-          {headers.map(header => (
-            <TableHead
-              key={header}
-              className='max-w-20 bg-gray-50 px-6 py-4 text-center text-xs font-semibold tracking-wider break-words whitespace-normal text-gray-600 uppercase'
-            >
-              {header}
-            </TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {items.length === 0 ? (
-          <TableRow>
-            <TableCell colSpan={headers.length} className='py-10 text-center text-sm text-gray-500'>
-              {emptyDataText || '데이터가 없습니다.'}
-            </TableCell>
-          </TableRow>
-        ) : (
-          items?.map(rowItem => (
-            <TableRow
-              key={rowItem.id}
-              onClick={onClickItem(rowItem)}
-              className={cn(onClickItem !== undefined && 'cursor-pointer', tableRowClassName)}
-            >
-              {[...new Set(showItems)].map(itemKey => renderItem(rowItem, itemKey))}
-            </TableRow>
-          ))
+  return (
+    <section className='relative min-h-[450px] overflow-auto'>
+      {isLoading ? <TableSkeleton /> : null}
+      <ShadcnTable
+        className={cn(
+          className,
+          'w-full border-separate border-spacing-0 overflow-hidden rounded-lg shadow-sm',
         )}
-      </TableBody>
-    </ShadcnTable>
+      >
+        <TableHeader className='sticky top-0 z-[1]'>
+          <TableRow className={tableHeaderClassName}>
+            {headers.map(header => (
+              <TableHead
+                key={header}
+                className='max-w-20 bg-gray-50 px-6 py-4 text-center text-xs font-semibold tracking-wider break-words whitespace-normal text-gray-600 uppercase'
+              >
+                {header}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {items.length === 0 ? (
+            <TableRow>
+              <TableCell
+                colSpan={headers.length}
+                className='py-10 text-center text-sm text-gray-500'
+              >
+                {emptyDataText || '데이터가 없습니다.'}
+              </TableCell>
+            </TableRow>
+          ) : (
+            items?.map(rowItem => (
+              <TableRow
+                key={rowItem.id}
+                onClick={onClickItem(rowItem)}
+                className={cn(onClickItem !== undefined && 'cursor-pointer', tableRowClassName)}
+              >
+                {[...new Set(showItems)].map(itemKey => renderItem(rowItem, itemKey))}
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </ShadcnTable>
+      );
+    </section>
   );
 };
 

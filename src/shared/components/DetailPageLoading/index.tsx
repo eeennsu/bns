@@ -13,7 +13,10 @@ const DetailPageLoading: FC = () => {
     }, 1000);
 
     return (): void => {
-      clearTimeout(timerRef.current);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
     };
   }, []);
 

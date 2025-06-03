@@ -10,6 +10,7 @@ import { Button } from '@shadcn-ui/ui';
 import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
+import useGetSauceList from '@features/sauce/hooks/useGetList';
 
 import { SAUCE_TABLE_HEADERS } from '@entities/sauce/consts';
 import { ISauceItem } from '@entities/sauce/types';
@@ -23,6 +24,8 @@ import TableSearch from '@components/TableSearch';
 
 const AdminSauceListPage: FC = () => {
   const router = useRouter();
+
+  const { data, isLoading } = useGetSauceList();
   const searchForm = useTableSearch();
   const paginationData = useChangePage({
     total: 10,
@@ -45,7 +48,7 @@ const AdminSauceListPage: FC = () => {
       />
       <Table<ISauceItem>
         headers={SAUCE_TABLE_HEADERS}
-        items={DUMMY_SAUCES}
+        items={data?.items || DUMMY_SAUCES}
         showItems={[
           'sortOrder',
           'name',
@@ -57,6 +60,7 @@ const AdminSauceListPage: FC = () => {
           'updatedAt',
         ]}
         onClickItem={onClickModifySauce}
+        isLoading={isLoading}
       />
 
       <AdminPagination {...paginationData} />
