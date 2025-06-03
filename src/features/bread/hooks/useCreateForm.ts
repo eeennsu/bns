@@ -13,7 +13,7 @@ import useImageFiles from '@hooks/useImageFiles';
 
 import { IMAGE_REF_TYPE } from '@consts/commons';
 
-import apiCreateVersion from '../apis/create';
+import apiCreateBread from '../apis/create';
 
 const useCreateBreadForm = () => {
   const { files, setFiles } = useImageFiles();
@@ -36,7 +36,7 @@ const useCreateBreadForm = () => {
 
   const { mutate: createBread } = useMutation({
     mutationKey: [ADMIN_BREAD_KEYS.CREATE],
-    mutationFn: apiCreateVersion,
+    mutationFn: apiCreateBread,
     onSuccess: () => {
       toast.success(BREAD_TOAST_MESSAGES.CREATE_SUCCESS);
     },

@@ -55,8 +55,9 @@ export interface ITableDefaultItem {
 export type SearchFormDto = z.infer<typeof SearchFormDtoSchema>;
 
 export type ImageFileInput = z.infer<typeof ImageFileInputSchema>;
-export type ImageFile = File & { preview: string };
+export type FileWithPreview = File & { preview: string };
 export interface IImageFile {
+  imageFile: any
   url: string;
   key: string;
   name: string;

@@ -9,7 +9,6 @@ export const events = pgTable(
     id: integer('id').primaryKey(),
     name: varchar('name', { length: STRING_LENGTH.NAME }).notNull(),
     description: varchar('description', { length: STRING_LENGTH.DESCRIPTION }).notNull(),
-    image: varchar('image', { length: STRING_LENGTH.IMAGE }),
     startDate: timestamp('start_date').notNull(),
     endDate: timestamp('end_date').notNull(),
     sortOrder: SORT_ORDER_COLUMN,

@@ -44,7 +44,7 @@ const AdminSauceListPage: FC = () => {
       <TableSearch
         {...searchForm}
         total={paginationData.total}
-        placeholder='빵 이름을 입력해주세요'
+        placeholder='소스 이름을 입력해주세요'
       />
       <Table<ISauceItem>
         headers={SAUCE_TABLE_HEADERS}
@@ -91,6 +91,7 @@ const DUMMY_SAUCES: ISauceItem[] = Array.from({ length: 10 }, (_, index) => ({
   isHidden: !false,
   isSignature: true,
   imageFile: {
+    imageFile: undefined,
     imageId: '1',
     key: '1',
     name: '1',

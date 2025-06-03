@@ -2,7 +2,7 @@ import { uploadFiles } from '@libs/uploadImage';
 
 import { IImageFile, ImageFileInput } from '@typings/commons';
 
-const getImageId = async <T extends { imageFiles?: any }, D extends { imageFile: IImageFile }>(
+const getImageId = async <T extends { imageFiles?: any }, D extends IImageFile>(
   data: T,
   type: ImageFileInput['ref'],
   existData?: D,
@@ -10,7 +10,7 @@ const getImageId = async <T extends { imageFiles?: any }, D extends { imageFile:
   let imageId: string | undefined = undefined;
 
   // 새 데이터의 이미지가 기존 데이터의 이미지와 다름 ==> 신규 업로드 필요
-  if (data.imageFiles?.at(0)?.preview !== existData.imageFile.url) {
+  if (data.imageFiles?.at(0)?.preview !== existData?.imageFile?.url) {
     const response = await uploadFiles('imageUploader', {
       files: data.imageFiles,
 
@@ -25,7 +25,7 @@ const getImageId = async <T extends { imageFiles?: any }, D extends { imageFile:
 
     imageId = response.at(0).serverData.imageId;
   } else {
-    imageId = existData.imageFile.imageId;
+    imageId = existData?.imageFile?.id;
   }
 
   return imageId;
