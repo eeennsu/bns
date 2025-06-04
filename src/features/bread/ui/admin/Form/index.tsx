@@ -7,7 +7,7 @@ import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { BreadFormDto } from '@entities/bread/types';
 
-import { ImageFile } from '@typings/commons';
+import { FileWithPreview } from '@typings/commons';
 
 import { MBTI_TYPE } from '@consts/brand';
 
@@ -19,8 +19,8 @@ import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
 interface IProps {
   form: UseFormReturn<BreadFormDto>;
-  files: ImageFile[];
-  setFiles: Dispatch<SetStateAction<ImageFile[]>>;
+  files: FileWithPreview[];
+  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
   submitProps: {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
@@ -36,7 +36,7 @@ const BreadForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
             {submitProps.label}
           </Button>
         </section>
-        <section className='space-y-6'>
+        <section className='space-y-5'>
           <div className='flex items-center gap-3'>
             <div className='grow'>
               <FormField

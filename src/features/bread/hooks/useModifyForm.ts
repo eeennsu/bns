@@ -23,12 +23,12 @@ const useModifyBread = (bread: IBreadItem) => {
     defaultValues: {
       name: bread?.name || '',
       description: bread?.description || '',
-      price: bread?.price || 0,
+      price: bread?.price || '',
       isNew: bread?.isNew ?? false,
       isSigniture: bread?.isSignature ?? false,
       isHidden: bread?.isHidden ?? false,
       mbti: bread?.mbti || '',
-      sortOrder: bread?.sortOrder,
+      sortOrder: bread?.sortOrder || '',
       imageFiles: [],
     },
   });

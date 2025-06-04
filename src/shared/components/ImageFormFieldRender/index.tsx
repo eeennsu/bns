@@ -7,13 +7,13 @@ import { toast } from 'sonner';
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
-import { ImageFile } from '@typings/commons';
+import { FileWithPreview } from '@typings/commons';
 
 import { FILE_UPLOAD_TOAST_MESSAGES } from '@consts/commons';
 
 interface IProps<TName extends string> {
-  files: ImageFile[];
-  setFiles: Dispatch<SetStateAction<ImageFile[]>>;
+  files: FileWithPreview[];
+  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
   field: ControllerRenderProps<any, TName>;
   label: string;
   desc?: string;
@@ -51,6 +51,7 @@ const SharedImageFormFieldRender = <TName extends string>({
     });
 
     setFiles(prev => (multiple ? [...prev, ...restoredFiles] : restoredFiles));
+
     field.onChange(multiple ? [...files, ...acceptedFiles] : acceptedFiles);
   };
 
@@ -73,9 +74,11 @@ const SharedImageFormFieldRender = <TName extends string>({
   return (
     <FormItem>
       <FormLabel className='block'>
-        {label} {isRequired ? <strong className='required'>*</strong> : ''}
+        <span className='flex items-center gap-0.5'>
+          {label} {isRequired ? <strong className='required'>*</strong> : ''}
+        </span>
         {desc && (
-          <FormDescription className='mt-px text-[10px] text-blue-600'>{desc}</FormDescription>
+          <FormDescription className='mt-[2px] text-[10px] text-slate-400'>{desc}</FormDescription>
         )}
       </FormLabel>
 
@@ -90,21 +93,22 @@ const SharedImageFormFieldRender = <TName extends string>({
           <p className='mt-1 text-xs text-gray-500'>최대 4MB의 PNG, JPG, GIF 파일을 지원합니다</p>
         </div>
       </FormControl>
-      <FormMessage />
+      <FormMessage className='text-xs' />
       {files?.length > 0 && (
         <div className='mt-2 flex gap-4 overflow-x-auto'>
           {files.map((file, fileIndex) => (
             <div key={`${file.name}-${fileIndex}`} className={cn('relative', imgMaxClassName)}>
               <div
-                className='absolute top-1 right-1 cursor-pointer rounded-full bg-red-500 p-1 shadow hover:bg-red-600'
+                className='absolute top-1 right-1 cursor-pointer rounded-full bg-slate-700 p-1 shadow hover:bg-slate-600'
                 onClick={onRemovePreview(fileIndex)}
               >
-                <X size={14} className='text-white' />
+                <X size={16} className='text-white' />
               </div>
               <img
                 src={file.preview}
                 alt={file.name}
-                className={cn('size-40 rounded object-cover', imgClassName)}
+                width={file.size}
+                className={cn('size-64 object-cover', imgClassName)}
               />
             </div>
           ))}

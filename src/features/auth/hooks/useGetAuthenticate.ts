@@ -5,11 +5,13 @@ import useGetSession from '@features/auth/hooks/useGetSession';
 import useMeStore from '@stores/me';
 
 const useGetAuthenticate = () => {
-  const { session: me, status, error } = useGetSession();
+  const { session, status, error } = useGetSession();
   const setMe = useMeStore(state => state.setMe);
 
+  const me = session?.user;
+
   useEffect(() => {
-    if (me && status === 'success') {
+    if (!!session?.user && status === 'success') {
       setMe({
         id: me.id,
         username: me.username,

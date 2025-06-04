@@ -1,7 +1,7 @@
 import { STRING_LENGTH } from '@db/consts/commons';
 import { z } from 'zod';
 
-import { SingleImageFileSchema } from '@contracts/common';
+import { PriceSchema, SingleImageFileSchema, SortOrderSchema } from '@contracts/common';
 
 export const SauceFormDtoSchema = z.object({
   name: z
@@ -18,21 +18,6 @@ export const SauceFormDtoSchema = z.object({
   isSigniture: z.boolean(),
   isNew: z.boolean(),
   isHidden: z.boolean(),
-  price: z
-    .string()
-    .refine(val => val !== '', { message: '가격을 입력해주세요.' })
-    .refine(val => val === '0' || !val.startsWith('0'), {
-      message: '0으로 시작하는 숫자는 입력할 수 없습니다. (0원은 입력 가능)',
-    })
-    .refine(val => !isNaN(Number(val)), { message: '가격은 0원 이상이어야 합니다.' }),
-  sortOrder: z
-    .string()
-    .refine(val => val !== '', { message: '순서를 입력해주세요.' })
-    .refine(
-      val => {
-        const num = Number(val);
-        return !isNaN(num) && Number.isInteger(num) && num > 0;
-      },
-      { message: '순서는 1 이상의 정수여야 합니다.' },
-    ),
+  price: PriceSchema,
+  sortOrder: SortOrderSchema,
 });

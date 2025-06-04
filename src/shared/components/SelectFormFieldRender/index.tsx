@@ -22,7 +22,7 @@ const SharedSelectFormFieldRender = <TName extends string>({
   return (
     <FormItem className='flex flex-col items-start gap-2'>
       {label ? (
-        <FormLabel className='!mt-0'>
+        <FormLabel className='!mt-0 gap-0.5'>
           {label} {isRequired ? <strong className='required'>*</strong> : ''}
         </FormLabel>
       ) : null}
@@ -44,7 +44,7 @@ const SharedSelectFormFieldRender = <TName extends string>({
           )}
         </SelectContent>
       </Select>
-      <FormMessage />
+      <FormMessage className='text-xs' />
     </FormItem>
   );
 };

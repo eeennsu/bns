@@ -14,13 +14,9 @@ const SharedFormFieldRender: FC<IProps> = ({ label, isRequired, field, type, ...
   return (
     <FormItem>
       {label ? (
-        <FormLabel className='inline-flex items-center gap-1 text-xs font-medium'>
+        <FormLabel className='gap-0.5'>
           {label}
-          {isRequired ? (
-            <span className='mt-[3px] leading-none font-bold text-red-500'>*</span>
-          ) : (
-            ''
-          )}
+          {isRequired ? <strong className='required'>*</strong> : ''}
         </FormLabel>
       ) : null}
       <FormControl>

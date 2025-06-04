@@ -18,7 +18,7 @@ const SharedSwitchFormFieldRender = <TName extends string>({
   return (
     <FormItem className='flex items-center gap-2 py-2'>
       {label ? (
-        <FormLabel className='!mt-0 cursor-pointer'>
+        <FormLabel className='!mt-0 cursor-pointer gap-0.5'>
           {label} {isRequired ? <strong className='required'>*</strong> : ''}
         </FormLabel>
       ) : null}
@@ -32,7 +32,7 @@ const SharedSwitchFormFieldRender = <TName extends string>({
           {...restProps}
         />
       </FormControl>
-      <FormMessage />
+      <FormMessage className='text-xs' />
     </FormItem>
   );
 };

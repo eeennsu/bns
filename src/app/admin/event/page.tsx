@@ -52,14 +52,6 @@ const AdminEventListPage: FC = () => {
         items={data?.items || DUMMY_EVENTS}
         showItems={['sortOrder', 'name', 'isHidden', 'createdAt', 'updatedAt']}
         onClickItem={onClickModifyEvent}
-        renderItemProps={
-          [
-            // {
-            //   itemKey: 'mbti',
-            //   children: item => <Badge variant='secondary'>{item.mbti}</Badge>,
-            // },
-          ]
-        }
         isLoading={isLoading}
       />
 
@@ -76,7 +68,7 @@ const AdminEventListPage: FC = () => {
 
 export default AdminEventListPage;
 
-export const DUMMY_EVENTS: IEventItem[] = Array.from({ length: 10 }, (_, index) => ({
+const DUMMY_EVENTS: IEventItem[] = Array.from({ length: 10 }, (_, index) => ({
   id: index + 1,
   name: '이벤트 이름',
   description: '이벤트 설명',

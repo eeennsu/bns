@@ -7,7 +7,7 @@ import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { SauceFormDto } from '@entities/sauce/types';
 
-import { ImageFile } from '@typings/commons';
+import { FileWithPreview } from '@typings/commons';
 
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
@@ -16,8 +16,8 @@ import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
 interface IProps {
   form: UseFormReturn<SauceFormDto>;
-  files: ImageFile[];
-  setFiles: Dispatch<SetStateAction<ImageFile[]>>;
+  files: FileWithPreview[];
+  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
   submitProps: {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
@@ -33,7 +33,7 @@ const SauceForm: FC<IProps> = ({ files, setFiles, form, submitProps }) => {
             {submitProps.label}
           </Button>
         </section>
-        <section className='space-y-6'>
+        <section className='space-y-5'>
           <div className='flex items-center gap-3'>
             <div className='grow'>
               <FormField

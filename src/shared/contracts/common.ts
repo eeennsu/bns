@@ -35,7 +35,7 @@ export const MultipleImageFileSchema = (minCount: number = 1, maxCount: number =
     });
 
 export const SortOrderSchema = z
-  .string()
+  .union([z.string(), z.number()])
   .refine(val => val !== '', { message: '순서를 입력해주세요.' })
   .refine(
     val => {
@@ -46,9 +46,9 @@ export const SortOrderSchema = z
   );
 
 export const PriceSchema = z
-  .string()
+  .union([z.string(), z.number()])
   .refine(val => val !== '', { message: '가격을 입력해주세요.' })
-  .refine(val => val === '0' || !val.startsWith('0'), {
+  .refine(val => val === '0' || !String(val).startsWith('0'), {
     message: '0으로 시작하는 숫자는 입력할 수 없습니다. (0원은 입력 가능)',
   })
   .refine(val => !isNaN(Number(val)), { message: '가격은 0원 이상이어야 합니다.' });

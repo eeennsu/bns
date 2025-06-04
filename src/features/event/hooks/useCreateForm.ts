@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-// import useUploadImage from '@features/upload/hooks/useUploadImage';
+import useUploadImage from '@features/upload/hooks/useUploadImage';
 
 import { ADMIN_EVENT_KEYS, EVENT_TOAST_MESSAGES } from '@entities/event/consts';
 import { EventFormDtoSchema } from '@entities/event/contracts';
@@ -11,26 +11,25 @@ import { EventFormDto } from '@entities/event/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-// import { IMAGE_REF_TYPE } from '@consts/commons';
+import { IMAGE_REF_TYPE } from '@consts/commons';
 
 import apiCreateEvent from '../apis/create';
 
 const useCreateEventForm = () => {
   const { files, setFiles } = useImageFiles();
-  // const { startUpload } = useUploadImage();
+  const { startUpload } = useUploadImage();
 
   const form = useForm<EventFormDto>({
     resolver: zodResolver(EventFormDtoSchema),
     defaultValues: {
-      // name: '',
-      // description: '',
-      // price: '',
-      // isNew: false,
-      // isSigniture: false,
-      // isHidden: false,
-      // mbti: '',
-      // sortOrder: '',
-      // imageFiles: [],
+      name: '',
+      description: '',
+      imageFiles: [],
+      sortOrder: '',
+      dateRange: {
+        from: '',
+        to: '',
+      },
     },
   });
 
@@ -45,17 +44,23 @@ const useCreateEventForm = () => {
     },
   });
 
-  const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    // const imageIds = await startUpload(files, IMAGE_REF_TYPE.EVENT);
+  const onSubmit = form.handleSubmit(
+    async (data: EventFormDto) => {
+      const imageIds = await startUpload(files, IMAGE_REF_TYPE.EVENT);
 
-    // delete data.imageFiles;
+      // delete data.imageFiles;
 
-    const newData = {
-      ...data,
-    };
+      const newData = {
+        ...data,
+        imageId: imageIds.at(0).imageId,
+      };
 
-    createEvent(newData);
-  });
+      createEvent(newData);
+    },
+    error => {
+      console.log(error);
+    },
+  );
 
   return { form, onSubmit, files, setFiles };
 };

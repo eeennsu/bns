@@ -29,7 +29,7 @@ const SharedFormTextareaFieldRender = <TName extends string>({
   return (
     <FormItem>
       {label ? (
-        <FormLabel>
+        <FormLabel className='gap-0.5'>
           {label} {isRequired ? <strong className='required'>*</strong> : ''}
         </FormLabel>
       ) : null}
@@ -37,7 +37,6 @@ const SharedFormTextareaFieldRender = <TName extends string>({
         <div className='relative'>
           <Textarea
             className={cn(height, 'resize-none', maxLength && 'pr-16')}
-            placeholder='내용을 입력해주세요'
             {...field}
             maxLength={maxLength}
             {...restProps}
@@ -56,7 +55,7 @@ const SharedFormTextareaFieldRender = <TName extends string>({
           )}
         </div>
       </FormControl>
-      <FormMessage />
+      <FormMessage className='text-xs' />
     </FormItem>
   );
 };

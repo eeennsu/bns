@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { ImageFile } from '@typings/commons';
+import { FileWithPreview } from '@typings/commons';
 
-const useImageFiles = (initialImageFiles: ImageFile[] = []) => {
-  const [files, setFiles] = useState<ImageFile[]>(initialImageFiles);
+const useImageFiles = (initialImageFiles: FileWithPreview[] = []) => {
+  const [files, setFiles] = useState<FileWithPreview[]>(initialImageFiles);
 
   return {
     files,

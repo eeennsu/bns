@@ -56,15 +56,17 @@ export type SearchFormDto = z.infer<typeof SearchFormDtoSchema>;
 
 export type ImageFileInput = z.infer<typeof ImageFileInputSchema>;
 export type FileWithPreview = File & { preview: string };
+export type FileWithDropzone = FileWithPreview | IImageFile;
+
 export interface IImageFile {
-  imageFile: any
+  id: string;
   url: string;
-  key: string;
   name: string;
   type: string;
   lastModified?: number;
   size: number;
-  imageId: string;
+  order?: number | string;
+  preview?: string;
 }
 
 interface IAuditDate {
