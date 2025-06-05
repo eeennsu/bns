@@ -10,14 +10,12 @@ import useGetAuthenticate from '@features/auth/hooks/useGetAuthenticate';
 const AdminLayoutPage: FC<PropsWithChildren> = ({ children }) => {
   const { isAuthorized } = useGetAuthenticate();
 
-  return (
-    isAuthorized && (
-      <main className='flex'>
-        <SidebarWidget />
-        <RightWidget>{children}</RightWidget>
-      </main>
-    )
-  );
+  return isAuthorized ? (
+    <main className='flex'>
+      <SidebarWidget />
+      <RightWidget>{children}</RightWidget>
+    </main>
+  ) : null;
 };
 
 export default AdminLayoutPage;

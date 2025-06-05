@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 
 import { ADMIN_SAUCE_KEYS } from '@entities/sauce/consts';
 
-import apiGetBread from '../apis/getBread';
+import apiGetSauce from '../apis/getSauce';
 
 const useGetSauce = () => {
   const params = useParams();
@@ -11,10 +11,10 @@ const useGetSauce = () => {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: [ADMIN_SAUCE_KEYS.GET],
-    queryFn: () => apiGetBread({ id }),
+    queryFn: () => apiGetSauce({ id }),
   });
 
-  return { bread: data, isLoading, isError };
+  return { sauce: data, isLoading, isError };
 };
 
 export default useGetSauce;
