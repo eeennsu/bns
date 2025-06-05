@@ -3,39 +3,38 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import useUploadImage from '@features/upload/hooks/useUploadImage';
+import getImageId from '@features/upload/apis/getImageId';
 
 import { ADMIN_EVENT_KEYS, EVENT_TOAST_MESSAGES } from '@entities/event/consts';
 import { EventFormDtoSchema } from '@entities/event/contracts';
-import { EventFormDto } from '@entities/event/types';
+import { EventFormDto, IEventItem } from '@entities/event/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
 import { IMAGE_REF_TYPE } from '@consts/commons';
 
-import apiCreateEvent from '../apis/create';
+import apiModifyEvent from '../apis/modify';
 
-const useCreateEventForm = () => {
+const useModifyEvent = (event: IEventItem) => {
   const { files, setFiles } = useImageFiles();
-  const { startUpload } = useUploadImage();
 
   const form = useForm<EventFormDto>({
     resolver: zodResolver(EventFormDtoSchema),
     defaultValues: {
-      name: '',
-      description: '',
-      imageFiles: [],
-      sortOrder: '',
+      name: event?.name || '',
+      description: event?.description || '',
       dateRange: {
-        from: '',
-        to: '',
+        from: event?.startDate || '',
+        to: event?.endDate || '',
       },
+      imageFiles: [],
+      sortOrder: event?.sortOrder || '',
     },
   });
 
-  const { mutate: createEvent } = useMutation({
-    mutationKey: [ADMIN_EVENT_KEYS.CREATE],
-    mutationFn: apiCreateEvent,
+  const { mutate: modifyEvent } = useMutation({
+    mutationKey: [ADMIN_EVENT_KEYS.MODIFY],
+    mutationFn: apiModifyEvent,
     onSuccess: () => {
       toast.success(EVENT_TOAST_MESSAGES.CREATE_SUCCESS);
     },
@@ -45,19 +44,19 @@ const useCreateEventForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    const imageIds = await startUpload(files, IMAGE_REF_TYPE.EVENT);
-
-    // delete data.imageFiles;
+    const imageId = await getImageId<EventFormDto, IEventItem>(data, IMAGE_REF_TYPE.EVENT, event);
 
     const newData = {
       ...data,
-      imageId: imageIds.at(0).imageId,
+      imageId,
     };
 
-    createEvent(newData);
+    modifyEvent({
+      id: event.id,
+      data: newData,
+    });
   });
 
   return { form, onSubmit, files, setFiles };
 };
-
-export default useCreateEventForm;
+export default useModifyEvent;

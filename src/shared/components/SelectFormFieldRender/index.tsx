@@ -3,11 +3,13 @@ import { ControllerRenderProps } from 'react-hook-form';
 import { FormControl, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shadcn-ui/ui';
 
+import { SelectItem as SelectItemType } from '@typings/commons';
+
 interface IProps<TName extends string> {
   field: ControllerRenderProps<any, TName>;
+  selectList: SelectItemType[] | string[];
   label?: string;
   isRequired?: boolean;
-  selectList: string[];
   selectionPlaceholder?: string;
 }
 
@@ -33,11 +35,23 @@ const SharedSelectFormFieldRender = <TName extends string>({
           </SelectTrigger>
         </FormControl>
         <SelectContent>
-          {selectList.map((select, idx: number) => (
-            <SelectItem key={idx} value={select}>
-              {select}
-            </SelectItem>
-          ))}
+          {selectList.map((select, idx: number) => {
+            if (typeof select === 'string') {
+              return (
+                <SelectItem key={idx} value={select}>
+                  {select}
+                </SelectItem>
+              );
+            }
+
+            if (typeof select === 'object') {
+              return (
+                <SelectItem key={idx} value={select.value}>
+                  {select.label}
+                </SelectItem>
+              );
+            }
+          })}
 
           {selectionPlaceholder && selectList.length === 0 && (
             <p className='p-3'>{selectionPlaceholder}</p>

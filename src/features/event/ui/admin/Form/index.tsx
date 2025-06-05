@@ -12,6 +12,7 @@ import SharedDatePickerFormFieldRender from '@components/DatePickerFormFiledRend
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
 import SharedImageFormFieldRender from '@components/ImageFormFieldRender';
+import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
 interface IProps {
   form: UseFormReturn<EventFormDto>;
@@ -80,6 +81,12 @@ const EventForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
                 mode='future'
               />
             )}
+          />
+
+          <FormField
+            name=''
+            control={form.control}
+            render={({ field }) => <SharedSwitchFormFieldRender label='숨김 여부' field={field} />}
           />
         </section>
       </form>

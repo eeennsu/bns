@@ -21,7 +21,6 @@ export const BREAD_TABLE_HEADERS = [
   'MBTI',
   '시그니처 여부',
   '신메뉴 여부',
-  '활성화 여부',
   '생성일',
-  '수정일',
+  '숨김 여부',
 ];

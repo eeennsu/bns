@@ -10,7 +10,7 @@ import { ITableDefaultItem } from '@typings/commons';
 import TableSkeleton from './Skeleton';
 import TableCell from './TableCell';
 
-const DATE_KEYS = ['createdAt', 'updatedAt', 'deletedAt'];
+const DATE_KEYS = ['createdAt', 'updatedAt', 'deletedAt', 'startDate', 'endDate'];
 
 interface IProps<T extends ITableDefaultItem> {
   headers: string[];
@@ -159,7 +159,6 @@ const Table = <T extends ITableDefaultItem>({
           )}
         </TableBody>
       </ShadcnTable>
-      );
     </section>
   );
 };

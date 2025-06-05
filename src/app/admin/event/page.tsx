@@ -50,9 +50,15 @@ const AdminEventListPage: FC = () => {
       <Table<IEventItem>
         headers={EVENT_TABLE_HEADERS}
         items={data?.items || DUMMY_EVENTS}
-        showItems={['sortOrder', 'name', 'isHidden', 'createdAt', 'updatedAt']}
+        showItems={['sortOrder', 'name', 'startDate', 'endDate', 'isHidden']}
         onClickItem={onClickModifyEvent}
         isLoading={isLoading}
+        renderItemProps={[
+          {
+            itemKey: 'isHidden',
+            children: event => (event.isHidden ? '비공개' : '공개'),
+          },
+        ]}
       />
 
       <AdminPagination {...paginationData} />

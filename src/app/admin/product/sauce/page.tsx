@@ -55,12 +55,18 @@ const AdminSauceListPage: FC = () => {
           'price',
           'isSignature',
           'isNew',
-          'isHidden',
           'createdAt',
           'updatedAt',
+          'isHidden',
         ]}
         onClickItem={onClickModifySauce}
         isLoading={isLoading}
+        renderItemProps={[
+          {
+            itemKey: 'isHidden',
+            children: sauce => (sauce.isHidden ? '비공개' : '공개'),
+          },
+        ]}
       />
 
       <AdminPagination {...paginationData} />
@@ -88,7 +94,7 @@ const DUMMY_SAUCES: ISauceItem[] = Array.from({ length: 10 }, (_, index) => ({
   createdAt: new Date('2025-04-03').toISOString(),
   updatedAt: new Date('2025-04-04').toISOString(),
   deletedAt: null,
-  isHidden: !false,
+  isHidden: false,
   isSignature: true,
   imageFile: {
     id: '1',

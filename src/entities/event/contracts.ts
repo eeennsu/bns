@@ -30,6 +30,7 @@ export const EventFormDtoSchema = z.object({
       message: '시작 날짜는 종료 날짜보다 이전이어야 합니다.',
       path: ['root'],
     }),
+  isHidden: z.boolean(),
   imageFiles: SingleImageFileSchema,
   sortOrder: SortOrderSchema,
 });

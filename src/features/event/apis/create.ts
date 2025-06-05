@@ -4,8 +4,8 @@ import axiosAdmin from '@utils/axios/utilAdminInstance';
 
 interface IParams extends EventFormDto {}
 
-const apiCreate = async (data: IParams): Promise<void> => {
+const apiEventCreate = async (data: IParams): Promise<void> => {
   await axiosAdmin.post('/admin/event', data);
 };
 
-export default apiCreate;
+export default apiEventCreate;

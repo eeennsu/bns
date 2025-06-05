@@ -81,3 +81,5 @@ export interface IGetListParams {
   pageSize: string | number;
   search?: string;
 }
+
+export type SelectItem<T = string> = { label: string; value: T };

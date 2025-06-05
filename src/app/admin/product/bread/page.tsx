@@ -57,15 +57,18 @@ const AdminBreadListPage: FC = () => {
           'mbti',
           'isSignature',
           'isNew',
-          'isHidden',
           'createdAt',
-          'updatedAt',
+          'isHidden',
         ]}
         onClickItem={onClickModifyBread}
         renderItemProps={[
           {
             itemKey: 'mbti',
             children: item => <Badge variant='secondary'>{item.mbti}</Badge>,
+          },
+          {
+            itemKey: 'isHidden',
+            children: bread => (bread.isHidden ? '비공개' : '공개'),
           },
         ]}
         isLoading={isLoading}
@@ -97,7 +100,7 @@ const DUMMY_BREADS: IBreadItem[] = Array.from({ length: 10 }, (_, index) => ({
   createdAt: new Date('2025-04-03').toISOString(),
   updatedAt: new Date('2025-04-04').toISOString(),
   deletedAt: null,
-  isHidden: !false,
+  isHidden: false,
   isSignature: true,
   imageFile: {
     id: '1',
