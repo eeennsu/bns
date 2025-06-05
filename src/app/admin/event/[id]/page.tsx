@@ -15,6 +15,7 @@ import usePreventRefresh from '@hooks/usePreventRefresh';
 const AdminEventModifyPage: FC = () => {
   const { event, isError, isLoading } = useGetEvent();
   usePreventRefresh();
+
   return (
     <DetailWidget isError={isError} isLoading={isLoading}>
       <EventModify event={event} />
@@ -28,6 +29,7 @@ interface IProps {
 
 const EventModify: FC<IProps> = ({ event }) => {
   const { files, form, onSubmit, setFiles } = useModifyEvent(event);
+
   return (
     <EventForm
       files={files}
