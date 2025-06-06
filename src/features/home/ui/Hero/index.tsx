@@ -1,15 +1,16 @@
+
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import type { FC } from 'react';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
-import { BlurFade } from 'src/shared/magic-ui/blur-fade';
-import { BoxReveal } from 'src/shared/magic-ui/box-reveal';
 
 import { HERO_ANIM_DURATIONS, HERO_TITLE_DURATIONS } from '@consts/brand';
 
 import LinkButton from '@components/LinkButton';
 
 import EventPopupButton from './EventPopupButton';
+import { BoxReveal } from '@magic-ui/box-reveal';
+import { BlurFade } from '@magic-ui/blur-fade';
 
 const DUMMY_IMAGES = [
   'https://picsum.photos/id/237/200/300',

@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@shadcn-ui/ui/select';
+} from '@shadcn-ui/ui';
 
 import { SelectItem as SelectItemType } from '@typings/commons';
 

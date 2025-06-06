@@ -1,7 +1,6 @@
-import { SlidersHorizontal } from 'lucide-react';
+import { Check, SlidersHorizontal } from 'lucide-react';
 import { type Dispatch, type FC, type SetStateAction, useMemo } from 'react';
 
-import { Button, FormLabel } from '@shadcn-ui/ui';
 import {
   Command,
   CommandEmpty,
@@ -10,8 +9,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@shadcn-ui/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@shadcn-ui/ui/popover';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Button,
+  FormLabel,
+} from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 import useDebouncedValue from '@hooks/useDebouncedValue';
@@ -20,7 +23,7 @@ import { ICommandGroup, SelectItem } from '@typings/commons';
 
 interface IProps {
   commandGroups: ICommandGroup[];
-  setSelectedItems: Dispatch<SetStateAction<ICommandGroup[]>>;
+  setCommandGroups: Dispatch<SetStateAction<ICommandGroup[]>>;
   label?: string;
   isRequired?: boolean;
   triggerLabel?: string;
@@ -31,7 +34,7 @@ interface IProps {
 
 const SharedCommand: FC<IProps> = ({
   commandGroups,
-  setSelectedItems,
+  setCommandGroups,
   label,
   isRequired,
   triggerLabel = '추가할 목록을 선택해주세요',
@@ -44,42 +47,40 @@ const SharedCommand: FC<IProps> = ({
   const filteredGroups = useMemo(() => {
     if (!commandGroups) return [];
 
-    const filteredGroups = commandGroups.filter(group => {
-      return group.items.filter(item => {
-        return item.label.toLowerCase().includes(debouncedValue.toLowerCase());
-      });
-    });
+    const keyword = debouncedValue.trim().toLowerCase();
+    if (!keyword) return commandGroups;
 
-    console.log(filteredGroups);
+    return commandGroups
+      .map(group => {
+        const filteredItems = group.items.filter(item =>
+          item.label.toLowerCase().includes(keyword),
+        );
 
-    return filteredGroups;
+        if (filteredItems.length === 0) return null;
+
+        return {
+          ...group,
+          items: filteredItems,
+        };
+      })
+      .filter(Boolean);
   }, [debouncedValue, commandGroups]);
 
   const onSelect = (heading: SelectItem, item: SelectItem) => {
-    setSelectedItems(prev => {
-      const updatedGroups = [...prev];
-      const groupIndex = updatedGroups.findIndex(g => g.heading.value === heading.value);
+    setCommandGroups(prev =>
+      prev.map(group => {
+        if (group.heading.value !== heading.value) return group;
 
-      if (groupIndex === -1) {
-        return [...updatedGroups, { heading, items: [item] }];
-      }
+        const updatedItems = group.items.map(i =>
+          i.value === item.value ? { ...i, selected: !i.selected } : i,
+        );
 
-      const group = updatedGroups[groupIndex];
-      const itemIndex = group.items.findIndex(i => i.value === item.value);
-
-      if (itemIndex > -1) {
-        const newItems = group.items.filter(i => i.value !== item.value);
-        if (newItems.length === 0) {
-          updatedGroups.splice(groupIndex, 1);
-        } else {
-          updatedGroups[groupIndex] = { ...group, items: newItems };
-        }
-      } else {
-        updatedGroups[groupIndex] = { ...group, items: [...group.items, item] };
-      }
-
-      return updatedGroups;
-    });
+        return {
+          ...group,
+          items: updatedItems,
+        };
+      }),
+    );
   };
 
   return (
@@ -114,8 +115,9 @@ const SharedCommand: FC<IProps> = ({
                         key={item.value}
                         value={item.value}
                         onSelect={() => onSelect(group.heading, item)}
+                        className='flex items-center justify-between gap-2'
                       >
-                        {item.label}
+                        {item.label} {item.selected && <Check />}
                       </CommandItem>
                     ))}
                   </CommandGroup>

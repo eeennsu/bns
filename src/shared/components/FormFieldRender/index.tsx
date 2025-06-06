@@ -8,9 +8,17 @@ interface IProps extends HTMLAttributes<HTMLInputElement> {
   field: ControllerRenderProps<any, string>;
   isRequired?: boolean;
   type: InputHTMLAttributes<HTMLInputElement>['type'];
+  placeholder?: string;
 }
 
-const SharedFormFieldRender: FC<IProps> = ({ label, isRequired, field, type, ...inputProps }) => {
+const SharedFormFieldRender: FC<IProps> = ({
+  label,
+  isRequired,
+  field,
+  type,
+  placeholder,
+  ...inputProps
+}) => {
   return (
     <FormItem>
       {label ? (
@@ -20,7 +28,13 @@ const SharedFormFieldRender: FC<IProps> = ({ label, isRequired, field, type, ...
         </FormLabel>
       ) : null}
       <FormControl>
-        <Input type={type} {...field} {...inputProps} />
+        <Input
+          type={type}
+          {...field}
+          {...inputProps}
+          className='placeholder:text-xs placeholder:text-gray-400'
+          placeholder={placeholder || `${label} 입력`}
+        />
       </FormControl>
       <FormMessage className='text-xs' />
     </FormItem>

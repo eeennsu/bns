@@ -85,7 +85,7 @@ const SharedImageFormFieldRender = <TName extends string>({
       <FormControl className='min-w-full'>
         <div
           {...getRootProps()}
-          className='flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white p-8 text-gray-700 transition select-none hover:border-blue-500 hover:bg-blue-50 focus-visible:outline focus-visible:outline-blue-400'
+          className='flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white p-8 text-gray-700 transition select-none hover:border-blue-200 hover:bg-blue-50 focus-visible:outline focus-visible:outline-blue-500'
         >
           <input {...getInputProps()} disabled={disabled} className='sr-only' />
           <UploadCloud className='mb-3 size-10 text-blue-500' />

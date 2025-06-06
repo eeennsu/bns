@@ -38,7 +38,7 @@ export const BundleFormDtoSchema = z
     sauces: z
       .array(
         z.object({
-        id: z.number(),
+          id: z.number(),
           quantity: z.number().default(1),
         }),
       )

@@ -1,7 +1,7 @@
 import { bundles } from '@db/schemas/bundles';
 import { z } from 'zod';
 
-import { FilterDate, IImageFile, IList, SelectItem } from '@typings/commons';
+import { FilterDate, ICommandGroup, IImageFile, IList, SelectItem } from '@typings/commons';
 
 import { BundleFormDtoSchema } from './contracts';
 
@@ -19,3 +19,5 @@ export type BundleFormDto = z.infer<typeof BundleFormDtoSchema>;
 
 export type SelectProductItem = SelectItem & { price: number };
 export type SelectedProductItem = SelectProductItem & { quantity: number };
+
+export type ICommandGroupBundle = ICommandGroup<SelectedProductItem>;

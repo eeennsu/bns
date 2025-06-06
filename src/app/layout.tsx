@@ -1,6 +1,8 @@
+import ConfigProviders from '@configs/providers';
+import '@configs/setup';
+import ClientSetup from '@configs/setup';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import ConfigProviders from 'src/shared/configs/providers/root';
 
 import RootPageContainer from '@widgets/user/RootPageContainer';
 
@@ -48,6 +50,7 @@ const RootLayout = ({ children }: { children: Readonly<ReactNode> }) => {
     <html lang='ko'>
       <body className={`${NANUM_GOTHIC.className} ${OPEN_SANS.className} antialiased`}>
         <ConfigProviders>
+          <ClientSetup />
           <div className='relative flex h-dvh w-full flex-col'>
             <RootPageContainer>{children}</RootPageContainer>
           </div>

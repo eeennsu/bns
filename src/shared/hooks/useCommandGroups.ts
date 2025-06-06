@@ -7,12 +7,11 @@ interface IParams {
   groupList: SelectItem[][];
 }
 
-const useCommandGroups = ({ headings, groupList }: IParams) => {
-  const [commandGroups, setCommandGroups] = useState<ICommandGroup[]>([]);
-  const [selectedCommandGroups, setSelectedCommandGroups] = useState<ICommandGroup[]>([]);
+const useCommandGroups = <T = ICommandGroup[]>({ headings, groupList }: IParams) => {
+  const [commandGroups, setCommandGroups] = useState<T>([] as T);
 
   useEffect(() => {
-    const groups: ICommandGroup[] = headings.map((heading, index) => {
+    const groups = headings.map((heading, index) => {
       const products = groupList[index] ?? [];
 
       return {
@@ -25,13 +24,12 @@ const useCommandGroups = ({ headings, groupList }: IParams) => {
           value: product.value,
         })),
       };
-    });
+    }) as T;
 
     setCommandGroups(groups);
-    setSelectedCommandGroups([]);
   }, [groupList, headings]);
 
-  return { commandGroups, selectedCommandGroups, setSelectedCommandGroups };
+  return { commandGroups, setCommandGroups };
 };
 
 export default useCommandGroups;

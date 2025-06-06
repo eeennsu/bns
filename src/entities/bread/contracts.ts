@@ -22,6 +22,5 @@ export const BreadFormDtoSchema = z.object({
   isNew: z.boolean(),
   isHidden: z.boolean(),
   price: PriceSchema,
-  discountedPrice: PriceSchema,
   sortOrder: SortOrderSchema,
 });

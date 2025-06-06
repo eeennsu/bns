@@ -11,6 +11,7 @@ interface IProps<TName extends string> extends TextareaHTMLAttributes<HTMLTextAr
   isRequired?: boolean;
   disabled?: boolean;
   height?: string;
+  placeholder?: string;
   onKeyDownLines?: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -20,6 +21,7 @@ const SharedFormTextareaFieldRender = <TName extends string>({
   isRequired,
   disabled,
   height = 'h-28',
+  placeholder,
   onKeyDownLines,
   maxLength,
   ...restProps
@@ -36,7 +38,11 @@ const SharedFormTextareaFieldRender = <TName extends string>({
       <FormControl>
         <div className='relative'>
           <Textarea
-            className={cn(height, 'resize-none', maxLength && 'pr-16')}
+            className={cn(
+              height,
+              'resize-none placeholder:text-xs placeholder:text-gray-400',
+              maxLength && 'pr-16',
+            )}
             {...field}
             maxLength={maxLength}
             {...restProps}
@@ -47,6 +53,7 @@ const SharedFormTextareaFieldRender = <TName extends string>({
               field.onChange(value);
             }}
             onKeyDown={onKeyDownLines}
+            placeholder={placeholder || `${label} 입력`}
           />
           {maxLength && (
             <p className='pointer-events-none absolute right-4 bottom-2 rounded-md bg-white/80 px-2 text-xs font-medium text-gray-400 select-none'>

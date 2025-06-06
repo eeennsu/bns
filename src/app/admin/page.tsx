@@ -1,5 +1,5 @@
+import { TextAnimate } from '@magic-ui/text-animate';
 import { type FC } from 'react';
-import { TextAnimate } from 'src/shared/magic-ui/text-animate';
 
 const AdminPage: FC = () => {
   return (

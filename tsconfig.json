@@ -27,6 +27,7 @@
       "@entities/*": ["src/entities/*"],
       "@utils/*": ["src/shared/utils/*"],
       "@shadcn-ui/*": ["src/shared/shadcn-ui/*"],
+      "@magic-ui/*": ["src/shared/magic-ui/*"],
       "@stores/*": ["src/shared/stores/*"],
       "@hooks/*": ["src/shared/hooks/*"],
       "@libs/*": ["src/shared/libs/*"],
@@ -34,9 +35,10 @@
       "@consts/*": ["src/shared/consts/*"],
       "@contracts/*": ["src/shared/contracts/*"],
       "@components/*": ["src/shared/components/*"],
+      "@configs/*": ["src/shared/configs/*"],
       "@styles/*": ["src/shared/styles/*"],
       "@theme": ["src/shared/styles/theme.ts"],
-      "@config": ["./config/config.json"],
+
       "@db/*": ["src/db/*"]
     },
     "allowJs": true,
