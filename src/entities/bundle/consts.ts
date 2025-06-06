@@ -1,3 +1,5 @@
+import { SelectItem } from '@typings/commons';
+
 export const ADMIN_BUNDLE_KEYS = {
   GET: 'GET_BUNDLE',
   GET_LIST: 'GET_BUNDLE_LIST',
@@ -15,3 +17,13 @@ export const BUNDLE_TOAST_MESSAGES = {
 };
 
 export const BUNDLE_TABLE_HEADERS = ['순서', '이름', '가격', '할인 가격', '생성일', '숨김 여부'];
+export const BUNDLE_COMMAND_GROUPS_HEADING: SelectItem[] = [
+  {
+    label: '빵',
+    value: 'bread',
+  },
+  {
+    label: '소스',
+    value: 'sauce',
+  },
+];

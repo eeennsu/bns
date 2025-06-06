@@ -1,18 +1,19 @@
-import { Minus, Plus } from 'lucide-react';
-import { BaseSyntheticEvent, Dispatch, FC, SetStateAction, useState } from 'react';
+import { BaseSyntheticEvent, Dispatch, FC, SetStateAction, useMemo } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 import { Button, Form, FormField } from '@shadcn-ui/ui';
 
-import { BundleFormDto, SelectedProductItem, SelectProductItem } from '@entities/bundle/types';
+import { BUNDLE_COMMAND_GROUPS_HEADING } from '@entities/bundle/consts';
+import { BundleFormDto, SelectProductItem } from '@entities/bundle/types';
 
-import { FileWithPreview } from '@typings/commons';
+import useCommandGroups from '@hooks/useCommandGroups';
 
+import { FileWithPreview, SelectItem } from '@typings/commons';
+
+import SharedCommand from '@components/Command';
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
 import SharedImageFormFieldRender from '@components/ImageFormFieldRender';
-import SharedMultiSelect from '@components/MultiSelect';
-import SharedSelect from '@components/Select';
 import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
 interface IProps {
@@ -27,31 +28,14 @@ interface IProps {
   sauceList: SelectProductItem[];
 }
 
-const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList }) => {
-  const [selectedBreadList, setSelectedBreadList] = useState<SelectedProductItem[]>([]);
-  // const [selectedSauceList, setSelectedSauceList] = useState<SelectItem[]>([]);
+const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList, sauceList }) => {
+  const groupList = useMemo<SelectItem[][]>(() => [breadList, sauceList], [breadList, sauceList]);
+  const { commandGroups, selectedCommandGroups, setSelectedCommandGroups } = useCommandGroups({
+    headings: BUNDLE_COMMAND_GROUPS_HEADING,
+    groupList,
+  });
 
-  const handleBreadToggle = (value: string) => {
-    setSelectedBreadList(prev => {
-      const findBread = breadList.find(v => v.value === value);
-      return [...prev, { label: findBread.label, value, quantity: 1, price: findBread.price }];
-    });
-  };
-
-  const handleQuantityChange = (value: string, quantity: number) => {
-    setSelectedBreadList(prev => {
-      const existing = prev.find(item => item.value === value);
-      if (existing) {
-        if (quantity === 0) {
-          return prev.filter(item => item.value !== value);
-        } else {
-          return prev.map(item => (item.value === value ? { ...item, quantity } : item));
-        }
-      } else {
-        return prev;
-      }
-    });
-  };
+  console.log(selectedCommandGroups);
 
   return (
     <Form {...form}>
@@ -97,81 +81,65 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList 
             </div>
           </div>
 
-          <FormField
-            name='imageFiles'
-            control={form.control}
-            render={({ field }) => (
-              <SharedImageFormFieldRender
-                files={files}
-                setFiles={setFiles}
-                label='이미지'
-                desc=' 최대 5개까지 업로드 가능합니다. 첫번째 이미지가 대표 이미지로 사용됩니다.'
-                field={field}
-                isRequired
-              />
-            )}
-          />
+          <div className='my-10 space-y-10'>
+            <FormField
+              name='imageFiles'
+              control={form.control}
+              render={({ field }) => (
+                <SharedImageFormFieldRender
+                  files={files}
+                  setFiles={setFiles}
+                  label='이미지'
+                  desc=' 최대 5개까지 업로드 가능합니다. 첫번째 이미지가 대표 이미지로 사용됩니다.'
+                  field={field}
+                  isRequired
+                />
+              )}
+            />
+
+            <div className='flex flex-col gap-4'>
+              <div className='space-y-3'>
+                <div className='flex w-full justify-start'>
+                  <SharedCommand
+                    label='세트 구성품 목록'
+                    isRequired
+                    inputPlaceholder='추가할 빵, 소스를 검색해주세요.'
+                    triggerLabel='추가할 세트 구성품을 선택해주세요'
+                    commandGroups={commandGroups}
+                    setSelectedItems={setSelectedCommandGroups}
+                  />
+                </div>
+
+                {selectedCommandGroups.length > 0 && (
+                  <div className='flex w-full flex-col gap-4'>
+                    {selectedCommandGroups.map(group => (
+                      <div key={group.heading.value} className='flex flex-col gap-2'>
+                        <div className='text-muted-foreground text-sm font-semibold'>
+                          {group.heading.label}
+                        </div>
+                        <div className='flex flex-wrap gap-2'>
+                          {group.items.map(item => (
+                            <div
+                              key={item.value}
+                              className='bg-muted text-muted-foreground rounded-md px-3 py-1 text-xs'
+                            >
+                              {item.label}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
 
           <FormField
             name='isHidden'
             control={form.control}
             render={({ field }) => <SharedSwitchFormFieldRender label='숨김 여부' field={field} />}
           />
-
-          <div className='flex flex-col gap-4'>
-            <div className='space-y-3'>
-              <div className='flex w-full justify-start'>
-                <SharedMultiSelect
-                  placeholder='추가할 빵 목록을 선택해주세요'
-                  selectList={breadList}
-                  setValues={setSelectedBreadList}
-                />
-              </div>
-
-              {selectedBreadList.length > 0 && (
-                <div className='flex w-full flex-wrap justify-start gap-4'>
-                  {selectedBreadList.map(bread => {
-                    const selectedItem = selectedBreadList.find(item => item.value === bread.value);
-
-                    return (
-                      <div
-                        key={bread.value}
-                        className='flex items-center justify-between rounded-xl border px-3 py-2 shadow-sm'
-                      >
-                        <span className='truncate text-sm font-medium'>{selectedItem.label}</span>
-
-                        <div className='flex items-center gap-2'>
-                          <Button
-                            variant='ghost'
-                            type='button'
-                            size='icon'
-                            className='size-7'
-                            onClick={() => handleQuantityChange(bread.value, bread.quantity - 1)}
-                          >
-                            <Minus className='h-4 w-4' />
-                          </Button>
-
-                          <span className='w-6 text-center text-sm font-medium'>
-                            {selectedItem.quantity}
-                          </span>
-
-                          <Button
-                            variant='ghost'
-                            type='button'
-                            size='icon'
-                            className='size-7'
-                            onClick={() => handleQuantityChange(bread.value, bread.quantity + 1)}
-                          >
-                            <Plus className='h-4 w-4' />
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
         </section>
       </form>
     </Form>

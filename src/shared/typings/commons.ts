@@ -83,3 +83,11 @@ export interface IGetListParams {
 }
 
 export type SelectItem<T = string> = { label: string; value: T };
+export interface ICommandGroup {
+  heading: SelectItem;
+  items: Array<
+    SelectItem & {
+      selected?: boolean;
+    }
+  >;
+}
