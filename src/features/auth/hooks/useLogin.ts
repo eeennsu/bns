@@ -9,6 +9,8 @@ import { AUTH_KEYS, AUTH_TOAST_MESSAGES } from '@entities/auth/consts';
 import { adminLoginFormDtoSchema } from '@entities/auth/contracts';
 import { AdminLoginFormDto } from '@entities/auth/types';
 
+import useMeStore from '@stores/me';
+
 import apiLogin from '../apis/login';
 
 interface IParams {
@@ -18,14 +20,19 @@ interface IParams {
 const useLogin = ({ onCloseModal }: IParams = {}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const setMe = useMeStore(state => state.setMe);
 
   const { mutate: login } = useMutation({
     mutationKey: [AUTH_KEYS.LOGIN],
     mutationFn: apiLogin,
-    onSuccess: async () => {
+    onSuccess: async data => {
       onCloseModal();
       router.push(ADMIN_PATHS.product.bread.list());
       toast.success(AUTH_TOAST_MESSAGES.LOGIN_SUCCESS, { position: 'top-right' });
+      setMe({
+        isAuthenticated: true,
+        username: data?.user?.username || null,
+      });
 
       await queryClient.invalidateQueries({
         queryKey: [AUTH_KEYS.SESSION],

@@ -1,8 +1,13 @@
-import { ISessionResponse } from '@entities/auth/types';
-
 import axiosAdmin from '@utils/axios/utilAdminInstance';
 
-const apiSession = async (): Promise<ISessionResponse> => {
+interface IResponse {
+  user: {
+    username: string;
+  };
+  isAuthenticated: boolean;
+}
+
+const apiSession = async (): Promise<IResponse> => {
   const response = await axiosAdmin.get('/auth/session');
 
   return response.data;

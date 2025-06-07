@@ -8,14 +8,14 @@ import SidebarWidget from '@widgets/admin/sidebar';
 import useGetAuthenticate from '@features/auth/hooks/useGetAuthenticate';
 
 const AdminLayoutPage: FC<PropsWithChildren> = ({ children }) => {
-  const { isAuthorized } = useGetAuthenticate();
+  useGetAuthenticate();
 
-  return isAuthorized ? (
+  return (
     <main className='flex'>
       <SidebarWidget />
       <RightWidget>{children}</RightWidget>
     </main>
-  ) : null;
+  );
 };
 
 export default AdminLayoutPage;

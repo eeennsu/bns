@@ -2,12 +2,10 @@ import 'server-only';
 
 import { cookies } from 'next/headers';
 
-import { ISessionResponse } from '@entities/auth/types';
-
 import { verifyToken } from './auth';
 import { TOKEN_TYPE } from './consts';
 
-const DEFAULT_AUTH_CONTEXT: ISessionResponse = {
+const DEFAULT_AUTH_CONTEXT = {
   user: {
     id: '',
     username: '',
@@ -17,7 +15,7 @@ const DEFAULT_AUTH_CONTEXT: ISessionResponse = {
   shouldRefresh: false,
 };
 
-export const getServerSession = async (): Promise<ISessionResponse> => {
+export const getServerSession = async () => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(TOKEN_TYPE.ACCESS)?.value;
   const refreshToken = cookieStore.get(TOKEN_TYPE.REFRESH)?.value;

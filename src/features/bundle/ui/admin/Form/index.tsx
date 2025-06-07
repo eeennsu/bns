@@ -32,6 +32,7 @@ interface IProps {
 
 const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList, sauceList }) => {
   const groupList = useMemo<SelectItem[][]>(() => [breadList, sauceList], [breadList, sauceList]);
+
   const { commandGroups, setCommandGroups } = useCommandGroups<ICommandGroupBundle[]>({
     headings: BUNDLE_COMMAND_GROUPS_HEADING,
     groupList,
@@ -45,7 +46,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList,
             {submitProps.label}
           </Button>
         </section>
-        <section className='space-y-5'>
+        <section className='flex flex-col gap-5'>
           <FormField
             name='name'
             control={form.control}
@@ -60,37 +61,41 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList,
               <SharedFormTextareaFieldRender label='설명' field={field} isRequired />
             )}
           />
-          <div className='flex items-center gap-3'>
-            <div className='grow'>
-              <FormField
-                name='price'
-                control={form.control}
-                render={({ field }) => (
-                  <SharedFormFieldRender label='가격' type='number' field={field} isRequired />
-                )}
-              />
-            </div>
-          </div>
 
-          <div className='my-10 space-y-10'>
-            <div className='flex flex-col gap-4'>
-              <div className='space-y-3'>
-                <div className='flex w-full justify-start'>
-                  <SharedCommand
-                    label='세트 구성품 목록'
-                    isRequired
-                    inputPlaceholder='추가할 빵, 소스를 검색해주세요.'
-                    triggerLabel='추가할 세트 구성품을 선택해주세요'
-                    commandGroups={commandGroups}
-                    setCommandGroups={setCommandGroups}
-                  />
-                </div>
-                <SelectProductList
+          <div className='mt-6 flex flex-col gap-12'>
+            <div className='space-y-3'>
+              <div className='flex w-full justify-start'>
+                <SharedCommand<ICommandGroupBundle>
+                  label='세트 구성품 목록'
+                  isRequired
+                  inputPlaceholder='추가할 빵, 소스를 검색해주세요.'
+                  triggerLabel='추가할 세트 구성품을 선택해주세요'
                   commandGroups={commandGroups}
                   setCommandGroups={setCommandGroups}
+                  renderSubLabel={item => (
+                    <span className='mt-[3px] ml-1 text-[10px] text-gray-700 italic'>
+                      {item.price.toLocaleString()}원
+                    </span>
+                  )}
                 />
               </div>
+              <SelectProductList
+                commandGroups={commandGroups}
+                setCommandGroups={setCommandGroups}
+              />
             </div>
+            <FormField
+              name='price'
+              control={form.control}
+              render={({ field }) => (
+                <SharedFormFieldRender
+                  label='세트 구성 가격'
+                  type='number'
+                  field={field}
+                  tooltip='입력하지 않을 시, 세트 구성 가격은 선택된 품목들의 총 합계로 적용됩니다.'
+                />
+              )}
+            />
 
             <FormField
               name='imageFiles'

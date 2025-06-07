@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import {
   DiscountedPriceSchema,
-  MultipleImageFileSchema,
+  getMultipleImageFileSchema,
   PriceSchema,
   SortOrderSchema,
 } from '@contracts/common';
@@ -23,11 +23,11 @@ export const BundleFormDtoSchema = z
         message: `최대 ${STRING_LENGTH.DESCRIPTION}자 까지 입력할 수 있습니다.`,
       }),
     price: PriceSchema,
-    discountedPrice: DiscountedPriceSchema,
+    discountedPrice: DiscountedPriceSchema.optional(),
     sortOrder: SortOrderSchema,
     isHidden: z.boolean(),
-    imageFiles: MultipleImageFileSchema(1, 5),
-    breads: z
+    imageFiles: getMultipleImageFileSchema(1, 5),
+    bundleBreads: z
       .array(
         z.object({
           id: z.string(),
@@ -35,7 +35,7 @@ export const BundleFormDtoSchema = z
         }),
       )
       .optional(),
-    sauces: z
+    bundleSauces: z
       .array(
         z.object({
           id: z.number(),

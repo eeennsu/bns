@@ -1,4 +1,5 @@
 export * from './alert-dialog';
+export * from './alert';
 export * from './badge';
 export * from './button';
 export * from './calendar';
@@ -22,3 +23,4 @@ export * from './form';
 export * from './switch';
 export * from './table';
 export * from './textarea';
+export * from './tooltip';

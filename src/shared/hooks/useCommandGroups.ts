@@ -20,8 +20,7 @@ const useCommandGroups = <T = ICommandGroup[]>({ headings, groupList }: IParams)
           value: heading.value,
         },
         items: products.map(product => ({
-          label: product.label,
-          value: product.value,
+          ...product,
         })),
       };
     }) as T;

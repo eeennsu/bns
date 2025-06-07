@@ -1,10 +1,9 @@
 'use client';
 
 import dayjs from 'dayjs';
-import { useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MouseEvent, useRef, type FC } from 'react';
+import { MouseEvent, type FC } from 'react';
 
 import AdminEntryPoint from '@features/admin/ui/EntryPoint';
 import useGetSession from '@features/auth/hooks/useGetSession';
@@ -18,9 +17,7 @@ import { BUSINESS_INFO, BRAND_TITLE, SNS_INFO } from '@consts/brand';
 const Footer: FC = () => {
   const { isOpen, setIsOpen, openModal, closeModal } = useModal();
 
-  const footerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(footerRef, { amount: 0.1, once: true });
-  const { session, isLoading: isSessionLoading } = useGetSession({ enabled: isInView });
+  const { session, isLoading: isSessionLoading } = useGetSession();
 
   const onOpenLoginModal = (e: MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
@@ -29,7 +26,7 @@ const Footer: FC = () => {
 
   return (
     <>
-      <footer ref={footerRef} className='bg-[#5D4037] py-10 text-[#FFFDF4]'>
+      <footer className='bg-[#5D4037] py-10 text-[#FFFDF4]'>
         <div className='mx-auto max-w-6xl space-y-4 px-4 text-center'>
           <div className='flex items-center justify-center gap-2'>
             <h2 className='text-xl font-bold tracking-wide'>{BRAND_TITLE.KO}</h2>
@@ -82,7 +79,7 @@ const Footer: FC = () => {
           setIsOpen={setIsOpen}
           onCloseModal={closeModal}
           isLoading={isSessionLoading}
-          isAuthorized={session?.user?.isAuthenticated}
+          isAuthenticated={session?.isAuthenticated}
         />
       )}
     </>

@@ -6,7 +6,10 @@ export const GET = async () => {
   const { user: session, shouldRefresh } = await getServerSession();
 
   if (session) {
-    return NextResponse.json({ user: session, shouldRefresh });
+    return NextResponse.json({
+      user: { username: session.username },
+      isAuthenticated: session.isAuthenticated,
+    });
   }
 
   if (shouldRefresh) {

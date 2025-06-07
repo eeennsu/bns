@@ -21,7 +21,7 @@ export const SingleImageFileSchema = z
     message: '이미지 파일만 업로드 가능합니다.',
   });
 
-export const MultipleImageFileSchema = (minCount: number = 1, maxCount: number = 10) =>
+export const getMultipleImageFileSchema = (minCount: number = 1, maxCount: number = 10) =>
   z
     .array(z.instanceof(File), { message: '이미지가 선택되어야 합니다.' })
     .refine(files => files.length >= minCount, {

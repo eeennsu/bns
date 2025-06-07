@@ -1,5 +1,5 @@
 import { Check, SlidersHorizontal } from 'lucide-react';
-import { type Dispatch, type FC, type SetStateAction, useMemo } from 'react';
+import { type Dispatch, JSX, type SetStateAction, useMemo } from 'react';
 
 import {
   Command,
@@ -15,16 +15,16 @@ import {
   Button,
   FormLabel,
 } from '@shadcn-ui/ui';
-import { cn } from '@shadcn-ui/utils';
 
 import useDebouncedValue from '@hooks/useDebouncedValue';
 
 import { ICommandGroup, SelectItem } from '@typings/commons';
 
-interface IProps {
-  commandGroups: ICommandGroup[];
-  setCommandGroups: Dispatch<SetStateAction<ICommandGroup[]>>;
+interface IProps<T extends ICommandGroup> {
+  commandGroups: T[];
+  setCommandGroups: Dispatch<SetStateAction<T[]>>;
   label?: string;
+  renderSubLabel?: (item: T['items'][number]) => JSX.Element;
   isRequired?: boolean;
   triggerLabel?: string;
   inputPlaceholder?: string;
@@ -32,16 +32,17 @@ interface IProps {
   popOverContentClassName?: string;
 }
 
-const SharedCommand: FC<IProps> = ({
+const SharedCommand = <T extends ICommandGroup>({
   commandGroups,
   setCommandGroups,
   label,
+  renderSubLabel,
   isRequired,
   triggerLabel = '추가할 목록을 선택해주세요',
   inputPlaceholder = '검색어를 입력해주세요.',
   notFoundResultText = '검색 결과가 없습니다.',
   popOverContentClassName,
-}) => {
+}: IProps<T>) => {
   const [debouncedValue, setDebouncedValue] = useDebouncedValue('');
 
   const filteredGroups = useMemo(() => {
@@ -98,7 +99,7 @@ const SharedCommand: FC<IProps> = ({
             <span className='text-xs'>{triggerLabel}</span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className={cn(popOverContentClassName)}>
+        <PopoverContent className={popOverContentClassName}>
           <Command shouldFilter={false}>
             <CommandInput
               placeholder={inputPlaceholder}
@@ -117,7 +118,11 @@ const SharedCommand: FC<IProps> = ({
                         onSelect={() => onSelect(group.heading, item)}
                         className='flex items-center justify-between gap-2'
                       >
-                        {item.label} {item.selected && <Check />}
+                        <div className='flex items-center gap-1'>
+                          {item.label}
+                          {renderSubLabel?.(item)}
+                        </div>
+                        {item.selected && <Check />}
                       </CommandItem>
                     ))}
                   </CommandGroup>

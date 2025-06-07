@@ -13,10 +13,8 @@ const useGetAuthenticate = () => {
   useEffect(() => {
     if (!!session?.user && status === 'success') {
       setMe({
-        id: me.id,
         username: me.username,
-        role: me.role,
-        isAuthenticated: true,
+        isAuthenticated: session.isAuthenticated,
       });
     }
 
@@ -31,7 +29,6 @@ const useGetAuthenticate = () => {
     me,
     isLoading: status === 'pending',
     isError: status === 'error',
-    isAuthorized: me?.role === 'admin' && me?.isAuthenticated,
   };
 };
 

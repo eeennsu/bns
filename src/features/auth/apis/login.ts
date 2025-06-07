@@ -1,9 +1,12 @@
-import { AdminLoginFormDto, IUserRole } from '@entities/auth/types';
+import { AdminLoginFormDto } from '@entities/auth/types';
 
 import axiosMain from '@utils/axios/utilMainInstance';
 
-interface IResponse extends IUserRole {
+interface IResponse {
   ok: boolean;
+  user: {
+    username: string;
+  };
 }
 
 const apiLogin = async (data: AdminLoginFormDto) => {
