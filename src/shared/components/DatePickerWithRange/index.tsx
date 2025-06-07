@@ -5,8 +5,7 @@ import { CalendarIcon } from 'lucide-react';
 import { FC, HTMLAttributes, useState } from 'react';
 import { DateRange, Matcher, SelectRangeEventHandler } from 'react-day-picker';
 
-import { Button, Calendar,  Popover, PopoverContent, PopoverTrigger } from '@shadcn-ui/ui';
-
+import { Button, Calendar, Popover, PopoverContent, PopoverTrigger } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 type IProps = HTMLAttributes<HTMLDivElement> & {

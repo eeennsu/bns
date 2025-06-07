@@ -1,9 +1,10 @@
+import { inputOnlyNumber } from '@libs/inputOnlyNumber';
 import { BaseSyntheticEvent, Dispatch, FC, SetStateAction, useMemo } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 import { Button, Form, FormField } from '@shadcn-ui/ui';
 
-import { BUNDLE_COMMAND_GROUPS_HEADING } from '@entities/bundle/consts';
+import { BUNDLE_COMMAND_GROUP_HEADINGS } from '@entities/bundle/consts';
 import { BundleFormDto, ICommandGroupBundle, SelectProductItem } from '@entities/bundle/types';
 
 import useCommandGroups from '@hooks/useCommandGroups';
@@ -34,7 +35,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList,
   const groupList = useMemo<SelectItem[][]>(() => [breadList, sauceList], [breadList, sauceList]);
 
   const { commandGroups, setCommandGroups } = useCommandGroups<ICommandGroupBundle[]>({
-    headings: BUNDLE_COMMAND_GROUPS_HEADING,
+    headings: BUNDLE_COMMAND_GROUP_HEADINGS,
     groupList,
   });
 
@@ -50,9 +51,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList,
           <FormField
             name='name'
             control={form.control}
-            render={({ field }) => (
-              <SharedFormFieldRender label='이름' type='text' field={field} isRequired />
-            )}
+            render={({ field }) => <SharedFormFieldRender label='이름' field={field} isRequired />}
           />
           <FormField
             name='description'
@@ -77,6 +76,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList,
                       {item.price.toLocaleString()}원
                     </span>
                   )}
+                  formErrorMessage={form?.formState.errors?.productsList?.message}
                 />
               </div>
               <SelectProductList
@@ -85,14 +85,15 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList,
               />
             </div>
             <FormField
-              name='price'
+              name='discountedPrice'
               control={form.control}
               render={({ field }) => (
                 <SharedFormFieldRender
                   label='세트 구성 가격'
                   type='number'
                   field={field}
-                  tooltip='입력하지 않을 시, 세트 구성 가격은 선택된 품목들의 총 합계로 적용됩니다.'
+                  tooltip='입력하지 않을 경우, 세트 가격은 선택한 품목들의 합계로 자동 적용됩니다.'
+                  onChangeCapture={inputOnlyNumber}
                 />
               )}
             />
@@ -112,6 +113,18 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, breadList,
               )}
             />
           </div>
+          <FormField
+            name='sortOrder'
+            control={form.control}
+            render={({ field }) => (
+              <SharedFormFieldRender
+                label='정렬 순서'
+                field={field}
+                isRequired
+                onChangeCapture={inputOnlyNumber}
+              />
+            )}
+          />
 
           <FormField
             name='isHidden'

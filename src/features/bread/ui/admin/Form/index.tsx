@@ -43,7 +43,7 @@ const BreadForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
                 name='name'
                 control={form.control}
                 render={({ field }) => (
-                  <SharedFormFieldRender label='이름' type='text' field={field} isRequired />
+                  <SharedFormFieldRender label='이름' field={field} isRequired />
                 )}
               />
             </div>

@@ -29,8 +29,7 @@ const useCreateBundleForm = () => {
       imageFiles: [],
       isHidden: false,
       sortOrder: '',
-      breads: [],
-      sauces: [],
+      productsList: [],
     },
   });
 
@@ -47,6 +46,8 @@ const useCreateBundleForm = () => {
 
   const onSubmit = form.handleSubmit(
     async (data: BundleFormDto) => {
+      console.log(data);
+      return;
       const imageIds = await startUpload(files, IMAGE_REF_TYPE.BUNDLE);
       const newData = {
         ...data,
@@ -57,6 +58,9 @@ const useCreateBundleForm = () => {
     },
     error => {
       console.log('error', error);
+      if (error?.productsList?.message) {
+        toast.warning(error.productsList.message);
+      }
     },
   );
 

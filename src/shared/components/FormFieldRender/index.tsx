@@ -9,7 +9,7 @@ interface IProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;
   field: ControllerRenderProps<any, string>;
   isRequired?: boolean;
-  type: InputHTMLAttributes<HTMLInputElement>['type'];
+  type?: InputHTMLAttributes<HTMLInputElement>['type'];
   placeholder?: string;
   tooltip?: ReactNode;
 }
@@ -18,7 +18,7 @@ const SharedFormFieldRender: FC<IProps> = ({
   label,
   isRequired,
   field,
-  type,
+  type = 'text',
   placeholder,
   tooltip,
   ...inputProps

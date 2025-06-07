@@ -1,6 +1,8 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { ICommandGroupBundle } from '@entities/bundle/types';
+import { FAIL_MIN_QUANTITY_MESSAGE } from '@entities/bundle/consts';
+import { BundleFormDto, ICommandGroupBundle } from '@entities/bundle/types';
 
 interface IParams {
   commandGroups: ICommandGroupBundle[];
@@ -9,37 +11,68 @@ interface IParams {
 
 const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
   const [selectedProducts, setSelectedProducts] = useState<ICommandGroupBundle[]>([]);
-  const sortedSelectedProducts = useMemo<ICommandGroupBundle[]>(
-    () =>
-      selectedProducts.map(group => ({
-        ...group,
-        items: group.items.sort((a, b) => a.price - b.price),
-      })),
-    [selectedProducts],
-  );
 
   const allSumPrice = selectedProducts.reduce(
     (acc, cur) => acc + cur.items.reduce((a, c) => a + c.price * c.quantity, 0),
     0,
   );
 
-  useEffect(() => {
-    if (commandGroups.length === 0) return;
+  const {
+    setValue,
+    clearErrors,
+    setError,
+    formState: { isSubmitted },
+  } = useFormContext<BundleFormDto>();
 
-    const selectedItems = commandGroups.map(group => ({
-      heading: group.heading,
-      items: group.items
-        .filter(item => item.selected)
-        .map(item => ({
-          ...item,
-          quantity: 1,
+  useEffect(() => {
+    const productsList = selectedProducts.reduce<BundleFormDto['productsList']>((acc, cur) => {
+      return acc.concat(
+        cur.items.map(item => ({
+          type: cur.heading.value as 'bread' | 'sauce',
+          id: item.value,
+          quantity: item.quantity,
         })),
-    }));
+      );
+    }, []);
+
+    setValue('productsList', productsList);
+    setValue('price', allSumPrice);
+
+    if (productsList.reduce((sum, item) => sum + item.quantity, 0) >= 2) {
+      clearErrors('productsList');
+    } else if (isSubmitted) {
+      setError('productsList', {
+        message: FAIL_MIN_QUANTITY_MESSAGE,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProducts]);
+
+  useEffect(() => {
+    const selectedItems = commandGroups.map(group => {
+      const existingGroup = selectedProducts.find(g => g.heading.value === group.heading.value);
+
+      return {
+        heading: group.heading,
+        items: group.items
+          .filter(item => item.selected)
+          .map(item => {
+            const existingItem = existingGroup?.items.find(i => i.value === item.value);
+            return {
+              ...item,
+              quantity: existingItem?.quantity ?? 1,
+            };
+          }),
+      };
+    });
 
     setSelectedProducts(selectedItems);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commandGroups]);
 
-  const deselectItem = useCallback((groupKey: string, itemKey: string) => {
+  const deselectItem = (groupKey: string, itemKey: string) => {
     setCommandGroups(prev =>
       prev.map(group => {
         if (group.heading.value !== groupKey) return group;
@@ -55,9 +88,7 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
         };
       }),
     );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   const updateQuantity = (groupKey: string, itemKey: string, delta: number) => {
     let removed = false;
@@ -101,7 +132,6 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
 
   return {
     selectedProducts,
-    sortedSelectedProducts,
     updateQuantity,
     removeSelectedItem,
     allSumPrice,

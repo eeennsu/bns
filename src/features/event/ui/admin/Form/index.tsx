@@ -37,9 +37,7 @@ const EventForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
           <FormField
             name='name'
             control={form.control}
-            render={({ field }) => (
-              <SharedFormFieldRender label='이름' type='text' field={field} isRequired />
-            )}
+            render={({ field }) => <SharedFormFieldRender label='이름' field={field} isRequired />}
           />
 
           <FormField
@@ -84,7 +82,7 @@ const EventForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
           />
 
           <FormField
-            name=''
+            name='isHidden'
             control={form.control}
             render={({ field }) => <SharedSwitchFormFieldRender label='숨김 여부' field={field} />}
           />

@@ -13,8 +13,9 @@ import {
   PopoverContent,
   PopoverTrigger,
   Button,
-  FormLabel,
+  Label,
 } from '@shadcn-ui/ui';
+import { cn } from '@shadcn-ui/utils';
 
 import useDebouncedValue from '@hooks/useDebouncedValue';
 
@@ -30,6 +31,7 @@ interface IProps<T extends ICommandGroup> {
   inputPlaceholder?: string;
   notFoundResultText?: string;
   popOverContentClassName?: string;
+  formErrorMessage?: string;
 }
 
 const SharedCommand = <T extends ICommandGroup>({
@@ -42,6 +44,7 @@ const SharedCommand = <T extends ICommandGroup>({
   inputPlaceholder = '검색어를 입력해주세요.',
   notFoundResultText = '검색 결과가 없습니다.',
   popOverContentClassName,
+  formErrorMessage,
 }: IProps<T>) => {
   const [debouncedValue, setDebouncedValue] = useDebouncedValue('');
 
@@ -87,10 +90,10 @@ const SharedCommand = <T extends ICommandGroup>({
   return (
     <div className='grid gap-2'>
       {label && (
-        <FormLabel className='gap-0.5'>
+        <Label className={cn('gap-0.5', !!formErrorMessage && 'text-destructive')}>
           {label}
           {isRequired && <strong className='required'>*</strong>}
-        </FormLabel>
+        </Label>
       )}
       <Popover>
         <PopoverTrigger asChild>
@@ -133,6 +136,7 @@ const SharedCommand = <T extends ICommandGroup>({
           </Command>
         </PopoverContent>
       </Popover>
+      {formErrorMessage && <p className='text-destructive text-xs'>{formErrorMessage}</p>}
     </div>
   );
 };

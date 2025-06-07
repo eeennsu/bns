@@ -15,16 +15,16 @@ interface IProps {
 }
 
 const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
-  const { sortedSelectedProducts, updateQuantity, removeSelectedItem, allSumPrice } =
+  const { selectedProducts, updateQuantity, removeSelectedItem, allSumPrice } =
     useSelectProductList({
       commandGroups,
       setCommandGroups,
     });
 
-  return sortedSelectedProducts.length > 0 ? (
+  return selectedProducts.length > 0 ? (
     <div>
       <div className='flex w-full flex-col'>
-        {sortedSelectedProducts.map(group => (
+        {selectedProducts.map(group => (
           <div key={group.heading.value} className='flex flex-col gap-2 py-3 not-last:border-b'>
             <div className='text-muted-foreground text-xs font-semibold'>{group.heading.label}</div>
             <div className='flex flex-wrap gap-3.5'>

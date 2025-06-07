@@ -19,7 +19,7 @@ const AdminLoginForm: FC<IProps> = ({ form, onSubmit }) => {
         <FormField
           name='username'
           control={form.control}
-          render={({ field }) => <SharedFormFieldRender label='아이디' field={field} type='text' />}
+          render={({ field }) => <SharedFormFieldRender label='아이디' field={field} />}
         />
         <FormField
           name='password'

@@ -29,7 +29,6 @@ const TableSearch: FC<IProps> = ({ total, form, onSubmit, placeholder }) => {
               <FormItem className='flex w-full justify-end'>
                 <FormControl>
                   <Input
-                    type='text'
                     className='max-w-70 !text-xs placeholder:!text-xs'
                     placeholder={placeholder || '키워드를 입력해주세요.'}
                     {...field}

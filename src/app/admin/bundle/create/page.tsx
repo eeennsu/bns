@@ -13,8 +13,8 @@ import PageContainer from '@components/PageContainer';
 
 const AdminBundleCreatePage: FC = () => {
   const { form, onSubmit, files, setFiles } = useCreateBundleForm();
-
   usePreventRefresh();
+
   return (
     <PageContainer>
       <BundleForm

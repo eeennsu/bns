@@ -40,7 +40,7 @@ const SauceForm: FC<IProps> = ({ files, setFiles, form, submitProps }) => {
                 name='name'
                 control={form.control}
                 render={({ field }) => (
-                  <SharedFormFieldRender label='이름' type='text' field={field} isRequired />
+                  <SharedFormFieldRender label='이름' field={field} isRequired />
                 )}
               />
             </div>
