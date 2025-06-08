@@ -90,4 +90,5 @@ const DUMMY_BUNDLES: IBundleItem[] = Array.from({ length: 10 }, (_, index) => ({
   deletedAt: null,
   isSignature: true,
   imageFiles: [],
+  productsList: [],
 }));

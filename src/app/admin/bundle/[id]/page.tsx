@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import DetailWidget from '@widgets/admin/detail';
 
 import useGetBundle from '@features/bundle/hooks/useGetBundle';
+import useModifyBundle from '@features/bundle/hooks/useModifyForm';
 import BundleForm from '@features/bundle/ui/admin/Form';
 
 import { IBundleItem } from '@entities/bundle/types';
@@ -27,9 +28,21 @@ interface IProps {
 }
 
 const BundleModify: FC<IProps> = ({ bundle }) => {
-  console.log(bundle);
+  const { files, form, onSubmit, setFiles } = useModifyBundle(bundle);
 
-  return <BundleForm />;
+  return (
+    <BundleForm
+      breadList={[]}
+      sauceList={[]}
+      files={files}
+      form={form}
+      setFiles={setFiles}
+      submitProps={{
+        label: '수정',
+        onSubmit,
+      }}
+    />
+  );
 };
 
 export default AdminBundleModifyPage;
