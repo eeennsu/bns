@@ -6,8 +6,10 @@ export const SearchFormDtoSchema = z.object({
   search: z.string(),
 });
 
+export const ImageFileTypeSchema = z.enum(['bread', 'sauce', 'bundle', 'event']);
+
 export const ImageFileInputSchema = z.object({
-  ref: z.enum(['bread', 'sauce', 'bundle', 'event']),
+  ref: ImageFileTypeSchema,
 });
 
 export const SingleImageFileSchema = z

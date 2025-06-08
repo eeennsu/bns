@@ -3,7 +3,14 @@ import { z } from 'zod';
 
 import { getMultipleImageFileSchema, SortOrderSchema } from '@contracts/common';
 
-import { FAIL_MIN_QUANTITY_MESSAGE } from './consts';
+import { BUNDLE_ITEM_TYPES, FAIL_MIN_QUANTITY_MESSAGE } from './consts';
+
+export const BundleProductSchema = z.object({
+  type: z.enum(BUNDLE_ITEM_TYPES),
+  id: z.string(),
+  quantity: z.number().default(1),
+  price: z.number(),
+});
 
 export const BundleFormDtoSchema = z.object({
   name: z
@@ -24,13 +31,7 @@ export const BundleFormDtoSchema = z.object({
   isHidden: z.boolean(),
   imageFiles: getMultipleImageFileSchema(1, 5),
   productsList: z
-    .array(
-      z.object({
-        type: z.enum(['bread', 'sauce']),
-        id: z.string(),
-        quantity: z.number().default(1),
-      }),
-    )
+    .array(BundleProductSchema)
     .refine(val => val.reduce((sum, item) => sum + item?.quantity || 0, 0) >= 2, {
       message: FAIL_MIN_QUANTITY_MESSAGE,
     }),

@@ -3,60 +3,63 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import getImageId from '@features/upload/apis/getImageId';
+import getMultiImageIds from '@features/upload/apis/getMultiImageIdx';
 
-import { ADMIN_EVENT_KEYS, EVENT_TOAST_MESSAGES } from '@entities/event/consts';
-import { EventFormDtoSchema } from '@entities/event/contracts';
-import { EventFormDto, IEventItem } from '@entities/event/types';
+import { ADMIN_BUNDLE_KEYS, BUNDLE_TOAST_MESSAGES } from '@entities/bundle/consts';
+import { BundleFormDtoSchema } from '@entities/bundle/contracts';
+import { BundleFormDto, IBundleItem } from '@entities/bundle/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
 import { IMAGE_REF_TYPE } from '@consts/commons';
 
-import apiModifyEvent from '../apis/modify';
+import apiModifyBundle from '../apis/modify';
 
-const useModifyEvent = (event: IEventItem) => {
+const useModifyBundle = (bundle: IBundleItem) => {
   const { files, setFiles } = useImageFiles();
 
-  const form = useForm<EventFormDto>({
-    resolver: zodResolver(EventFormDtoSchema),
+  const form = useForm<BundleFormDto>({
+    resolver: zodResolver(BundleFormDtoSchema),
     defaultValues: {
-      name: event?.name || '',
-      description: event?.description || '',
-      dateRange: {
-        from: event?.startDate || '',
-        to: event?.endDate || '',
-      },
+      name: bundle?.name || '',
+      description: bundle?.description || '',
       imageFiles: [],
-      sortOrder: event?.sortOrder || '',
+      sortOrder: bundle?.sortOrder || '',
+      isHidden: bundle?.isHidden ?? false,
+      discountedPrice: bundle?.discountedPrice || '',
+      productsList: bundle?.productsList || [],
     },
   });
 
-  const { mutate: modifyEvent } = useMutation({
-    mutationKey: [ADMIN_EVENT_KEYS.MODIFY],
-    mutationFn: apiModifyEvent,
+  const { mutate: modifyBundle } = useMutation({
+    mutationKey: [ADMIN_BUNDLE_KEYS.MODIFY],
+    mutationFn: apiModifyBundle,
     onSuccess: () => {
-      toast.success(EVENT_TOAST_MESSAGES.CREATE_SUCCESS);
+      toast.success(BUNDLE_TOAST_MESSAGES.CREATE_SUCCESS);
     },
     onError: () => {
-      toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED);
+      toast.error(BUNDLE_TOAST_MESSAGES.CREATE_FAILED);
     },
   });
 
-  const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    const imageId = await getImageId<EventFormDto, IEventItem>(data, IMAGE_REF_TYPE.EVENT, event);
+  const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
+    const updatedImageIds = await getMultiImageIds<BundleFormDto, IBundleItem>(
+      data,
+      IMAGE_REF_TYPE.BUNDLE,
+      bundle,
+    );
 
     const newData = {
       ...data,
-      imageId,
+      imageIds: updatedImageIds,
     };
 
-    modifyEvent({
-      id: event.id,
+    modifyBundle({
+      id: bundle.id,
       data: newData,
     });
   });
 
   return { form, onSubmit, files, setFiles };
 };
-export default useModifyEvent;
+export default useModifyBundle;

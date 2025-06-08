@@ -2,7 +2,7 @@ import { useUploadThing } from '@libs/uploadImage';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { FileWithPreview, IImageFile, ImageFileInput } from '@typings/commons';
+import { FileWithPreview, IImageFile, ImageFileType } from '@typings/commons';
 
 import { FILE_UPLOAD_TOAST_MESSAGES } from '@consts/commons';
 
@@ -30,7 +30,7 @@ const useUploadImage = () => {
     },
   });
 
-  const startUpload = async (files: FileWithPreview[], type: ImageFileInput['ref']) => {
+  const startUpload = async (files: FileWithPreview[], type: ImageFileType) => {
     const response = await _startUpload(files, { ref: type } as any);
     if (!response) {
       return [{ imageId: null }];

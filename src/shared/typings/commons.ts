@@ -1,7 +1,7 @@
 import { JSX } from 'react';
 import { z } from 'zod';
 
-import { ImageFileInputSchema, SearchFormDtoSchema } from '@contracts/common';
+import { ImageFileInputSchema, ImageFileTypeSchema, SearchFormDtoSchema } from '@contracts/common';
 
 export type Nullable<T> = T | null;
 
@@ -55,6 +55,7 @@ export interface ITableDefaultItem {
 export type SearchFormDto = z.infer<typeof SearchFormDtoSchema>;
 
 export type ImageFileInput = z.infer<typeof ImageFileInputSchema>;
+export type ImageFileType = z.infer<typeof ImageFileTypeSchema>;
 export type FileWithPreview = File & { preview: string };
 export type FileWithDropzone = FileWithPreview | IImageFile;
 

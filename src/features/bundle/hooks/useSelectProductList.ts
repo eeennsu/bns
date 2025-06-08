@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { FAIL_MIN_QUANTITY_MESSAGE } from '@entities/bundle/consts';
-import { BundleFormDto, ICommandGroupBundle } from '@entities/bundle/types';
+import { BundleFormDto, BundleItemType, ICommandGroupBundle } from '@entities/bundle/types';
 
 interface IParams {
   commandGroups: ICommandGroupBundle[];
@@ -28,7 +28,7 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     const productsList = selectedProducts.reduce<BundleFormDto['productsList']>((acc, cur) => {
       return acc.concat(
         cur.items.map(item => ({
-          type: cur.heading.value as 'bread' | 'sauce',
+          type: cur.heading.value as BundleItemType,
           id: item.value,
           quantity: item.quantity,
         })),

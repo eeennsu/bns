@@ -29,3 +29,5 @@ export const BUNDLE_COMMAND_GROUP_HEADINGS: SelectItem[] = [
     value: 'sauce',
   },
 ];
+
+export const BUNDLE_ITEM_TYPES = ['bread', 'sauce'] as const
