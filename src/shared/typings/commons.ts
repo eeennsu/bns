@@ -58,6 +58,7 @@ export type ImageFileInput = z.infer<typeof ImageFileInputSchema>;
 export type ImageFileType = z.infer<typeof ImageFileTypeSchema>;
 export type FileWithPreview = File & { preview: string };
 export type FileWithDropzone = FileWithPreview | IImageFile;
+export interface IFileImagesWithSortOrder { id: string; sortOrder: number }
 
 export interface IImageFile {
   id: string;
