@@ -5,13 +5,20 @@ export const cloneSearchParams = (searchParams: URLSearchParams): URLSearchParam
 
 export const buildUrlWithParams = (
   path: string,
-  params: Record<string, string | number | undefined>,
+  params: Record<string, string | number | undefined> & {
+    orderBy?: string;
+    order?: 'asc' | 'desc';
+  },
 ) => {
-  const url = new URL(path);
+  const query = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined || value !== '') url.searchParams.append(key, value.toString());
+    if (value !== undefined && value !== '') {
+      query.append(key, value.toString().trim());
+    }
   });
 
-  return url.pathname + url.search;
+  // query.append('orderBy', 'createdAt=desc&sortOrder=asc');
+
+  return `${path}?${query.toString()}`;
 };

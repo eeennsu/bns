@@ -4,7 +4,7 @@ interface IResponse {
   user: {
     username: string;
   };
-  isAuthenticated: boolean;
+  isAuthorized: boolean;
 }
 
 const apiSession = async (): Promise<IResponse> => {

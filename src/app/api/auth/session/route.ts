@@ -8,7 +8,7 @@ export const GET = async () => {
   if (session) {
     return NextResponse.json({
       user: { username: session.username },
-      isAuthenticated: session.isAuthenticated,
+      isAuthorized: session?.isAuthenticated && session?.role === 'admin',
     });
   }
 

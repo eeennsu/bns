@@ -26,7 +26,7 @@ export const withAuth = (apiHandler: ApiHandler) => {
     try {
       payload = verifyToken(accessToken);
     } catch (error: any) {
-      console.log('verifyToken Error : ', error);
+      console.error('verifyToken Error : ', error);
       return NextResponse.json({ error: ADMIN_ERRORS.INVALID_ACCESS_TOKEN }, { status: 401 });
     }
 

@@ -14,7 +14,7 @@ interface IProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   onCloseModal: () => void;
   isLoading: boolean;
-  isAuthenticated: boolean;
+  isAuthorized: boolean;
 }
 
 const AdminEntryPoint: FC<IProps> = ({
@@ -22,7 +22,7 @@ const AdminEntryPoint: FC<IProps> = ({
   setIsOpen,
   onCloseModal,
   isLoading,
-  isAuthenticated,
+  isAuthorized,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -33,7 +33,7 @@ const AdminEntryPoint: FC<IProps> = ({
             <Skeleton className='h-9' />
             <Skeleton className='h-9' />
           </DialogTitle>
-        ) : isAuthenticated ? (
+        ) : isAuthorized ? (
           <AdminDialog onCloseModal={onCloseModal} />
         ) : (
           <LoginDialog onCloseModal={onCloseModal} />

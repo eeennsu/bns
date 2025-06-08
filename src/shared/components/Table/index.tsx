@@ -141,7 +141,7 @@ const Table = <T extends ITableDefaultItem>({
             <TableRow>
               <TableCell
                 colSpan={headers.length}
-                className='py-10 text-center text-sm text-gray-500'
+                className='py-10 text-center text-xs text-gray-400'
               >
                 {emptyDataText || '데이터가 없습니다.'}
               </TableCell>

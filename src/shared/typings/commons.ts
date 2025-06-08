@@ -96,3 +96,16 @@ export interface ICommandGroup<T = Record<string, any>> {
     } & T
   >;
 }
+
+export interface IListResponse {
+  ok: boolean;
+  data: {
+    list: any[];
+    totalCount: number;
+    page: number;
+  }
+}
+export interface IItemResponse {
+  ok: boolean;
+  data: any;
+}

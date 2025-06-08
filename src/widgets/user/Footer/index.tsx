@@ -79,7 +79,7 @@ const Footer: FC = () => {
           setIsOpen={setIsOpen}
           onCloseModal={closeModal}
           isLoading={isSessionLoading}
-          isAuthenticated={session?.isAuthenticated}
+          isAuthorized={session?.isAuthorized}
         />
       )}
     </>

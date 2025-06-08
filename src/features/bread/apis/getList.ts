@@ -11,7 +11,7 @@ import { filterBreadListResponse } from '../libs/filterResponse';
 interface IParams extends IGetListParams {}
 
 const apiGetBreadList = async ({ page, pageSize, search }: IParams): Promise<IBreadList> => {
-  const url = buildUrlWithParams('/admin/bread/list', { page, pageSize, search });
+  const url = buildUrlWithParams('/admin/bread', { page, pageSize, search });
 
   const response = await axiosAdmin.get(url);
   const data = filterBreadListResponse(response.data);
