@@ -19,12 +19,19 @@ const useModifyBread = (bread: IBreadItem) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const breadImage = bread.imageFiles[0];
+  const breadImage = bread.imageFiles.at(0);
 
-  const img = {
-    id: breadImage.id,
-    url: breadImage.url,
-  };
+  const img = breadImage
+    ? [
+        {
+          id: breadImage?.id,
+          preview: breadImage?.url,
+          name: breadImage?.name,
+          type: breadImage?.type,
+          size: breadImage?.size,
+        },
+      ]
+    : [];
 
   const form = useForm<BreadFormDto>({
     resolver: zodResolver(BreadFormDtoSchema),
@@ -37,11 +44,11 @@ const useModifyBread = (bread: IBreadItem) => {
       isHidden: bread?.isHidden ?? false,
       mbti: bread?.mbti || '',
       sortOrder: bread?.sortOrder || '',
-      imageFiles: img ? [img] : [],
+      imageFiles: img,
     },
   });
 
-  const { files, setFiles } = useImageFiles();
+  const { files, setFiles } = useImageFiles(img);
 
   const { mutate: modifyBread } = useMutation({
     mutationKey: [ADMIN_BREAD_KEYS.MODIFY],
@@ -60,19 +67,24 @@ const useModifyBread = (bread: IBreadItem) => {
     },
   });
 
-  const onSubmit = form.handleSubmit(async (data: BreadFormDto) => {
-    const imageId = await getImageId<BreadFormDto, IBreadItem>(data, bread);
+  const onSubmit = form.handleSubmit(
+    async (data: BreadFormDto) => {
+      const imageId = await getImageId<BreadFormDto, IBreadItem>(data, bread);
 
-    const newData = {
-      ...data,
-      imageId,
-    };
+      const newData = {
+        ...data,
+        imageId,
+      };
 
-    modifyBread({
-      id: bread.id,
-      data: newData,
-    });
-  });
+      modifyBread({
+        id: bread.id,
+        data: newData,
+      });
+    },
+    error => {
+      console.log(error);
+    },
+  );
 
   return { form, onSubmit, files, setFiles };
 };

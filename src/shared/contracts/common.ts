@@ -9,7 +9,11 @@ export const SearchFormDtoSchema = z.object({
 export const imageFileSchema = z.object({
   id: z.string(),
   url: z.string().optional(),
+  preview: z.string().optional(),
   order: z.number().optional(),
+  name: z.string(),
+  type: z.string(),
+  size: z.number(),
 });
 
 export const SingleImageFileSchema = z

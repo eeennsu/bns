@@ -3,21 +3,22 @@ import { ClientUploadedFileData } from 'uploadthing/types';
 
 import { IImageFile } from '@typings/commons';
 
-const getImageId = async <T extends { imageFiles?: any }, D extends { imageFile: IImageFile }>(
+const getImageId = async <T extends { imageFiles?: any }, D extends { imageFiles: IImageFile[] }>(
   data: T,
   existData?: D,
 ) => {
   let imageId: string | undefined = undefined;
 
   const newFile = data?.imageFiles?.[0];
+  const existFile = existData?.imageFiles?.[0];
+
   const isSameFile =
-    newFile &&
-    existData?.imageFile &&
-    newFile.name === existData.imageFile.name &&
-    newFile.size === existData.imageFile.size;
+    newFile?.name === existFile?.name &&
+    newFile?.type === existFile?.type &&
+    newFile?.size === existFile?.size;
 
   if (isSameFile) {
-    imageId = existData?.imageFile?.url;
+    imageId = existFile.id;
   } else {
     let uploadResponse: ClientUploadedFileData<{
       imageId: string;

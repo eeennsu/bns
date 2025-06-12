@@ -7,7 +7,7 @@ import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { BreadFormDto } from '@entities/bread/types';
 
-import { FileWithPreview } from '@typings/commons';
+import { FileWithDropzone } from '@typings/commons';
 
 import { MBTI_TYPE } from '@consts/brand';
 
@@ -19,8 +19,8 @@ import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
 interface IProps {
   form: UseFormReturn<BreadFormDto>;
-  files: FileWithPreview[];
-  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
+  files: FileWithDropzone[];
+  setFiles: Dispatch<SetStateAction<FileWithDropzone[]>>;
   submitProps: {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;

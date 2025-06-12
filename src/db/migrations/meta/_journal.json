@@ -8,6 +8,13 @@
       "when": 1749732841319,
       "tag": "0000_loose_jack_power",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1749733003727,
+      "tag": "0001_slippery_giant_girl",
+      "breakpoints": true
     }
   ]
 }

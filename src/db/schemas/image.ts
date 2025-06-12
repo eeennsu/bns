@@ -6,6 +6,7 @@ export const images = pgTable('images', {
   url: text().notNull(),
   type: varchar({ length: 50 }).default('image/jpeg').notNull(),
   size: integer().default(0).notNull(),
+  name: text().default('').notNull(),
 });
 
 export const imageReferences = pgTable(

@@ -32,7 +32,9 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
     .select({
       id: images.id,
       url: images.url,
-      order: imageReferences.order,
+      name: images.name,
+      type: images.type,
+      size: images.size,
     })
     .from(imageReferences)
     .innerJoin(images, eq(imageReferences.imageId, images.id))
@@ -45,7 +47,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
 
   const response = {
     ...foundedBread,
-    images: breadImage ? [breadImage] : [],
+    imageFiles: breadImage ? [breadImage] : [],
   };
 
   return NextResponse.json(setSucResponseData(response));

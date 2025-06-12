@@ -7,13 +7,13 @@ import { toast } from 'sonner';
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
-import { FileWithPreview } from '@typings/commons';
+import { FileWithDropzone } from '@typings/commons';
 
 import { FILE_UPLOAD_TOAST_MESSAGES } from '@consts/commons';
 
 interface IProps<TName extends string> {
-  files: FileWithPreview[];
-  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
+  files: FileWithDropzone[];
+  setFiles: Dispatch<SetStateAction<FileWithDropzone[]>>;
   field: ControllerRenderProps<any, TName>;
   label: string;
   desc?: string;
@@ -105,9 +105,8 @@ const SharedImageFormFieldRender = <TName extends string>({
                 <X size={16} className='text-white' />
               </div>
               <img
-                src={file.preview}
+                src={file?.preview}
                 alt={file.name}
-                width={file.size}
                 className={cn('size-64 object-cover', imgClassName)}
               />
             </div>
