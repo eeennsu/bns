@@ -11,8 +11,6 @@ import { BundleFormDto } from '@entities/bundle/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import { IMAGE_REF_TYPE } from '@consts/commons';
-
 import apiCreateBundle from '../apis/create';
 
 const useCreateBundleForm = () => {
@@ -46,7 +44,7 @@ const useCreateBundleForm = () => {
 
   const onSubmit = form.handleSubmit(
     async (data: BundleFormDto) => {
-      const imageIds = await startUpload(files, IMAGE_REF_TYPE.BUNDLE);
+      const imageIds = await startUpload(files);
       const newData = {
         ...data,
         imageIds,

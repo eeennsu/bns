@@ -18,7 +18,7 @@ export const BreadFormDtoSchema = z.object({
     }),
   mbti: z.string().min(1, { message: 'MBTI를 선택해주세요.' }),
   imageFiles: SingleImageFileSchema,
-  isSigniture: z.boolean(),
+  isSignature: z.boolean(),
   isNew: z.boolean(),
   isHidden: z.boolean(),
   price: PriceSchema,

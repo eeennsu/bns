@@ -9,11 +9,4 @@ export const FILE_UPLOAD_TOAST_MESSAGES = {
   MAX_COUNT_EXCEEDED: '최대 파일 개수를 초과하였습니다. 제거 후 다시 업로드해주세요.',
 };
 
-export const IMAGE_REF_TYPE = {
-  BREAD: 'bread',
-  SAUCE: 'sauce',
-  BUNDLE: 'bundle',
-  EVENT: 'event',
-} as const;
-
 export const MAX_FILE_SIZE = '4MB';

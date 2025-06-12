@@ -4,14 +4,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from 'src/shared/api/auth';
 
 import { TOKEN_TYPE } from './consts';
-import { ADMIN_ERRORS } from './errorResponse';
-
-type ApiParams = Promise<{ slug: string }>;
-
-type ApiHandler = (
-  request: NextRequest,
-  { params }: { params: ApiParams },
-) => Promise<NextResponse>;
+import { ADMIN_ERRORS } from './errorMessage';
+import { ApiHandler, ApiParams } from './typings';
+import { withErrorHandler } from './withErrorHandler';
 
 export const withAuth = (apiHandler: ApiHandler) => {
   return async (request: NextRequest, { params }: { params: ApiParams }) => {
@@ -39,6 +34,8 @@ export const withAuth = (apiHandler: ApiHandler) => {
       return NextResponse.json({ error: ADMIN_ERRORS.INVALID_TOKEN_PAYLOAD }, { status: 401 });
     }
 
-    return apiHandler(request, { params });
+    const wrappedHandler = withErrorHandler(apiHandler);
+
+    return wrappedHandler(request, { params });
   };
 };

@@ -1,6 +1,6 @@
 {
-  "id": "b99e35de-fbf0-4131-9c4f-009af65c5556",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "457304e1-c34e-4201-84d4-d5e247935e7d",
+  "prevId": "3e52ff46-95f1-4f3d-9b79-d71d335f743e",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -10,7 +10,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
@@ -23,12 +23,6 @@
         "description": {
           "name": "description",
           "type": "varchar(1000)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "image": {
-          "name": "image",
-          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": true
         },
@@ -65,12 +59,12 @@
           "notNull": true,
           "default": 1
         },
-        "is_active": {
-          "name": "is_active",
+        "is_hidden": {
+          "name": "is_hidden",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "default": true
+          "default": false
         },
         "created_at": {
           "name": "created_at",
@@ -154,7 +148,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
@@ -272,7 +266,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
@@ -390,7 +384,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
@@ -405,12 +399,6 @@
           "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": true
-        },
-        "image": {
-          "name": "image",
-          "type": "varchar(2048)",
-          "primaryKey": false,
-          "notNull": false
         },
         "price": {
           "name": "price",
@@ -431,12 +419,12 @@
           "notNull": true,
           "default": 1
         },
-        "is_active": {
-          "name": "is_active",
+        "is_hidden": {
+          "name": "is_hidden",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "default": true
+          "default": false
         },
         "created_at": {
           "name": "created_at",
@@ -490,7 +478,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
@@ -505,12 +493,6 @@
           "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": true
-        },
-        "image": {
-          "name": "image",
-          "type": "varchar(2048)",
-          "primaryKey": false,
-          "notNull": false
         },
         "start_date": {
           "name": "start_date",
@@ -531,12 +513,12 @@
           "notNull": true,
           "default": 1
         },
-        "is_active": {
-          "name": "is_active",
+        "is_hidden": {
+          "name": "is_hidden",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "default": true
+          "default": false
         },
         "created_at": {
           "name": "created_at",
@@ -561,6 +543,21 @@
         }
       },
       "indexes": {
+        "events_name_idx": {
+          "name": "events_name_idx",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "events_start_date_idx": {
           "name": "events_start_date_idx",
           "columns": [
@@ -599,13 +596,123 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.image_references": {
+      "name": "image_references",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "image_id": {
+          "name": "image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ref_table": {
+          "name": "ref_table",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ref_id": {
+          "name": "ref_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "idx_ref_table_id_order": {
+          "name": "idx_ref_table_id_order",
+          "columns": [
+            {
+              "expression": "ref_table",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ref_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.images": {
+      "name": "images",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'image/jpeg'"
+        },
+        "size": {
+          "name": "size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.sauces": {
       "name": "sauces",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
@@ -618,12 +725,6 @@
         "description": {
           "name": "description",
           "type": "varchar(1000)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "image": {
-          "name": "image",
-          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": true
         },
@@ -654,12 +755,12 @@
           "notNull": true,
           "default": 1
         },
-        "is_active": {
-          "name": "is_active",
+        "is_hidden": {
+          "name": "is_hidden",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "default": true
+          "default": false
         },
         "created_at": {
           "name": "created_at",
@@ -683,25 +784,41 @@
           "default": null
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
+      "indexes": {
         "sauces_name_idx": {
           "name": "sauces_name_idx",
-          "nullsNotDistinct": false,
           "columns": [
-            "name"
-          ]
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "sauces_price_idx": {
           "name": "sauces_price_idx",
-          "nullsNotDistinct": false,
           "columns": [
-            "price"
-          ]
+            {
+              "expression": "price",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

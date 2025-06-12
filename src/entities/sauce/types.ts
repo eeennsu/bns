@@ -8,7 +8,7 @@ import { SauceFormDtoSchema } from './contracts';
 type Sauce = typeof sauces.$inferSelect;
 export interface ISauce extends FilterDate<Sauce> {}
 export interface ISauceItem extends ISauce {
-  imageFile: IImageFile;
+  imageFiles: IImageFile[];
 }
 export interface ISauceList extends IList<ISauceItem> {}
 

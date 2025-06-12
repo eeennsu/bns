@@ -49,7 +49,7 @@ const AdminBreadListPage: FC = () => {
       />
       <Table<IBreadItem>
         headers={BREAD_TABLE_HEADERS}
-        items={data?.items || DUMMY_BREADS}
+        items={data?.items}
         showItems={[
           'sortOrder',
           'name',
@@ -62,6 +62,12 @@ const AdminBreadListPage: FC = () => {
         ]}
         onClickItem={onClickModifyBread}
         renderItemProps={[
+          // {
+          //   itemKey: 'name',
+          //   children: item => (
+          //     <div className='w-[100px] overflow-visible bg-blue-400 font-bold'>{item.name}</div>
+          //   ),
+          // },
           {
             itemKey: 'mbti',
             children: item => <Badge variant='secondary'>{item.mbti}</Badge>,
@@ -86,29 +92,3 @@ const AdminBreadListPage: FC = () => {
 };
 
 export default AdminBreadListPage;
-
-const DUMMY_BREADS: IBreadItem[] = Array.from({ length: 10 }, (_, index) => ({
-  id: index + 1,
-  name: '메론 빵',
-  description: '빵 설명',
-  image: 'https://picsum.photos/id/63/350/256',
-  price: 12000,
-  mbti: 'ENTP',
-  isSigniture: true,
-  isNew: true,
-  sortOrder: index + 1,
-  createdAt: new Date('2025-04-03').toISOString(),
-  updatedAt: new Date('2025-04-04').toISOString(),
-  deletedAt: null,
-  isHidden: false,
-  isSignature: true,
-  imageFile: {
-    id: '1',
-    key: '1',
-    name: '1',
-    type: '1',
-    url: '1',
-    lastModified: 1,
-    size: 1,
-  },
-}));

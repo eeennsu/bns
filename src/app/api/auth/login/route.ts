@@ -9,7 +9,7 @@ import {
   setRefreshTokenCookie,
 } from 'src/shared/api/auth';
 import { TOKEN_TYPE } from 'src/shared/api/consts';
-import { AUTH_ERRORS } from 'src/shared/api/errorResponse';
+import { AUTH_ERRORS } from 'src/shared/api/errorMessage';
 
 export const POST = async (req: NextRequest) => {
   const body = await req.json();

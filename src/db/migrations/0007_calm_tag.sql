@@ -1,1 +1,0 @@
-ALTER TABLE "bundles" ADD COLUMN "discounted_price" integer;

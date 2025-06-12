@@ -4,6 +4,7 @@ interface IResponse {
   user: {
     username: string;
   };
+  isAuthenticated: boolean;
   isAuthorized: boolean;
 }
 

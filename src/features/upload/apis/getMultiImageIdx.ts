@@ -1,10 +1,9 @@
 import { uploadFiles } from '@libs/uploadImage';
 
-import { IFileImagesWithSortOrder, ImageFileType } from '@typings/commons';
+import { IFileImagesWithSortOrder } from '@typings/commons';
 
 const getMultiImageIds = async <T extends { imageFiles?: any }, D extends { imageFiles: any[] }>(
   data: T,
-  type: ImageFileType,
   existingData?: D,
 ): Promise<IFileImagesWithSortOrder[]> => {
   const newFiles = (data?.imageFiles ?? []) as any[];
@@ -33,8 +32,7 @@ const getMultiImageIds = async <T extends { imageFiles?: any }, D extends { imag
     try {
       uploadResponse = await uploadFiles('imageUploader', {
         files: filesToUpload.map(f => f.file),
-        input: { ref: type },
-      } as any);
+      });
     } catch (error) {
       console.error('getMultiImageIds: ', error);
       throw error;

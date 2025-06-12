@@ -115,7 +115,7 @@ const SauceForm: FC<IProps> = ({ files, setFiles, form, submitProps }) => {
             />
 
             <FormField
-              name='isSigniture'
+              name='isSignature'
               control={form.control}
               render={({ field }) => (
                 <SharedSwitchFormFieldRender label='시그니처 여부' field={field} />

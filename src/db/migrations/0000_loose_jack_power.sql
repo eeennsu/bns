@@ -1,0 +1,1 @@
+ALTER TABLE "sauces" DROP COLUMN "image";

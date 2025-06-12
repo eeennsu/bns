@@ -5,10 +5,9 @@ import { IImageFile, IList, FilterDate } from '@typings/commons';
 
 import { BreadFormDtoSchema } from './contracts';
 
-type Bread = typeof breads.$inferSelect;
-export interface IBread extends FilterDate<Bread> {}
+export interface IBread extends FilterDate<typeof breads.$inferSelect> {}
 export interface IBreadItem extends IBread {
-  imageFile: IImageFile;
+  imageFiles: IImageFile[];
 }
 export interface IBreadList extends IList<IBreadItem> {}
 

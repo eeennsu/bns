@@ -2,7 +2,7 @@ import { useUploadThing } from '@libs/uploadImage';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { FileWithPreview, IImageFile, ImageFileType } from '@typings/commons';
+import { FileWithPreview, IImageFile } from '@typings/commons';
 
 import { FILE_UPLOAD_TOAST_MESSAGES } from '@consts/commons';
 
@@ -17,7 +17,6 @@ const useUploadImage = () => {
     onClientUploadComplete: response => {
       setImageFiles(
         response.map(fileItem => ({
-          id: fileItem.serverData?.imageId || '',
           url: fileItem.ufsUrl,
           preview: fileItem.ufsUrl,
           key: fileItem.key,
@@ -30,15 +29,13 @@ const useUploadImage = () => {
     },
   });
 
-  const startUpload = async (files: FileWithPreview[], type: ImageFileType) => {
-    const response = await _startUpload(files, { ref: type } as any);
+  const startUpload = async (files: FileWithPreview[]) => {
+    const response = await _startUpload(files);
     if (!response) {
-      return [{ imageId: null }];
+      return null;
     }
 
-    return response.map(file => ({
-      imageId: file?.serverData?.imageId || '',
-    }));
+    return response.map(file => file.ufsUrl);
   };
 
   return {

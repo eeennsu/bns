@@ -11,8 +11,6 @@ import { BundleFormDto, IBundleItem } from '@entities/bundle/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import { IMAGE_REF_TYPE } from '@consts/commons';
-
 import apiModifyBundle from '../apis/modify';
 
 const useModifyBundle = (bundle: IBundleItem) => {
@@ -45,7 +43,7 @@ const useModifyBundle = (bundle: IBundleItem) => {
   const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
     const updatedImageIds = await getMultiImageIds<BundleFormDto, IBundleItem>(
       data,
-      IMAGE_REF_TYPE.BUNDLE,
+
       bundle,
     );
 

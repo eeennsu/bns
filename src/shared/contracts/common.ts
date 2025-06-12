@@ -6,14 +6,14 @@ export const SearchFormDtoSchema = z.object({
   search: z.string(),
 });
 
-export const ImageFileTypeSchema = z.enum(['bread', 'sauce', 'bundle', 'event']);
-
-export const ImageFileInputSchema = z.object({
-  ref: ImageFileTypeSchema,
+export const imageFileSchema = z.object({
+  id: z.string(),
+  url: z.string().optional(),
+  order: z.number().optional(),
 });
 
 export const SingleImageFileSchema = z
-  .array(z.instanceof(File), { message: '이미지가 선택되어야 합니다.' })
+  .array(z.union([z.instanceof(File), imageFileSchema]), { message: '이미지가 선택되어야 합니다.' })
   .refine(files => files.length > 0, { message: '이미지를 선택해주세요.' })
   .refine(files => files.length <= 1, { message: '최대 1개의 이미지까지 선택 가능합니다.' })
   .refine(files => files.every(file => file.size <= 1024 * 1024 * +MAX_FILE_SIZE.charAt(0)), {
@@ -25,16 +25,27 @@ export const SingleImageFileSchema = z
 
 export const getMultipleImageFileSchema = (minCount: number = 1, maxCount: number = 10) =>
   z
-    .array(z.instanceof(File), { message: '이미지가 선택되어야 합니다.' })
+    .array(z.union([z.instanceof(File), imageFileSchema]), {
+      message: '이미지가 선택되어야 합니다.',
+    })
     .refine(files => files.length >= minCount, {
       message: `최소 ${minCount}개의 이미지를 선택해주세요.`,
     })
     .refine(files => files.length <= maxCount, {
       message: `최대 ${maxCount}개의 이미지까지 선택 가능합니다.`,
     })
-    .refine(files => files.every(file => file.size <= 1024 * 1024 * 4), {
-      message: '최대 6MB의 이미지까지 선택 가능합니다.',
-    });
+    .refine(
+      files =>
+        files.every(file => {
+          if (file instanceof File) {
+            return file.size <= 1024 * 1024 * 4;
+          }
+          return true;
+        }),
+      {
+        message: '최대 4MB의 이미지까지 선택 가능합니다.',
+      },
+    );
 
 export const SortOrderSchema = z
   .union([z.string(), z.number()])

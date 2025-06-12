@@ -1,11 +1,10 @@
 import { uploadFiles } from '@libs/uploadImage';
 import { ClientUploadedFileData } from 'uploadthing/types';
 
-import { IImageFile, ImageFileType } from '@typings/commons';
+import { IImageFile } from '@typings/commons';
 
 const getImageId = async <T extends { imageFiles?: any }, D extends { imageFile: IImageFile }>(
   data: T,
-  type: ImageFileType,
   existData?: D,
 ) => {
   let imageId: string | undefined = undefined;
@@ -18,7 +17,7 @@ const getImageId = async <T extends { imageFiles?: any }, D extends { imageFile:
     newFile.size === existData.imageFile.size;
 
   if (isSameFile) {
-    imageId = existData?.imageFile?.id;
+    imageId = existData?.imageFile?.url;
   } else {
     let uploadResponse: ClientUploadedFileData<{
       imageId: string;
@@ -27,7 +26,6 @@ const getImageId = async <T extends { imageFiles?: any }, D extends { imageFile:
     try {
       uploadResponse = await uploadFiles('imageUploader', {
         files: data.imageFiles,
-        input: { ref: type },
       } as any);
     } catch (error) {
       console.error('getImageId: ', error);

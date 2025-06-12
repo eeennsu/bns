@@ -11,8 +11,6 @@ import { EventFormDto } from '@entities/event/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import { IMAGE_REF_TYPE } from '@consts/commons';
-
 import apiCreateEvent from '../apis/create';
 
 const useCreateEventForm = () => {
@@ -45,13 +43,13 @@ const useCreateEventForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    const imageIds = await startUpload(files, IMAGE_REF_TYPE.EVENT);
-
+    const imageIds = await startUpload(files);
+    console.log('imageIds: ', imageIds);
     // delete data.imageFiles;
 
     const newData = {
       ...data,
-      imageId: imageIds.at(0).imageId,
+      // imageId: imageIds.at(0).imageId,
     };
 
     createEvent(newData);

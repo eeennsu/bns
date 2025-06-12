@@ -16,7 +16,7 @@ const TableCell: FC<PropsWithChildren<IProps>> = ({
   return (
     <ShadcnTd
       className={cn(
-        'max-w-20 px-5 py-3.5 text-center text-xs break-words whitespace-normal text-gray-800',
+        'max-w-20 px-2 py-2.5 text-center text-xs break-words whitespace-normal text-gray-800',
         className,
       )}
       onClick={isStopPropagation ? e => e.stopPropagation() : undefined}

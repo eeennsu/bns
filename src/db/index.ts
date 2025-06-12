@@ -8,6 +8,6 @@ config({ path: '.env' });
 const DATABASE_URL = assertEnv({ env: process.env.DATABASE_URL, key: 'DATABASE_URL' });
 
 const sql = neon(DATABASE_URL);
-const db = drizzle({ logger: true, client: sql });
+const db = drizzle({ client: sql });
 
 export default db;

@@ -11,8 +11,6 @@ import { SauceFormDto, ISauceItem } from '@entities/sauce/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import { IMAGE_REF_TYPE } from '@consts/commons';
-
 import apiModifySauce from '../apis/modify';
 
 const useModifySauce = (sauce: ISauceItem) => {
@@ -25,7 +23,7 @@ const useModifySauce = (sauce: ISauceItem) => {
       description: sauce?.description || '',
       price: sauce?.price || 0,
       isNew: sauce?.isNew ?? false,
-      isSigniture: sauce?.isSignature ?? false,
+      isSignature: sauce?.isSignature ?? false,
       isHidden: sauce?.isHidden ?? false,
       sortOrder: sauce?.sortOrder,
       imageFiles: [],
@@ -44,7 +42,7 @@ const useModifySauce = (sauce: ISauceItem) => {
   });
 
   const onSubmit = form.handleSubmit(async (data: SauceFormDto) => {
-    const imageId = await getImageId<SauceFormDto, ISauceItem>(data, IMAGE_REF_TYPE.SAUCE, sauce);
+    const imageId = await getImageId<SauceFormDto, ISauceItem>(data, sauce);
 
     const newData = {
       ...data,

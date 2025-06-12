@@ -21,6 +21,7 @@ export const filterBreadListResponse = (response: IListResponse): IBreadList => 
     isNew: item.isNew,
     isSignature: item.isSignature,
     sortOrder: item.sortOrder,
+    isHidden: item.isHidden,
   })) as IBreadItem[];
 
   return {

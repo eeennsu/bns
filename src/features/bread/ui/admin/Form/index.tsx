@@ -132,7 +132,7 @@ const BreadForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
             />
 
             <FormField
-              name='isSigniture'
+              name='isSignature'
               control={form.control}
               render={({ field }) => (
                 <SharedSwitchFormFieldRender label='시그니처 여부' field={field} />

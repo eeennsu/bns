@@ -11,8 +11,6 @@ import { EventFormDto, IEventItem } from '@entities/event/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import { IMAGE_REF_TYPE } from '@consts/commons';
-
 import apiModifyEvent from '../apis/modify';
 
 const useModifyEvent = (event: IEventItem) => {
@@ -44,7 +42,7 @@ const useModifyEvent = (event: IEventItem) => {
   });
 
   const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    const imageId = await getImageId<EventFormDto, IEventItem>(data, IMAGE_REF_TYPE.EVENT, event);
+    const imageId = await getImageId<EventFormDto, IEventItem>(data, event);
 
     const newData = {
       ...data,

@@ -1,1 +1,0 @@
-ALTER TABLE "bundles" DROP COLUMN "discounted_price";

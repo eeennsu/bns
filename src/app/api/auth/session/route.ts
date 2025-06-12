@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ADMIN_ERRORS } from 'src/shared/api/errorResponse';
+import { ADMIN_ERRORS } from 'src/shared/api/errorMessage';
 import { getServerSession } from 'src/shared/api/getServerSession';
 
 export const GET = async () => {
@@ -8,6 +8,7 @@ export const GET = async () => {
   if (session) {
     return NextResponse.json({
       user: { username: session.username },
+      isAuthenticated: session?.isAuthenticated,
       isAuthorized: session?.isAuthenticated && session?.role === 'admin',
     });
   }

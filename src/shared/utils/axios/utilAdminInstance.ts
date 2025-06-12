@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
-import { ADMIN_ERRORS } from 'src/shared/api/errorResponse';
+import { ADMIN_ERRORS } from 'src/shared/api/errorMessage';
 
 import apiRefresh from '@features/auth/apis/refresh';
 

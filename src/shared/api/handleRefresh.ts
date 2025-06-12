@@ -1,6 +1,6 @@
 import { generateToken, verifyToken } from './auth';
 import { TOKEN_TYPE } from './consts';
-import { AUTH_ERRORS } from './errorResponse';
+import { AUTH_ERRORS } from './errorMessage';
 
 export const handleRefresh = (refreshToken: string | undefined) => {
   if (!refreshToken) {

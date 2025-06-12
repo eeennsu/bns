@@ -1,5 +1,7 @@
+import { ADMIN_PATHS } from '@configs/routes/adminPaths';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -11,12 +13,18 @@ import { BreadFormDto, IBreadItem } from '@entities/bread/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import { IMAGE_REF_TYPE } from '@consts/commons';
-
 import apiModifyBread from '../apis/modify';
 
 const useModifyBread = (bread: IBreadItem) => {
-  const { files, setFiles } = useImageFiles();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const breadImage = bread.imageFiles[0];
+
+  const img = {
+    id: breadImage.id,
+    url: breadImage.url,
+  };
 
   const form = useForm<BreadFormDto>({
     resolver: zodResolver(BreadFormDtoSchema),
@@ -25,19 +33,27 @@ const useModifyBread = (bread: IBreadItem) => {
       description: bread?.description || '',
       price: bread?.price || '',
       isNew: bread?.isNew ?? false,
-      isSigniture: bread?.isSignature ?? false,
+      isSignature: bread?.isSignature ?? false,
       isHidden: bread?.isHidden ?? false,
       mbti: bread?.mbti || '',
       sortOrder: bread?.sortOrder || '',
-      imageFiles: [],
+      imageFiles: img ? [img] : [],
     },
   });
+
+  const { files, setFiles } = useImageFiles();
 
   const { mutate: modifyBread } = useMutation({
     mutationKey: [ADMIN_BREAD_KEYS.MODIFY],
     mutationFn: apiModifyBread,
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success(BREAD_TOAST_MESSAGES.CREATE_SUCCESS);
+
+      await queryClient.invalidateQueries({
+        queryKey: [ADMIN_BREAD_KEYS.GET_LIST],
+      });
+
+      router.push(ADMIN_PATHS.product.bread.list());
     },
     onError: () => {
       toast.error(BREAD_TOAST_MESSAGES.CREATE_FAILED);
@@ -45,7 +61,7 @@ const useModifyBread = (bread: IBreadItem) => {
   });
 
   const onSubmit = form.handleSubmit(async (data: BreadFormDto) => {
-    const imageId = await getImageId<BreadFormDto, IBreadItem>(data, IMAGE_REF_TYPE.BREAD, bread);
+    const imageId = await getImageId<BreadFormDto, IBreadItem>(data, bread);
 
     const newData = {
       ...data,

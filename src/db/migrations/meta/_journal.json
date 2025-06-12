@@ -5,57 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1748678661093,
-      "tag": "0000_easy_malice",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1748680163452,
-      "tag": "0001_next_masked_marvel",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1748749107467,
-      "tag": "0002_small_hemingway",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1748749660491,
-      "tag": "0003_rapid_exodus",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1748751036050,
-      "tag": "0004_modern_nightcrawler",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1748954726190,
-      "tag": "0005_perpetual_blockbuster",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1749216378021,
-      "tag": "0006_chemical_sunset_bain",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1749216578059,
-      "tag": "0007_calm_tag",
+      "when": 1749732841319,
+      "tag": "0000_loose_jack_power",
       "breakpoints": true
     }
   ]

@@ -1,6 +1,7 @@
 import { User } from '@entities/auth/types';
 
 import { TOKEN_TYPE } from './consts';
+import { NextRequest, NextResponse } from 'next/server';
 
 export type TokenType = (typeof TOKEN_TYPE)[keyof typeof TOKEN_TYPE];
 
@@ -13,3 +14,12 @@ export interface IAccessTokenPayload extends ITokenPayload {
 export interface IRefreshTokenPayload extends ITokenPayload {
   type: typeof TOKEN_TYPE.REFRESH;
 }
+
+export type WithImageUrls<T> = Omit<T, 'imageFiles'> & { imageUrls: string[] };
+
+export type ApiParams = Promise<{ id: string }>;
+
+export type ApiHandler = (
+  request: NextRequest,
+  { params }: { params: ApiParams },
+) => Promise<NextResponse>;

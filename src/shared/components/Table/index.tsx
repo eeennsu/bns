@@ -30,7 +30,7 @@ interface IProps<T extends ITableDefaultItem> {
 
 const Table = <T extends ITableDefaultItem>({
   headers,
-  items,
+  items = [],
   showItems,
   renderItemProps,
   isLoading,
@@ -103,7 +103,7 @@ const Table = <T extends ITableDefaultItem>({
       const parsedDate = dayjs(cellValue);
       return parsedDate.isValid() ? (
         <TableCell key={key} className='px-4 py-3 text-xs whitespace-nowrap text-gray-500'>
-          {parsedDate.format('YYYY-MM-DD HH:mm')}
+          {parsedDate.format('YY/MM/DD')}
         </TableCell>
       ) : (
         <TableCell key={key} className='text-slate-500'>
@@ -138,7 +138,7 @@ const Table = <T extends ITableDefaultItem>({
         </TableHeader>
         <TableBody>
           {items.length === 0 ? (
-            <TableRow>
+            <TableRow className='hover:bg-transparent'>
               <TableCell
                 colSpan={headers.length}
                 className='py-10 text-center text-xs text-gray-400'

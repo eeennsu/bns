@@ -15,7 +15,7 @@ export const SauceFormDtoSchema = z.object({
       message: `최대 ${STRING_LENGTH.DESCRIPTION}자 까지 입력할 수 있습니다.`,
     }),
   imageFiles: SingleImageFileSchema,
-  isSigniture: z.boolean(),
+  isSignature: z.boolean(),
   isNew: z.boolean(),
   isHidden: z.boolean(),
   price: PriceSchema,

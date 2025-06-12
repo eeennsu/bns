@@ -11,7 +11,7 @@ export interface IEvent extends FilterDate<Omit<Event, 'startDate' | 'endDate'>>
   endDate: string;
 }
 export interface IEventItem extends IEvent {
-  imageFile: IImageFile;
+  imageFiles: IImageFile[];
 }
 export interface IEventList extends IList<IEventItem> {}
 

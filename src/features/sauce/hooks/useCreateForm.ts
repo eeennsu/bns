@@ -11,8 +11,6 @@ import { SauceFormDto } from '@entities/sauce/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import { IMAGE_REF_TYPE } from '@consts/commons';
-
 import apiCreateVersion from '../apis/create';
 
 const useCreateSauceForm = () => {
@@ -26,7 +24,7 @@ const useCreateSauceForm = () => {
       description: '',
       price: '',
       isNew: false,
-      isSigniture: false,
+      isSignature: false,
       isHidden: false,
       sortOrder: '',
       imageFiles: [],
@@ -45,13 +43,14 @@ const useCreateSauceForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: SauceFormDto) => {
-    const imageIds = await startUpload(files, IMAGE_REF_TYPE.SAUCE);
+    const imageIds = await startUpload(files);
+    console.log('imageIds: ', imageIds);
 
     delete data.imageFiles;
 
     const newData = {
       ...data,
-      imageId: imageIds.at(0).imageId,
+      // imageId: imageIds.at(0).imageId,
     };
 
     createSauce(newData);
