@@ -95,13 +95,15 @@ const DUMMY_SAUCES: ISauceItem[] = Array.from({ length: 10 }, (_, index) => ({
   updatedAt: new Date('2025-04-04').toISOString(),
   deletedAt: null,
   isHidden: false,
-  imageFile: {
-    id: '1',
-    key: '1',
-    name: '1',
-    type: '1',
-    url: '1',
-    lastModified: 1,
-    size: 1,
-  },
+  imageFiles: [
+    {
+      id: '1',
+      key: '1',
+      name: '1',
+      type: '1',
+      url: '1',
+      lastModified: 1,
+      size: 1,
+    },
+  ],
 }));

@@ -7,7 +7,7 @@ import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { SauceFormDto } from '@entities/sauce/types';
 
-import { FileWithPreview } from '@typings/commons';
+import { FileWithDropzone } from '@typings/commons';
 
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
@@ -16,8 +16,8 @@ import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
 interface IProps {
   form: UseFormReturn<SauceFormDto>;
-  files: FileWithPreview[];
-  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
+  files: FileWithDropzone[];
+  setFiles: Dispatch<SetStateAction<FileWithDropzone[]>>;
   submitProps: {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;

@@ -13,6 +13,8 @@ import { BreadFormDto, IBreadItem } from '@entities/bread/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
+import { IImageFile } from '@typings/commons';
+
 import apiModifyBread from '../apis/modify';
 
 const useModifyBread = (bread: IBreadItem) => {
@@ -21,11 +23,11 @@ const useModifyBread = (bread: IBreadItem) => {
 
   const breadImage = bread.imageFiles.at(0);
 
-  const img = breadImage
+  const img: IImageFile[] = breadImage
     ? [
         {
           id: breadImage?.id,
-          preview: breadImage?.url,
+          url: breadImage?.url,
           name: breadImage?.name,
           type: breadImage?.type,
           size: breadImage?.size,

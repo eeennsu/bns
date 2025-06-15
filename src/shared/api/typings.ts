@@ -1,7 +1,8 @@
+import { NextRequest, NextResponse } from 'next/server';
+
 import { User } from '@entities/auth/types';
 
 import { TOKEN_TYPE } from './consts';
-import { NextRequest, NextResponse } from 'next/server';
 
 export type TokenType = (typeof TOKEN_TYPE)[keyof typeof TOKEN_TYPE];
 

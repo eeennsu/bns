@@ -105,7 +105,7 @@ const SharedImageFormFieldRender = <TName extends string>({
                 <X size={16} className='text-white' />
               </div>
               <img
-                src={file?.preview}
+                src={'url' in file ? file.url : file?.preview}
                 alt={file.name}
                 className={cn('size-64 object-cover', imgClassName)}
               />

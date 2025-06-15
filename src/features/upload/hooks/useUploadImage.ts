@@ -2,7 +2,7 @@ import { useUploadThing } from '@libs/uploadImage';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { FileWithPreview, IImageFile } from '@typings/commons';
+import { FileWithDropzone, IImageFile } from '@typings/commons';
 
 import { FILE_UPLOAD_TOAST_MESSAGES } from '@consts/commons';
 
@@ -29,8 +29,14 @@ const useUploadImage = () => {
     },
   });
 
-  const startUpload = async (files: FileWithPreview[]) => {
-    const response = await _startUpload(files);
+  const startUpload = async (files: FileWithDropzone[]) => {
+    const filesArray: File[] = files.filter(file => file instanceof File);
+
+    if (filesArray.length === 0) {
+      toast.warning(FILE_UPLOAD_TOAST_MESSAGES.NO_FILE);
+    }
+
+    const response = await _startUpload(filesArray);
     if (!response) {
       return null;
     }

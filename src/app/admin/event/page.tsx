@@ -85,14 +85,16 @@ const DUMMY_EVENTS: IEventItem[] = Array.from({ length: 10 }, (_, index) => ({
   deletedAt: null,
   startDate: new Date('2025-04-03').toISOString(),
   endDate: new Date('2025-05-04').toISOString(),
-  imageFile: {
-    id: '1',
-    url: 'https://picsum.photos/200/300',
-    createdAt: new Date('2025-04-03').toISOString(),
-    name: '이미지 이름',
-    size: 1024,
-    type: 'image/jpeg',
-    order: index + 1,
-    previewUrl: 'https://picsum.photos/200/300',
-  },
+  imageFiles: [
+    {
+      id: '1',
+      url: 'https://picsum.photos/200/300',
+      createdAt: new Date('2025-04-03').toISOString(),
+      name: '이미지 이름',
+      size: 1024,
+      type: 'image/jpeg',
+      order: index + 1,
+      previewUrl: 'https://picsum.photos/200/300',
+    },
+  ],
 }));

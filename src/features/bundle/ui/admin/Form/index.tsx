@@ -9,7 +9,7 @@ import { BundleFormDto, ICommandGroupBundle, SelectProductItem } from '@entities
 
 import useCommandGroups from '@hooks/useCommandGroups';
 
-import { FileWithPreview, SelectItem } from '@typings/commons';
+import { FileWithDropzone, FileWithPreview, SelectItem } from '@typings/commons';
 
 import SharedCommand from '@components/Command';
 import SharedFormFieldRender from '@components/FormFieldRender';
@@ -21,7 +21,7 @@ import SelectProductList from './SelectProductList';
 
 interface IProps {
   form: UseFormReturn<BundleFormDto>;
-  files: FileWithPreview[];
+  files: FileWithDropzone[];
   setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
   submitProps: {
     label: string;
