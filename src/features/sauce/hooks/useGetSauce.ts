@@ -10,7 +10,7 @@ const useGetSauce = () => {
   const id = (params?.id || '') as string;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: [ADMIN_SAUCE_KEYS.GET],
+    queryKey: [ADMIN_SAUCE_KEYS.GET, id],
     queryFn: () => apiGetSauce({ id }),
   });
 

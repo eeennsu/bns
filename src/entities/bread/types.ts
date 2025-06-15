@@ -1,7 +1,9 @@
 import { breads } from '@db/schemas/breads';
 import { z } from 'zod';
 
-import { IImageFile, IList, FilterDate } from '@typings/commons';
+import { IImageFile } from '@entities/image/types';
+
+import { IList, FilterDate } from '@typings/commons';
 
 import { BreadFormDtoSchema } from './contracts';
 

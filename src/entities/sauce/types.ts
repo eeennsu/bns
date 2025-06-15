@@ -1,7 +1,9 @@
 import { sauces } from '@db/schemas/sauces';
 import { z } from 'zod';
 
-import { FilterDate, IImageFile, IList } from '@typings/commons';
+import { IImageFile } from '@entities/image/types';
+
+import { FilterDate, IList } from '@typings/commons';
 
 import { SauceFormDtoSchema } from './contracts';
 

@@ -10,12 +10,15 @@ import BundleForm from '@features/bundle/ui/admin/Form';
 
 import { IBundleItem } from '@entities/bundle/types';
 
+import useConfirmBeforeBack from '@hooks/usePreventGoBack';
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
 const AdminBundleModifyPage: FC = () => {
   const { bundle, isError, isLoading } = useGetBundle();
 
   usePreventRefresh();
+  useConfirmBeforeBack();
+
   return (
     <DetailWidget isError={isError} isLoading={isLoading}>
       <BundleModify bundle={bundle} />

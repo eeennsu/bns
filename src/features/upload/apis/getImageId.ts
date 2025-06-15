@@ -1,13 +1,10 @@
-import { uploadFiles } from '@libs/uploadImage';
-import { ClientUploadedFileData } from 'uploadthing/types';
-
-import { IImageFile } from '@typings/commons';
+import { IImageFile } from '@entities/image/types';
 
 const getImageId = async <T extends { imageFiles?: any }, D extends { imageFiles: IImageFile[] }>(
   data: T,
   existData?: D,
 ) => {
-  let imageId: string | undefined = undefined;
+  let imageId: number | undefined = undefined;
 
   const newFile = data?.imageFiles?.[0];
   const existFile = existData?.imageFiles?.[0];
@@ -20,20 +17,17 @@ const getImageId = async <T extends { imageFiles?: any }, D extends { imageFiles
   if (isSameFile) {
     imageId = existFile.id;
   } else {
-    let uploadResponse: ClientUploadedFileData<{
-      imageId: string;
-    }>[];
-
-    try {
-      uploadResponse = await uploadFiles('imageUploader', {
-        files: data.imageFiles,
-      } as any);
-    } catch (error) {
-      console.error('getImageId: ', error);
-      throw error;
-    }
-
-    imageId = uploadResponse.at(0).serverData.imageId;
+    // let uploadResponse: ClientUploadedFileData<{
+    //   imageId: number;
+    // }>[];
+    // try {
+    //   uploadResponse = await uploadFiles('imageUploader', {
+    //     files: data.imageFiles,
+    //   } as any);
+    // } catch (error) {
+    //   console.error('getImageId: ', error);
+    //   throw error;
+    // }
   }
 
   return imageId;

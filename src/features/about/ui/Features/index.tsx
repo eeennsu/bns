@@ -7,7 +7,7 @@ const Features: FC = () => {
       <div className='text-center'>
         <h2 className='text-wood text-3xl font-bold tracking-tight'>Why Our Bread Is Special</h2>
         <p className='text-muted-foreground mx-auto mt-4 max-w-2xl'>
-          We combine traditional baking methods with the finest ingredients to create bread that's
+          We combine traditional baking methods with the finest ingredients to create bread thats
           truly exceptional.
         </p>
       </div>

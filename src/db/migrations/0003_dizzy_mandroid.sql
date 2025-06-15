@@ -1,0 +1,1 @@
+ALTER TABLE "image_references" ALTER COLUMN "order" SET DEFAULT 1;

@@ -2,7 +2,9 @@ import { STRING_LENGTH } from '@db/consts/commons';
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
-import { SingleImageFileSchema, SortOrderSchema } from '@contracts/common';
+import { SingleImageFileSchema } from '@entities/image/contracts';
+
+import { SortOrderSchema } from '@contracts/common';
 
 export const EventFormDtoSchema = z.object({
   name: z

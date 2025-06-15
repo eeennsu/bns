@@ -4,8 +4,6 @@ import { index, integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-c
 export const images = pgTable('images', {
   id: serial().primaryKey().notNull(),
   url: text().notNull(),
-  type: varchar({ length: 50 }).default('image/jpeg').notNull(),
-  size: integer().default(0).notNull(),
   name: text().default('').notNull(),
 });
 
@@ -15,8 +13,8 @@ export const imageReferences = pgTable(
     id: serial('id').primaryKey(),
     imageId: integer('image_id').notNull(),
     refTable: varchar('ref_table', { length: 50 }).notNull(),
-    refId: integer('ref_id').notNull(),
-    order: integer('order').notNull(),
+    refId: integer('ref_id'), // 이미지 저장 후 참조될 데이터 생성 후 할당될 것임
+    order: integer('order').default(1).notNull(),
   },
   t => [index('idx_ref_table_id_order').on(t.refTable, t.refId, t.order)],
 );

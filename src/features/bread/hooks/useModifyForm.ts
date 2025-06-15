@@ -10,10 +10,9 @@ import getImageId from '@features/upload/apis/getImageId';
 import { ADMIN_BREAD_KEYS, BREAD_TOAST_MESSAGES } from '@entities/bread/consts';
 import { BreadFormDtoSchema } from '@entities/bread/contracts';
 import { BreadFormDto, IBreadItem } from '@entities/bread/types';
+import { IImageFile } from '@entities/image/types';
 
 import useImageFiles from '@hooks/useImageFiles';
-
-import { IImageFile } from '@typings/commons';
 
 import apiModifyBread from '../apis/modify';
 
@@ -77,6 +76,12 @@ const useModifyBread = (bread: IBreadItem) => {
         ...data,
         imageId,
       };
+
+      console.log('폼 데이터의 이미지 : ', data.imageFiles);
+      console.log('기존 bread 데이터의 이미지', bread.imageFiles);
+      console.log('getImageId 반환 값 : ', imageId);
+
+      return;
 
       modifyBread({
         id: bread.id,

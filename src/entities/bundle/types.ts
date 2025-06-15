@@ -1,7 +1,9 @@
 import { bundles } from '@db/schemas/bundles';
 import { z } from 'zod';
 
-import { FilterDate, ICommandGroup, IImageFile, IList, SelectItem } from '@typings/commons';
+import { IImageFile } from '@entities/image/types';
+
+import { FilterDate, ICommandGroup, IList, SelectItem } from '@typings/commons';
 
 import { BUNDLE_ITEM_TYPES } from './consts';
 import { BundleFormDtoSchema, BundleProductSchema } from './contracts';

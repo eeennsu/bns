@@ -5,9 +5,8 @@ import { UseFormReturn } from 'react-hook-form';
 
 import { Button, Form, FormField } from '@shadcn-ui/ui';
 
+import { FileWithDropzone } from '@entities/image/types';
 import { SauceFormDto } from '@entities/sauce/types';
-
-import { FileWithDropzone } from '@typings/commons';
 
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';

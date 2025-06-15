@@ -15,7 +15,7 @@ import apiCreateVersion from '../apis/create';
 
 const useCreateSauceForm = () => {
   const { files, setFiles } = useImageFiles();
-  const { startUpload } = useUploadImage();
+  const { fetchUploadApi } = useUploadImage();
 
   const form = useForm<SauceFormDto>({
     resolver: zodResolver(SauceFormDtoSchema),
@@ -43,16 +43,13 @@ const useCreateSauceForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: SauceFormDto) => {
-    const imageIds = await startUpload(files);
-    console.log('imageIds: ', imageIds);
-
+    const imageIds = await fetchUploadApi(data.imageFiles, 'sauce');
     delete data.imageFiles;
 
     const newData = {
       ...data,
-      // imageId: imageIds.at(0).imageId,
+      imageIds,
     };
-
     createSauce(newData);
   });
 

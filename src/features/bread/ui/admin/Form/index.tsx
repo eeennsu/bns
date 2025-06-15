@@ -6,8 +6,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { BreadFormDto } from '@entities/bread/types';
-
-import { FileWithDropzone } from '@typings/commons';
+import { FileWithDropzone } from '@entities/image/types';
 
 import { MBTI_TYPE } from '@consts/brand';
 

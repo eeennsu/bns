@@ -1,6 +1,8 @@
 export const setSucResponseData = (data: any) => ({
   ok: true,
-  data,
+  data: {
+    ...data,
+  },
 });
 
 export const setSucResponseList = ({

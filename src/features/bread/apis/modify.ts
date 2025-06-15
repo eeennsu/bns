@@ -9,7 +9,7 @@ interface IParams {
 
 const apiModifyBread = async ({ id, data }: IParams): Promise<void> => {
   if (!id) throw new Error('id is required');
-  await axiosAdmin.put('/admin/bread/', data);
+  await axiosAdmin.put(`/admin/bread/${id}`, data);
 };
 
 export default apiModifyBread;

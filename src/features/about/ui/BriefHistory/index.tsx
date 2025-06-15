@@ -23,8 +23,8 @@ const BriefHistory: FC = () => {
             빵가게를 시작으로 지금까지 한결같은 마음으로 건강한 빵을 만들고 있습니다.
           </p>
           <TextAnimate delay={1} duration={1.5} className='font-bold italic'>
-            "좋은 재료와 정성이 담긴 빵은 사람들에게 행복을 전합니다. 매일 아침 첫 빵이 나오는
-            순간의 기쁨을 고객과 나누고 싶습니다."
+            좋은 재료와 정성이 담긴 빵은 사람들에게 행복을 전합니다. 매일 아침 첫 빵이 나오는 순간의
+            기쁨을 고객과 나누고 싶습니다
           </TextAnimate>
         </div>
       </div>

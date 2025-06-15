@@ -71,6 +71,7 @@ const Table = <T extends ITableDefaultItem>({
     if (itemKey === 'image' && rowItem?.image) {
       return (
         <TableCell key={key} isStopPropagation>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={rowItem.image}
             alt={rowItem?.name || 'image'}

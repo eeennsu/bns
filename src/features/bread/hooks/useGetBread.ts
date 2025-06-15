@@ -10,7 +10,7 @@ const useGetBread = () => {
   const id = (params?.id || '') as string;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: [ADMIN_BREAD_KEYS.GET],
+    queryKey: [ADMIN_BREAD_KEYS.GET, id],
     queryFn: () => apiGetBread({ id }),
   });
 

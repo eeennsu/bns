@@ -5,8 +5,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { EventFormDto } from '@entities/event/types';
-
-import { FileWithDropzone } from '@typings/commons';
+import { FileWithDropzone } from '@entities/image/types';
 
 import SharedDatePickerFormFieldRender from '@components/DatePickerFormFiledRender';
 import SharedFormFieldRender from '@components/FormFieldRender';

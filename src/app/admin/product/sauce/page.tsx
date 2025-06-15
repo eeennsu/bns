@@ -97,7 +97,7 @@ const DUMMY_SAUCES: ISauceItem[] = Array.from({ length: 10 }, (_, index) => ({
   isHidden: false,
   imageFiles: [
     {
-      id: '1',
+      id: 1,
       key: '1',
       name: '1',
       type: '1',

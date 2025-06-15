@@ -10,7 +10,7 @@ const useGetBundle = () => {
   const id = (params?.id || '') as string;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: [ADMIN_BUNDLE_KEYS.GET],
+    queryKey: [ADMIN_BUNDLE_KEYS.GET, id],
     queryFn: () => apiGetBundle({ id }),
   });
 

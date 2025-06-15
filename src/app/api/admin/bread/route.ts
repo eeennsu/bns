@@ -1,12 +1,12 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
-import { imageReferences, images } from '@db/schemas/image';
-import { count, ilike } from 'drizzle-orm';
+import { imageReferences } from '@db/schemas/image';
+import { setSucResponseData, setSucResponseList } from '@shared/api/response';
+import { withAuth } from '@shared/api/withAuth';
+import { and, count, eq, ilike } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
-import { setSucResponseData, setSucResponseList } from 'src/shared/api/response';
-import { WithImageUrls } from 'src/shared/api/typings';
-import { withAuth } from 'src/shared/api/withAuth';
+import { WithImageIds } from 'src/shared/api/typings';
 
 import { BreadFormDto } from '@entities/bread/types';
 
@@ -36,19 +36,17 @@ export const GET = withAuth(async (request: NextRequest) => {
 });
 
 export const POST = withAuth(async (request: NextRequest) => {
-  const body = (await request.json()) as WithImageUrls<BreadFormDto>;
+  const body = (await request.json()) as WithImageIds<BreadFormDto>;
 
-  const { name, description, price, mbti, sortOrder, imageUrls, isHidden, isNew, isSignature } =
+  const { name, description, price, mbti, sortOrder, imageIds, isHidden, isNew, isSignature } =
     body;
 
-  if (!imageUrls || imageUrls.length === 0) {
+  let newBread;
+
+  if (!imageIds || imageIds.length === 0) {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_IMAGE_FILES }, { status: 400 });
   }
-  if (imageUrls.length > 1) {
-    return NextResponse.json({ error: IMAGE_ERRORS.MAX_COUNT_EXCEEDED }, { status: 400 });
-  }
 
-  let newBread;
   try {
     [newBread] = await db
       .insert(breads)
@@ -69,23 +67,22 @@ export const POST = withAuth(async (request: NextRequest) => {
   }
 
   try {
-    const [imageRow] = await db
-      .insert(images)
-      .values({
-        url: imageUrls[0],
+    await db
+      .update(imageReferences)
+      .set({
+        refId: newBread.id,
       })
-      .returning();
-
-    await db.insert(imageReferences).values({
-      imageId: imageRow.id,
-      refTable: 'breads',
-      refId: newBread.id,
-      order: 1,
-    });
+      .where(
+        and(
+          eq(imageReferences.refId, null),
+          eq(imageReferences.imageId, imageIds[0]),
+          eq(imageReferences.refTable, 'bread'),
+        ),
+      );
   } catch (e) {
     console.error('Error inserting image:', e);
 
-    return NextResponse.json({ error: IMAGE_ERRORS.IMAGE_UPLOAD_FAILED }, { status: 500 });
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
   }
 
   return NextResponse.json(setSucResponseData(newBread));

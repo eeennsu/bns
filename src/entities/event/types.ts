@@ -1,7 +1,9 @@
 import { events } from '@db/schemas/events';
 import { z } from 'zod';
 
-import { IImageFile, IList, FilterDate } from '@typings/commons';
+import { IImageFile } from '@entities/image/types';
+
+import { IList, FilterDate } from '@typings/commons';
 
 import { EventFormDtoSchema } from './contracts';
 

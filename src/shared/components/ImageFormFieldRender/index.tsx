@@ -7,9 +7,8 @@ import { toast } from 'sonner';
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
-import { FileWithDropzone } from '@typings/commons';
-
-import { FILE_UPLOAD_TOAST_MESSAGES } from '@consts/commons';
+import { FILE_UPLOAD_TOAST_MESSAGES } from '@entities/image/consts';
+import { FileWithDropzone } from '@entities/image/types';
 
 interface IProps<TName extends string> {
   files: FileWithDropzone[];
@@ -51,7 +50,6 @@ const SharedImageFormFieldRender = <TName extends string>({
     });
 
     setFiles(prev => (multiple ? [...prev, ...restoredFiles] : restoredFiles));
-
     field.onChange(multiple ? [...files, ...acceptedFiles] : acceptedFiles);
   };
 
@@ -104,6 +102,7 @@ const SharedImageFormFieldRender = <TName extends string>({
               >
                 <X size={16} className='text-white' />
               </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={'url' in file ? file.url : file?.preview}
                 alt={file.name}

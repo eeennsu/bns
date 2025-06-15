@@ -15,7 +15,7 @@ import apiCreateBundle from '../apis/create';
 
 const useCreateBundleForm = () => {
   const { files, setFiles } = useImageFiles();
-  const { startUpload } = useUploadImage();
+  const { fetchUploadApi } = useUploadImage();
 
   const form = useForm<BundleFormDto>({
     resolver: zodResolver(BundleFormDtoSchema),
@@ -44,7 +44,10 @@ const useCreateBundleForm = () => {
 
   const onSubmit = form.handleSubmit(
     async (data: BundleFormDto) => {
-      const imageIds = await startUpload(files);
+      const imageIds = await fetchUploadApi(data.imageFiles, 'bundle');
+
+      delete data.imageFiles;
+
       const newData = {
         ...data,
         imageIds,

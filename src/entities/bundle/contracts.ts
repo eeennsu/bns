@@ -1,7 +1,9 @@
 import { STRING_LENGTH } from '@db/consts/commons';
 import { z } from 'zod';
 
-import { getMultipleImageFileSchema, SortOrderSchema } from '@contracts/common';
+import { getMultipleImageFileSchema } from '@entities/image/contracts';
+
+import { SortOrderSchema } from '@contracts/common';
 
 import { BUNDLE_ITEM_TYPES, FAIL_MIN_QUANTITY_MESSAGE } from './consts';
 

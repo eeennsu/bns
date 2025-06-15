@@ -5,13 +5,16 @@ import type { FC } from 'react';
 import useCreateSauceForm from '@features/sauce/hooks/useCreateForm';
 import SauceForm from '@features/sauce/ui/admin/Form';
 
+import useConfirmBeforeBack from '@hooks/usePreventGoBack';
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
 import PageContainer from '@components/PageContainer';
 
 const AdminSauceCreatePage: FC = () => {
   const { form, onSubmit, files, setFiles } = useCreateSauceForm();
+
   usePreventRefresh();
+  useConfirmBeforeBack();
 
   return (
     <PageContainer>

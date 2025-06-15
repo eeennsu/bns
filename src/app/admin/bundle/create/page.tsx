@@ -7,13 +7,16 @@ import BundleForm from '@features/bundle/ui/admin/Form';
 
 import { SelectProductItem } from '@entities/bundle/types';
 
+import useConfirmBeforeBack from '@hooks/usePreventGoBack';
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
 import PageContainer from '@components/PageContainer';
 
 const AdminBundleCreatePage: FC = () => {
   const { form, onSubmit, files, setFiles } = useCreateBundleForm();
+
   usePreventRefresh();
+  useConfirmBeforeBack();
 
   return (
     <PageContainer>

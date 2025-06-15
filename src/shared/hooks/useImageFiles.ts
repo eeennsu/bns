@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { FileWithDropzone } from '@typings/commons';
+import { FileWithDropzone } from '@entities/image/types';
 
 const useImageFiles = (initialImageFiles: FileWithDropzone[] = []) => {
   const [files, setFiles] = useState<FileWithDropzone[]>(initialImageFiles);

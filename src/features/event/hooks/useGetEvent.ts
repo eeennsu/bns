@@ -10,7 +10,7 @@ const useGetEvent = () => {
   const id = (params?.id || '') as string;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: [ADMIN_EVENT_KEYS.GET],
+    queryKey: [ADMIN_EVENT_KEYS.GET, id],
     queryFn: () => apiGetEvent({ id }),
   });
 

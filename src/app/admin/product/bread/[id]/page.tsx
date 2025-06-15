@@ -10,11 +10,14 @@ import BreadForm from '@features/bread/ui/admin/Form';
 
 import { IBreadItem } from '@entities/bread/types';
 
+import useConfirmBeforeBack from '@hooks/usePreventGoBack';
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
 const AdminBreadModifyPage: FC = () => {
   const { bread, isError, isLoading } = useGetBread();
+
   usePreventRefresh();
+  useConfirmBeforeBack();
 
   return (
     <DetailWidget isError={isError} isLoading={isLoading}>

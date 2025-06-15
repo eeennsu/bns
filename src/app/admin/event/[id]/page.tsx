@@ -10,11 +10,14 @@ import EventForm from '@features/event/ui/admin/Form';
 
 import { IEventItem } from '@entities/event/types';
 
+import useConfirmBeforeBack from '@hooks/usePreventGoBack';
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
 const AdminEventModifyPage: FC = () => {
   const { event, isError, isLoading } = useGetEvent();
+
   usePreventRefresh();
+  useConfirmBeforeBack();
 
   return (
     <DetailWidget isError={isError} isLoading={isLoading}>

@@ -1,6 +1,6 @@
 import { uploadFiles } from '@libs/uploadImage';
 
-import { IFileImagesWithSortOrder } from '@typings/commons';
+import { IFileImagesWithSortOrder } from '@entities/image/types';
 
 const getMultiImageIds = async <T extends { imageFiles?: any }, D extends { imageFiles: any[] }>(
   data: T,

@@ -19,7 +19,7 @@ const useCreateBreadForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { files, setFiles } = useImageFiles();
-  const { startUpload } = useUploadImage();
+  const { fetchUploadApi } = useUploadImage();
 
   const form = useForm<BreadFormDto>({
     resolver: zodResolver(BreadFormDtoSchema),
@@ -55,13 +55,13 @@ const useCreateBreadForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: BreadFormDto) => {
-    const imageUrls = await startUpload(files);
+    const imageIds = await fetchUploadApi(data.imageFiles, 'bread');
 
     delete data.imageFiles;
 
     const newData = {
       ...data,
-      imageUrls,
+      imageIds,
     };
 
     createBread(newData);

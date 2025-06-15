@@ -20,10 +20,14 @@ export const AUTH_ERRORS = {
 };
 
 export const IMAGE_ERRORS = {
-  IMAGE_UPLOAD_FAILED: '이미지 업로드 처리에 실패하였습니다.',
+  FAILED_UPLOAD: '이미지 업로드 처리에 실패하였습니다.',
   MISSING_IMAGE_FILES: '업로드된 이미지 url이 없습니다.',
   MAX_COUNT_EXCEEDED: '최대 파일 개수를 초과하였습니다. 제거 후 다시 업로드해주세요.',
   NOT_FOUND: '이미지를 찾지 못했습니다.',
+  MISSING_ID: '상세 아이디가 없습니다.',
+  MISSING_FILE_DATA: '파일 데이터가 없습니다.',
+  MISSING_REF_TABLE_TYPE: '이미지 파일이 참조될 데이터 타입이 없습니다.',
+  FAILED_SAVE: '업로드된 이미지 저장에 실패하였습니다.',
 };
 
 export const BREAD_ERRORS = {

@@ -5,7 +5,7 @@ import { createUploadthing, type FileRouter } from 'uploadthing/next';
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  imageUploader: f({ image: { maxFileSize: '4MB', maxFileCount: 10 } })
+  imageUploader: f({ image: { maxFileSize: '8MB', maxFileCount: 10 } })
     .middleware(async () => {
       const cookiesStore = await cookies();
       const refreshToken = cookiesStore.get(TOKEN_TYPE.REFRESH)?.value;
@@ -15,6 +15,9 @@ export const ourFileRouter = {
       }
 
       return {};
+    })
+    .onUploadError(({ error }) => {
+      throw error;
     })
     .onUploadComplete(() => {}),
 } satisfies FileRouter;

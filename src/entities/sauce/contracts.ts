@@ -1,7 +1,9 @@
 import { STRING_LENGTH } from '@db/consts/commons';
 import { z } from 'zod';
 
-import { PriceSchema, SingleImageFileSchema, SortOrderSchema } from '@contracts/common';
+import { SingleImageFileSchema } from '@entities/image/contracts';
+
+import { PriceSchema, SortOrderSchema } from '@contracts/common';
 
 export const SauceFormDtoSchema = z.object({
   name: z

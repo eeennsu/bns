@@ -10,11 +10,14 @@ import useModifySauce from '@features/sauce/hooks/useModifyForm';
 
 import { ISauceItem } from '@entities/sauce/types';
 
+import useConfirmBeforeBack from '@hooks/usePreventGoBack';
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
 const AdminSauceModifyPage: FC = () => {
   const { sauce, isError, isLoading } = useGetSauce();
+
   usePreventRefresh();
+  useConfirmBeforeBack();
 
   return (
     <DetailWidget isError={isError} isLoading={isLoading}>

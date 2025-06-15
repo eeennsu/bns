@@ -1,0 +1,1 @@
+ALTER TABLE "image_references" ALTER COLUMN "ref_id" DROP NOT NULL;

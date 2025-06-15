@@ -25,6 +25,7 @@
       "@widgets/*": ["src/widgets/*"],
       "@features/*": ["src/features/*"],
       "@entities/*": ["src/entities/*"],
+      "@shared/*": ["src/shared/*"],
       "@utils/*": ["src/shared/utils/*"],
       "@shadcn-ui/*": ["src/shared/shadcn-ui/*"],
       "@magic-ui/*": ["src/shared/magic-ui/*"],

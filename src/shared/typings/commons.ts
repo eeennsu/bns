@@ -1,7 +1,7 @@
 import { JSX } from 'react';
 import { z } from 'zod';
 
-import { imageFileSchema, SearchFormDtoSchema } from '@contracts/common';
+import { SearchFormDtoSchema } from '@contracts/common';
 
 export type Nullable<T> = T | null;
 
@@ -54,14 +54,6 @@ export interface ITableDefaultItem {
 
 export type SearchFormDto = z.infer<typeof SearchFormDtoSchema>;
 
-export type FileWithPreview = File & { preview: string };
-export type FileWithDropzone = FileWithPreview | IImageFile;
-export interface IFileImagesWithSortOrder {
-  id: string;
-  sortOrder: number;
-}
-
-export interface IImageFile extends z.infer<typeof imageFileSchema> {}
 interface IAuditDate {
   createdAt: string;
   updatedAt: string;

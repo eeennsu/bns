@@ -6,10 +6,11 @@ import { Button, Form, FormField } from '@shadcn-ui/ui';
 
 import { BUNDLE_COMMAND_GROUP_HEADINGS } from '@entities/bundle/consts';
 import { BundleFormDto, ICommandGroupBundle, SelectProductItem } from '@entities/bundle/types';
+import { FileWithDropzone } from '@entities/image/types';
 
 import useCommandGroups from '@hooks/useCommandGroups';
 
-import { FileWithDropzone, FileWithPreview, SelectItem } from '@typings/commons';
+import { SelectItem } from '@typings/commons';
 
 import SharedCommand from '@components/Command';
 import SharedFormFieldRender from '@components/FormFieldRender';
@@ -22,7 +23,7 @@ import SelectProductList from './SelectProductList';
 interface IProps {
   form: UseFormReturn<BundleFormDto>;
   files: FileWithDropzone[];
-  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
+  setFiles: Dispatch<SetStateAction<FileWithDropzone[]>>;
   submitProps: {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;

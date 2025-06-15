@@ -15,7 +15,7 @@ import apiCreateEvent from '../apis/create';
 
 const useCreateEventForm = () => {
   const { files, setFiles } = useImageFiles();
-  const { startUpload } = useUploadImage();
+  const { fetchUploadApi } = useUploadImage();
 
   const form = useForm<EventFormDto>({
     resolver: zodResolver(EventFormDtoSchema),
@@ -43,13 +43,13 @@ const useCreateEventForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    const imageIds = await startUpload(files);
-    console.log('imageIds: ', imageIds);
-    // delete data.imageFiles;
+    const imageIds = await fetchUploadApi(data.imageFiles, 'event');
+
+    delete data.imageFiles;
 
     const newData = {
       ...data,
-      // imageId: imageIds.at(0).imageId,
+      imageIds,
     };
 
     createEvent(newData);
