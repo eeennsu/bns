@@ -15,6 +15,7 @@ import { BreadFormDto } from '@entities/bread/types';
 import useImageFiles from '@hooks/useImageFiles';
 
 import apiCreateBread from '../apis/create';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 const useCreateBreadForm = () => {
   const router = useRouter();
@@ -56,7 +57,7 @@ const useCreateBreadForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: BreadFormDto) => {
-    const imageIds = await fetchUploadApi(data.imageFiles, 'bread');
+    const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BREAD);
 
     delete data.imageFiles;
 

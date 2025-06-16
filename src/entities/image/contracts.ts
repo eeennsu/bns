@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { MAX_FILE_SIZE } from './consts';
+import { IMAGE_REF_VALUES, MAX_FILE_SIZE } from './consts';
 
 export const imageFileSchema = z.object({
   id: z.number(),
@@ -65,4 +65,9 @@ export const getMultipleImageFileSchema = (minCount: number = 1, maxCount: numbe
       },
     );
 
-export const ImageRefSchema = z.enum(['bread', 'sauce', 'event', 'bundle']);
+export const ImageRefValueSchema = z.enum([
+  IMAGE_REF_VALUES.BREAD,
+  IMAGE_REF_VALUES.SAUCE,
+  IMAGE_REF_VALUES.EVENT,
+  IMAGE_REF_VALUES.BUNDLE,
+]);

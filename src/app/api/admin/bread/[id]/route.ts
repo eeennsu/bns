@@ -7,6 +7,8 @@ import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
+
 interface Params {
   params: Promise<{ id: string }>;
 }
@@ -36,8 +38,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
     })
     .from(imageReferences)
     .innerJoin(images, eq(imageReferences.imageId, images.id))
-    .where(and(eq(imageReferences.refTable, 'breads'), eq(imageReferences.refId, breadId)))
+    .where(
+      and(eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD), eq(imageReferences.refId, breadId)),
+    )
     .limit(1);
+
+  console.log('breadImage', breadImage);
 
   if (!breadImage) {
     return NextResponse.json({ error: IMAGE_ERRORS.NOT_FOUND }, { status: 400 });

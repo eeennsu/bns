@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { imageFileSchema, ImageRefSchema } from './contracts';
+import { imageFileSchema, ImageRefValueSchema } from './contracts';
 
 export type FileWithPreview = File & { preview: string };
 export type FileWithDropzone = FileWithPreview | IImageFile;
@@ -10,7 +10,7 @@ export interface IFileImagesWithSortOrder {
 }
 
 export interface IImageFile extends z.infer<typeof imageFileSchema> {}
-export type ImageRef = z.infer<typeof ImageRefSchema>;
+export type ImageRef = z.infer<typeof ImageRefValueSchema>;
 
 export interface IUploadImage {
   imageFiles: {

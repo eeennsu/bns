@@ -17,7 +17,7 @@ const SonnerToaster: FC = () => {
           info: '!bg-sky-500 !text-white border-sky-600',
         },
         descriptionClassName: '!text-xs !text-white/80',
-        duration: 400000,
+        duration: 4000,
       }}
     />
   );

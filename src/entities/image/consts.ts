@@ -7,3 +7,10 @@ export const FILE_UPLOAD_TOAST_MESSAGES = {
 };
 
 export const MAX_FILE_SIZE = '8MB';
+
+export const IMAGE_REF_VALUES = {
+  BREAD: 'bread',
+  SAUCE: 'sauce',
+  EVENT: 'event',
+  BUNDLE: 'bundle',
+} as const;

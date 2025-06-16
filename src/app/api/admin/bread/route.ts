@@ -3,7 +3,7 @@ import { breads } from '@db/schemas/breads';
 import { imageReferences } from '@db/schemas/image';
 import { setSucResponseData, setSucResponseList } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
-import { and, count, eq, ilike } from 'drizzle-orm';
+import { and, count, eq, ilike, isNull } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { WithImageIds } from 'src/shared/api/typings';
@@ -66,6 +66,9 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: BREAD_ERRORS.CREATE_FAILED }, { status: 500 });
   }
 
+  console.log('imageIds', imageIds);
+  console.log('newBread.id', newBread.id);
+
   try {
     await db
       .update(imageReferences)
@@ -74,9 +77,9 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .where(
         and(
-          eq(imageReferences.refId, null),
           eq(imageReferences.imageId, imageIds[0]),
           eq(imageReferences.refTable, 'bread'),
+          isNull(imageReferences.refId),
         ),
       );
   } catch (e) {
