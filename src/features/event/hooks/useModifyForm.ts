@@ -12,6 +12,7 @@ import { EventFormDto, IEventItem } from '@entities/event/types';
 import useImageFiles from '@hooks/useImageFiles';
 
 import apiModifyEvent from '../apis/modify';
+import { getErrorResponse } from '@shared/libs/getError';
 
 const useModifyEvent = (event: IEventItem) => {
   const { files, setFiles } = useImageFiles();
@@ -36,8 +37,8 @@ const useModifyEvent = (event: IEventItem) => {
     onSuccess: () => {
       toast.success(EVENT_TOAST_MESSAGES.CREATE_SUCCESS);
     },
-    onError: () => {
-      toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED);
+    onError: (error) => {
+      toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
     },
   });
 

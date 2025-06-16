@@ -104,7 +104,7 @@ const Table = <T extends ITableDefaultItem>({
       const parsedDate = dayjs(cellValue);
       return parsedDate.isValid() ? (
         <TableCell key={key} className='px-4 py-3 text-xs whitespace-nowrap text-gray-500'>
-          {parsedDate.format('YY/MM/DD')}
+          {parsedDate.format('YY-MM-DD')}
         </TableCell>
       ) : (
         <TableCell key={key} className='text-slate-500'>

@@ -12,6 +12,7 @@ import { AdminLoginFormDto } from '@entities/auth/types';
 import useMeStore from '@stores/me';
 
 import apiLogin from '../apis/login';
+import { getErrorResponse } from '@shared/libs/getError';
 
 interface IParams {
   onCloseModal?: () => void;
@@ -40,7 +41,7 @@ const useLogin = ({ onCloseModal }: IParams = {}) => {
     },
     onError: error => {
       console.log(error);
-      toast.error(AUTH_TOAST_MESSAGES.LOGIN_FAILED);
+      toast.error(AUTH_TOAST_MESSAGES.LOGIN_FAILED, { description: getErrorResponse(error) });
     },
   });
 

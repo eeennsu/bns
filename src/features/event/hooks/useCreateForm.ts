@@ -12,6 +12,7 @@ import { EventFormDto } from '@entities/event/types';
 import useImageFiles from '@hooks/useImageFiles';
 
 import apiCreateEvent from '../apis/create';
+import { getErrorResponse } from '@shared/libs/getError';
 
 const useCreateEventForm = () => {
   const { files, setFiles } = useImageFiles();
@@ -37,8 +38,8 @@ const useCreateEventForm = () => {
     onSuccess: () => {
       toast.success(EVENT_TOAST_MESSAGES.CREATE_SUCCESS);
     },
-    onError: () => {
-      toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED);
+    onError: (error) => {
+      toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
     },
   });
 

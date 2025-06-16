@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -37,8 +38,8 @@ const useCreateSauceForm = () => {
     onSuccess: () => {
       toast.success(SAUCE_TOAST_MESSAGES.CREATE_SUCCESS);
     },
-    onError: () => {
-      toast.error(SAUCE_TOAST_MESSAGES.CREATE_FAILED);
+    onError: error => {
+      toast.error(SAUCE_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
     },
   });
 

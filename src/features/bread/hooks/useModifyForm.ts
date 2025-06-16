@@ -1,5 +1,6 @@
 import { ADMIN_PATHS } from '@configs/routes/adminPaths';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -63,8 +64,8 @@ const useModifyBread = (bread: IBreadItem) => {
 
       router.push(ADMIN_PATHS.product.bread.list());
     },
-    onError: () => {
-      toast.error(BREAD_TOAST_MESSAGES.CREATE_FAILED);
+    onError: error => {
+      toast.error(BREAD_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
     },
   });
 
