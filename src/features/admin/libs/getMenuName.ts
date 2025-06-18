@@ -6,8 +6,8 @@ const PAGE_NAME_MAP = {
 };
 
 export const getAdminPageName = (pathname: string): string => {
-  const segments = pathname.split('/').filter(Boolean); 
-  const rest = segments.slice(1); 
+  const segments = pathname.split('/').filter(Boolean);
+  const rest = segments.slice(1);
 
   if (rest.length === 0) return '';
 

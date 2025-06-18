@@ -43,8 +43,6 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
     )
     .limit(1);
 
-  console.log('breadImage', breadImage);
-
   if (!breadImage) {
     return NextResponse.json({ error: IMAGE_ERRORS.NOT_FOUND }, { status: 400 });
   }
@@ -57,21 +55,66 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
   return NextResponse.json(setSucResponseData(response));
 });
 
-// export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
-//   const breadId = +(await params).id;
+export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
+  const breadId = +(await params).id;
 
-//   if (!breadId) {
-//     return NextResponse.json({ error: BREAD_ERRORS.MISSING_ID }, { status: 400 });
-//   }
+  if (!breadId) {
+    return NextResponse.json({ error: BREAD_ERRORS.MISSING_ID }, { status: 400 });
+  }
 
-//   if (isNaN(breadId)) {
-//     return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
-//   }
+  if (isNaN(breadId)) {
+    return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
+  }
 
-//   const body = await req.json();
-//   const imageId = body?.imageId;
+  const body = await req.json();
+  const imageId = body?.imageId;
 
-//   if (!imageId) {
-//     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
-//   }
-// });
+  if (!imageId) {
+    return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
+  }
+
+  const [existingImageRef] = await db
+    .select({
+      id: imageReferences.id,
+      imageId: imageReferences.imageId,
+    })
+    .from(imageReferences)
+    .where(
+      and(eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD), eq(imageReferences.refId, breadId)),
+    )
+    .limit(1);
+
+  if (existingImageRef?.imageId !== imageId) {
+    if (existingImageRef) {
+      await db.delete(imageReferences).where(eq(imageReferences.id, existingImageRef.id));
+      await db.delete(images).where(eq(images.id, existingImageRef.imageId));
+    }
+
+    await db
+      .update(imageReferences)
+      .set({ refId: breadId })
+      .where(eq(imageReferences.imageId, imageId));
+  }
+
+  const { name, description, price, mbti, sortOrder, isHidden, isNew, isSignature } = body;
+
+  const updateBread = await db
+    .update(breads)
+    .set({
+      name,
+      description,
+      price: Number(price),
+      mbti,
+      sortOrder: Number(sortOrder),
+      isSignature,
+      isNew,
+      isHidden,
+    })
+    .where(eq(breads.id, breadId));
+
+  if (!updateBread) {
+    return NextResponse.json({ error: BREAD_ERRORS.MODIFY_FAILED }, { status: 500 });
+  }
+
+  return NextResponse.json(setSucResponseData(updateBread));
+});

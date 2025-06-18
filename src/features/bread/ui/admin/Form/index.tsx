@@ -1,9 +1,10 @@
 import { STRING_LENGTH } from '@db/consts/commons';
 import { inputOnlyNumber } from '@libs/inputOnlyNumber';
+import FormButton from '@shared/components/FormButton';
 import { BaseSyntheticEvent, Dispatch, FC, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { Button, Form, FormField } from '@shadcn-ui/ui';
+import { Form, FormField } from '@shadcn-ui/ui';
 
 import { BreadFormDto } from '@entities/bread/types';
 import { FileWithDropzone } from '@entities/image/types';
@@ -31,9 +32,7 @@ const BreadForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
     <Form {...form}>
       <form onSubmit={e => e.stopPropagation()}>
         <section className='flex justify-end gap-4'>
-          <Button type='button' onClick={submitProps.onSubmit}>
-            {submitProps.label}
-          </Button>
+          <FormButton formContext={form} label={submitProps.label} onClick={submitProps.onSubmit} />
         </section>
         <section className='space-y-5'>
           <div className='flex items-center gap-3'>

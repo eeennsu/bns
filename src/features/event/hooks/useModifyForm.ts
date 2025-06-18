@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -8,11 +9,11 @@ import getImageId from '@features/upload/apis/getImageId';
 import { ADMIN_EVENT_KEYS, EVENT_TOAST_MESSAGES } from '@entities/event/consts';
 import { EventFormDtoSchema } from '@entities/event/contracts';
 import { EventFormDto, IEventItem } from '@entities/event/types';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import useImageFiles from '@hooks/useImageFiles';
 
 import apiModifyEvent from '../apis/modify';
-import { getErrorResponse } from '@shared/libs/getError';
 
 const useModifyEvent = (event: IEventItem) => {
   const { files, setFiles } = useImageFiles();
@@ -37,13 +38,13 @@ const useModifyEvent = (event: IEventItem) => {
     onSuccess: () => {
       toast.success(EVENT_TOAST_MESSAGES.CREATE_SUCCESS);
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
     },
   });
 
   const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    const imageId = await getImageId<EventFormDto, IEventItem>(data, event);
+    const imageId = await getImageId<EventFormDto, IEventItem>(data, IMAGE_REF_VALUES.EVENT, event);
 
     const newData = {
       ...data,

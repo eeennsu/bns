@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import SonnerToaster from './SonnerToaster';
-import TanstackQueryProvider from './TanstackQueryy';
+import TanstackQueryProvider from './TanstackQuery';
 
 const ConfigProviders = ({ children }: { children: ReactNode }) => {
   return (

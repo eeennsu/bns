@@ -16,6 +16,7 @@ export interface IRefreshTokenPayload extends ITokenPayload {
   type: typeof TOKEN_TYPE.REFRESH;
 }
 
+export type WithImageId<T> = Omit<T, 'imageFiles'> & { imageId: number };
 export type WithImageIds<T> = Omit<T, 'imageFiles'> & { imageIds: number[] };
 
 export type ApiParams = Promise<{ id: string }>;

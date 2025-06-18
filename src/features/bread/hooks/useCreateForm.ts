@@ -11,11 +11,11 @@ import useUploadImage from '@features/upload/hooks/useUploadImage';
 import { ADMIN_BREAD_KEYS, BREAD_TOAST_MESSAGES } from '@entities/bread/consts';
 import { BreadFormDtoSchema } from '@entities/bread/contracts';
 import { BreadFormDto } from '@entities/bread/types';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import useImageFiles from '@hooks/useImageFiles';
 
 import apiCreateBread from '../apis/create';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 const useCreateBreadForm = () => {
   const router = useRouter();
@@ -38,7 +38,7 @@ const useCreateBreadForm = () => {
     },
   });
 
-  const { mutate: createBread } = useMutation({
+  const { mutateAsync: createBread } = useMutation({
     mutationKey: [ADMIN_BREAD_KEYS.CREATE],
     mutationFn: apiCreateBread,
     onSuccess: async () => {
@@ -57,16 +57,16 @@ const useCreateBreadForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: BreadFormDto) => {
-    const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BREAD);
+    const [imageId] = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BREAD);
 
     delete data.imageFiles;
 
     const newData = {
       ...data,
-      imageIds,
+      imageId,
     };
 
-    createBread(newData);
+    await createBread(newData);
   });
 
   return { form, onSubmit, files, setFiles };

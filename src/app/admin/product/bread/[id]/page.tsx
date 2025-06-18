@@ -37,7 +37,7 @@ const BreadModify: FC<IProps> = ({ bread }) => {
     <BreadForm
       form={form}
       submitProps={{
-        label: '수정',
+        label: '수정하기',
         onSubmit,
       }}
       files={files}

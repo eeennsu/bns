@@ -6,7 +6,7 @@ import { withAuth } from '@shared/api/withAuth';
 import { and, count, eq, ilike, isNull } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
-import { WithImageIds } from 'src/shared/api/typings';
+import { WithImageId } from 'src/shared/api/typings';
 
 import { BreadFormDto } from '@entities/bread/types';
 
@@ -36,14 +36,13 @@ export const GET = withAuth(async (request: NextRequest) => {
 });
 
 export const POST = withAuth(async (request: NextRequest) => {
-  const body = (await request.json()) as WithImageIds<BreadFormDto>;
+  const body = (await request.json()) as WithImageId<BreadFormDto>;
 
-  const { name, description, price, mbti, sortOrder, imageIds, isHidden, isNew, isSignature } =
-    body;
+  const { name, description, price, mbti, sortOrder, imageId, isHidden, isNew, isSignature } = body;
 
   let newBread;
 
-  if (!imageIds || imageIds.length === 0) {
+  if (!imageId) {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_IMAGE_FILES }, { status: 400 });
   }
 
@@ -66,9 +65,6 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: BREAD_ERRORS.CREATE_FAILED }, { status: 500 });
   }
 
-  console.log('imageIds', imageIds);
-  console.log('newBread.id', newBread.id);
-
   try {
     await db
       .update(imageReferences)
@@ -77,7 +73,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .where(
         and(
-          eq(imageReferences.imageId, imageIds[0]),
+          eq(imageReferences.imageId, imageId),
           eq(imageReferences.refTable, 'bread'),
           isNull(imageReferences.refId),
         ),

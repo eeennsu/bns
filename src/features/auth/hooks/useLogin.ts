@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -12,7 +13,6 @@ import { AdminLoginFormDto } from '@entities/auth/types';
 import useMeStore from '@stores/me';
 
 import apiLogin from '../apis/login';
-import { getErrorResponse } from '@shared/libs/getError';
 
 interface IParams {
   onCloseModal?: () => void;

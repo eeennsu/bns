@@ -3,7 +3,7 @@ import { BreadFormDto } from '@entities/bread/types';
 import axiosAdmin from '@utils/axios/utilAdminInstance';
 
 interface IParams extends BreadFormDto {
-  imageIds: number[];
+  imageId: number;
 }
 
 const apiCreateBread = async (params: IParams): Promise<void> => {

@@ -19,12 +19,6 @@ export const POST = withAuth(async (request: NextRequest) => {
   let imageId: number | undefined = undefined;
 
   try {
-    const imageUrl = imageFiles[0];
-
-    if (!imageUrl) {
-      return NextResponse.json({ error: IMAGE_ERRORS.MISSING_IMAGE_FILES }, { status: 500 });
-    }
-
     const [imageRow] = await db.insert(images).values(imageFiles).returning();
 
     await db.insert(imageReferences).values({

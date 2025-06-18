@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 import getImageId from '@features/upload/apis/getImageId';
 
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { ADMIN_SAUCE_KEYS, SAUCE_TOAST_MESSAGES } from '@entities/sauce/consts';
 import { SauceFormDtoSchema } from '@entities/sauce/contracts';
 import { SauceFormDto, ISauceItem } from '@entities/sauce/types';
@@ -43,7 +44,7 @@ const useModifySauce = (sauce: ISauceItem) => {
   });
 
   const onSubmit = form.handleSubmit(async (data: SauceFormDto) => {
-    const imageId = await getImageId<SauceFormDto, ISauceItem>(data, sauce);
+    const imageId = await getImageId<SauceFormDto, ISauceItem>(data, IMAGE_REF_VALUES.SAUCE, sauce);
 
     const newData = {
       ...data,

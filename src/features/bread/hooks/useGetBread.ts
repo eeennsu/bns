@@ -12,6 +12,7 @@ const useGetBread = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: [ADMIN_BREAD_KEYS.GET, id],
     queryFn: () => apiGetBread({ id }),
+    enabled: !!id,
   });
 
   return { bread: data, isLoading, isError };

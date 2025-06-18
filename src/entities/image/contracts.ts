@@ -4,12 +4,10 @@ import { IMAGE_REF_VALUES, MAX_FILE_SIZE } from './consts';
 
 export const imageFileSchema = z.object({
   id: z.number(),
+  name: z.string(),
   url: z.string().optional(),
   preview: z.string().optional(),
   order: z.number().optional(),
-  name: z.string(),
-  type: z.string(),
-  size: z.number(),
 });
 
 export const SingleImageFileSchema = z

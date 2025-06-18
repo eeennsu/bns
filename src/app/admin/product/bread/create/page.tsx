@@ -23,7 +23,7 @@ const AdminBreadCreatePage: FC = () => {
         files={files}
         setFiles={setFiles}
         submitProps={{
-          label: '생성',
+          label: '생성하기',
           onSubmit,
         }}
       />
