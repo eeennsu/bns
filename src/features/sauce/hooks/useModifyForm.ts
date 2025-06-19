@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formErrorHandler } from '@shared/libs/formErrorHandler';
 import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -55,7 +56,7 @@ const useModifySauce = (sauce: ISauceItem) => {
       id: sauce.id,
       data: newData,
     });
-  });
+  }, formErrorHandler);
 
   return { form, onSubmit, files, setFiles };
 };

@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
-import { FILE_UPLOAD_TOAST_MESSAGES } from '@entities/image/consts';
+import { allowedTypes, FILE_UPLOAD_TOAST_MESSAGES, MAX_FILE_SIZE } from '@entities/image/consts';
 import { FileWithDropzone } from '@entities/image/types';
 
 interface IProps<TName extends string> {
@@ -38,6 +38,13 @@ const SharedImageFormFieldRender = <TName extends string>({
   maxFiles = 1,
 }: IProps<TName>) => {
   const onDrop = (acceptedFiles: File[]) => {
+    const filteredFiles = acceptedFiles.filter(file => allowedTypes.includes(file.type));
+
+    if (filteredFiles.length < acceptedFiles.length) {
+      toast.error('JPG, JPEG, PNG 형식의 이미지 파일만 업로드할 수 있습니다.');
+      return;
+    }
+
     if (files.length >= maxFiles) {
       toast.warning(FILE_UPLOAD_TOAST_MESSAGES.MAX_COUNT_EXCEEDED);
       return;
@@ -58,6 +65,7 @@ const SharedImageFormFieldRender = <TName extends string>({
     accept: {
       'image/*': ['.jpg', '.png', '.jpeg'],
     },
+
     maxFiles,
     multiple,
     disabled,
@@ -88,7 +96,9 @@ const SharedImageFormFieldRender = <TName extends string>({
           <input {...getInputProps()} disabled={disabled} className='sr-only' />
           <UploadCloud className='mb-3 size-10 text-blue-500' />
           <p className='text-sm font-semibold'>여기에 파일을 드롭하거나 클릭하여 업로드하세요</p>
-          <p className='mt-1 text-xs text-gray-500'>최대 4MB의 PNG, JPG, GIF 파일을 지원합니다</p>
+          <p className='mt-1 text-xs text-gray-500'>
+            최대 {MAX_FILE_SIZE}의 PNG, JPG, JPEG 파일만을 지원합니다
+          </p>
         </div>
       </FormControl>
       <FormMessage className='text-xs' />

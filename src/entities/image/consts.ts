@@ -14,3 +14,5 @@ export const IMAGE_REF_VALUES = {
   EVENT: 'event',
   BUNDLE: 'bundle',
 } as const;
+
+export const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];

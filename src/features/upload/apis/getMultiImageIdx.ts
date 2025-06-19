@@ -1,4 +1,4 @@
-import { uploadFiles } from '@libs/uploadImage';
+import { uploadFiles } from '@features/upload/libs/uploadthing';
 
 import { IFileImagesWithSortOrder } from '@entities/image/types';
 

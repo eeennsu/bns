@@ -5,19 +5,19 @@ import type { ReactNode, SyntheticEvent } from 'react';
 import { Table as ShadcnTable, TableBody, TableHead, TableHeader, TableRow } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
-import { ITableDefaultItem } from '@typings/commons';
+import { TableExtraKey } from '@typings/commons';
 
 import TableSkeleton from './Skeleton';
 import TableCell from './TableCell';
 
 const DATE_KEYS = ['createdAt', 'updatedAt', 'deletedAt', 'startDate', 'endDate'];
 
-interface IProps<T extends ITableDefaultItem> {
+interface IProps<T extends Record<string, any>> {
   headers: string[];
   items: T[];
-  showItems: Array<keyof T>;
+  showItems: Array<keyof T | TableExtraKey>;
   renderItemProps?: Array<{
-    itemKey: keyof T;
+    itemKey: keyof T | TableExtraKey;
     children: (item: T) => ReactNode;
   }>;
   isLoading?: boolean;
@@ -28,7 +28,7 @@ interface IProps<T extends ITableDefaultItem> {
   tableRowClassName?: string;
 }
 
-const Table = <T extends ITableDefaultItem>({
+const Table = <T extends Record<string, any>>({
   headers,
   items = [],
   showItems,
@@ -44,15 +44,16 @@ const Table = <T extends ITableDefaultItem>({
     (e.target as HTMLImageElement).src = '';
   };
 
-  const renderItemMap = new Map<keyof T, (item: T) => ReactNode>(
-    renderItemProps?.map(p => [p.itemKey, p.children]) ?? [],
+  const renderItemMap = new Map<string, (item: T) => ReactNode>(
+    renderItemProps?.map(p => [p.itemKey as string, p.children]) ?? [],
   );
 
-  const renderItem = (rowItem: T, itemKey: keyof T) => {
-    const cellValue = rowItem[itemKey];
+  const renderItem = (rowItem: T, itemKey: string) => {
     const key = String(itemKey);
 
-    if (cellValue === undefined || cellValue === null || cellValue === '') {
+    const cellValue = rowItem[itemKey];
+
+    if (cellValue === null || cellValue === '') {
       return (
         <TableCell key={key} className='text-slate-500'>
           -
@@ -154,7 +155,9 @@ const Table = <T extends ITableDefaultItem>({
                 onClick={onClickItem(rowItem)}
                 className={cn(onClickItem !== undefined && 'cursor-pointer', tableRowClassName)}
               >
-                {[...new Set(showItems)].map(itemKey => renderItem(rowItem, itemKey))}
+                {Array.from(new Set(showItems)).map(itemKey =>
+                  renderItem(rowItem, itemKey as string),
+                )}
               </TableRow>
             ))
           )}

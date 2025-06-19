@@ -1,5 +1,6 @@
 import { ADMIN_PATHS } from '@configs/routes/adminPaths';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formErrorHandler } from '@shared/libs/formErrorHandler';
 import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -87,7 +88,7 @@ const useModifyBread = (bread: IBreadItem) => {
       id: bread.id,
       data: newData,
     });
-  });
+  }, formErrorHandler);
 
   return { form, onSubmit, files, setFiles };
 };

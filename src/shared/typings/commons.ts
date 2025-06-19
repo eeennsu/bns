@@ -29,7 +29,11 @@ export interface IHeaderMenu extends IMenu {
 
 export type Direction = 'left' | 'right';
 
-export interface IList<T> {
+export type ItemBase = {
+  id: number | string;
+};
+
+export interface IList<T extends ItemBase> {
   page: number;
   total: number;
   items: T[];
@@ -44,13 +48,7 @@ export interface IAdminMenuRoute {
 type TableItemType = string | number | boolean;
 export type ITableItem = Record<string, TableItemType>;
 
-export interface ITableDefaultItem {
-  id: string | number;
-  name?: string;
-  type?: string;
-  rank?: string | number;
-  image?: string;
-}
+export type TableExtraKey = 'delete';
 
 export type SearchFormDto = z.infer<typeof SearchFormDtoSchema>;
 

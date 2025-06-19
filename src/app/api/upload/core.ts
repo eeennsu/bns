@@ -1,9 +1,11 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
 
+import { MAX_FILE_SIZE } from '@entities/image/consts';
+
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  imageUploader: f({ image: { maxFileSize: '8MB', maxFileCount: 10 } })
+  imageUploader: f({ image: { maxFileSize: MAX_FILE_SIZE, maxFileCount: 10 } })
     .middleware(async () => {
       // const cookiesStore = await cookies();
       // const refreshToken = cookiesStore.get(TOKEN_TYPE.REFRESH)?.value;

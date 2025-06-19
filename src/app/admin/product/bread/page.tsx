@@ -1,5 +1,6 @@
 'use client';
 
+import DeleteDialog from '@shared/components/DeleteDialog';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
@@ -10,6 +11,7 @@ import { Badge, Button } from '@shadcn-ui/ui';
 import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
+import useDeleteBreadListItem from '@features/bread/hooks/useDeleteListItem';
 import useGetBreadList from '@features/bread/hooks/useGetList';
 
 import { BREAD_TABLE_HEADERS } from '@entities/bread/consts';
@@ -29,7 +31,7 @@ const AdminBreadListPage: FC = () => {
 
   const searchForm = useTableSearch();
   const paginationData = useChangePage({
-    total: 10,
+    total: data?.total,
   });
 
   const onClickModifyBread = (bread: IBreadItem) => () => {
@@ -39,6 +41,8 @@ const AdminBreadListPage: FC = () => {
   const onClickCreateBread = () => {
     router.push(ADMIN_PATHS.product.bread.create());
   };
+
+  const onDelete = useDeleteBreadListItem();
 
   return (
     <ListPageWidget>
@@ -59,6 +63,7 @@ const AdminBreadListPage: FC = () => {
           'isNew',
           'createdAt',
           'isHidden',
+          'delete',
         ]}
         onClickItem={onClickModifyBread}
         renderItemProps={[
@@ -70,11 +75,17 @@ const AdminBreadListPage: FC = () => {
           // },
           {
             itemKey: 'mbti',
-            children: item => <Badge variant='secondary'>{item.mbti}</Badge>,
+            children: bread => <Badge variant='secondary'>{bread.mbti}</Badge>,
           },
           {
             itemKey: 'isHidden',
             children: bread => (bread.isHidden ? '비공개' : '공개'),
+          },
+          {
+            itemKey: 'delete',
+            children: bread => (
+              <DeleteDialog onDelete={() => onDelete(bread.id)} name={bread.name} />
+            ),
           },
         ]}
         isLoading={isLoading}

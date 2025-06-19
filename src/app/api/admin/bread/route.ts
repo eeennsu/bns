@@ -22,9 +22,10 @@ export const GET = withAuth(async (request: NextRequest) => {
 
   const whereClause = search ? ilike(breads.name, `%${search}%`) : undefined;
 
-  const findBreads = await db.select().from(breads).limit(pageSize).offset(offset);
-
-  const [total] = await db.select({ count: count() }).from(breads).where(whereClause);
+  const [findBreads, [total]] = await Promise.all([
+    db.select().from(breads).orderBy(breads.sortOrder).limit(pageSize).offset(offset),
+    db.select({ count: count() }).from(breads).where(whereClause),
+  ]);
 
   return NextResponse.json(
     setSucResponseList({

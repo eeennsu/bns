@@ -1,5 +1,6 @@
-import { useUploadThing } from '@libs/uploadImage';
 import { toast } from 'sonner';
+
+import { useUploadThing } from '@features/upload/libs/uploadthing';
 
 import { FILE_UPLOAD_TOAST_MESSAGES } from '@entities/image/consts';
 import { FileWithDropzone, ImageRef } from '@entities/image/types';

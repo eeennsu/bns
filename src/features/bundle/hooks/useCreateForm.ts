@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formErrorHandler } from '@shared/libs/formErrorHandler';
 import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -43,25 +44,18 @@ const useCreateBundleForm = () => {
     },
   });
 
-  const onSubmit = form.handleSubmit(
-    async (data: BundleFormDto) => {
-      const imageIds = await fetchUploadApi(data.imageFiles, 'bundle');
+  const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
+    const imageIds = await fetchUploadApi(data.imageFiles, 'bundle');
 
-      delete data.imageFiles;
+    delete data.imageFiles;
 
-      const newData = {
-        ...data,
-        imageIds,
-      };
+    const newData = {
+      ...data,
+      imageIds,
+    };
 
-      createBundle(newData);
-    },
-    error => {
-      if (error?.productsList?.message) {
-        toast.warning(error.productsList.message);
-      }
-    },
-  );
+    createBundle(newData);
+  }, formErrorHandler);
 
   return { form, onSubmit, files, setFiles };
 };

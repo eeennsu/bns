@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formErrorHandler } from '@shared/libs/formErrorHandler';
 import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -52,7 +53,7 @@ const useCreateSauceForm = () => {
       imageIds,
     };
     createSauce(newData);
-  });
+  }, formErrorHandler);
 
   return { form, onSubmit, files, setFiles };
 };

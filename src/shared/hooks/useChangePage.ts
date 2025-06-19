@@ -1,6 +1,6 @@
-import { useSearchParams } from 'next/navigation';
-
 import { PER_PAGE_SIZE } from '@consts/commons';
+
+import usePageSearchParams from './usePageSearchParams';
 
 interface IParams {
   perPage?: number;
@@ -8,11 +8,9 @@ interface IParams {
 }
 
 const useChangePage = ({ perPage = PER_PAGE_SIZE.DEFAULT, total }: IParams) => {
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
-
+  const { page } = usePageSearchParams();
   return {
-    currentPage,
+    currentPage: page,
     perPage,
     total,
   };

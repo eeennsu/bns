@@ -1,4 +1,4 @@
-import { uploadFiles } from '@shared/libs/uploadImage';
+import { uploadFiles } from '@features/upload/libs/uploadthing';
 
 import { FileWithDropzone, ImageRef } from '@entities/image/types';
 

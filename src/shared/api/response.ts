@@ -1,3 +1,7 @@
+export const defaultResponse = {
+  ok: true,
+};
+
 export const setSucResponseData = (data: any) => ({
   ok: true,
   data: {

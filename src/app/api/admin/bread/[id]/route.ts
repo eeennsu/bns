@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences, images } from '@db/schemas/image';
-import { setSucResponseData } from '@shared/api/response';
+import { defaultResponse, setSucResponseData } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -24,25 +24,31 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [foundedBread] = await db.select().from(breads).where(eq(breads.id, breadId)).limit(1);
+  const [breadResult, imageResult] = await Promise.all([
+    db.select().from(breads).where(eq(breads.id, breadId)).limit(1),
+    db
+      .select({
+        id: images.id,
+        url: images.url,
+        name: images.name,
+      })
+      .from(imageReferences)
+      .innerJoin(images, eq(imageReferences.imageId, images.id))
+      .where(
+        and(
+          eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD),
+          eq(imageReferences.refId, breadId),
+        ),
+      )
+      .limit(1),
+  ]);
+
+  const [foundedBread] = breadResult;
+  const [breadImage] = imageResult;
 
   if (!foundedBread) {
     return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
   }
-
-  const [breadImage] = await db
-    .select({
-      id: images.id,
-      url: images.url,
-      name: images.name,
-    })
-    .from(imageReferences)
-    .innerJoin(images, eq(imageReferences.imageId, images.id))
-    .where(
-      and(eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD), eq(imageReferences.refId, breadId)),
-    )
-    .limit(1);
-
   if (!breadImage) {
     return NextResponse.json({ error: IMAGE_ERRORS.NOT_FOUND }, { status: 400 });
   }
@@ -86,8 +92,10 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
 
   if (existingImageRef?.imageId !== imageId) {
     if (existingImageRef) {
-      await db.delete(imageReferences).where(eq(imageReferences.id, existingImageRef.id));
-      await db.delete(images).where(eq(images.id, existingImageRef.imageId));
+      await Promise.all([
+        db.delete(imageReferences).where(eq(imageReferences.id, existingImageRef.id)),
+        db.delete(images).where(eq(images.id, existingImageRef.imageId)),
+      ]);
     }
 
     await db
@@ -117,4 +125,37 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
   }
 
   return NextResponse.json(setSucResponseData(updateBread));
+});
+
+export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
+  const breadId = +(await params).id;
+
+  if (!breadId) {
+    return NextResponse.json({ error: BREAD_ERRORS.MISSING_ID }, { status: 400 });
+  }
+
+  if (isNaN(breadId)) {
+    return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
+  }
+
+  const [foundedBread] = await db.select().from(breads).where(eq(breads.id, breadId)).limit(1);
+
+  if (!foundedBread) {
+    return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
+  }
+
+  const [imageRef] = await db
+    .select()
+    .from(imageReferences)
+    .where(eq(imageReferences.refId, breadId));
+
+  await Promise.all(
+    [
+      imageRef?.id ? db.delete(images).where(eq(images.id, imageRef.imageId)) : null,
+      db.delete(imageReferences).where(eq(imageReferences.refId, breadId)),
+      db.delete(breads).where(eq(breads.id, breadId)),
+    ].filter(Boolean),
+  );
+
+  return NextResponse.json(defaultResponse);
 });
