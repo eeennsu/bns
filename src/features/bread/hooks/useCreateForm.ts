@@ -43,11 +43,11 @@ const useCreateBreadForm = () => {
     mutationKey: [ADMIN_BREAD_KEYS.CREATE],
     mutationFn: apiCreateBread,
     onSuccess: async () => {
-      toast.success(BREAD_TOAST_MESSAGES.CREATE_SUCCESS);
-
       await queryClient.invalidateQueries({
         queryKey: [ADMIN_BREAD_KEYS.GET_LIST],
       });
+
+      toast.success(BREAD_TOAST_MESSAGES.CREATE_SUCCESS);
     },
     onError: error => {
       toast.error(BREAD_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });

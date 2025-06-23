@@ -1,5 +1,7 @@
 'use client';
 
+import DeleteDialog from '@shared/components/DeleteDialog';
+import useCustomSearchParams from '@shared/hooks/useCustomSearchParams';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
@@ -10,9 +12,11 @@ import { Button } from '@shadcn-ui/ui';
 import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
+import useDeleteSauceListItem from '@features/sauce/hooks/useDeleteListItem';
 import useGetSauceList from '@features/sauce/hooks/useGetList';
+import { getOrderBy, setOrderBy } from '@features/sauce/libs/sortOrder';
 
-import { SAUCE_TABLE_HEADERS } from '@entities/sauce/consts';
+import { ORDER_BY_SELECT, SAUCE_TABLE_HEADERS } from '@entities/sauce/consts';
 import { ISauceItem } from '@entities/sauce/types';
 
 import useChangePage from '@hooks/useChangePage';
@@ -25,10 +29,18 @@ import TableSearch from '@components/TableSearch';
 const AdminSauceListPage: FC = () => {
   const router = useRouter();
 
-  const { data, isLoading } = useGetSauceList();
+  const { searchParams, setOrderByParams } = useCustomSearchParams();
+  const orderBy = searchParams.get('orderBy') || getOrderBy(ORDER_BY_SELECT[0]);
+
+  const { data, isLoading } = useGetSauceList({ orderBy });
+
+  const setOrderBySauce = (value: string) => {
+    setOrderByParams(getOrderBy(value));
+  };
+
   const searchForm = useTableSearch();
   const paginationData = useChangePage({
-    total: 10,
+    total: data?.total,
   });
 
   const onClickModifySauce = (sauce: ISauceItem) => () => {
@@ -39,16 +51,21 @@ const AdminSauceListPage: FC = () => {
     router.push(ADMIN_PATHS.product.sauce.create());
   };
 
+  const onDelete = useDeleteSauceListItem();
+
   return (
     <ListPageWidget>
       <TableSearch
         {...searchForm}
         total={paginationData.total}
         placeholder='소스 이름을 입력해주세요'
+        orderSelectList={ORDER_BY_SELECT}
+        orderBy={setOrderBy(orderBy)}
+        setOrderBy={setOrderBySauce}
       />
       <Table<ISauceItem>
         headers={SAUCE_TABLE_HEADERS}
-        items={data?.items || DUMMY_SAUCES}
+        items={data?.items}
         showItems={[
           'sortOrder',
           'name',
@@ -58,13 +75,16 @@ const AdminSauceListPage: FC = () => {
           'createdAt',
           'updatedAt',
           'isHidden',
+          'delete',
         ]}
         onClickItem={onClickModifySauce}
         isLoading={isLoading}
         renderItemProps={[
           {
-            itemKey: 'isHidden',
-            children: sauce => (sauce.isHidden ? '비공개' : '공개'),
+            itemKey: 'delete',
+            children: bread => (
+              <DeleteDialog onDelete={() => onDelete(bread.id)} name={bread.name} />
+            ),
           },
         ]}
       />
@@ -81,29 +101,3 @@ const AdminSauceListPage: FC = () => {
 };
 
 export default AdminSauceListPage;
-
-const DUMMY_SAUCES: ISauceItem[] = Array.from({ length: 10 }, (_, index) => ({
-  id: index + 1,
-  name: '메론 소스',
-  description: '소스 설명',
-  image: 'https://picsum.photos/id/63/350/256',
-  price: 12000,
-  isSignature: true,
-  isNew: true,
-  sortOrder: index + 1,
-  createdAt: new Date('2025-04-03').toISOString(),
-  updatedAt: new Date('2025-04-04').toISOString(),
-  deletedAt: null,
-  isHidden: false,
-  imageFiles: [
-    {
-      id: 1,
-      key: '1',
-      name: '1',
-      type: '1',
-      url: '1',
-      lastModified: 1,
-      size: 1,
-    },
-  ],
-}));

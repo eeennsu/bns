@@ -31,10 +31,19 @@ export const IMAGE_ERRORS = {
 };
 
 export const BREAD_ERRORS = {
-  CREATE_FAILED: '알 수 없는 이유로 빵 생성에 실패했습니다.',
-  MODIFY_FAILED: '알 수 없는 이유로 빵 수정에 실패했습니다.',
-  DELETE_FAILED: '알 수 없는 이유로 빵 삭제에 실패했습니다.',
+  CREATE_FAILED: '빵 생성에 실패했습니다.',
+  MODIFY_FAILED: '빵 수정에 실패했습니다.',
+  DELETE_FAILED: '빵 삭제에 실패했습니다.',
   MISSING_ID: '상세 아이디가 없습니다.',
   INVALID_ID: '잘못된 상세 아이디입니다.',
   NOT_FOUND_BREAD: '존재하지 않는 빵입니다.',
+};
+
+export const SAUCE_ERRORS = {
+  CREATE_FAILED: '소스 생성에 실패했습니다.',
+  MODIFY_FAILED: '소스 수정에 실패했습니다.',
+  DELETE_FAILED: '소스 삭제에 실패했습니다.',
+  MISSING_ID: '상세 아이디가 없습니다.',
+  INVALID_ID: '잘못된 상세 아이디입니다.',
+  NOT_FOUND_SAUCE: '존재하지 않는 소스입니다.',
 };

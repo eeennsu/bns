@@ -1,9 +1,10 @@
 import { STRING_LENGTH } from '@db/consts/commons';
 import { inputOnlyNumber } from '@libs/inputOnlyNumber';
+import FormButton from '@shared/components/FormButton';
 import type { BaseSyntheticEvent, Dispatch, FC, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { Button, Form, FormField } from '@shadcn-ui/ui';
+import { Form, FormField } from '@shadcn-ui/ui';
 
 import { FileWithDropzone } from '@entities/image/types';
 import { SauceFormDto } from '@entities/sauce/types';
@@ -28,9 +29,7 @@ const SauceForm: FC<IProps> = ({ files, setFiles, form, submitProps }) => {
     <Form {...form}>
       <form onSubmit={e => e.stopPropagation()}>
         <section className='flex justify-end gap-4'>
-          <Button type='button' onClick={submitProps.onSubmit}>
-            {submitProps.label}
-          </Button>
+          <FormButton formContext={form} label={submitProps.label} onClick={submitProps.onSubmit} />
         </section>
         <section className='space-y-5'>
           <div className='flex items-center gap-3'>
@@ -97,7 +96,7 @@ const SauceForm: FC<IProps> = ({ files, setFiles, form, submitProps }) => {
                 files={files}
                 setFiles={setFiles}
                 label='이미지'
-                desc=' 최대 1개까지 업로드 가능합니다.'
+                desc='최대 1개까지 업로드 가능합니다.'
                 field={field}
                 isRequired
               />

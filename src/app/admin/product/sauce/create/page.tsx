@@ -21,7 +21,7 @@ const AdminSauceCreatePage: FC = () => {
       <SauceForm
         form={form}
         submitProps={{
-          label: '생성',
+          label: '생성하기',
           onSubmit,
         }}
         files={files}

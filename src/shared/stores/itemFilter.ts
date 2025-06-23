@@ -6,7 +6,7 @@ interface IItemShowFilterStore {
   setShowFilter: (value: ItemShowLabel | ((prev: ItemShowLabel) => ItemShowLabel)) => void;
 }
 
-const useItemFilterStore = create<IItemShowFilterStore>(set => ({
+const useItemShowFilterStore = create<IItemShowFilterStore>(set => ({
   showFilter: '전체',
   setShowFilter: value =>
     set(state => ({
@@ -14,7 +14,7 @@ const useItemFilterStore = create<IItemShowFilterStore>(set => ({
     })),
 }));
 
-export default useItemFilterStore;
+export default useItemShowFilterStore;
 
 export const getItemShowType = (showFilter: ItemShowLabel) => {
   switch (showFilter) {

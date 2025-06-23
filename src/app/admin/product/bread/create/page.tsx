@@ -19,13 +19,13 @@ const AdminBreadCreatePage: FC = () => {
   return (
     <PageContainer>
       <BreadForm
-        form={form}
-        files={files}
         setFiles={setFiles}
         submitProps={{
           label: '생성하기',
           onSubmit,
         }}
+        form={form}
+        files={files}
       />
     </PageContainer>
   );

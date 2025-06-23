@@ -30,7 +30,7 @@ const AdminBreadListPage: FC = () => {
   const router = useRouter();
 
   const { searchParams, setOrderByParams } = useCustomSearchParams();
-  const orderBy = searchParams.get('orderBy') || ORDER_BY_SELECT[0];
+  const orderBy = searchParams.get('orderBy') || getOrderBy(ORDER_BY_SELECT[0]);
 
   const { data, isLoading } = useGetBreadList({ orderBy });
 

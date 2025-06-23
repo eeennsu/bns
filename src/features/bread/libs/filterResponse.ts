@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { dateFormat } from '@shared/libs/date';
 
 import { IBreadItem, IBreadList } from '@entities/bread/types';
 
@@ -9,11 +9,11 @@ export const filterBreadResponse = (response: IItemResponse): IBreadItem => {
 };
 
 export const filterBreadListResponse = (response: IListResponse): IBreadList => {
-  const items = response.data.list.map(item => ({
+  const items = response?.data?.list?.map(item => ({
     id: item.id,
-    createdAt: dayjs.tz(item.createdAt).format('YYYY-MM-DD'),
-    updatedAt: dayjs.tz(item.updatedAt).format('YYYY-MM-DD'),
-    deletedAt: item.deletedAt ? dayjs.tz(item.deletedAt).format('YYYY-MM-DD') : null,
+    createdAt: dateFormat(item.createdAt),
+    updatedAt: dateFormat(item.updatedAt),
+    deletedAt: item.deletedAt ? dateFormat(item.deletedAt) : null,
     name: item.name,
     description: item.description,
     mbti: item.mbti,
@@ -25,8 +25,8 @@ export const filterBreadListResponse = (response: IListResponse): IBreadList => 
   })) as IBreadItem[];
 
   return {
-    items,
-    total: response.data.totalCount,
-    page: response.data.page,
+    items: items || [],
+    total: response?.data?.totalCount || items.length,
+    page: response?.data?.page || 1,
   };
 };
