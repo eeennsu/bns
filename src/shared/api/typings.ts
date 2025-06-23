@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { User } from '@entities/auth/types';
 
-import { TOKEN_TYPE } from './consts';
+import { ORDER_BY_TYPES, TOKEN_TYPE } from './consts';
 
 export type TokenType = (typeof TOKEN_TYPE)[keyof typeof TOKEN_TYPE];
 
@@ -25,3 +25,5 @@ export type ApiHandler = (
   request: NextRequest,
   { params }: { params: ApiParams },
 ) => Promise<NextResponse>;
+
+export type OrderByType = (typeof ORDER_BY_TYPES)[keyof typeof ORDER_BY_TYPES];

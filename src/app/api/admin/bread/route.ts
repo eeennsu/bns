@@ -1,12 +1,13 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences } from '@db/schemas/image';
+import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseData, setSucResponseList } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
-import { and, count, eq, ilike, isNull } from 'drizzle-orm';
+import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
-import { WithImageId } from 'src/shared/api/typings';
+import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
 import { BreadFormDto } from '@entities/bread/types';
 
@@ -17,13 +18,24 @@ export const GET = withAuth(async (request: NextRequest) => {
   const page = Number(searchParams.get('page')) || 1;
   const pageSize = Number(searchParams.get('pageSize')) || PER_PAGE_SIZE.DEFAULT;
   const search = searchParams.get('search') || '';
+  const showType = searchParams.get('showType') || 'all';
+  const orderBy = searchParams.get('orderBy') || undefined;
+  const orderClause = getOrderClause(orderBy);
 
   const offset = (page - 1) * pageSize;
 
-  const whereClause = search ? ilike(breads.name, `%${search}%`) : undefined;
+  const searchClause = search ? ilike(breads.name, `%${search}%`) : undefined;
+  const showTypeClause =
+    showType === 'on'
+      ? eq(breads.isHidden, false)
+      : showType === 'off'
+        ? eq(breads.isHidden, true)
+        : undefined;
+
+  const whereClause = and(searchClause, showTypeClause);
 
   const [findBreads, [total]] = await Promise.all([
-    db.select().from(breads).orderBy(breads.sortOrder).limit(pageSize).offset(offset),
+    db.select().from(breads).where(whereClause).orderBy(orderClause).limit(pageSize).offset(offset),
     db.select({ count: count() }).from(breads).where(whereClause),
   ]);
 
@@ -87,3 +99,22 @@ export const POST = withAuth(async (request: NextRequest) => {
 
   return NextResponse.json(setSucResponseData(newBread));
 });
+
+const getOrderClause = (orderBy?: OrderByType) => {
+  switch (orderBy) {
+    case ORDER_BY_TYPES.CREATED_DESC:
+      return desc(breads.createdAt);
+    case ORDER_BY_TYPES.CREATED_ASC:
+      return asc(breads.createdAt);
+    case ORDER_BY_TYPES.PRICE_DESC:
+      return desc(breads.price);
+    case ORDER_BY_TYPES.PRICE_ASC:
+      return asc(breads.price);
+    case ORDER_BY_TYPES.SORT_ORDER_DESC:
+      return desc(breads.sortOrder);
+    case ORDER_BY_TYPES.SORT_ORDER_ASC:
+      return asc(breads.sortOrder);
+    default:
+      return asc(breads.sortOrder);
+  }
+};

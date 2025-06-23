@@ -13,10 +13,12 @@ const useTableSearch = () => {
   const searchParams = useSearchParams();
 
   const onSearch = (data: SearchFormDto) => {
-    if (!data?.search) return;
+    if (!data?.search || data.search.trim() === '') {
+      router.push(pathname);
+      return;
+    }
 
     const newSearchParams = cloneSearchParams(searchParams);
-
     newSearchParams.set('search', data.search);
 
     router.push(`${pathname}?${newSearchParams.toString()}`);

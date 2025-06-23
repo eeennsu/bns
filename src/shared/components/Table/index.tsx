@@ -1,8 +1,16 @@
 import dayjs from 'dayjs';
 import { CircleCheckBig, X } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import type { ReactNode, SyntheticEvent } from 'react';
 
-import { Table as ShadcnTable, TableBody, TableHead, TableHeader, TableRow } from '@shadcn-ui/ui';
+import {
+  Badge,
+  Table as ShadcnTable,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 import { TableExtraKey } from '@typings/commons';
@@ -40,6 +48,9 @@ const Table = <T extends Record<string, any>>({
   tableHeaderClassName,
   tableRowClassName,
 }: IProps<T>) => {
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search') || '';
+
   const onImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     (e.target as HTMLImageElement).src = '';
   };
@@ -65,6 +76,16 @@ const Table = <T extends Record<string, any>>({
       return (
         <TableCell key={key} isStopPropagation>
           {renderItemMap.get(itemKey)!(rowItem)}
+        </TableCell>
+      );
+    }
+
+    if (itemKey === 'isHidden') {
+      return (
+        <TableCell key={key}>
+          <Badge variant={rowItem.isHidden ? 'secondary' : 'default'}>
+            {rowItem.isHidden ? '비공개' : '공개'}
+          </Badge>
         </TableCell>
       );
     }
@@ -131,7 +152,7 @@ const Table = <T extends Record<string, any>>({
             {headers.map(header => (
               <TableHead
                 key={header}
-                className='max-w-20 bg-gray-50 px-6 py-4 text-center text-xs font-semibold tracking-wider break-words whitespace-normal text-gray-600 uppercase'
+                className='max-w-20 bg-gray-50 px-6 py-4 text-center text-xs font-semibold tracking-wider break-words whitespace-normal whitespace-nowrap text-gray-600 uppercase'
               >
                 {header}
               </TableHead>
@@ -145,7 +166,7 @@ const Table = <T extends Record<string, any>>({
                 colSpan={headers.length}
                 className='py-10 text-center text-xs text-gray-400'
               >
-                {emptyDataText || '데이터가 없습니다.'}
+                {emptyDataText || search ? '검색 결과가 없습니다.' : '데이터가 없습니다.'}
               </TableCell>
             </TableRow>
           ) : (

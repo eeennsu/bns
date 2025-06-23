@@ -47,7 +47,6 @@ export interface IAdminMenuRoute {
 
 type TableItemType = string | number | boolean;
 export type ITableItem = Record<string, TableItemType>;
-
 export type TableExtraKey = 'delete';
 
 export type SearchFormDto = z.infer<typeof SearchFormDtoSchema>;
@@ -59,7 +58,7 @@ interface IAuditDate {
 }
 
 export type FilterDate<T> = Omit<T, 'createdAt' | 'updatedAt' | 'deletedAt'> & IAuditDate;
-export interface IGetListParams {
+export interface IGetListParams extends Record<string, string | number> {
   page: string | number;
   pageSize: string | number;
   search?: string;
@@ -87,3 +86,6 @@ export interface IItemResponse {
   ok: boolean;
   data: any;
 }
+
+export type ItemShowValue = 'all' | 'on' | 'off';
+export type ItemShowLabel = '전체' | '공개' | '비공개';

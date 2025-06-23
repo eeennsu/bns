@@ -1,6 +1,7 @@
 'use client';
 
 import DeleteDialog from '@shared/components/DeleteDialog';
+import useCustomSearchParams from '@shared/hooks/useCustomSearchParams';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
@@ -13,8 +14,9 @@ import ListPageWidget from '@widgets/admin/list';
 import AdminPagination from '@features/admin/ui/Pagination';
 import useDeleteBreadListItem from '@features/bread/hooks/useDeleteListItem';
 import useGetBreadList from '@features/bread/hooks/useGetList';
+import { getOrderBy, setOrderBy } from '@features/bread/libs/sortOrder';
 
-import { BREAD_TABLE_HEADERS } from '@entities/bread/consts';
+import { BREAD_TABLE_HEADERS, ORDER_BY_SELECT } from '@entities/bread/consts';
 import { IBreadItem } from '@entities/bread/types';
 
 import useChangePage from '@hooks/useChangePage';
@@ -27,7 +29,14 @@ import TableSearch from '@components/TableSearch';
 const AdminBreadListPage: FC = () => {
   const router = useRouter();
 
-  const { data, isLoading } = useGetBreadList();
+  const { searchParams, setOrderByParams } = useCustomSearchParams();
+  const orderBy = searchParams.get('orderBy') || ORDER_BY_SELECT[0];
+
+  const { data, isLoading } = useGetBreadList({ orderBy });
+
+  const setOrderByBread = (value: string) => {
+    setOrderByParams(getOrderBy(value));
+  };
 
   const searchForm = useTableSearch();
   const paginationData = useChangePage({
@@ -50,6 +59,9 @@ const AdminBreadListPage: FC = () => {
         {...searchForm}
         total={paginationData.total}
         placeholder='빵 이름을 입력해주세요'
+        orderSelectList={ORDER_BY_SELECT}
+        orderBy={setOrderBy(orderBy)}
+        setOrderBy={setOrderByBread}
       />
       <Table<IBreadItem>
         headers={BREAD_TABLE_HEADERS}
@@ -67,19 +79,9 @@ const AdminBreadListPage: FC = () => {
         ]}
         onClickItem={onClickModifyBread}
         renderItemProps={[
-          // {
-          //   itemKey: 'name',
-          //   children: item => (
-          //     <div className='w-[100px] overflow-visible bg-blue-400 font-bold'>{item.name}</div>
-          //   ),
-          // },
           {
             itemKey: 'mbti',
             children: bread => <Badge variant='secondary'>{bread.mbti}</Badge>,
-          },
-          {
-            itemKey: 'isHidden',
-            children: bread => (bread.isHidden ? '비공개' : '공개'),
           },
           {
             itemKey: 'delete',

@@ -3,22 +3,22 @@ export const cloneSearchParams = (searchParams: URLSearchParams): URLSearchParam
   return new URLSearchParams(prevSearchParams);
 };
 
-export const buildUrlWithParams = (
+export const buildPathWithParams = (
   path: string,
   params: Record<string, string | number | undefined> & {
-    orderBy?: string;
-    order?: 'asc' | 'desc';
+    // orderBy?: string;
+    // order?: 'asc' | 'desc';
   },
 ) => {
-  const query = new URLSearchParams();
+  const filteredParams = Object.entries(params).filter(
+    ([, value]) => value !== undefined && value !== '',
+  );
 
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== '') {
-      query.append(key, value.toString().trim());
-    }
-  });
+  const searchParams = new URLSearchParams(
+    filteredParams.map(([key, value]) => [key, String(value)]),
+  );
 
   // query.append('orderBy', 'createdAt=desc&sortOrder=asc');
 
-  return `${path}?${query.toString()}`;
+  return `${path}?${searchParams.toString()}`;
 };

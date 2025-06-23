@@ -22,7 +22,7 @@ const DeleteDialog: FC<IProps> = ({ imageUrl, name, onDelete }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant='destructive' className='size-8' size='sm'>
+        <Button variant='destructive' className='size-8'>
           <Trash />
         </Button>
       </DialogTrigger>

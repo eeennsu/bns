@@ -1,3 +1,4 @@
+import { cn } from '@shared/shadcn-ui/utils';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 import {
@@ -12,11 +13,12 @@ import {
 import { SelectItem as SelectItemType } from '@typings/commons';
 
 interface IProps {
-  label: string;
   selectList: string[] | SelectItemType[];
-  setValue?: (key: string) => void | Dispatch<SetStateAction<string>>;
+  label?: string;
+  setValue?: (key: string | ((prev: string) => string)) => void | Dispatch<SetStateAction<string>>;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
+  triggerClassName?: string;
 }
 
 const SharedSelect: FC<IProps> = ({
@@ -25,6 +27,7 @@ const SharedSelect: FC<IProps> = ({
   setValue,
   defaultValue = '',
   onValueChange,
+  triggerClassName,
 }) => {
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
@@ -40,7 +43,7 @@ const SharedSelect: FC<IProps> = ({
 
   return (
     <Select onValueChange={onChangeSelect} value={selectedValue}>
-      <SelectTrigger className='w-[180px]' data-testid={`${label}-select`}>
+      <SelectTrigger className={cn('w-[180px]', triggerClassName)} data-testid={`${label}-select`}>
         <SelectValue placeholder={label} />
       </SelectTrigger>
       <SelectContent>
@@ -54,7 +57,7 @@ const SharedSelect: FC<IProps> = ({
               );
             }
 
-            if (typeof select === 'object') {
+            if (typeof select === 'object' || select !== null) {
               return (
                 <SelectItem key={index} value={select.value}>
                   {select.label}

@@ -1,6 +1,6 @@
 import { PER_PAGE_SIZE } from '@consts/commons';
 
-import usePageSearchParams from './usePageSearchParams';
+import usePageSearchParams from './useListSearchParams';
 
 interface IParams {
   perPage?: number;

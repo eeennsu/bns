@@ -1,4 +1,4 @@
-import usePageSearchParams from '@shared/hooks/usePageSearchParams';
+import usePageSearchParams from '@shared/hooks/useListSearchParams';
 import useRemoveQueryListItem from '@shared/hooks/useRemoveQueryListItem';
 import { getErrorResponse } from '@shared/libs/getError';
 import { useMutation } from '@tanstack/react-query';

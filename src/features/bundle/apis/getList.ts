@@ -1,4 +1,4 @@
-import { buildUrlWithParams } from '@libs/searchParams';
+import { buildPathWithParams } from '@libs/searchParams';
 
 import { IBundleList } from '@entities/bundle/types';
 
@@ -11,7 +11,7 @@ import { filterBundleListResponse } from '../libs/filterResponse';
 interface IParams extends IGetListParams {}
 
 const apiGetBundleList = async ({ page, pageSize, search }: IParams): Promise<IBundleList> => {
-  const url = buildUrlWithParams('/admin/bundle/list', { page, pageSize, search });
+  const url = buildPathWithParams('/admin/bundle', { page, pageSize, search });
 
   const response = await axiosAdmin.get(url);
   const data = filterBundleListResponse(response.data);
