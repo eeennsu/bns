@@ -16,7 +16,7 @@ import { SauceFormDto } from '@entities/sauce/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
-import apiCreateVersion from '../apis/create';
+import apiCreateSauce from '../apis/create';
 
 const useCreateSauceForm = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const useCreateSauceForm = () => {
 
   const { mutateAsync: createSauce } = useMutation({
     mutationKey: [ADMIN_SAUCE_KEYS.CREATE],
-    mutationFn: apiCreateVersion,
+    mutationFn: apiCreateSauce,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [ADMIN_SAUCE_KEYS.GET_LIST],
@@ -52,7 +52,7 @@ const useCreateSauceForm = () => {
       toast.error(SAUCE_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
     },
     onSettled: () => {
-      router.push(ADMIN_PATHS.product.sauce.list());
+      router.replace(ADMIN_PATHS.product.sauce.list());
     },
   });
 

@@ -4,9 +4,9 @@ import type { FC } from 'react';
 
 import DetailWidget from '@widgets/admin/detail';
 
-import EventForm from '@features/event/ui/admin/Form';
 import useGetSauce from '@features/sauce/hooks/useGetSauce';
 import useModifySauce from '@features/sauce/hooks/useModifyForm';
+import SauceForm from '@features/sauce/ui/admin/Form';
 
 import { ISauceItem } from '@entities/sauce/types';
 
@@ -32,8 +32,9 @@ interface IProps {
 
 const SauceModify: FC<IProps> = ({ sauce }) => {
   const { files, form, onSubmit, setFiles } = useModifySauce(sauce);
+
   return (
-    <EventForm
+    <SauceForm
       files={files}
       form={form}
       setFiles={setFiles}

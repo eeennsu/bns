@@ -8,11 +8,10 @@ interface IParams {
   id: string;
 }
 
-const apiGetSauce = async (params: IParams): Promise<ISauceItem> => {
-  if (!params?.id) throw new Error('id is required');
+const apiGetSauce = async ({ id }: IParams): Promise<ISauceItem> => {
+  if (!id) throw new Error('id is required');
 
-  const response = await axiosAdmin.get(`/admin/sauce/${params.id}`);
-
+  const response = await axiosAdmin.get(`/admin/sauce/${id}`);
   const data = filterSauceResponse(response.data);
 
   return data;

@@ -23,8 +23,7 @@ const useModifyBread = (bread: IBreadItem) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const breadImage = bread.imageFiles.at(0);
-
+  const breadImage = bread?.imageFiles?.at(0);
   const img: IImageFile[] = breadImage
     ? [
         {
@@ -34,6 +33,8 @@ const useModifyBread = (bread: IBreadItem) => {
         },
       ]
     : [];
+
+  const { files, setFiles } = useImageFiles(img);
 
   const form = useForm<BreadFormDto>({
     resolver: zodResolver(BreadFormDtoSchema),
@@ -50,24 +51,22 @@ const useModifyBread = (bread: IBreadItem) => {
     },
   });
 
-  const { files, setFiles } = useImageFiles(img);
-
   const { mutateAsync: modifyBread } = useMutation({
     mutationKey: [ADMIN_BREAD_KEYS.MODIFY],
     mutationFn: apiModifyBread,
     onSuccess: async () => {
       toast.success(BREAD_TOAST_MESSAGES.MODIFY_SUCCESS);
 
-      await Promise.all([
+      await Promise.allSettled([
         queryClient.invalidateQueries({
           queryKey: [ADMIN_BREAD_KEYS.GET_LIST],
         }),
         queryClient.invalidateQueries({
-          queryKey: [ADMIN_BREAD_KEYS.GET, String(bread.id)],
+          queryKey: [ADMIN_BREAD_KEYS.GET, String(bread?.id)],
         }),
       ]);
 
-      router.push(ADMIN_PATHS.product.bread.list());
+      router.replace(ADMIN_PATHS.product.bread.list());
     },
     onError: error => {
       toast.error(BREAD_TOAST_MESSAGES.MODIFY_FAILED, { description: getErrorResponse(error) });

@@ -7,9 +7,9 @@ interface IParams {
   data: BreadFormDto;
 }
 
-const apiModifyBread = async ({ id, data }: IParams): Promise<void> => {
+const apiModifySauce = async ({ id, data }: IParams): Promise<void> => {
   if (!id) throw new Error('id is required');
-  await axiosAdmin.put('/admin/bread/', data);
+  await axiosAdmin.put(`/admin/sauce/${id}`, data);
 };
 
-export default apiModifyBread;
+export default apiModifySauce;

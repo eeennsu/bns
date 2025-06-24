@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { CircleCheckBig, X } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import type { ReactNode, SyntheticEvent } from 'react';
@@ -18,7 +18,7 @@ import { TableExtraKey } from '@typings/commons';
 import TableSkeleton from './Skeleton';
 import TableCell from './TableCell';
 
-const DATE_KEYS = ['createdAt', 'updatedAt', 'deletedAt', 'startDate', 'endDate'];
+// const DATE_KEYS = ['createdAt', 'updatedAt', 'deletedAt', 'startDate', 'endDate'];
 
 interface IProps<T extends Record<string, any>> {
   headers: string[];
@@ -122,18 +122,18 @@ const Table = <T extends Record<string, any>>({
       return <TableCell key={key}>{cellValue.toLocaleString('ko-KR')}</TableCell>;
     }
 
-    if (typeof cellValue === 'string' && (DATE_KEYS.includes(key) || key.endsWith('At'))) {
-      const parsedDate = dayjs(cellValue);
-      return parsedDate.isValid() ? (
-        <TableCell key={key} className='px-4 py-3 text-xs whitespace-nowrap text-gray-500'>
-          {parsedDate.format('YY-MM-DD')}
-        </TableCell>
-      ) : (
-        <TableCell key={key} className='text-slate-500'>
-          -
-        </TableCell>
-      );
-    }
+    // if (typeof cellValue === 'string' && (DATE_KEYS.includes(key) || key.endsWith('At'))) {
+    //   const parsedDate = dayjs(cellValue);
+    //   return parsedDate.isValid() ? (
+    //     <TableCell key={key} className='px-4 py-3 text-xs whitespace-nowrap text-gray-500'>
+    //       {parsedDate.format('YY-MM-DD')}
+    //     </TableCell>
+    //   ) : (
+    //     <TableCell key={key} className='text-slate-500'>
+    //       -
+    //     </TableCell>
+    //   );
+    // }
 
     return <TableCell key={key}>{String(cellValue)}</TableCell>;
   };

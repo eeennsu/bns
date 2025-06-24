@@ -12,6 +12,7 @@ const useGetSauce = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: [ADMIN_SAUCE_KEYS.GET, id],
     queryFn: () => apiGetSauce({ id }),
+    enabled: !!id,
   });
 
   return { sauce: data, isLoading, isError };

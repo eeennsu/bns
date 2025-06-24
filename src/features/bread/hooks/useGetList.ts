@@ -25,7 +25,7 @@ const useGetBreadList = ({ orderBy }: IParams): IReturn => {
   const showType = getItemShowType(showFilter);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: filterQueryKeys([ADMIN_BREAD_KEYS.GET_LIST, page, showType, orderBy, search]),
+    queryKey: filterQueryKeys(ADMIN_BREAD_KEYS.GET_LIST, page, showType, orderBy, search),
     queryFn: () =>
       apiGetBreadList({
         page,

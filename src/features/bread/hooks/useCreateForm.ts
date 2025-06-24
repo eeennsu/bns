@@ -53,7 +53,7 @@ const useCreateBreadForm = () => {
       toast.error(BREAD_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
     },
     onSettled: () => {
-      router.push(ADMIN_PATHS.product.bread.list());
+      router.replace(ADMIN_PATHS.product.bread.list());
     },
   });
 

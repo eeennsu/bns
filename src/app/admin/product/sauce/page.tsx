@@ -73,7 +73,7 @@ const AdminSauceListPage: FC = () => {
           'isSignature',
           'isNew',
           'createdAt',
-          'updatedAt',
+
           'isHidden',
           'delete',
         ]}
@@ -88,7 +88,6 @@ const AdminSauceListPage: FC = () => {
           },
         ]}
       />
-
       <AdminPagination {...paginationData} />
       <BottomRightWrapper>
         <Button onClick={onClickCreateSauce}>

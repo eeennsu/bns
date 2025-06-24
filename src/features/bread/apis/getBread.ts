@@ -8,11 +8,10 @@ interface IParams {
   id: string;
 }
 
-const apiGetBread = async (params: IParams): Promise<IBreadItem> => {
-  if (!params?.id) throw new Error('id is required');
+const apiGetBread = async ({ id }: IParams): Promise<IBreadItem> => {
+  if (!id) throw new Error('id is required');
 
-  const response = await axiosAdmin.get(`/admin/bread/${params.id}`);
-
+  const response = await axiosAdmin.get(`/admin/bread/${id}`);
   const data = filterBreadResponse(response.data);
 
   return data;
