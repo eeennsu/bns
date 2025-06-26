@@ -18,6 +18,7 @@ const events = [
       '허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다',
     startDate: '2025-05-17',
     endDate: '2025-05-19',
+    image: 'https://picsum.photos/id/237/200/300',
   },
   {
     id: '2',
@@ -26,6 +27,7 @@ const events = [
       '땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다',
     startDate: '2025-05-17',
     endDate: '2025-05-19',
+    image: 'https://picsum.photos/id/37/200/300',
   },
   {
     id: '3',
@@ -34,10 +36,11 @@ const events = [
       '메론빵은 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다',
     startDate: '2025-05-17',
     endDate: '2025-05-19',
+    image: 'https://picsum.photos/id/67/200/300',
   },
 ];
 
-export const EventPopupList: FC = () => {
+export const EventListPopup: FC = () => {
   const {
     isShow,
     currentEventIndex,
@@ -67,10 +70,10 @@ export const EventPopupList: FC = () => {
         animate={{ y: 0 }}
         exit={{ y: -10 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className='relative flex max-h-[90vh] w-full max-w-[95%] flex-col gap-4 rounded-lg border border-[#e8e0d0] bg-[#faf7f2] shadow-lg sm:max-w-md'
+        className='bg-ivory xl:max-h-[] relative flex h-full w-full max-w-[95%] flex-col rounded-lg border border-[#e8e0d0] shadow-lg sm:max-w-xl 2xl:max-h-[70vh]'
       >
         <CloseButton onClick={onHideEvent} />
-        <section className='overflow-hidden'>
+        <section className='flex h-full flex-1 flex-col'>
           <EventPopupHeader />
           <AnimatedEventPopup direction={direction} event={currentEvent} />
         </section>
@@ -105,4 +108,4 @@ export const EventPopupList: FC = () => {
   );
 };
 
-export default EventPopupList;
+export default EventListPopup;

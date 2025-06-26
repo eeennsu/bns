@@ -24,5 +24,4 @@ export interface IVerifyToken {
 
 export interface ISessionResponse {
   user?: Pick<IMe, 'username' | 'isAuthenticated'>;
-  shouldRefresh?: boolean;
 }

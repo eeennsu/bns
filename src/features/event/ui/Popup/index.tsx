@@ -1,32 +1,48 @@
-'use client';
-
+import { ScrollArea } from '@shared/shadcn-ui/ui/scroll-area';
 import dayjs from 'dayjs';
-import { Calendar } from 'lucide-react';
+import { CalendarDays } from 'lucide-react';
+import Image from 'next/image';
 import { FC } from 'react';
 
-interface IProps {
+interface EventPopupProps {
   title: string;
   description: string;
-  image?: string | null;
   startDate: string;
   endDate: string;
+  image: string;
 }
 
-const EventPopup: FC<IProps> = ({ title, description, startDate, endDate }) => {
-  return (
-    <>
-      <div className='mb-2 flex items-center gap-2 sm:mb-3'>
-        <Calendar className='h-4 w-4 text-[#a87c50]' />
-        <span className='text-xs text-[#6c6055]'>
-          {dayjs(startDate).format('YYYY.MM.DD')} ~ {dayjs(endDate).format('YYYY.MM.DD')}
-        </span>
-      </div>
+const EventPopup: FC<EventPopupProps> = ({ title, description, startDate, endDate, image }) => {
+  const dateFormat = (date: string) => {
+    return dayjs(date).format('YYYY년 MM월 DD일 ddd');
+  };
 
-      <h3 className='mb-2 text-lg font-bold text-[#5e503f] sm:mb-3 sm:text-xl'>{title}</h3>
-      <p className='rounded-md bg-[#f0e9df] p-3 text-sm text-[#6c6055] sm:text-base'>
+  return (
+    <div className='flex flex-col gap-1.5 p-4 text-[#2f2f2f]'>
+      <figure className='relative flex max-h-[350px] w-full flex-1 overflow-hidden rounded-xl shadow-sm'>
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className='w-full object-cover transition-transform duration-300 hover:scale-[1.02]'
+        />
+        <div className='absolute right-0 bottom-0 flex items-center gap-2 rounded-tl-md bg-black/50 px-3 py-2 text-xs tracking-wide text-white backdrop-blur-sm'>
+          <CalendarDays className='size-4' />
+          진행 기간
+          <span>
+            {dateFormat(startDate)} ~ {dateFormat(endDate)}
+          </span>
+        </div>
+      </figure>
+
+      <h3 className='mt-3 text-xl leading-tight font-semibold tracking-tight text-gray-900'>
+        {title}
+      </h3>
+
+      <ScrollArea className='h-fit max-h-[100px] rounded-lg px-3 text-sm leading-relaxed text-gray-700'>
         {description}
-      </p>
-    </>
+      </ScrollArea>
+    </div>
   );
 };
 

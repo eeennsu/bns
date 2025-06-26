@@ -13,6 +13,7 @@ interface Props {
     description: string;
     startDate: string;
     endDate: string;
+    image: string;
   };
 }
 
@@ -37,7 +38,7 @@ const AnimatedEventPopup: FC<Props> = ({ direction, event }) => {
         animate='center'
         exit='exit'
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className='w-full px-4 pt-5'
+        className='flex w-full flex-1'
       >
         <EventPopup key={event.id} {...event} />
       </motion.div>

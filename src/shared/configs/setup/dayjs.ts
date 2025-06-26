@@ -1,6 +1,7 @@
 'use client';
 
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 import dayjsTimezone from 'dayjs/plugin/timezone';
 import dayjsUtc from 'dayjs/plugin/utc';
 

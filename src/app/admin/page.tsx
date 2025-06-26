@@ -1,3 +1,5 @@
+'use client';
+
 import { TextAnimate } from '@magic-ui/text-animate';
 import { type FC } from 'react';
 

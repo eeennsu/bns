@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import BrushBackground from '@features/home/ui/BrushBackground';
 import ContactUs from '@features/home/ui/ContactUs';
-import EventPopupList from '@features/home/ui/EventPopupList';
+import EventListPopup from '@features/home/ui/EventListPopup';
 import Hero from '@features/home/ui/Hero';
 import Signature from '@features/home/ui/Signature';
 
@@ -16,7 +16,7 @@ const HomePage: FC = () => {
       </div>
 
       <ContactUs />
-      <EventPopupList />
+      <EventListPopup />
     </main>
   );
 };

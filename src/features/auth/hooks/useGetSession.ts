@@ -4,28 +4,23 @@ import { AUTH_KEYS } from '@entities/auth/consts';
 
 import apiSession from '../apis/session';
 
-interface IParams {
-  enabled?: boolean;
-}
-
-const useGetSession = ({ enabled = true }: IParams = {}) => {
+const useGetSession = () => {
   const {
     data: session,
+    isSuccess,
     isLoading,
-    status,
     error,
   } = useQuery({
     queryKey: [AUTH_KEYS.SESSION],
     queryFn: apiSession,
     staleTime: 0,
     gcTime: 0,
-    enabled,
   });
 
   return {
     session,
     isLoading,
-    status,
+    isSuccess,
     error,
   };
 };
