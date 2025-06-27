@@ -5,6 +5,7 @@ import BreadListContent from '@features/bread/ui/list/Content';
 import BreadListHead from '@features/bread/ui/list/Head';
 
 import BaseContainer from './BaseContainer';
+import { FILTER_TYPES } from '@shared/consts/commons';
 
 interface IParams {
   searchParams: Promise<{
@@ -15,7 +16,7 @@ interface IParams {
 
 const BreadListPage: FC<IParams> = async ({ searchParams }) => {
   const page = (await searchParams)?.page || '1';
-  const category = (await searchParams)?.category || 'all';
+  const category = (await searchParams)?.category || FILTER_TYPES.ALL;
 
   return (
     <>

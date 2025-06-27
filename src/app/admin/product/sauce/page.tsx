@@ -1,6 +1,7 @@
 'use client';
 
 import DeleteDialog from '@shared/components/DeleteDialog';
+import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import useCustomSearchParams from '@shared/hooks/useCustomSearchParams';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -30,7 +31,7 @@ const AdminSauceListPage: FC = () => {
   const router = useRouter();
 
   const { searchParams, setOrderByParams } = useCustomSearchParams();
-  const orderBy = searchParams.get('orderBy') || getOrderBy(ORDER_BY_SELECT[0]);
+  const orderBy = searchParams.get(SEARCH_PARAMS_KEYS.ORDER_BY) || getOrderBy(ORDER_BY_SELECT[0]);
 
   const { data, isLoading } = useGetSauceList({ orderBy });
 
@@ -44,6 +45,7 @@ const AdminSauceListPage: FC = () => {
   });
 
   const onClickModifySauce = (sauce: ISauceItem) => () => {
+    if (!sauce?.id) return;
     router.push(ADMIN_PATHS.product.sauce.detail({ slug: sauce?.id }));
   };
 

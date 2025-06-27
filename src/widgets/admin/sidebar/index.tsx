@@ -18,7 +18,6 @@ import GroupMenuItem from './GroupMenuItem';
 
 const SidebarWidget: FC = () => {
   const isSidebarOpen = useSidebarStore(state => state.isSidebarOpen);
-
   const pathname = usePathname();
 
   return (
@@ -34,6 +33,7 @@ const SidebarWidget: FC = () => {
         <section className='flex flex-col gap-4'>
           <Link
             href={MAIN_PATHS.home()}
+            scroll
             className='flex items-center gap-2 py-2 text-sm font-bold text-sky-600 transition-colors hover:text-sky-800'
           >
             <House size={20} />

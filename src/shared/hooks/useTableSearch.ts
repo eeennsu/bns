@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { cloneSearchParams } from '@libs/searchParams';
+import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
@@ -19,7 +20,7 @@ const useTableSearch = () => {
     }
 
     const newSearchParams = cloneSearchParams(searchParams);
-    newSearchParams.set('search', data.search);
+    newSearchParams.set(SEARCH_PARAMS_KEYS.SEARCH, data.search);
 
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
@@ -27,7 +28,7 @@ const useTableSearch = () => {
   const form = useForm<SearchFormDto>({
     resolver: zodResolver(SearchFormDtoSchema),
     defaultValues: {
-      search: searchParams.get('search') || '',
+      search: searchParams.get(SEARCH_PARAMS_KEYS.SEARCH) || '',
     },
   });
 

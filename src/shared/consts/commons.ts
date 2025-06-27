@@ -6,3 +6,8 @@ export const PER_PAGE_SIZE = {
 } as const;
 
 export const ITEM_SHOW_TYPE: ItemShowLabel[] = ['전체', '공개', '비공개'];
+export const FILTER_TYPES = {
+  ALL: 'all',
+  ON: 'on',
+  OFF: 'off',
+} as const

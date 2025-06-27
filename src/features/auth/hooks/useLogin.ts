@@ -28,7 +28,7 @@ const useLogin = ({ closeModal }: IParams = {}) => {
     mutationFn: apiLogin,
     onSuccess: async data => {
       closeModal();
-      router.push(ADMIN_PATHS.product.bread.list());
+      router.push(ADMIN_PATHS.product.bread.list(), { scroll: true });
       toast.success(AUTH_TOAST_MESSAGES.LOGIN_SUCCESS);
       setMe({
         isAuthenticated: true,

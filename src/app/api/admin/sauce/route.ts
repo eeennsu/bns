@@ -4,6 +4,7 @@ import { sauces } from '@db/schemas/sauces';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseData, setSucResponseList } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
+import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { SAUCE_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
@@ -15,12 +16,12 @@ import { PER_PAGE_SIZE } from '@consts/commons';
 
 export const GET = withAuth(async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
-  const page = Number(searchParams.get('page')) || 1;
-  const pageSize = Number(searchParams.get('pageSize')) || PER_PAGE_SIZE.DEFAULT;
-  const search = searchParams.get('search') || '';
-  const showType = searchParams.get('showType') || 'all';
-  const orderBy = searchParams.get('orderBy') || undefined;
-  const orderClause = getOrderClause(orderBy);
+  const page = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE)) || 1;
+  const pageSize = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE_SIZE)) || PER_PAGE_SIZE.DEFAULT;
+  const search = searchParams.get(SEARCH_PARAMS_KEYS.SEARCH) || '';
+  const showType = searchParams.get(SEARCH_PARAMS_KEYS.SHOW_TYPE) || 'all';
+  const orderBy = searchParams.get(SEARCH_PARAMS_KEYS.ORDER_BY) || undefined;
+  const orderClause = getOrderClause(orderBy as OrderByType);
 
   const offset = (page - 1) * pageSize;
 

@@ -17,4 +17,4 @@ export const ORDER_BY_TYPES = {
   PRICE_ASC: 'price_asc',
   SORT_ORDER_DESC: 'sortOrder_desc',
   SORT_ORDER_ASC: 'sortOrder_asc',
-};
+} as const;

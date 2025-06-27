@@ -1,4 +1,5 @@
 // import dayjs from 'dayjs';
+import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { CircleCheckBig, X } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import type { ReactNode, SyntheticEvent } from 'react';
@@ -49,7 +50,7 @@ const Table = <T extends Record<string, any>>({
   tableRowClassName,
 }: IProps<T>) => {
   const searchParams = useSearchParams();
-  const search = searchParams.get('search') || '';
+  const search = searchParams.get(SEARCH_PARAMS_KEYS.SEARCH) || '';
 
   const onImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     (e.target as HTMLImageElement).src = '';

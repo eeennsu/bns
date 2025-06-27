@@ -9,3 +9,11 @@ export const COOKIE_KEYS = {
   REFRESH: 'refreshToken',
   LOGIN_EXPIRED: 'loginExpired',
 } as const;
+
+export const SEARCH_PARAMS_KEYS = {
+  ORDER_BY: 'orderBy',
+  PAGE: 'page',
+  PAGE_SIZE: 'pageSize',
+  SEARCH: 'search',
+  SHOW_TYPE: 'showType',
+};

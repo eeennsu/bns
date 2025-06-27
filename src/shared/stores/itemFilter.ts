@@ -1,3 +1,4 @@
+import { FILTER_TYPES, ITEM_SHOW_TYPE } from '@shared/consts/commons';
 import { ItemShowLabel } from '@shared/typings/commons';
 import { create } from 'zustand';
 
@@ -7,7 +8,7 @@ interface IItemShowFilterStore {
 }
 
 const useItemShowFilterStore = create<IItemShowFilterStore>(set => ({
-  showFilter: '전체',
+  showFilter: ITEM_SHOW_TYPE[0],
   setShowFilter: value =>
     set(state => ({
       showFilter: typeof value === 'function' ? value(state.showFilter) : value,
@@ -19,12 +20,12 @@ export default useItemShowFilterStore;
 export const getItemShowType = (showFilter: ItemShowLabel) => {
   switch (showFilter) {
     case '전체':
-      return 'all';
+      return FILTER_TYPES.ALL;
     case '공개':
-      return 'on';
+      return FILTER_TYPES.ON;
     case '비공개':
-      return 'off';
+      return FILTER_TYPES.OFF;
     default:
-      return 'all';
+      return FILTER_TYPES.ALL;
   }
 };
