@@ -10,11 +10,11 @@ import useMeStore from '@stores/me';
 import apiLogout from '../apis/logout';
 
 interface IParams {
-  onCloseModal?: () => void;
+  closeModal?: () => void;
   navigatePath?: string;
 }
 
-const useLogout = ({ onCloseModal, navigatePath = MAIN_PATHS.home() }: IParams = {}) => {
+const useLogout = ({ closeModal, navigatePath = MAIN_PATHS.home() }: IParams = {}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const setMe = useMeStore(state => state.setMe);
@@ -29,7 +29,7 @@ const useLogout = ({ onCloseModal, navigatePath = MAIN_PATHS.home() }: IParams =
       router.push(navigatePath);
       setMe(null);
       toast.info(AUTH_TOAST_MESSAGES.LOGOUT_SUCCESS);
-      onCloseModal?.();
+      closeModal?.();
       queryClient.clear();
     },
   });

@@ -7,23 +7,18 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FC, useEffect } from 'react';
 import { toast } from 'sonner';
 
+import { AUTH_TOAST_MESSAGES } from '@entities/auth/consts';
+
 const LoginExpireToast: FC = () => {
   const queryClient = useQueryClient();
-  const { setMe } = useMeStore();
+  const setMe = useMeStore(state => state.setMe);
 
   useEffect(() => {
-    // if (!me || !me?.isAuthenticated) {
-    //   {
-    //     console.log('힝 속았지 ㅋㅋ', me);
-    //     return;
-    //   }
-    // }
-
     const checkLoginExpired = async () => {
       const loginExpired = await getCookie(COOKIE_KEYS.LOGIN_EXPIRED);
 
       if (loginExpired) {
-        toast.info('로그인이 만료되었습니다. 다시 로그인해주세요.');
+        toast.warning(AUTH_TOAST_MESSAGES.LOGIN_EXPIRED);
         queryClient.clear();
         setMe(null);
         await deleteCookie(COOKIE_KEYS.LOGIN_EXPIRED);

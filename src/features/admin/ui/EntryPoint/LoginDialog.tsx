@@ -9,11 +9,11 @@ import useLogin from '@features/auth/hooks/useLogin';
 import AdminLoginForm from '../Form';
 
 interface IProps {
-  onCloseModal: () => void;
+  closeModal: () => void;
 }
 
-const LoginDialog: FC<IProps> = ({ onCloseModal }) => {
-  const { form, onSubmit, isLoadingLogin } = useLogin({ onCloseModal });
+const LoginDialog: FC<IProps> = ({ closeModal }) => {
+  const { form, onSubmit, isLoadingLogin } = useLogin({ closeModal });
 
   return (
     <>

@@ -77,7 +77,7 @@ const Footer: FC = () => {
         <AdminEntryPoint
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          onCloseModal={closeModal}
+          closeModal={closeModal}
           isLoading={isSessionLoading}
           isAuthorized={session?.isAuthorized}
         />

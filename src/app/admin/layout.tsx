@@ -8,7 +8,9 @@ import SidebarWidget from '@widgets/admin/sidebar';
 import useAuthSync from '@features/auth/hooks/useAuthSync';
 
 const AdminLayoutPage: FC<PropsWithChildren> = ({ children }) => {
-  useAuthSync();
+  const { session } = useAuthSync();
+
+  if (!session) return null;
 
   return (
     <main className='flex'>

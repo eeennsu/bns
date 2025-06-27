@@ -24,6 +24,10 @@ const useAuthSync = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [me, isSuccess, error]);
+
+  return {
+    session,
+  };
 };
 
 export default useAuthSync;

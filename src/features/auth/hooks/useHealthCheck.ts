@@ -2,6 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
+import { AUTH_TOAST_MESSAGES } from '@entities/auth/consts';
+
 import apiAuthHealthCheck from '../apis/healthCheck';
 
 const useHealthCheck = () => {
@@ -13,7 +15,7 @@ const useHealthCheck = () => {
       setStack(prev => prev + 1);
     },
     onError: () => {
-      toast.error('니가 뭘할 수 있는데 ㅋㅋ 나한테 물어보든가 ㅋㅋ');
+      toast.error(AUTH_TOAST_MESSAGES.HEALTH_CHECK_FAILED);
     },
   });
 
@@ -25,11 +27,11 @@ const useHealthCheck = () => {
     if (stack <= 0) return;
 
     if (stack < 5) {
-      toast.success('기능 정상 작동 중');
+      toast.success(AUTH_TOAST_MESSAGES.HEALTH_CHECK_SUCCESS);
     } else if (stack < 10) {
-      toast.success('아 그만하라고 된다니까 ㅋㅋ');
+      toast.success(AUTH_TOAST_MESSAGES.HEALTH_CHECK_SUCCESS_2);
     } else {
-      toast.success('사이트 터진다 ㅅㄱ');
+      toast.success(AUTH_TOAST_MESSAGES.HEALTH_CHECK_SUCCESS_3);
     }
   }, [stack]);
 

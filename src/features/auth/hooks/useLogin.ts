@@ -15,10 +15,10 @@ import useMeStore from '@stores/me';
 import apiLogin from '../apis/login';
 
 interface IParams {
-  onCloseModal?: () => void;
+  closeModal?: () => void;
 }
 
-const useLogin = ({ onCloseModal }: IParams = {}) => {
+const useLogin = ({ closeModal }: IParams = {}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const setMe = useMeStore(state => state.setMe);
@@ -27,7 +27,7 @@ const useLogin = ({ onCloseModal }: IParams = {}) => {
     mutationKey: [AUTH_KEYS.LOGIN],
     mutationFn: apiLogin,
     onSuccess: async data => {
-      onCloseModal();
+      closeModal();
       router.push(ADMIN_PATHS.product.bread.list());
       toast.success(AUTH_TOAST_MESSAGES.LOGIN_SUCCESS);
       setMe({

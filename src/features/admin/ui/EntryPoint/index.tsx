@@ -12,7 +12,7 @@ import LoginDialog from './LoginDialog';
 interface IProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  onCloseModal: () => void;
+  closeModal: () => void;
   isLoading: boolean;
   isAuthorized: boolean;
 }
@@ -20,7 +20,7 @@ interface IProps {
 const AdminEntryPoint: FC<IProps> = ({
   isOpen,
   setIsOpen,
-  onCloseModal,
+  closeModal,
   isLoading,
   isAuthorized,
 }) => {
@@ -34,9 +34,9 @@ const AdminEntryPoint: FC<IProps> = ({
             <Skeleton className='h-9' />
           </DialogTitle>
         ) : isAuthorized ? (
-          <AdminDialog onCloseModal={onCloseModal} />
+          <AdminDialog closeModal={closeModal} />
         ) : (
-          <LoginDialog onCloseModal={onCloseModal} />
+          <LoginDialog closeModal={closeModal} />
         )}
       </DialogContent>
     </Dialog>
