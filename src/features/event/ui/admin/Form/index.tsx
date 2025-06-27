@@ -7,7 +7,7 @@ import { Button, Form, FormField } from '@shadcn-ui/ui';
 import { EventFormDto } from '@entities/event/types';
 import { FileWithDropzone } from '@entities/image/types';
 
-import SharedDatePickerFormFieldRender from '@components/DatePickerFormFiledRender';
+// import SharedDatePickerFormFieldRender from '@components/DatePickerFormFiledRender';
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
 import SharedImageFormFieldRender from '@components/ImageFormFieldRender';
@@ -67,7 +67,7 @@ const EventForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
             )}
           />
 
-          <FormField
+          {/* <FormField
             name='dateRange'
             control={form.control}
             render={({ field }) => (
@@ -78,7 +78,7 @@ const EventForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
                 mode='future'
               />
             )}
-          />
+          /> */}
 
           <FormField
             name='isHidden'

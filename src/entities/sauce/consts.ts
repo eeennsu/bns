@@ -4,7 +4,7 @@ export const ADMIN_SAUCE_KEYS = {
   CREATE: 'CREATE_SAUCE',
   MODIFY: 'MODIFY_SAUCE',
   DELETE: 'DELETE_SAUCE',
-};
+} as const;
 
 export const MAIN_SAUCE_KEYS = {};
 
@@ -15,7 +15,7 @@ export const SAUCE_TOAST_MESSAGES = {
   MODIFY_FAILED: '소스 수정에 실패하였습니다.',
   DELETE_SUCCESS: '소스가 정상적으로 삭제되었습니다.',
   DELETE_FAILED: '소스 삭제에 실패하였습니다.',
-};
+} as const;
 
 export const SAUCE_TABLE_HEADERS = [
   '순서',

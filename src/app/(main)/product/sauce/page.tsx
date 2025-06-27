@@ -1,3 +1,4 @@
+import { FILTER_TYPES } from '@shared/consts/commons';
 import type { FC } from 'react';
 
 import SauceListContact from '@features/bread/ui/list/Contact';
@@ -5,7 +6,6 @@ import SauceListContent from '@features/sauce/ui/list/Content';
 import SauceListHead from '@features/sauce/ui/list/Head';
 
 import BaseContainer from '../bread/BaseContainer';
-import { FILTER_TYPES } from '@shared/consts/commons';
 
 interface IParams {
   searchParams: Promise<{

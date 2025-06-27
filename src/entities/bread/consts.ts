@@ -4,7 +4,7 @@ export const ADMIN_BREAD_KEYS = {
   CREATE: 'CREATE_BREAD',
   MODIFY: 'MODIFY_BREAD',
   DELETE: 'DELETE_BREAD',
-};
+} as const;
 
 export const MAIN_BREAD_KEYS = {};
 
@@ -15,7 +15,7 @@ export const BREAD_TOAST_MESSAGES = {
   MODIFY_FAILED: '빵 수정에 실패하였습니다.',
   DELETE_SUCCESS: '빵이 정상적으로 삭제되었습니다.',
   DELETE_FAILED: '빵 삭제에 실패하였습니다.',
-};
+} as const;
 
 export const BREAD_TABLE_HEADERS = [
   '정렬 순서',

@@ -1,5 +1,9 @@
 'use client';
 
+import { OrderByType } from '@shared/api/typings';
+import DeleteDialog from '@shared/components/DeleteDialog';
+import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
+import useCustomSearchParams from '@shared/hooks/useCustomSearchParams';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
@@ -10,9 +14,11 @@ import { Button } from '@shadcn-ui/ui';
 import ListPageWidget from '@widgets/admin/list';
 
 import AdminPagination from '@features/admin/ui/Pagination';
+import useDeleteEventListItem from '@features/event/hooks/useDeleteListItem';
 import useGetEventList from '@features/event/hooks/useGetList';
+import { getOrderBy, setOrderBy } from '@features/event/libs/sortOrder';
 
-import { EVENT_TABLE_HEADERS } from '@entities/event/consts';
+import { EVENT_TABLE_HEADERS, ORDER_BY_SELECT } from '@entities/event/consts';
 import { IEventItem } from '@entities/event/types';
 
 import useChangePage from '@hooks/useChangePage';
@@ -25,14 +31,22 @@ import TableSearch from '@components/TableSearch';
 const AdminEventListPage: FC = () => {
   const router = useRouter();
 
-  const { data, isLoading } = useGetEventList();
+  const { searchParams, setOrderByParams } = useCustomSearchParams();
+  const orderBy = searchParams.get(SEARCH_PARAMS_KEYS.ORDER_BY) || getOrderBy(ORDER_BY_SELECT[0]);
+
+  const { data, isLoading } = useGetEventList({ orderBy });
+
+  const setOrderByEvent = (value: string) => {
+    setOrderByParams(getOrderBy(value));
+  };
 
   const searchForm = useTableSearch();
   const paginationData = useChangePage({
-    total: 10,
+    total: data?.total,
   });
 
   const onClickModifyEvent = (event: IEventItem) => () => {
+    if (!event?.id) return;
     router.push(ADMIN_PATHS.event.detail({ slug: event?.id }));
   };
 
@@ -40,16 +54,21 @@ const AdminEventListPage: FC = () => {
     router.push(ADMIN_PATHS.event.create());
   };
 
+  const onDelete = useDeleteEventListItem();
+
   return (
     <ListPageWidget>
       <TableSearch
         {...searchForm}
         total={paginationData.total}
         placeholder='이벤트 이름을 입력해주세요'
+        orderSelectList={ORDER_BY_SELECT}
+        orderBy={setOrderBy(orderBy as OrderByType)}
+        setOrderBy={setOrderByEvent}
       />
       <Table<IEventItem>
         headers={EVENT_TABLE_HEADERS}
-        items={data?.items || DUMMY_EVENTS}
+        items={data?.items}
         showItems={['sortOrder', 'name', 'startDate', 'endDate', 'isHidden']}
         onClickItem={onClickModifyEvent}
         isLoading={isLoading}
@@ -57,6 +76,12 @@ const AdminEventListPage: FC = () => {
           {
             itemKey: 'isHidden',
             children: event => (event.isHidden ? '비공개' : '공개'),
+          },
+          {
+            itemKey: 'delete',
+            children: event => (
+              <DeleteDialog onDelete={() => onDelete(event.id)} name={event.name} />
+            ),
           },
         ]}
       />
@@ -73,28 +98,3 @@ const AdminEventListPage: FC = () => {
 };
 
 export default AdminEventListPage;
-
-const DUMMY_EVENTS: IEventItem[] = Array.from({ length: 10 }, (_, index) => ({
-  id: index + 1,
-  name: '이벤트 이름',
-  description: '이벤트 설명',
-  sortOrder: index + 1,
-  isHidden: false,
-  createdAt: new Date('2025-04-03').toISOString(),
-  updatedAt: new Date('2025-04-04').toISOString(),
-  deletedAt: null,
-  startDate: new Date('2025-04-03').toISOString(),
-  endDate: new Date('2025-05-04').toISOString(),
-  imageFiles: [
-    {
-      id: 1,
-      url: 'https://picsum.photos/200/300',
-      createdAt: new Date('2025-04-03').toISOString(),
-      name: '이미지 이름',
-      size: 1024,
-      type: 'image/jpeg',
-      order: index + 1,
-      preview: 'https://picsum.photos/200/300',
-    },
-  ],
-}));

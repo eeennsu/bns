@@ -26,10 +26,12 @@ const useCreateEventForm = () => {
       description: '',
       imageFiles: [],
       sortOrder: '',
-      dateRange: {
-        from: '',
-        to: '',
-      },
+      // dateRange: {
+      //   from: '',
+      //   to: '',
+      // },
+      startDate: '',
+      endDate: '',
     },
   });
 

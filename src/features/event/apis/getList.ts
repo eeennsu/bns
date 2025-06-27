@@ -10,8 +10,8 @@ import { filterEventListResponse } from '../libs/filterResponse';
 
 interface IParams extends IGetListParams {}
 
-const apiGetEventList = async ({ page, pageSize, search }: IParams): Promise<IEventList> => {
-  const url = buildPathWithParams('/admin/event', { page, pageSize, search });
+const apiGetEventList = async (params: IParams): Promise<IEventList> => {
+  const url = buildPathWithParams('/admin/event', params);
 
   const response = await axiosAdmin.get(url);
   const data = filterEventListResponse(response.data);

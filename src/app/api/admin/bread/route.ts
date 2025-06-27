@@ -18,10 +18,10 @@ export const GET = withAuth(async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
   const page = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE)) || 1;
   const pageSize = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE_SIZE)) || PER_PAGE_SIZE.DEFAULT;
-  const search = searchParams.get(SEARCH_PARAMS_KEYS.SEARCH) || '';
   const showType = searchParams.get(SEARCH_PARAMS_KEYS.SHOW_TYPE) || FILTER_TYPES.ALL;
   const orderBy = searchParams.get(SEARCH_PARAMS_KEYS.ORDER_BY) || undefined;
   const orderClause = getOrderClause(orderBy as OrderByType);
+  const search = searchParams.get(SEARCH_PARAMS_KEYS.SEARCH) || '';
 
   const offset = (page - 1) * pageSize;
 

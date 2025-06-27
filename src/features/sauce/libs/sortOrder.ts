@@ -1,7 +1,7 @@
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { OrderByType } from '@shared/api/typings';
 
-export const getOrderBy = (sortOrder: OrderByType) => {
+export const getOrderBy = (sortOrder: string) => {
   switch (sortOrder) {
     case '정렬 빠른순':
       return ORDER_BY_TYPES.SORT_ORDER_ASC;
@@ -20,7 +20,7 @@ export const getOrderBy = (sortOrder: OrderByType) => {
   }
 };
 
-export const setOrderBy = (sortOrder: string) => {
+export const setOrderBy = (sortOrder: OrderByType) => {
   switch (sortOrder) {
     case ORDER_BY_TYPES.CREATED_DESC:
       return '최신 등록순';

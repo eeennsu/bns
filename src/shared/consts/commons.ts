@@ -10,4 +10,4 @@ export const FILTER_TYPES = {
   ALL: 'all',
   ON: 'on',
   OFF: 'off',
-} as const
+} as const;

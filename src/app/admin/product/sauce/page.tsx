@@ -1,5 +1,6 @@
 'use client';
 
+import { OrderByType } from '@shared/api/typings';
 import DeleteDialog from '@shared/components/DeleteDialog';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import useCustomSearchParams from '@shared/hooks/useCustomSearchParams';
@@ -62,7 +63,7 @@ const AdminSauceListPage: FC = () => {
         total={paginationData.total}
         placeholder='소스 이름을 입력해주세요'
         orderSelectList={ORDER_BY_SELECT}
-        orderBy={setOrderBy(orderBy)}
+        orderBy={setOrderBy(orderBy as OrderByType)}
         setOrderBy={setOrderBySauce}
       />
       <Table<ISauceItem>
@@ -75,7 +76,6 @@ const AdminSauceListPage: FC = () => {
           'isSignature',
           'isNew',
           'createdAt',
-
           'isHidden',
           'delete',
         ]}

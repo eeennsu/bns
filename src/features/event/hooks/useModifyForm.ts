@@ -24,10 +24,12 @@ const useModifyEvent = (event: IEventItem) => {
     defaultValues: {
       name: event?.name || '',
       description: event?.description || '',
-      dateRange: {
-        from: event?.startDate || '',
-        to: event?.endDate || '',
-      },
+      // dateRange: {
+      //   from: event?.startDate || '',
+      //   to: event?.endDate || '',
+      // },
+      startDate: event?.startDate || '',
+      endDate: event?.endDate || '',
       imageFiles: [],
       sortOrder: event?.sortOrder || '',
     },
