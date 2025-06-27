@@ -9,7 +9,7 @@ const utilQueryClient = (config?: QueryClientConfig) =>
         staleTime: 1000 * 60 * 10,
         notifyOnChangeProps: 'all',
         refetchOnWindowFocus: false,
-        retry: 2,
+        retry: 1,
         ...config?.defaultOptions?.queries,
       },
     },

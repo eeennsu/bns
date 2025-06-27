@@ -1,13 +1,16 @@
+import { COOKIE_KEYS } from '@shared/consts/storage';
 import { NextResponse, type NextRequest } from 'next/server';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
-import { TOKEN_TYPE } from './shared/api/consts';
-
 export const middleware = (request: NextRequest) => {
-  const refreshToken = request.cookies.get(TOKEN_TYPE.REFRESH)?.value;
+  const refreshToken = request.cookies.get(COOKIE_KEYS.REFRESH)?.value;
 
   if (!refreshToken) {
-    return NextResponse.redirect(new URL(MAIN_PATHS.home(), request.url));
+    console.log('!@#!@#!@#@!#!@#!@#!@#');
+    const response = NextResponse.redirect(new URL(MAIN_PATHS.home(), request.url));
+    response.cookies.set(COOKIE_KEYS.LOGIN_EXPIRED, 'true', { path: '/', httpOnly: false });
+
+    return response;
   }
 
   return NextResponse.next();

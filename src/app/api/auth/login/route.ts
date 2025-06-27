@@ -1,5 +1,6 @@
 import db from '@db/index';
 import { users } from '@db/schemas/users';
+import { COOKIE_KEYS } from '@shared/consts/storage';
 import { eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import {
@@ -8,7 +9,6 @@ import {
   setAccessTokenCookie,
   setRefreshTokenCookie,
 } from 'src/shared/api/auth';
-import { TOKEN_TYPE } from 'src/shared/api/consts';
 import { AUTH_ERRORS } from 'src/shared/api/errorMessage';
 
 export const POST = async (req: NextRequest) => {
@@ -41,11 +41,11 @@ export const POST = async (req: NextRequest) => {
 
   const accessToken = generateToken(
     { id: findUser.id, username: findUser.username, role: findUser.role },
-    TOKEN_TYPE.ACCESS,
+    COOKIE_KEYS.ACCESS,
   );
   const refreshToken = generateToken(
     { id: findUser.id, username: findUser.username, role: findUser.role },
-    TOKEN_TYPE.REFRESH,
+    COOKIE_KEYS.REFRESH,
   );
 
   const response = NextResponse.json({ ok: true, user: { username: findUser.username } });

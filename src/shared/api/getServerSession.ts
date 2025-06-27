@@ -1,14 +1,14 @@
 import 'server-only';
 
+import { COOKIE_KEYS } from '@shared/consts/storage';
 import { cookies } from 'next/headers';
 
 import { verifyToken } from './auth';
-import { TOKEN_TYPE } from './consts';
 
 export const getServerSession = async () => {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get(TOKEN_TYPE.ACCESS)?.value;
-  const refreshToken = cookieStore.get(TOKEN_TYPE.REFRESH)?.value;
+  const accessToken = cookieStore.get(COOKIE_KEYS.ACCESS)?.value;
+  const refreshToken = cookieStore.get(COOKIE_KEYS.REFRESH)?.value;
 
   try {
     if (accessToken) {

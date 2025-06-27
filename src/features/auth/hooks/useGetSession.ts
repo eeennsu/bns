@@ -15,6 +15,7 @@ const useGetSession = () => {
     queryFn: apiSession,
     staleTime: 0,
     gcTime: 0,
+    retry: 0,
   });
 
   return {

@@ -23,13 +23,13 @@ const useLogin = ({ onCloseModal }: IParams = {}) => {
   const queryClient = useQueryClient();
   const setMe = useMeStore(state => state.setMe);
 
-  const { mutate: login } = useMutation({
+  const { mutate: login, isPending } = useMutation({
     mutationKey: [AUTH_KEYS.LOGIN],
     mutationFn: apiLogin,
     onSuccess: async data => {
       onCloseModal();
       router.push(ADMIN_PATHS.product.bread.list());
-      toast.success(AUTH_TOAST_MESSAGES.LOGIN_SUCCESS, { position: 'top-right' });
+      toast.success(AUTH_TOAST_MESSAGES.LOGIN_SUCCESS);
       setMe({
         isAuthenticated: true,
         username: data?.user?.username || null,
@@ -57,7 +57,7 @@ const useLogin = ({ onCloseModal }: IParams = {}) => {
     login({ ...data });
   });
 
-  return { form, onSubmit };
+  return { form, onSubmit, isLoadingLogin: isPending };
 };
 
 export default useLogin;

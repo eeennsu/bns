@@ -6,6 +6,7 @@ export const ADMIN_ERRORS = {
   MISSING_ACCESS_TOKEN: '접근 토큰이 없습니다',
   INVALID_TOKEN_PAYLOAD: '유효하지 않은 토큰 정보입니다',
   INVALID_ACCESS_TOKEN: '유효하지 않은 접근 토큰입니다',
+  UNAUTHORIZED: '인증되지 않았습니다.',
 };
 
 export const AUTH_ERRORS = {

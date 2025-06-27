@@ -1,19 +1,20 @@
+import { COOKIE_KEYS } from '@shared/consts/storage';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { User } from '@entities/auth/types';
 
-import { ORDER_BY_TYPES, TOKEN_TYPE } from './consts';
+import { ORDER_BY_TYPES } from './consts';
 
-export type TokenType = (typeof TOKEN_TYPE)[keyof typeof TOKEN_TYPE];
+export type TokenType = (typeof COOKIE_KEYS)[keyof typeof COOKIE_KEYS];
 
 export interface ITokenPayload extends Pick<User, 'id' | 'username' | 'role'> {}
 
 export interface IAccessTokenPayload extends ITokenPayload {
-  type: typeof TOKEN_TYPE.ACCESS;
+  type: typeof COOKIE_KEYS.ACCESS;
 }
 
 export interface IRefreshTokenPayload extends ITokenPayload {
-  type: typeof TOKEN_TYPE.REFRESH;
+  type: typeof COOKIE_KEYS.REFRESH;
 }
 
 export type WithImageId<T> = Omit<T, 'imageFiles'> & { imageId: number };

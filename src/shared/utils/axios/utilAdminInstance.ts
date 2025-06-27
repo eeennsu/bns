@@ -1,3 +1,4 @@
+import useMeStore from '@shared/stores/me';
 import axios, { AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 import { ADMIN_ERRORS } from 'src/shared/api/errorMessage';
 
@@ -32,6 +33,7 @@ axiosAdmin.interceptors.response.use(
             await apiRefresh();
             return axiosAdmin(originalRequest);
           } catch (error) {
+            useMeStore().setMe(null);
             return Promise.reject(error);
           }
         }

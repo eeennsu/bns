@@ -1,5 +1,6 @@
+import { COOKIE_KEYS } from '@shared/consts/storage';
+
 import { generateToken, verifyToken } from './auth';
-import { TOKEN_TYPE } from './consts';
 import { AUTH_ERRORS } from './errorMessage';
 
 export const handleRefresh = (refreshToken: string | undefined) => {
@@ -16,7 +17,7 @@ export const handleRefresh = (refreshToken: string | undefined) => {
 
     const accessToken = generateToken(
       { id: payload.id, username: payload.username, role: payload.role },
-      TOKEN_TYPE.ACCESS,
+      COOKIE_KEYS.ACCESS,
     );
 
     return {

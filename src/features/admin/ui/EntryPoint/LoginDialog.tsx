@@ -13,14 +13,14 @@ interface IProps {
 }
 
 const LoginDialog: FC<IProps> = ({ onCloseModal }) => {
-  const { form, onSubmit } = useLogin({ onCloseModal });
+  const { form, onSubmit, isLoadingLogin } = useLogin({ onCloseModal });
 
   return (
     <>
       <DialogHeader>
         <DialogTitle>관리자 로그인</DialogTitle>
       </DialogHeader>
-      <AdminLoginForm form={form} onSubmit={onSubmit} />
+      <AdminLoginForm form={form} onSubmit={onSubmit} isLoadingLogin={isLoadingLogin} />
     </>
   );
 };

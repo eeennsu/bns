@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { COOKIE_KEYS } from '@shared/consts/storage';
 import bcrypt from 'bcryptjs';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
@@ -7,7 +8,7 @@ import { NextResponse } from 'next/server';
 import { IVerifyToken } from '@entities/auth/types';
 
 import { assertEnv } from '../libs/assertEnv';
-import { TOKEN_EXPIRES_EXP, TOKEN_EXPIRES_MAX_AGE, TOKEN_TYPE } from './consts';
+import { TOKEN_EXPIRES_EXP, TOKEN_EXPIRES_MAX_AGE } from './consts';
 import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from './typings';
 
 export const comparePassword = async (password: string, hashed: string) => {
@@ -29,7 +30,7 @@ export const generateToken = (
   const tokenPayloadWithType = { ...payload, type: tokenType };
 
   const expiresIn =
-    tokenType === TOKEN_TYPE.ACCESS ? TOKEN_EXPIRES_EXP.ACCESS : TOKEN_EXPIRES_EXP.REFRESH;
+    tokenType === COOKIE_KEYS.ACCESS ? TOKEN_EXPIRES_EXP.ACCESS : TOKEN_EXPIRES_EXP.REFRESH;
 
   return sign(tokenPayloadWithType, jwtSecret, {
     expiresIn,
@@ -48,7 +49,7 @@ export const verifyToken = (token: string) => {
 };
 
 export const setAccessTokenCookie = (response: NextResponse, token: string) => {
-  response.cookies.set(TOKEN_TYPE.ACCESS, token, {
+  response.cookies.set(COOKIE_KEYS.ACCESS, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
@@ -57,7 +58,7 @@ export const setAccessTokenCookie = (response: NextResponse, token: string) => {
 };
 
 export const setRefreshTokenCookie = (response: NextResponse, token: string) => {
-  response.cookies.set(TOKEN_TYPE.REFRESH, token, {
+  response.cookies.set(COOKIE_KEYS.REFRESH, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',

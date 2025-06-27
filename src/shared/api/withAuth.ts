@@ -1,16 +1,16 @@
 import 'server-only';
 
+import { COOKIE_KEYS } from '@shared/consts/storage';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from 'src/shared/api/auth';
 
-import { TOKEN_TYPE } from './consts';
 import { ADMIN_ERRORS } from './errorMessage';
 import { ApiHandler, ApiParams } from './typings';
 import { withErrorHandler } from './withErrorHandler';
 
 export const withAuth = (apiHandler: ApiHandler) => {
   return async (request: NextRequest, { params }: { params: ApiParams }) => {
-    const accessToken = request.cookies.get(TOKEN_TYPE.ACCESS)?.value;
+    const accessToken = request.cookies.get(COOKIE_KEYS.ACCESS)?.value;
 
     if (!accessToken) {
       return NextResponse.json({ error: ADMIN_ERRORS.MISSING_ACCESS_TOKEN }, { status: 401 });
