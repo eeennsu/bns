@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ADMIN_PATHS } from '@shared/configs/routes/adminPaths';
 import useImageFiles from '@shared/hooks/useImageFiles';
 import { formErrorHandler } from '@shared/libs/formErrorHandler';
-import { getErrorResponse } from '@shared/libs/getError';
+import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -67,7 +67,7 @@ const useModifySauce = (sauce: ISauceItem) => {
       router.replace(ADMIN_PATHS.product.sauce.list());
     },
     onError: error => {
-      toast.error(SAUCE_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
+      toast.error(SAUCE_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 

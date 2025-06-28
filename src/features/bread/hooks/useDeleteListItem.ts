@@ -1,6 +1,6 @@
 import usePageSearchParams from '@shared/hooks/useListSearchParams';
 import useRemoveQueryListItem from '@shared/hooks/useRemoveQueryListItem';
-import { getErrorResponse } from '@shared/libs/getError';
+import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -21,7 +21,7 @@ const useDeleteBreadListItem = () => {
       removeQueryItem(deletedId);
     },
     onError: error => {
-      toast.error(BREAD_TOAST_MESSAGES.DELETE_FAILED, { description: getErrorResponse(error) });
+      toast.error(BREAD_TOAST_MESSAGES.DELETE_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 

@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formErrorHandler } from '@shared/libs/formErrorHandler';
-import { getErrorResponse } from '@shared/libs/getError';
+import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -38,7 +38,7 @@ const useModifyBundle = (bundle: IBundleItem) => {
       toast.success(BUNDLE_TOAST_MESSAGES.CREATE_SUCCESS);
     },
     onError: error => {
-      toast.error(BUNDLE_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
+      toast.error(BUNDLE_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 

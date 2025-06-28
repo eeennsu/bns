@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getErrorResponse } from '@shared/libs/getError';
+import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -41,7 +41,7 @@ const useLogin = ({ closeModal }: IParams = {}) => {
     },
     onError: error => {
       console.log(error);
-      toast.error(AUTH_TOAST_MESSAGES.LOGIN_FAILED, { description: getErrorResponse(error) });
+      toast.error(AUTH_TOAST_MESSAGES.LOGIN_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 
