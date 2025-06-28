@@ -9,7 +9,8 @@ interface IParams {
 
 const apiModifyEvent = async ({ id, data }: IParams): Promise<void> => {
   if (!id) throw new Error('id is required');
-  await axiosAdmin.put('/admin/event/', data);
+
+  await axiosAdmin.put(`/admin/event/${id}`, data);
 };
 
 export default apiModifyEvent;

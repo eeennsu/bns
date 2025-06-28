@@ -5,8 +5,9 @@ import { ControllerRenderProps } from 'react-hook-form';
 
 import { FormControl, FormItem, FormLabel } from '@shadcn-ui/ui';
 
-import DatePickerWithRange from '@components/DatePickerWithRange';
 import FormMessageNestedField from '@components/FormMessageNestedFiled';
+
+import SharedDatePickerRange from '../DatePickerRange';
 
 interface IProps {
   label?: string;
@@ -15,7 +16,7 @@ interface IProps {
   mode?: 'all' | 'future';
 }
 
-const SharedDatePickerFormFieldRender: FC<IProps> = ({
+const SharedDatePickerRangeFormFieldRender: FC<IProps> = ({
   label,
   isRequired,
   field,
@@ -30,7 +31,7 @@ const SharedDatePickerFormFieldRender: FC<IProps> = ({
         </FormLabel>
       ) : null}
       <FormControl>
-        <DatePickerWithRange
+        <SharedDatePickerRange
           selected={field.value as DateRange}
           onDateChange={dateRange => field.onChange(dateRange)}
           calendarDisabled={
@@ -46,4 +47,4 @@ const SharedDatePickerFormFieldRender: FC<IProps> = ({
   );
 };
 
-export default SharedDatePickerFormFieldRender;
+export default SharedDatePickerRangeFormFieldRender;

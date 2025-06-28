@@ -15,7 +15,7 @@ type IProps = HTMLAttributes<HTMLDivElement> & {
   calendarDisabled?: Matcher | Matcher[];
 };
 
-const DatePickerWithRange: FC<IProps> = ({
+const SharedDatePickerRange: FC<IProps> = ({
   onDateChange,
   selected,
   className,
@@ -79,4 +79,4 @@ const DatePickerWithRange: FC<IProps> = ({
   );
 };
 
-export default DatePickerWithRange;
+export default SharedDatePickerRange;

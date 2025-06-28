@@ -31,17 +31,17 @@ interface IProps {
 }
 
 const EventModify: FC<IProps> = ({ event }) => {
-  const { files, form, onSubmit, setFiles } = useModifyEvent(event);
+  const { form, onSubmit, files, setFiles } = useModifyEvent(event);
 
   return (
     <EventForm
-      files={files}
       form={form}
-      setFiles={setFiles}
       submitProps={{
-        label: '수정',
+        label: '수정하기',
         onSubmit,
       }}
+      files={files}
+      setFiles={setFiles}
     />
   );
 };

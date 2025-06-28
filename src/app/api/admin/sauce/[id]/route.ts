@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { defaultResponse, setSucResponseData } from '@shared/api/response';
+import { defaultResponse, setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -49,16 +49,13 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
   if (!foundedSauce) {
     return NextResponse.json({ error: SAUCE_ERRORS.NOT_FOUND_SAUCE }, { status: 400 });
   }
-  if (!sauceImage) {
-    return NextResponse.json({ error: IMAGE_ERRORS.NOT_FOUND }, { status: 400 });
-  }
 
   const response = {
     ...foundedSauce,
     imageFiles: sauceImage ? [sauceImage] : [],
   };
 
-  return NextResponse.json(setSucResponseData(response));
+  return NextResponse.json(setSucResponseItem(response));
 });
 
 export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
@@ -123,7 +120,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: SAUCE_ERRORS.MODIFY_FAILED }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseData(updateSauce));
+  return NextResponse.json(setSucResponseItem(updateSauce));
 });
 
 export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
