@@ -69,23 +69,28 @@ const AdminEventListPage: FC = () => {
       <Table<IEventItem>
         headers={EVENT_TABLE_HEADERS}
         items={data?.items}
-        showItems={['sortOrder', 'name', 'startDate', 'endDate', 'isHidden']}
+        showItems={['sortOrder', 'name', 'startDate', 'endDate', 'createdAt', 'isHidden', 'delete']}
         onClickItem={onClickModifyEvent}
         isLoading={isLoading}
         renderItemProps={[
-          {
-            itemKey: 'isHidden',
-            children: event => (event.isHidden ? '비공개' : '공개'),
-          },
           {
             itemKey: 'delete',
             children: event => (
               <DeleteDialog onDelete={() => onDelete(event.id)} name={event.name} />
             ),
           },
+          {
+            itemKey: 'startDate',
+            children: event => <span className='text-blue-500'>{String(event?.startDate)}</span>,
+          },
+          {
+            itemKey: 'endDate',
+            children: event => (
+              <span className='font-semibold text-rose-500'>{String(event?.endDate)}</span>
+            ),
+          },
         ]}
       />
-
       <AdminPagination {...paginationData} />
       <BottomRightWrapper>
         <Button onClick={onClickCreateEvent}>

@@ -2,7 +2,7 @@ import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
-import { setSucResponseData, setSucResponseList } from '@shared/api/response';
+import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
@@ -98,7 +98,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseData(newBread));
+  return NextResponse.json(setSucResponseItem(newBread));
 });
 
 const getOrderClause = (orderBy?: OrderByType) => {

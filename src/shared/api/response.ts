@@ -1,12 +1,12 @@
+import { IServerResponseItem, IServerResponseList } from './typings';
+
 export const defaultResponse = {
   ok: true,
 };
 
-export const setSucResponseData = (data: any) => ({
+export const setSucResponseItem = (data: any): IServerResponseItem => ({
   ok: true,
-  data: {
-    ...data,
-  },
+  data,
 });
 
 export const setSucResponseList = ({
@@ -14,10 +14,10 @@ export const setSucResponseList = ({
   totalCount,
   page,
 }: {
-  list: any;
+  list: any[];
   totalCount: number;
   page: number;
-}) => ({
+}): IServerResponseList => ({
   ok: true,
   data: {
     list,

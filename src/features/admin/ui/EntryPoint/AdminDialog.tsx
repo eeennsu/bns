@@ -1,5 +1,5 @@
 import { MonitorCog } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import { ADMIN_PATHS } from 'src/shared/configs/routes/adminPaths';
 
@@ -12,7 +12,14 @@ interface IProps {
 }
 
 const AdminDialog: FC<IProps> = ({ closeModal }) => {
+  const router = useRouter();
+
   const onLogout = useLogout({ closeModal });
+
+  const onAdminPage = () => {
+    router.push(ADMIN_PATHS.product.bread.list(), { scroll: true });
+    closeModal();
+  };
 
   return (
     <>
@@ -23,11 +30,9 @@ const AdminDialog: FC<IProps> = ({ closeModal }) => {
         <Button onClick={onLogout} className='flex-[0.5] text-xs' variant='outline'>
           로그아웃
         </Button>
-        <Button className='flex-[0.5] text-xs' onClickCapture={closeModal}>
-          <Link className='flex items-center gap-2' href={ADMIN_PATHS.product.bread.list()} scroll>
-            <MonitorCog />
-            관리자 페이지로 이동
-          </Link>
+        <Button className='flex flex-[0.5] items-center gap-2 text-xs' onClick={onAdminPage}>
+          <MonitorCog />
+          관리자 페이지로 이동
         </Button>
       </DialogFooter>
     </>

@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { IMAGE_ERRORS } from '@shared/api/errorMessage';
-import { setSucResponseData } from '@shared/api/response';
+import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -32,5 +32,5 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: IMAGE_ERRORS.FAILED_SAVE }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseData({ imageIds: [imageId] }));
+  return NextResponse.json(setSucResponseItem({ imageIds: [imageId] }));
 });

@@ -30,3 +30,10 @@ export const DiscountedPriceSchema = z
   .refine(val => !String(val).startsWith('0'), {
     message: '0으로 시작하는 숫자는 입력할 수 없습니다. (0원은 입력 가능)',
   });
+
+export const getDateSchema = (label: string) => {
+  return z
+    .date()
+    .nullable()
+    .refine(date => date !== null, { message: `${label} 날짜를 선택해주세요.` });
+};

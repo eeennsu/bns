@@ -12,8 +12,7 @@ const SonnerToaster: FC = () => {
           description: 'text-sm opacity-80',
           success: '!bg-emerald-500 !text-white border-emerald-600',
           error: '!bg-red-500 !text-white border-rose-600',
-          warning:
-            '!bg-amber-400 !text-amber-900 border-amber-500 [&_[data-description]]:!text-amber-900',
+          warning: '!bg-amber-400 !text-black border-amber-500 [&_[data-description]]:!text-black',
           info: '!bg-sky-500 !text-white border-sky-600',
         },
         descriptionClassName: '!text-xs !text-white/80',

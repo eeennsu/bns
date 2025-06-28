@@ -1,8 +1,11 @@
 import { STRING_LENGTH } from '@db/consts/commons';
+import SharedDatePickerFormFieldRender from '@shared/components/DatePickerFormFieldRender';
+import FormButton from '@shared/components/FormButton';
+import { inputOnlyNumber } from '@shared/libs/inputOnlyNumber';
 import { BaseSyntheticEvent, Dispatch, FC, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { Button, Form, FormField } from '@shadcn-ui/ui';
+import { Form, FormField } from '@shadcn-ui/ui';
 
 import { EventFormDto } from '@entities/event/types';
 import { FileWithDropzone } from '@entities/image/types';
@@ -28,15 +31,44 @@ const EventForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
     <Form {...form}>
       <form onSubmit={e => e.stopPropagation()}>
         <section className='flex justify-end gap-4'>
-          <Button type='button' onClick={submitProps.onSubmit}>
-            {submitProps.label}
-          </Button>
+          <FormButton formContext={form} label={submitProps.label} onClick={submitProps.onSubmit} />
         </section>
         <section className='space-y-5'>
           <FormField
             name='name'
             control={form.control}
             render={({ field }) => <SharedFormFieldRender label='이름' field={field} isRequired />}
+          />
+
+          <div className='flex items-center gap-3'>
+            <FormField
+              name='startDate'
+              control={form.control}
+              render={({ field }) => (
+                <SharedDatePickerFormFieldRender label='시작일' field={field} isRequired />
+              )}
+            />
+            <FormField
+              name='endDate'
+              control={form.control}
+              render={({ field }) => (
+                <SharedDatePickerFormFieldRender label='종료일' field={field} isRequired />
+              )}
+            />
+          </div>
+
+          <FormField
+            name='sortOrder'
+            control={form.control}
+            render={({ field }) => (
+              <SharedFormFieldRender
+                label='정렬 순서'
+                type='number'
+                field={field}
+                isRequired
+                onChangeCapture={inputOnlyNumber}
+              />
+            )}
           />
 
           <FormField

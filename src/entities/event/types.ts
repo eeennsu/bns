@@ -9,8 +9,8 @@ import { EventFormDtoSchema } from './contracts';
 
 type Event = typeof events.$inferSelect;
 export interface IEvent extends FilterDate<Omit<Event, 'startDate' | 'endDate'>> {
-  startDate: string;
-  endDate: string;
+  startDate: string | Date;
+  endDate: string | Date;
 }
 export interface IEventItem extends IEvent {
   imageFiles: IImageFile[];
