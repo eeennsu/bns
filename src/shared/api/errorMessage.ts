@@ -55,7 +55,7 @@ export const EVENT_ERRORS = {
   DELETE_FAILED: '이벤트 삭제에 실패했습니다.',
   MISSING_ID: '상세 아이디가 없습니다.',
   INVALID_ID: '잘못된 상세 아이디입니다.',
-  NOT_FOUND_SAUCE: '존재하지 않는 이벤트입니다.',
+  NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',
   INVALID_DATE: '날짜 형식이 잘못되었습니다.',
   OVER_DATE: '시작 날짜는 종료 날짜보다 이전이어야 합니다.',
 };

@@ -30,3 +30,17 @@ export type ApiHandler = (
 
 export type OrderByType = (typeof ORDER_BY_TYPES)[keyof typeof ORDER_BY_TYPES];
 export type FilterType = (typeof FILTER_TYPES)[keyof typeof FILTER_TYPES];
+
+export interface IServerResponseList<T = any> {
+  ok: boolean;
+  data: {
+    list: T[];
+    totalCount: number;
+    page: number;
+  };
+}
+
+export interface IServerResponseItem<T = any> {
+  ok: boolean;
+  data: T;
+}

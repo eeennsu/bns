@@ -1,12 +1,14 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences, images } from '@db/schemas/image';
-import { defaultResponse, setSucResponseData } from '@shared/api/response';
+import { defaultResponse, setSucResponseItem } from '@shared/api/response';
+import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
+import { BreadFormDto } from '@entities/bread/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface Params {
@@ -49,19 +51,15 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
   if (!foundedBread) {
     return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
   }
-  if (!breadImage) {
-    return NextResponse.json({ error: IMAGE_ERRORS.NOT_FOUND }, { status: 400 });
-  }
-
   const response = {
     ...foundedBread,
     imageFiles: breadImage ? [breadImage] : [],
   };
 
-  return NextResponse.json(setSucResponseData(response));
+  return NextResponse.json(setSucResponseItem(response));
 });
 
-export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
+export const PUT = withAuth(async (request: NextRequest, { params }: Params) => {
   const breadId = +(await params).id;
 
   if (!breadId) {
@@ -72,7 +70,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const body = await req.json();
+  const body = (await request.json()) as Partial<WithImageId<BreadFormDto>>;
   const imageId = body?.imageId;
 
   if (!imageId) {
@@ -124,7 +122,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: BREAD_ERRORS.MODIFY_FAILED }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseData(updateBread));
+  return NextResponse.json(setSucResponseItem(updateBread));
 });
 
 export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {

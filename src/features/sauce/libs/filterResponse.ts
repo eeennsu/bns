@@ -1,8 +1,9 @@
+import { IServerResponseItem, IServerResponseList } from '@shared/api/typings';
 import { dateFormat } from '@shared/libs/date';
 
 import { ISauceItem, ISauceList } from '@entities/sauce/types';
 
-export const filterSauceResponse = (response: any): ISauceItem => {
+export const filterSauceResponse = (response: IServerResponseItem): ISauceItem => {
   return {
     id: response?.data?.id,
     createdAt: dateFormat(response?.data?.createdAt),
@@ -19,7 +20,7 @@ export const filterSauceResponse = (response: any): ISauceItem => {
   };
 };
 
-export const filterSauceListResponse = (response: any): ISauceList => {
+export const filterSauceListResponse = (response: IServerResponseList): ISauceList => {
   const items = response?.data?.list?.map(item => ({
     id: item?.id,
     createdAt: dateFormat(item?.createdAt),
@@ -33,6 +34,7 @@ export const filterSauceListResponse = (response: any): ISauceList => {
     isSignature: item?.isSignature,
     sortOrder: item?.sortOrder,
     isHidden: item?.isHidden,
+    imageFiles: item?.imageFiles || [],
   })) as ISauceItem[];
 
   return {

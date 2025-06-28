@@ -31,17 +31,17 @@ interface IProps {
 }
 
 const SauceModify: FC<IProps> = ({ sauce }) => {
-  const { files, form, onSubmit, setFiles } = useModifySauce(sauce);
+  const { form, onSubmit, files, setFiles } = useModifySauce(sauce);
 
   return (
     <SauceForm
-      files={files}
       form={form}
-      setFiles={setFiles}
       submitProps={{
-        label: '수정',
+        label: '수정하기',
         onSubmit,
       }}
+      files={files}
+      setFiles={setFiles}
     />
   );
 };

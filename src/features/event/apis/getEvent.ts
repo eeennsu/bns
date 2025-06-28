@@ -8,9 +8,9 @@ interface IParams {
   id: string;
 }
 
-const apiGetEvent = async (params: IParams): Promise<IEventItem> => {
-  if (!params?.id) throw new Error('id is required');
-  const response = await axiosAdmin.get(`/admin/event/${params.id}`);
+const apiGetEvent = async ({ id }: IParams): Promise<IEventItem> => {
+  if (!id) throw new Error('id is required');
+  const response = await axiosAdmin.get(`/admin/event/${id}`);
 
   const data = filterEventResponse(response.data);
 
