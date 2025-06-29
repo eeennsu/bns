@@ -1,3 +1,4 @@
+import { Badge } from '@shared/shadcn-ui/ui';
 import { usePathname } from 'next/navigation';
 import { Suspense, type FC, type PropsWithChildren } from 'react';
 
@@ -11,6 +12,7 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
   const isSidebarOpen = useSidebarStore(state => state.isSidebarOpen);
   const pathname = usePathname();
   const pageName = getAdminPageName(pathname);
+  const isLive = process.env.NODE_ENV === 'production';
 
   return (
     <Suspense fallback={<div className='flex min-h-screen items-center justify-center'>...</div>}>
@@ -21,8 +23,11 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
         )}
       >
         {pageName && (
-          <div className='bg-primary z-10 w-full rounded-b-3xl px-7 py-6 text-white shadow-md'>
-            <h2 className='ml-6 font-bold tracking-tight'>{pageName}</h2>
+          <div className='bg-primary z-10 flex w-full items-center justify-between rounded-b-3xl px-7 py-6 shadow-md'>
+            <h2 className='ml-6 font-bold tracking-tight text-white'>{pageName}</h2>
+            <Badge variant={isLive ? 'destructive' : 'secondary'}>
+              {isLive ? 'LIVE' : process.env.NODE_ENV === 'development' ? 'DEV' : 'BETA'}
+            </Badge>
           </div>
         )}
 

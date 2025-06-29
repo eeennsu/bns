@@ -1,12 +1,12 @@
-import type { FC, HTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
+import type { FC, InputHTMLAttributes, ReactNode } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 
 import { FormControl, FormItem, FormLabel, FormMessage, Input } from '@shadcn-ui/ui';
 
 import Tooltip from '@components/Tooltip';
 
-interface IProps extends HTMLAttributes<HTMLInputElement> {
-  label?: string;
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
   field: ControllerRenderProps<any, string>;
   isRequired?: boolean;
   type?: InputHTMLAttributes<HTMLInputElement>['type'];
@@ -25,13 +25,11 @@ const SharedFormFieldRender: FC<IProps> = ({
 }) => {
   return (
     <FormItem>
-      {label ? (
-        <FormLabel className='gap-0.5'>
-          {label}
-          {isRequired ? <strong className='required'>*</strong> : ''}
-          {tooltip && <Tooltip description={tooltip} />}
-        </FormLabel>
-      ) : null}
+      <FormLabel className='gap-0.5'>
+        {label}
+        {isRequired ? <strong className='required'>*</strong> : null}
+        {tooltip ? <Tooltip description={tooltip} /> : null}
+      </FormLabel>
       <FormControl>
         <Input
           type={type}

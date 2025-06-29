@@ -63,9 +63,4 @@ export const getMultipleImageFileSchema = (minCount: number = 1, maxCount: numbe
       },
     );
 
-export const ImageRefValueSchema = z.enum([
-  IMAGE_REF_VALUES.BREAD,
-  IMAGE_REF_VALUES.SAUCE,
-  IMAGE_REF_VALUES.EVENT,
-  IMAGE_REF_VALUES.BUNDLE,
-]);
+export const ImageRefValueSchema = z.enum(Object.values(IMAGE_REF_VALUES) as [string, ...string[]]);

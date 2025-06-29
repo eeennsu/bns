@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ADMIN_PATHS } from '@shared/configs/routes/adminPaths';
 import { formErrorHandler } from '@shared/libs/formErrorHandler';
-import { getErrorResponse } from '@shared/libs/getError';
+import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -48,7 +48,7 @@ const useCreateEventForm = () => {
       toast.success(EVENT_TOAST_MESSAGES.CREATE_SUCCESS);
     },
     onError: error => {
-      toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED, { description: getErrorResponse(error) });
+      toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
     },
     onSettled: () => {
       router.replace(ADMIN_PATHS.event.list());
@@ -56,8 +56,6 @@ const useCreateEventForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    console.log(data);
-
     const [imageId] = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.EVENT);
 
     delete data.imageFiles;

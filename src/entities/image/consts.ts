@@ -13,6 +13,7 @@ export const IMAGE_REF_VALUES = {
   SAUCE: 'sauce',
   EVENT: 'event',
   BUNDLE: 'bundle',
+  DISH: 'dish',
 } as const;
 
 export const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];

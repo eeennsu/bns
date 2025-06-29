@@ -1,3 +1,4 @@
+import { LoaderCircle } from 'lucide-react';
 import type { FC } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
@@ -33,7 +34,14 @@ const AdminLoginForm: FC<IProps> = ({ form, onSubmit, isLoadingLogin }) => {
         />
 
         <Button type='submit' className='w-full' disabled={isLoadingLogin}>
-          {isLoadingLogin ? '로그인 중...' : '로그인'}
+          {isLoadingLogin ? (
+            <>
+              로그인 중...
+              <LoaderCircle className='animate-spin' />
+            </>
+          ) : (
+            '로그인'
+          )}
         </Button>
       </form>
     </Form>

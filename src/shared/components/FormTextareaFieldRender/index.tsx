@@ -7,7 +7,7 @@ import { cn } from '@shadcn-ui/utils';
 
 interface IProps<TName extends string> extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   field: ControllerRenderProps<any, TName>;
-  label?: string;
+  label: string;
   isRequired?: boolean;
   disabled?: boolean;
   height?: string;
@@ -30,11 +30,9 @@ const SharedFormTextareaFieldRender = <TName extends string>({
 
   return (
     <FormItem>
-      {label ? (
-        <FormLabel className='gap-0.5'>
-          {label} {isRequired ? <strong className='required'>*</strong> : ''}
-        </FormLabel>
-      ) : null}
+      <FormLabel className='gap-0.5'>
+        {label} {isRequired ? <strong className='required'>*</strong> : null}
+      </FormLabel>
       <FormControl>
         <div className='relative'>
           <Textarea

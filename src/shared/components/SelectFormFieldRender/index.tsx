@@ -8,7 +8,7 @@ import { SelectItem as SelectItemType } from '@typings/commons';
 interface IProps<TName extends string> {
   field: ControllerRenderProps<any, TName>;
   selectList: SelectItemType[] | string[];
-  label?: string;
+  label: string;
   isRequired?: boolean;
   selectionPlaceholder?: string;
 }
@@ -23,11 +23,9 @@ const SharedSelectFormFieldRender = <TName extends string>({
 }: IProps<TName>) => {
   return (
     <FormItem className='flex flex-col items-start gap-2'>
-      {label ? (
-        <FormLabel className='!mt-0 gap-0.5'>
-          {label} {isRequired ? <strong className='required'>*</strong> : ''}
-        </FormLabel>
-      ) : null}
+      <FormLabel className='!mt-0 gap-0.5'>
+        {label} {isRequired ? <strong className='required'>*</strong> : null}
+      </FormLabel>
       <Select onValueChange={field.onChange} value={field.value} {...restProps}>
         <FormControl>
           <SelectTrigger className='w-full'>

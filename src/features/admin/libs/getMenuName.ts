@@ -3,6 +3,7 @@ const PAGE_NAME_MAP = {
   sauce: '소스',
   bundle: '세트 구성',
   event: '이벤트',
+  dish: '디쉬',
 };
 
 export const getAdminPageName = (pathname: string): string => {

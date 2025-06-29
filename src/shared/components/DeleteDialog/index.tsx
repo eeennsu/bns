@@ -1,10 +1,9 @@
-import { Trash } from 'lucide-react';
-import { FC } from 'react';
+import { LoaderCircle, Trash } from 'lucide-react';
+import { FC, useState } from 'react';
 
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -14,13 +13,20 @@ import {
 
 interface IProps {
   name: string;
-  onDelete: () => void;
+  onDelete: () => Promise<void>;
+  isLoading?: boolean;
   imageUrl?: string;
 }
 
-const DeleteDialog: FC<IProps> = ({ imageUrl, name, onDelete }) => {
+const DeleteDialog: FC<IProps> = ({ imageUrl, name, onDelete, isLoading }) => {
+  const [open, setIsOpen] = useState<boolean>(false);
+
+  const handleDelete = () => {
+    onDelete().finally(() => setIsOpen(false));
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant='destructive' className='size-8'>
           <Trash />
@@ -41,14 +47,21 @@ const DeleteDialog: FC<IProps> = ({ imageUrl, name, onDelete }) => {
           </span>
         </div>
         <DialogFooter>
-          <DialogClose asChild>
-            <div className='flex items-center gap-2'>
-              <Button variant='destructive' type='submit' onClick={onDelete}>
-                삭제
-              </Button>
-              <Button variant='outline'>취소</Button>
-            </div>
-          </DialogClose>
+          <div className='flex items-center gap-2'>
+            <Button variant='destructive' type='submit' onClick={handleDelete} disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  삭제 중..
+                  <LoaderCircle className='animate-spin' />
+                </>
+              ) : (
+                '삭제'
+              )}
+            </Button>
+            <Button variant='outline' onClick={() => setIsOpen(false)}>
+              취소
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
