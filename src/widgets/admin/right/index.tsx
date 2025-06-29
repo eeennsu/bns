@@ -25,7 +25,9 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
         {pageName && (
           <div className='bg-primary z-10 flex w-full items-center justify-between rounded-b-3xl px-7 py-6 shadow-md'>
             <h2 className='ml-6 font-bold tracking-tight text-white'>{pageName}</h2>
-            <Badge variant={isLive ? 'destructive' : 'secondary'}>{isLive ? 'LIVE' : 'BETA'}</Badge>
+            <Badge variant={isLive ? 'destructive' : 'secondary'}>
+              {isLive ? 'LIVE' : process.env.NODE_ENV === 'development' ? 'DEV' : 'BETA'}
+            </Badge>
           </div>
         )}
 

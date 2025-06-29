@@ -59,3 +59,13 @@ export const EVENT_ERRORS = {
   INVALID_DATE: '날짜 형식이 잘못되었습니다.',
   OVER_DATE: '시작 날짜는 종료 날짜보다 이전이어야 합니다.',
 };
+
+export const DISH_ERRORS = {
+  CREATE_FAILED: '디쉬 생성에 실패했습니다.',
+  MODIFY_FAILED: '디쉬 수정에 실패했습니다.',
+  DELETE_FAILED: '디쉬 삭제에 실패했습니다.',
+  MISSING_ID: '상세 아이디가 없습니다.',
+  INVALID_ID: '잘못된 상세 아이디입니다.',  
+  NOT_FOUND_DISH: '존재하지 않는 디쉬입니다.',
+  INVALID_INGREDIENTS: '잘못된 재료 목록입니다.',
+};

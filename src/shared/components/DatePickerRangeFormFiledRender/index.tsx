@@ -10,7 +10,7 @@ import FormMessageNestedField from '@components/FormMessageNestedFiled';
 import SharedDatePickerRange from '../DatePickerRange';
 
 interface IProps {
-  label?: string;
+  label: string;
   field: ControllerRenderProps<any, 'dateRange'>;
   isRequired?: boolean;
   mode?: 'all' | 'future';
@@ -24,12 +24,11 @@ const SharedDatePickerRangeFormFieldRender: FC<IProps> = ({
 }) => {
   return (
     <FormItem>
-      {label ? (
-        <FormLabel className='gap-0.5'>
-          {label}
-          {isRequired ? <strong className='required'>*</strong> : ''}
-        </FormLabel>
-      ) : null}
+      <FormLabel className='gap-0.5'>
+        {label}
+        {isRequired ? <strong className='required'>*</strong> : ''}
+      </FormLabel>
+
       <FormControl>
         <SharedDatePickerRange
           selected={field.value as DateRange}

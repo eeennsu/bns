@@ -33,7 +33,7 @@ const useCreateBundleForm = () => {
     },
   });
 
-  const { mutate: createBundle } = useMutation({
+  const { mutateAsync: createBundle } = useMutation({
     mutationKey: [ADMIN_BUNDLE_KEYS.CREATE],
     mutationFn: apiCreateBundle,
     onSuccess: () => {
@@ -54,7 +54,7 @@ const useCreateBundleForm = () => {
       imageIds,
     };
 
-    createBundle(newData);
+    await createBundle(newData);
   }, formErrorHandler);
 
   return { form, onSubmit, files, setFiles };

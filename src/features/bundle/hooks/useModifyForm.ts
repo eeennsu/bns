@@ -31,14 +31,14 @@ const useModifyBundle = (bundle: IBundleItem) => {
     },
   });
 
-  const { mutate: modifyBundle } = useMutation({
+  const { mutateAsync: modifyBundle } = useMutation({
     mutationKey: [ADMIN_BUNDLE_KEYS.MODIFY],
     mutationFn: apiModifyBundle,
     onSuccess: () => {
-      toast.success(BUNDLE_TOAST_MESSAGES.CREATE_SUCCESS);
+      toast.success(BUNDLE_TOAST_MESSAGES.MODIFY_SUCCESS);
     },
     onError: error => {
-      toast.error(BUNDLE_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
+      toast.error(BUNDLE_TOAST_MESSAGES.MODIFY_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 
@@ -54,7 +54,7 @@ const useModifyBundle = (bundle: IBundleItem) => {
       imageIds: updatedImageIds,
     };
 
-    modifyBundle({
+    await modifyBundle({
       id: bundle.id,
       data: newData,
     });

@@ -12,7 +12,7 @@ const useDeleteSauceListItem = () => {
   const { page } = usePageSearchParams();
   const { removeQueryItem } = useRemoveQueryListItem([ADMIN_SAUCE_KEYS.GET_LIST, page]);
 
-  const { mutate: deleteSauce } = useMutation({
+  const { mutateAsync: deleteSauce, isPending } = useMutation({
     mutationKey: [ADMIN_SAUCE_KEYS.DELETE],
     mutationFn: apiDeleteSauce,
     onSuccess: async (deletedId: number) => {
@@ -25,13 +25,16 @@ const useDeleteSauceListItem = () => {
     },
   });
 
-  const onDelete = (id: number) => {
-    deleteSauce({
+  const onDelete = async (id: number) => {
+    await deleteSauce({
       id,
     });
   };
 
-  return onDelete;
+  return {
+    onDelete,
+    isDeletePending: isPending,
+  };
 };
 
 export default useDeleteSauceListItem;

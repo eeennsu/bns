@@ -58,23 +58,21 @@ const SauceForm: FC<IProps> = ({ files, setFiles, form, submitProps }) => {
               />
             </div>
           </div>
-          <div className='flex items-center gap-3'>
-            <div className='w-full'>
-              <FormField
-                name='sortOrder'
-                control={form.control}
-                render={({ field }) => (
-                  <SharedFormFieldRender
-                    label='정렬 순서'
-                    type='number'
-                    field={field}
-                    isRequired
-                    onChangeCapture={inputOnlyNumber}
-                  />
-                )}
+
+          <FormField
+            name='sortOrder'
+            control={form.control}
+            render={({ field }) => (
+              <SharedFormFieldRender
+                label='정렬 순서'
+                type='number'
+                field={field}
+                isRequired
+                onChangeCapture={inputOnlyNumber}
               />
-            </div>
-          </div>
+            )}
+          />
+
           <FormField
             name='description'
             control={form.control}

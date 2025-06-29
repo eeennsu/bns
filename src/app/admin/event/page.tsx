@@ -54,7 +54,7 @@ const AdminEventListPage: FC = () => {
     router.push(ADMIN_PATHS.event.create());
   };
 
-  const onDelete = useDeleteEventListItem();
+  const { isDeletePending, onDelete } = useDeleteEventListItem();
 
   return (
     <ListPageWidget>
@@ -76,7 +76,11 @@ const AdminEventListPage: FC = () => {
           {
             itemKey: 'delete',
             children: event => (
-              <DeleteDialog onDelete={() => onDelete(event.id)} name={event.name} />
+              <DeleteDialog
+                onDelete={() => onDelete(event.id)}
+                name={event.name}
+                isLoading={isDeletePending}
+              />
             ),
           },
           {

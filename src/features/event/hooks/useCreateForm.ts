@@ -56,8 +56,6 @@ const useCreateEventForm = () => {
   });
 
   const onSubmit = form.handleSubmit(async (data: EventFormDto) => {
-    console.log(data);
-
     const [imageId] = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.EVENT);
 
     delete data.imageFiles;

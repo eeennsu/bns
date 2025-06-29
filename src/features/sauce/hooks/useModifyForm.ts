@@ -49,11 +49,11 @@ const useModifySauce = (sauce: ISauceItem) => {
     },
   });
 
-  const { mutate: modifySauce } = useMutation({
+  const { mutateAsync: modifySauce } = useMutation({
     mutationKey: [ADMIN_SAUCE_KEYS.MODIFY],
     mutationFn: apiModifySauce,
     onSuccess: async () => {
-      toast.success(SAUCE_TOAST_MESSAGES.CREATE_SUCCESS);
+      toast.success(SAUCE_TOAST_MESSAGES.MODIFY_SUCCESS);
 
       await Promise.allSettled([
         queryClient.invalidateQueries({
@@ -67,7 +67,7 @@ const useModifySauce = (sauce: ISauceItem) => {
       router.replace(ADMIN_PATHS.product.sauce.list());
     },
     onError: error => {
-      toast.error(SAUCE_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
+      toast.error(SAUCE_TOAST_MESSAGES.MODIFY_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 
@@ -81,7 +81,7 @@ const useModifySauce = (sauce: ISauceItem) => {
       imageId,
     };
 
-    modifySauce({
+    await modifySauce({
       id: sauce.id,
       data: newData,
     });

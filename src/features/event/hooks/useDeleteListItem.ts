@@ -12,7 +12,7 @@ const useDeleteEventListItem = () => {
   const { page } = usePageSearchParams();
   const { removeQueryItem } = useRemoveQueryListItem([ADMIN_EVENT_KEYS.GET_LIST, page]);
 
-  const { mutate: deleteEvent } = useMutation({
+  const { mutateAsync: deleteEvent, isPending } = useMutation({
     mutationKey: [ADMIN_EVENT_KEYS.DELETE],
     mutationFn: apiDeleteEvent,
     onSuccess: async (deletedId: number) => {
@@ -25,13 +25,16 @@ const useDeleteEventListItem = () => {
     },
   });
 
-  const onDelete = (id: number) => {
-    deleteEvent({
+  const onDelete = async (id: number) => {
+    await deleteEvent({
       id,
     });
   };
 
-  return onDelete;
+  return {
+    onDelete,
+    isDeletePending: isPending,
+  };
 };
 
 export default useDeleteEventListItem;

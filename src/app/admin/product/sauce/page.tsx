@@ -54,7 +54,7 @@ const AdminSauceListPage: FC = () => {
     router.push(ADMIN_PATHS.product.sauce.create());
   };
 
-  const onDelete = useDeleteSauceListItem();
+  const { isDeletePending, onDelete } = useDeleteSauceListItem();
 
   return (
     <ListPageWidget>
@@ -84,8 +84,12 @@ const AdminSauceListPage: FC = () => {
         renderItemProps={[
           {
             itemKey: 'delete',
-            children: bread => (
-              <DeleteDialog onDelete={() => onDelete(bread.id)} name={bread.name} />
+            children: sauce => (
+              <DeleteDialog
+                onDelete={() => onDelete(sauce.id)}
+                name={sauce.name}
+                isLoading={isDeletePending}
+              />
             ),
           },
         ]}

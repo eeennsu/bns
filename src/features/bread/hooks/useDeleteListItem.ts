@@ -12,7 +12,7 @@ const useDeleteBreadListItem = () => {
   const { page } = usePageSearchParams();
   const { removeQueryItem } = useRemoveQueryListItem([ADMIN_BREAD_KEYS.GET_LIST, page]);
 
-  const { mutate: deleteBread } = useMutation({
+  const { mutateAsync: deleteBread, isPending } = useMutation({
     mutationKey: [ADMIN_BREAD_KEYS.DELETE],
     mutationFn: apiDeleteBread,
     onSuccess: async (deletedId: number) => {
@@ -25,13 +25,16 @@ const useDeleteBreadListItem = () => {
     },
   });
 
-  const onDelete = (id: number) => {
-    deleteBread({
+  const onDelete = async (id: number) => {
+    await deleteBread({
       id,
     });
   };
 
-  return onDelete;
+  return {
+    onDelete,
+    isDeletePending: isPending,
+  };
 };
 
 export default useDeleteBreadListItem;

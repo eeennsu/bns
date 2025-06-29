@@ -13,6 +13,7 @@ import { OrderByType, WithImageId } from 'src/shared/api/typings';
 import { BreadFormDto } from '@entities/bread/types';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 export const GET = withAuth(async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
@@ -27,9 +28,9 @@ export const GET = withAuth(async (request: NextRequest) => {
 
   const searchClause = search ? ilike(breads.name, `%${search}%`) : undefined;
   const showTypeClause =
-    showType === 'on'
+    showType === FILTER_TYPES.ON
       ? eq(breads.isHidden, false)
-      : showType === 'off'
+      : showType === FILTER_TYPES.OFF
         ? eq(breads.isHidden, true)
         : undefined;
 
@@ -88,7 +89,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       .where(
         and(
           eq(imageReferences.imageId, imageId),
-          eq(imageReferences.refTable, 'bread'),
+          eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD),
           isNull(imageReferences.refId),
         ),
       );
