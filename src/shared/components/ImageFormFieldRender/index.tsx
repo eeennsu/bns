@@ -65,7 +65,6 @@ const SharedImageFormFieldRender = <TName extends string>({
     accept: {
       'image/*': ['.jpg', '.png', '.jpeg'],
     },
-
     maxFiles,
     multiple,
     disabled,

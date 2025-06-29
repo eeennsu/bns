@@ -1,4 +1,4 @@
-
+import { dishes } from '@db/schemas/dishes';
 import { z } from 'zod';
 
 import { IImageFile } from '@entities/image/types';
@@ -6,7 +6,6 @@ import { IImageFile } from '@entities/image/types';
 import { FilterDate, IList } from '@typings/commons';
 
 import { DishFormDtoSchema } from './contracts';
-import { dishes } from '@db/schemas/dishes';
 
 type Dish = typeof dishes.$inferSelect;
 export interface IDish extends FilterDate<Dish> {}

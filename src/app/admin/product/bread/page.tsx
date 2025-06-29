@@ -89,7 +89,11 @@ const AdminBreadListPage: FC = () => {
           {
             itemKey: 'delete',
             children: bread => (
-              <DeleteDialog onDelete={() => onDelete(bread.id)} name={bread.name} isLoading={isDeletePending} />
+              <DeleteDialog
+                onDelete={() => onDelete(bread.id)}
+                name={bread.name}
+                isLoading={isDeletePending}
+              />
             ),
           },
         ]}

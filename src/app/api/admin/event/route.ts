@@ -12,9 +12,9 @@ import { EVENT_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
 import { EventFormDto } from '@entities/event/types';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 export const GET = withAuth(async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;

@@ -1,8 +1,8 @@
+import { FILTER_TYPES } from '@shared/consts/commons';
 import { JSX } from 'react';
 import { z } from 'zod';
 
 import { SearchFormDtoSchema } from '@contracts/common';
-import { FILTER_TYPES } from '@shared/consts/commons';
 
 export type Nullable<T> = T | null;
 
@@ -88,6 +88,5 @@ export interface IItemResponse {
   data: any;
 }
 
-export type ItemShowValue = typeof FILTER_TYPES[keyof typeof FILTER_TYPES];
+export type ItemShowValue = (typeof FILTER_TYPES)[keyof typeof FILTER_TYPES];
 export type ItemShowLabel = '전체' | '공개' | '비공개';
-

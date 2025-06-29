@@ -1,5 +1,4 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
-import { UTApi } from 'uploadthing/server';
 
 import { MAX_FILE_SIZE } from '@entities/image/consts';
 
@@ -19,5 +18,3 @@ export const ourFileRouter = {
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
-
-export const utapi = new UTApi({});

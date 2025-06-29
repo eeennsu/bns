@@ -1,6 +1,7 @@
 import db from '@db/index';
 import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
+import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
 import { defaultResponse, setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -73,30 +74,11 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
   }
 
-  const [existingImageRef] = await db
-    .select({
-      id: imageReferences.id,
-      imageId: imageReferences.imageId,
-    })
-    .from(imageReferences)
-    .where(
-      and(eq(imageReferences.refTable, IMAGE_REF_VALUES.DISH), eq(imageReferences.refId, dishId)),
-    )
-    .limit(1);
-
-  if (existingImageRef?.imageId !== imageId) {
-    if (existingImageRef) {
-      await Promise.all([
-        db.delete(imageReferences).where(eq(imageReferences.id, existingImageRef.id)),
-        db.delete(images).where(eq(images.id, existingImageRef.imageId)),
-      ]);
-    }
-
-    await db
-      .update(imageReferences)
-      .set({ refId: dishId })
-      .where(eq(imageReferences.imageId, imageId));
-  }
+  await updateImageReference({
+    refTable: IMAGE_REF_VALUES.DISH,
+    refId: dishId,
+    newImageId: imageId,
+  });
 
   const { name, description, price, ingredients, sortOrder, isHidden, isNew, isSignature } = body;
 
@@ -138,18 +120,11 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: DISH_ERRORS.NOT_FOUND_DISH }, { status: 400 });
   }
 
-  const [imageRef] = await db
-    .select()
-    .from(imageReferences)
-    .where(eq(imageReferences.refId, dishId));
-
-  await Promise.all(
-    [
-      imageRef?.id ? db.delete(images).where(eq(images.id, imageRef.imageId)) : null,
-      db.delete(imageReferences).where(eq(imageReferences.refId, dishId)),
-      db.delete(dishes).where(eq(dishes.id, dishId)),
-    ].filter(Boolean),
-  );
+  await deleteImageWithItem({
+    refTable: IMAGE_REF_VALUES.EVENT,
+    refId: dishId,
+    deleteItem: db.delete(dishes).where(eq(dishes.id, dishId)),
+  });
 
   return NextResponse.json(defaultResponse);
 });
