@@ -28,7 +28,6 @@ export const filterSauceListResponse = (response: IServerResponseList): ISauceLi
     deletedAt: item?.deletedAt ? dateFormat(item?.deletedAt) : null,
     name: item?.name,
     description: item?.description,
-    mbti: item?.mbti,
     price: Number(item?.price),
     isNew: item?.isNew,
     isSignature: item?.isSignature,

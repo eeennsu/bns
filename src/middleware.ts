@@ -6,7 +6,6 @@ export const middleware = (request: NextRequest) => {
   const refreshToken = request.cookies.get(COOKIE_KEYS.REFRESH)?.value;
 
   if (!refreshToken) {
-    console.log('!@#!@#!@#@!#!@#!@#!@#');
     const response = NextResponse.redirect(new URL(MAIN_PATHS.home(), request.url));
     response.cookies.set(COOKIE_KEYS.LOGIN_EXPIRED, 'true', { path: '/', httpOnly: false });
 

@@ -1,0 +1,1 @@
+-- Current sql file was generated after introspecting the database

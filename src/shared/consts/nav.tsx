@@ -52,6 +52,11 @@ export const ADMIN_MENUS: IAdminMenuRoute[][] = [
       menuName: '소스 전체 목록',
       order: 1,
     },
+    {
+      path: ADMIN_PATHS.product.dish.list(),
+      menuName: '디쉬 전체 목록',
+      order: 1,
+    },
   ],
   [
     {

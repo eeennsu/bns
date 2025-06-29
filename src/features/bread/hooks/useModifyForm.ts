@@ -1,7 +1,7 @@
 import { ADMIN_PATHS } from '@configs/routes/adminPaths';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formErrorHandler } from '@shared/libs/formErrorHandler';
-import { getErrorResponse } from '@shared/libs/getError';
+import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -69,7 +69,7 @@ const useModifyBread = (bread: IBreadItem) => {
       router.replace(ADMIN_PATHS.product.bread.list());
     },
     onError: error => {
-      toast.error(BREAD_TOAST_MESSAGES.MODIFY_FAILED, { description: getErrorResponse(error) });
+      toast.error(BREAD_TOAST_MESSAGES.MODIFY_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 

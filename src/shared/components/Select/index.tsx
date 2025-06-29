@@ -43,7 +43,7 @@ const SharedSelect: FC<IProps> = ({
 
   return (
     <Select onValueChange={onChangeSelect} value={selectedValue}>
-      <SelectTrigger className={cn('w-[180px]', triggerClassName)} data-testid={`${label}-select`}>
+      <SelectTrigger className={cn('w-[180px]', triggerClassName)}>
         <SelectValue placeholder={label} />
       </SelectTrigger>
       <SelectContent>

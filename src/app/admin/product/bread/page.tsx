@@ -54,7 +54,7 @@ const AdminBreadListPage: FC = () => {
     router.push(ADMIN_PATHS.product.bread.create());
   };
 
-  const onDelete = useDeleteBreadListItem();
+  const { isDeletePending, onDelete } = useDeleteBreadListItem();
 
   return (
     <ListPageWidget>
@@ -89,7 +89,11 @@ const AdminBreadListPage: FC = () => {
           {
             itemKey: 'delete',
             children: bread => (
-              <DeleteDialog onDelete={() => onDelete(bread.id)} name={bread.name} />
+              <DeleteDialog
+                onDelete={() => onDelete(bread.id)}
+                name={bread.name}
+                isLoading={isDeletePending}
+              />
             ),
           },
         ]}

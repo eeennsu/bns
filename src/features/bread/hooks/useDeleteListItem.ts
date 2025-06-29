@@ -1,6 +1,6 @@
 import usePageSearchParams from '@shared/hooks/useListSearchParams';
 import useRemoveQueryListItem from '@shared/hooks/useRemoveQueryListItem';
-import { getErrorResponse } from '@shared/libs/getError';
+import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -12,7 +12,7 @@ const useDeleteBreadListItem = () => {
   const { page } = usePageSearchParams();
   const { removeQueryItem } = useRemoveQueryListItem([ADMIN_BREAD_KEYS.GET_LIST, page]);
 
-  const { mutate: deleteBread } = useMutation({
+  const { mutateAsync: deleteBread, isPending } = useMutation({
     mutationKey: [ADMIN_BREAD_KEYS.DELETE],
     mutationFn: apiDeleteBread,
     onSuccess: async (deletedId: number) => {
@@ -21,17 +21,20 @@ const useDeleteBreadListItem = () => {
       removeQueryItem(deletedId);
     },
     onError: error => {
-      toast.error(BREAD_TOAST_MESSAGES.DELETE_FAILED, { description: getErrorResponse(error) });
+      toast.error(BREAD_TOAST_MESSAGES.DELETE_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 
-  const onDelete = (id: number) => {
-    deleteBread({
+  const onDelete = async (id: number) => {
+    await deleteBread({
       id,
     });
   };
 
-  return onDelete;
+  return {
+    onDelete,
+    isDeletePending: isPending,
+  };
 };
 
 export default useDeleteBreadListItem;

@@ -1,3 +1,4 @@
+import { FILTER_TYPES } from '@shared/consts/commons';
 import { JSX } from 'react';
 import { z } from 'zod';
 
@@ -87,5 +88,5 @@ export interface IItemResponse {
   data: any;
 }
 
-export type ItemShowValue = 'all' | 'on' | 'off';
+export type ItemShowValue = (typeof FILTER_TYPES)[keyof typeof FILTER_TYPES];
 export type ItemShowLabel = '전체' | '공개' | '비공개';

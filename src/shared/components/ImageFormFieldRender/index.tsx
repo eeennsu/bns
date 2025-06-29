@@ -65,7 +65,6 @@ const SharedImageFormFieldRender = <TName extends string>({
     accept: {
       'image/*': ['.jpg', '.png', '.jpeg'],
     },
-
     maxFiles,
     multiple,
     disabled,
@@ -81,11 +80,11 @@ const SharedImageFormFieldRender = <TName extends string>({
     <FormItem>
       <FormLabel className='block'>
         <span className='flex items-center gap-0.5'>
-          {label} {isRequired ? <strong className='required'>*</strong> : ''}
+          {label} {isRequired ? <strong className='required'>*</strong> : null}
         </span>
-        {desc && (
+        {desc ? (
           <FormDescription className='mt-[2px] text-[10px] text-slate-400'>{desc}</FormDescription>
-        )}
+        ) : null}
       </FormLabel>
 
       <FormControl className='min-w-full'>
