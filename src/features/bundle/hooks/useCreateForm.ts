@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ADMIN_PATHS } from '@shared/configs/routes/adminPaths';
 import { formErrorHandler } from '@shared/libs/formErrorHandler';
 import { axiosErrorHandler } from '@shared/utils/axios/utilError';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import useUploadImage from '@features/upload/hooks/useUploadImage';
+import useUploadImage from '@features/image/hooks/useUploadImage';
 
 import { ADMIN_BUNDLE_KEYS, BUNDLE_TOAST_MESSAGES } from '@entities/bundle/consts';
 import { BundleFormDtoSchema } from '@entities/bundle/contracts';
@@ -16,6 +18,8 @@ import useImageFiles from '@hooks/useImageFiles';
 import apiCreateBundle from '../apis/create';
 
 const useCreateBundleForm = () => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { files, setFiles } = useImageFiles();
   const { fetchUploadApi } = useUploadImage();
 
@@ -29,33 +33,52 @@ const useCreateBundleForm = () => {
       imageFiles: [],
       isHidden: false,
       sortOrder: '',
-      productsList: [],
+      productsList: {
+        breads: [],
+        sauces: [],
+        dishes: [],
+      },
     },
   });
 
   const { mutateAsync: createBundle } = useMutation({
     mutationKey: [ADMIN_BUNDLE_KEYS.CREATE],
     mutationFn: apiCreateBundle,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [ADMIN_BUNDLE_KEYS.GET_LIST],
+      });
+
       toast.success(BUNDLE_TOAST_MESSAGES.CREATE_SUCCESS);
     },
     onError: error => {
       toast.error(BUNDLE_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
     },
+    onSettled: () => {
+      router.replace(ADMIN_PATHS.bundle.list());
+    },
   });
 
-  const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
-    const imageIds = await fetchUploadApi(data.imageFiles, 'bundle');
+  const onSubmit = form.handleSubmit(
+    async (data: BundleFormDto) => {
+      console.log(data);
+      return;
+      const imageIds = await fetchUploadApi(data.imageFiles, 'bundle');
 
-    delete data.imageFiles;
+      delete data.imageFiles;
 
-    const newData = {
-      ...data,
-      imageIds,
-    };
+      const newData = {
+        ...data,
+        imageIds,
+      };
 
-    await createBundle(newData);
-  }, formErrorHandler);
+      await createBundle(newData);
+    },
+    errors => {
+      console.log(errors);
+      formErrorHandler(errors);
+    },
+  );
 
   return { form, onSubmit, files, setFiles };
 };

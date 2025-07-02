@@ -12,6 +12,7 @@ const useGetBundle = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: [ADMIN_BUNDLE_KEYS.GET, id],
     queryFn: () => apiGetBundle({ id }),
+    enabled: !!id,
   });
 
   return { bundle: data, isLoading, isError };

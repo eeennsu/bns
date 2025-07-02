@@ -21,15 +21,15 @@ const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
       setCommandGroups,
     });
 
-  return selectedProducts.length > 0 ? (
+  return selectedProducts?.length > 0 ? (
     <div>
       <div className='flex w-full flex-col'>
-        {selectedProducts.map(group => (
+        {selectedProducts?.map(group => (
           <div key={group.heading.value} className='flex flex-col gap-2 py-3 not-last:border-b'>
             <div className='text-muted-foreground text-xs font-semibold'>{group.heading.label}</div>
             <div className='flex flex-wrap gap-3.5'>
-              {group.items.length > 0 ? (
-                group.items.map(item => (
+              {group?.items?.length > 0 ? (
+                group?.items?.map(item => (
                   <SelectedProductItem
                     key={item.value}
                     item={item}
@@ -39,14 +39,14 @@ const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
                 ))
               ) : (
                 <p className='text-[10px] text-gray-500'>
-                  추가된 {group.heading.label}이(가) 없습니다.
+                  추가된 {group?.heading?.label || ''}이(가) 없습니다.
                 </p>
               )}
             </div>
           </div>
         ))}
       </div>
-      {allSumPrice > 0 && (
+      {allSumPrice > 0 ? (
         <Alert variant='info'>
           <Info />
           <AlertTitle className='text-xs'>
@@ -54,7 +54,7 @@ const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
             <span className='text-sm font-bold'>{allSumPrice.toLocaleString()}</span> 원 입니다.
           </AlertTitle>
         </Alert>
-      )}
+      ) : null}
     </div>
   ) : null;
 };

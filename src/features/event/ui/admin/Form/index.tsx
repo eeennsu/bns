@@ -1,7 +1,7 @@
 import { STRING_LENGTH } from '@db/consts/commons';
+import { inputOnlyNumber } from '@libs/format';
 import SharedDatePickerFormFieldRender from '@shared/components/DatePickerFormFieldRender';
 import FormButton from '@shared/components/FormButton';
-import { inputOnlyNumber } from '@shared/libs/inputOnlyNumber';
 import { BaseSyntheticEvent, Dispatch, FC, SetStateAction } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 

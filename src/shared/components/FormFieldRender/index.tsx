@@ -28,7 +28,7 @@ const SharedFormFieldRender: FC<IProps> = ({
       <FormLabel className='gap-0.5'>
         {label}
         {isRequired ? <strong className='required'>*</strong> : null}
-        {tooltip ? <Tooltip description={tooltip} /> : null}
+        {tooltip ? <Tooltip content={tooltip} triggerClassName='ml-1' /> : null}
       </FormLabel>
       <FormControl>
         <Input

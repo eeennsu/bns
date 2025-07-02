@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { FAIL_MIN_QUANTITY_MESSAGE } from '@entities/bundle/consts';
-import { BundleFormDto, BundleItemType, ICommandGroupBundle } from '@entities/bundle/types';
+import { BundleFormDto, BundleProductLabel, ICommandGroupBundle } from '@entities/bundle/types';
+
+import { getProductName } from '../libs/getProductName';
 
 interface IParams {
   commandGroups: ICommandGroupBundle[];
@@ -10,6 +11,12 @@ interface IParams {
 }
 
 const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
+  const {
+    setValue,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext<BundleFormDto>();
+
   const [selectedProducts, setSelectedProducts] = useState<ICommandGroupBundle[]>([]);
 
   const allSumPrice = selectedProducts.reduce(
@@ -17,33 +24,33 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     0,
   );
 
-  const {
-    setValue,
-    clearErrors,
-    setError,
-    formState: { isSubmitted },
-  } = useFormContext<BundleFormDto>();
-
   useEffect(() => {
     const productsList = selectedProducts.reduce<BundleFormDto['productsList']>((acc, cur) => {
-      return acc.concat(
-        cur.items.map(item => ({
-          type: cur.heading.value as BundleItemType,
-          id: item.value,
-          quantity: item.quantity,
-        })),
-      );
-    }, []);
+      cur.items.forEach((item, index) => {
+        const productKey = getProductName(cur.heading.label as BundleProductLabel);
+        acc[productKey] = [
+          ...(acc[productKey] ?? []),
+          {
+            id: item.value,
+            quantity: item.quantity,
+            sortOrder: index + 1,
+            price: item.price ?? 0,
+          },
+        ];
+      });
+      return acc;
+    }, {});
 
     setValue('productsList', productsList);
     setValue('price', allSumPrice);
 
-    if (productsList.reduce((sum, item) => sum + item.quantity, 0) >= 2) {
+    if (
+      errors?.productsList &&
+      Object.values(productsList)
+        .flat()
+        .reduce((sum, item) => sum + item.quantity, 0) >= 2
+    ) {
       clearErrors('productsList');
-    } else if (isSubmitted) {
-      setError('productsList', {
-        message: FAIL_MIN_QUANTITY_MESSAGE,
-      });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -5,13 +5,20 @@ import { getMultipleImageFileSchema } from '@entities/image/contracts';
 
 import { SortOrderSchema } from '@contracts/common';
 
-import { BUNDLE_ITEM_TYPES, FAIL_MIN_QUANTITY_MESSAGE } from './consts';
+import { FAIL_MIN_QUANTITY_MESSAGE } from './consts';
 
 export const BundleProductSchema = z.object({
-  type: z.enum(BUNDLE_ITEM_TYPES),
-  id: z.string(),
-  quantity: z.number().default(1),
+  id: z.union([z.string(), z.number()]),
+  name: z.string(),
+  quantity: z.number(),
+  sortOrder: z.number(),
   price: z.number(),
+});
+
+export const BundleProductGroupSchema = z.object({
+  breads: z.array(BundleProductSchema).optional(),
+  sauces: z.array(BundleProductSchema).optional(),
+  dishes: z.array(BundleProductSchema).optional(),
 });
 
 export const BundleFormDtoSchema = z.object({
@@ -32,9 +39,14 @@ export const BundleFormDtoSchema = z.object({
   sortOrder: SortOrderSchema,
   isHidden: z.boolean(),
   imageFiles: getMultipleImageFileSchema(1, 5),
-  productsList: z
-    .array(BundleProductSchema)
-    .refine(val => val.reduce((sum, item) => sum + item?.quantity || 0, 0) >= 2, {
-      message: FAIL_MIN_QUANTITY_MESSAGE,
-    }),
+  productsList: BundleProductGroupSchema.refine(
+    val => {
+      const totalQuantity = Object.values(val)
+        .flat()
+        .reduce((sum, item) => sum + item?.quantity || 0, 0);
+
+      return totalQuantity >= 2;
+    },
+    { message: FAIL_MIN_QUANTITY_MESSAGE },
+  ),
 });

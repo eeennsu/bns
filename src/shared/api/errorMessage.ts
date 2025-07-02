@@ -69,3 +69,13 @@ export const DISH_ERRORS = {
   NOT_FOUND_DISH: '존재하지 않는 디쉬입니다.',
   INVALID_INGREDIENTS: '잘못된 재료 목록입니다.',
 };
+
+export const BUNDLE_ERRORS = {
+  CREATE_FAILED: '세트 구성 생성에 실패했습니다.',
+  MODIFY_FAILED: '세트 구성 수정에 실패했습니다.',
+  DELETE_FAILED: '세트 구성 삭제에 실패했습니다.',
+  MISSING_PRODUCT: '세트 구성 생성에 필요한 아이템 목록이 없습니다.',
+  MISSING_ID: '상세 아이디가 없습니다.',
+  INVALID_ID: '잘못된 상세 아이디입니다.',
+  NOT_FOUND_BUNDLE: '존재하지 않는 세트 구성입니다.',
+};

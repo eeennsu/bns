@@ -1,6 +1,6 @@
 import { useDropzone } from '@uploadthing/react';
 import { UploadCloud, X } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -10,6 +10,8 @@ import { cn } from '@shadcn-ui/utils';
 import { allowedTypes, FILE_UPLOAD_TOAST_MESSAGES, MAX_FILE_SIZE } from '@entities/image/consts';
 import { FileWithDropzone } from '@entities/image/types';
 
+import Tooltip from '../Tooltip';
+
 interface IProps<TName extends string> {
   files: FileWithDropzone[];
   setFiles: Dispatch<SetStateAction<FileWithDropzone[]>>;
@@ -17,6 +19,7 @@ interface IProps<TName extends string> {
   label: string;
   desc?: string;
   isRequired?: boolean;
+  tooltip?: ReactNode;
   disabled?: boolean;
   imgMaxClassName?: string;
   imgClassName?: string;
@@ -30,6 +33,7 @@ const SharedImageFormFieldRender = <TName extends string>({
   field,
   label,
   desc,
+  tooltip,
   isRequired,
   disabled,
   imgMaxClassName,
@@ -78,14 +82,19 @@ const SharedImageFormFieldRender = <TName extends string>({
 
   return (
     <FormItem>
-      <FormLabel className='block'>
-        <span className='flex items-center gap-0.5'>
-          {label} {isRequired ? <strong className='required'>*</strong> : null}
-        </span>
-        {desc ? (
-          <FormDescription className='mt-[2px] text-[10px] text-slate-400'>{desc}</FormDescription>
-        ) : null}
-      </FormLabel>
+      {label ? (
+        <FormLabel className='block'>
+          <span className='flex items-center gap-0.5'>
+            {label} {isRequired ? <strong className='required'>*</strong> : null}
+            {tooltip ? <Tooltip content={tooltip} triggerClassName='ml-1' /> : null}
+          </span>
+          {desc ? (
+            <FormDescription className='mt-[2px] text-[10px] text-slate-400'>
+              {desc}
+            </FormDescription>
+          ) : null}
+        </FormLabel>
+      ) : null}
 
       <FormControl className='min-w-full'>
         <div

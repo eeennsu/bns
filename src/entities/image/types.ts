@@ -16,6 +16,7 @@ export interface IUploadImage {
   imageFiles: {
     url: string;
     name: string;
+    order?: number;
   }[];
   refType: ImageRef;
 }

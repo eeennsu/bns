@@ -1,9 +1,8 @@
-import { uploadFiles } from '@features/upload/libs/uploadthing';
-
 import { FileWithDropzone, ImageRef } from '@entities/image/types';
 
-import apiUploadImage from '../apis/image';
+import apiUploadImage from '../apis/upload';
 import { compressImage } from './compress';
+import { uploadFiles } from './uploadthing';
 
 export const uploadImageAndRegister = async (files: FileWithDropzone[], refType: ImageRef) => {
   const filesArray: File[] = files.filter(file => file instanceof File);

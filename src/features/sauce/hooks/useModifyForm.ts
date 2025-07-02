@@ -8,8 +8,9 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import getImageId from '@features/upload/apis/getImageId';
+import getImageId from '@features/image/apis/getImageId';
 
+import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { IImageFile } from '@entities/image/types';
 import { ADMIN_SAUCE_KEYS, SAUCE_TOAST_MESSAGES } from '@entities/sauce/consts';
@@ -61,6 +62,9 @@ const useModifySauce = (sauce: ISauceItem) => {
         }),
         queryClient.invalidateQueries({
           queryKey: [ADMIN_SAUCE_KEYS.GET, String(sauce?.id)],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BUNDLE_KEYS.GET_LIST],
         }),
       ]);
 

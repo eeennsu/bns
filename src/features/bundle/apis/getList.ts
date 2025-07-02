@@ -10,8 +10,8 @@ import { filterBundleListResponse } from '../libs/filterResponse';
 
 interface IParams extends IGetListParams {}
 
-const apiGetBundleList = async ({ page, pageSize, search }: IParams): Promise<IBundleList> => {
-  const url = buildPathWithParams('/admin/bundle', { page, pageSize, search });
+const apiGetBundleList = async (params: IParams): Promise<IBundleList> => {
+  const url = buildPathWithParams('/admin/bundle', params);
 
   const response = await axiosAdmin.get(url);
   const data = filterBundleListResponse(response.data);

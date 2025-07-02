@@ -35,8 +35,6 @@ const BundleModify: FC<IProps> = ({ bundle }) => {
 
   return (
     <BundleForm
-      breadList={[]}
-      sauceList={[]}
       files={files}
       form={form}
       setFiles={setFiles}

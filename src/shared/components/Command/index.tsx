@@ -2,6 +2,7 @@ import { Check, SlidersHorizontal } from 'lucide-react';
 import { type Dispatch, JSX, type SetStateAction, useMemo } from 'react';
 
 import {
+  Button,
   Command,
   CommandEmpty,
   CommandGroup,
@@ -9,11 +10,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
+  FormControl,
+  FormItem,
+  FormLabel,
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Button,
-  Label,
 } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
@@ -34,7 +36,7 @@ interface IProps<T extends ICommandGroup> {
   formErrorMessage?: string;
 }
 
-const SharedCommand = <T extends ICommandGroup>({
+const SharedFormFieldCommand = <T extends ICommandGroup>({
   commandGroups,
   setCommandGroups,
   label,
@@ -70,75 +72,76 @@ const SharedCommand = <T extends ICommandGroup>({
       .filter(Boolean);
   }, [debouncedValue, commandGroups]);
 
-  const onSelect = (heading: SelectItem, item: SelectItem) => {
-    setCommandGroups(prev =>
-      prev.map(group => {
+  const onSelect = (heading: SelectItem, selectItem: SelectItem) => {
+    setCommandGroups(prev => {
+      return prev.map(group => {
         if (group.heading.value !== heading.value) return group;
 
-        const updatedItems = group.items.map(i =>
-          i.value === item.value ? { ...i, selected: !i.selected } : i,
+        const updatedItems = group.items.map(item =>
+          item.value === selectItem.value ? { ...item, selected: !item.selected } : item,
         );
 
         return {
           ...group,
           items: updatedItems,
         };
-      }),
-    );
+      });
+    });
   };
 
   return (
-    <div className='grid gap-2'>
-      {label && (
-        <Label className={cn('gap-0.5', !!formErrorMessage && 'text-destructive')}>
-          {label}
-          {isRequired && <strong className='required'>*</strong>}
-        </Label>
-      )}
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant='outline' className='w-fit justify-start'>
-            <SlidersHorizontal className='h-4 w-4' />
-            <span className='text-xs'>{triggerLabel}</span>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className={popOverContentClassName}>
-          <Command shouldFilter={false}>
-            <CommandInput
-              placeholder={inputPlaceholder}
-              value={debouncedValue}
-              onValueChange={setDebouncedValue}
-            />
-            <CommandList>
-              <CommandEmpty>{notFoundResultText}</CommandEmpty>
-              {filteredGroups.map((group, idx) => (
-                <div key={group.heading.value}>
-                  <CommandGroup heading={group.heading.label}>
-                    {group.items.map(item => (
-                      <CommandItem
-                        key={item.value}
-                        value={item.value}
-                        onSelect={() => onSelect(group.heading, item)}
-                        className='flex items-center justify-between gap-2'
-                      >
-                        <div className='flex items-center gap-1'>
-                          {item.label}
-                          {renderSubLabel?.(item)}
-                        </div>
-                        {item.selected && <Check />}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                  {idx !== filteredGroups.length - 1 && <CommandSeparator />}
-                </div>
-              ))}
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
+    <FormItem className=''>
+      <FormLabel className={cn('gap-0.5', !!formErrorMessage && 'text-destructive')}>
+        {label}
+        {isRequired && <strong className='required'>*</strong>}
+      </FormLabel>
+      <FormControl>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant='outline' className='w-fit justify-start'>
+              <SlidersHorizontal size={16} />
+              <span className='text-xs text-gray-400'>{triggerLabel}</span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className={popOverContentClassName}>
+            <Command shouldFilter={false}>
+              <CommandInput
+                placeholder={inputPlaceholder}
+                value={debouncedValue}
+                onValueChange={setDebouncedValue}
+              />
+              <CommandList>
+                <CommandEmpty>{notFoundResultText}</CommandEmpty>
+                {filteredGroups.map((group, idx) => (
+                  <div key={group.heading.value}>
+                    <CommandGroup heading={group.heading.label}>
+                      {group.items.map(item => (
+                        <CommandItem
+                          key={`${item.label}-${item.value}`}
+                          value={item.value}
+                          onSelect={() => onSelect(group.heading, item)}
+                          className='flex items-center justify-between gap-2'
+                        >
+                          <div className='flex items-center gap-1'>
+                            <span className='text-xs'>{item?.label}</span>
+                            {renderSubLabel?.(item)}
+                          </div>
+                          {item?.selected && <Check />}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                    {idx !== filteredGroups.length - 1 && <CommandSeparator />}
+                  </div>
+                ))}
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </FormControl>
+
       {formErrorMessage && <p className='text-destructive text-xs'>{formErrorMessage}</p>}
-    </div>
+    </FormItem>
   );
 };
 
-export default SharedCommand;
+export default SharedFormFieldCommand;

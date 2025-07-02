@@ -8,8 +8,9 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import getImageId from '@features/upload/apis/getImageId';
+import getImageId from '@features/image/apis/getImageId';
 
+import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { ADMIN_DISH_KEYS, DISH_TOAST_MESSAGES } from '@entities/dish/consts';
 import { DishFormDtoSchema } from '@entities/dish/contracts';
 import { DishFormDto, IDishItem } from '@entities/dish/types';
@@ -62,6 +63,9 @@ const useModifyDish = (dish: IDishItem) => {
         }),
         queryClient.invalidateQueries({
           queryKey: [ADMIN_DISH_KEYS.GET, String(dish?.id)],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
         }),
       ]);
 

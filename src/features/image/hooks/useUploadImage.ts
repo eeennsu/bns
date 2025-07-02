@@ -1,19 +1,28 @@
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useUploadThing } from '@features/upload/libs/uploadthing';
-
-import { FILE_UPLOAD_TOAST_MESSAGES } from '@entities/image/consts';
+import { ADMIN_IMAGE_KEYS, FILE_UPLOAD_TOAST_MESSAGES } from '@entities/image/consts';
 import { FileWithDropzone, ImageRef } from '@entities/image/types';
 
-import apiUploadImage from '../apis/image';
+import apiUploadImage from '../apis/upload';
 import { compressImage } from '../libs/compress';
+import { useUploadThing } from '../libs/uploadthing';
 
 const useUploadImage = () => {
   // const [imageFiles, setImageFiles] = useState<IImageFile[]>([]);
-  const { startUpload: _startUpload, isUploading } = useUploadThing('imageUploader', {
+
+  const { mutateAsync: uploadImage } = useMutation({
+    mutationKey: [ADMIN_IMAGE_KEYS.UPLOAD],
+    mutationFn: apiUploadImage,
+    onError: () => {
+      toast.error(FILE_UPLOAD_TOAST_MESSAGES.FAILED_UPLOAD_API);
+    },
+  });
+
+  const { startUpload, isUploading } = useUploadThing('imageUploader', {
     onUploadError: error => {
       console.error('onUploadError: ', error);
-      toast.error(FILE_UPLOAD_TOAST_MESSAGES.FAILED_UPLOAD);
+      toast.error(FILE_UPLOAD_TOAST_MESSAGES.FAILED_UPLOADTHING);
     },
 
     // onClientUploadComplete: response => {
@@ -31,7 +40,7 @@ const useUploadImage = () => {
     // },
   });
 
-  const startUpload = async (files: FileWithDropzone[]) => {
+  const compressAndUpload = async (files: FileWithDropzone[]) => {
     const filesArray: File[] = files.filter(file => file instanceof File);
 
     if (filesArray.length === 0) {
@@ -40,7 +49,7 @@ const useUploadImage = () => {
 
     const compressedFiles = await Promise.all(filesArray.map(file => compressImage(file)));
 
-    const response = await _startUpload(compressedFiles);
+    const response = await startUpload(compressedFiles);
     if (!response) {
       return null;
     }
@@ -49,31 +58,25 @@ const useUploadImage = () => {
   };
 
   const fetchUploadApi = async (files: FileWithDropzone[], refType: ImageRef) => {
-    const [uploadedImageResponse] = await startUpload(files);
+    const uploadedImagesResponse = await compressAndUpload(files);
 
-    if (!uploadedImageResponse) {
-      toast.error(FILE_UPLOAD_TOAST_MESSAGES.FAILED_UPLOAD);
-      return;
+    if (!uploadedImagesResponse || uploadedImagesResponse.length === 0) {
+      return [];
     }
 
     let imageIds: number[] = [];
 
-    try {
-      imageIds = await apiUploadImage({
-        imageFiles: [
-          {
-            url: uploadedImageResponse.ufsUrl,
-            name: uploadedImageResponse.name,
-          },
-        ],
-        refType,
-      });
-    } catch (error) {
-      console.error('error', error);
-      imageIds = [];
-    }
+    const imageFiles = uploadedImagesResponse.map(uploaded => ({
+      url: uploaded.ufsUrl,
+      name: uploaded.name,
+    }));
 
-    return imageIds;
+    imageIds = await uploadImage({
+      imageFiles,
+      refType,
+    });
+
+    return imageIds ?? [];
   };
 
   return {

@@ -7,8 +7,9 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import useUploadImage from '@features/upload/hooks/useUploadImage';
+import useUploadImage from '@features/image/hooks/useUploadImage';
 
+import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { ADMIN_SAUCE_KEYS, SAUCE_TOAST_MESSAGES } from '@entities/sauce/consts';
 import { SauceFormDtoSchema } from '@entities/sauce/contracts';
@@ -42,9 +43,14 @@ const useCreateSauceForm = () => {
     mutationKey: [ADMIN_SAUCE_KEYS.CREATE],
     mutationFn: apiCreateSauce,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [ADMIN_SAUCE_KEYS.GET_LIST],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_SAUCE_KEYS.GET_LIST],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
+        }),
+      ]);
 
       toast.success(SAUCE_TOAST_MESSAGES.CREATE_SUCCESS);
     },

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import useUploadImage from '@features/upload/hooks/useUploadImage';
+import useUploadImage from '@features/image/hooks/useUploadImage';
 
 import { ADMIN_EVENT_KEYS, EVENT_TOAST_MESSAGES } from '@entities/event/consts';
 import { EventFormDtoSchema } from '@entities/event/contracts';

@@ -24,8 +24,8 @@ export type WithImageIds<T> = Omit<T, 'imageFiles'> & { imageIds: number[] };
 export type ApiParams = Promise<{ id: string }>;
 
 export type ApiHandler = (
-  request: NextRequest,
-  { params }: { params: ApiParams },
+  request?: NextRequest,
+  { params }?: { params: ApiParams },
 ) => Promise<NextResponse>;
 
 export type OrderByType = (typeof ORDER_BY_TYPES)[keyof typeof ORDER_BY_TYPES];

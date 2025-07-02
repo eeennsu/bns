@@ -7,11 +7,12 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import getImageId from '@features/upload/apis/getImageId';
+import getImageId from '@features/image/apis/getImageId';
 
 import { ADMIN_BREAD_KEYS, BREAD_TOAST_MESSAGES } from '@entities/bread/consts';
 import { BreadFormDtoSchema } from '@entities/bread/contracts';
 import { BreadFormDto, IBreadItem } from '@entities/bread/types';
+import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { IImageFile } from '@entities/image/types';
 
@@ -63,6 +64,9 @@ const useModifyBread = (bread: IBreadItem) => {
         }),
         queryClient.invalidateQueries({
           queryKey: [ADMIN_BREAD_KEYS.GET, String(bread?.id)],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
         }),
       ]);
 

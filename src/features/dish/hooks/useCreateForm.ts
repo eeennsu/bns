@@ -7,8 +7,9 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import useUploadImage from '@features/upload/hooks/useUploadImage';
+import useUploadImage from '@features/image/hooks/useUploadImage';
 
+import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { ADMIN_DISH_KEYS, DISH_TOAST_MESSAGES } from '@entities/dish/consts';
 import { DishFormDtoSchema } from '@entities/dish/contracts';
 import { DishFormDto } from '@entities/dish/types';
@@ -43,9 +44,14 @@ const useCreateDishForm = () => {
     mutationKey: [ADMIN_DISH_KEYS.CREATE],
     mutationFn: apiCreateDish,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [ADMIN_DISH_KEYS.GET_LIST],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_DISH_KEYS.GET_LIST],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
+        }),
+      ]);
 
       toast.success(DISH_TOAST_MESSAGES.CREATE_SUCCESS);
     },

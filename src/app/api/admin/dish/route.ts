@@ -89,8 +89,8 @@ export const POST = withAuth(async (request: NextRequest) => {
         isHidden,
       })
       .returning();
-  } catch (e) {
-    console.error('Error inserting dish:', e);
+  } catch (error) {
+    console.error('Error inserting dish:', error);
     return NextResponse.json({ error: DISH_ERRORS.CREATE_FAILED }, { status: 500 });
   }
 
@@ -107,8 +107,8 @@ export const POST = withAuth(async (request: NextRequest) => {
           isNull(imageReferences.refId),
         ),
       );
-  } catch (e) {
-    console.error('Error inserting image:', e);
+  } catch (error) {
+    console.error('Error inserting image:', error);
 
     return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
   }

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { ICommandGroup, SelectItem } from '@typings/commons';
+import { SelectItem } from '@typings/commons';
 
 interface IParams {
-  headings: SelectItem[];
+  headings: readonly SelectItem[];
   groupList: SelectItem[][];
 }
 
-const useCommandGroups = <T = ICommandGroup[]>({ headings, groupList }: IParams) => {
+const useCommandGroups = <T>({ headings, groupList }: IParams) => {
   const [commandGroups, setCommandGroups] = useState<T>([] as T);
 
   useEffect(() => {

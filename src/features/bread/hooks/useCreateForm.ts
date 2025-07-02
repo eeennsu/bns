@@ -7,11 +7,12 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import useUploadImage from '@features/upload/hooks/useUploadImage';
+import useUploadImage from '@features/image/hooks/useUploadImage';
 
 import { ADMIN_BREAD_KEYS, BREAD_TOAST_MESSAGES } from '@entities/bread/consts';
 import { BreadFormDtoSchema } from '@entities/bread/contracts';
 import { BreadFormDto } from '@entities/bread/types';
+import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import useImageFiles from '@hooks/useImageFiles';
@@ -43,9 +44,14 @@ const useCreateBreadForm = () => {
     mutationKey: [ADMIN_BREAD_KEYS.CREATE],
     mutationFn: apiCreateBread,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [ADMIN_BREAD_KEYS.GET_LIST],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BREAD_KEYS.GET_LIST],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
+        }),
+      ]);
 
       toast.success(BREAD_TOAST_MESSAGES.CREATE_SUCCESS);
     },
