@@ -1,16 +1,22 @@
 import { useDropzone } from '@uploadthing/react';
-import { UploadCloud, X } from 'lucide-react';
+import { UploadCloud } from 'lucide-react';
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
-import { cn } from '@shadcn-ui/utils';
 
-import { allowedTypes, FILE_UPLOAD_TOAST_MESSAGES, MAX_FILE_SIZE } from '@entities/image/consts';
+import {
+  ALLOWED_FILE_TYPES,
+  ALLOWED_IMAGE_TYPES,
+  FILE_UPLOAD_TOAST_MESSAGES,
+  MAX_FILE_SIZE,
+  MAX_FILE_SIZE_BYTES,
+} from '@entities/image/consts';
 import { FileWithDropzone } from '@entities/image/types';
 
 import Tooltip from '../Tooltip';
+import ImagePreview from './ImagePreview';
 
 interface IProps<TName extends string> {
   files: FileWithDropzone[];
@@ -21,10 +27,8 @@ interface IProps<TName extends string> {
   isRequired?: boolean;
   tooltip?: ReactNode;
   disabled?: boolean;
-  imgMaxClassName?: string;
   imgClassName?: string;
-  maxFiles?: number;
-  multiple?: boolean;
+  maxFilesCount?: number;
 }
 
 const SharedImageFormFieldRender = <TName extends string>({
@@ -36,21 +40,26 @@ const SharedImageFormFieldRender = <TName extends string>({
   tooltip,
   isRequired,
   disabled,
-  imgMaxClassName,
   imgClassName,
-  multiple,
-  maxFiles = 1,
+  maxFilesCount = 1,
 }: IProps<TName>) => {
+  const multiple = maxFilesCount > 1;
   const onDrop = (acceptedFiles: File[]) => {
-    const filteredFiles = acceptedFiles.filter(file => allowedTypes.includes(file.type));
-
-    if (filteredFiles.length < acceptedFiles.length) {
-      toast.error('JPG, JPEG, PNG 형식의 이미지 파일만 업로드할 수 있습니다.');
+    const filesCount = files.length + acceptedFiles.length;
+    if (filesCount > maxFilesCount) {
+      toast.error(FILE_UPLOAD_TOAST_MESSAGES.MAX_COUNT_EXCEEDED);
       return;
     }
 
-    if (files.length >= maxFiles) {
-      toast.warning(FILE_UPLOAD_TOAST_MESSAGES.MAX_COUNT_EXCEEDED);
+    const oversizedFiles = acceptedFiles.filter(file => file.size > MAX_FILE_SIZE_BYTES);
+    if (oversizedFiles.length > 0) {
+      toast.error(FILE_UPLOAD_TOAST_MESSAGES.FILE_TOO_LARGE);
+      return;
+    }
+
+    const filteredFiles = acceptedFiles.filter(file => ALLOWED_IMAGE_TYPES.includes(file.type));
+    if (filteredFiles.length < acceptedFiles.length) {
+      toast.error(FILE_UPLOAD_TOAST_MESSAGES.IMAGE_TYPE_ERROR);
       return;
     }
 
@@ -67,9 +76,9 @@ const SharedImageFormFieldRender = <TName extends string>({
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      'image/*': ['.jpg', '.png', '.jpeg'],
+      'image/*': ALLOWED_FILE_TYPES,
     },
-    maxFiles,
+    maxFiles: maxFilesCount,
     multiple,
     disabled,
   });
@@ -111,22 +120,16 @@ const SharedImageFormFieldRender = <TName extends string>({
       </FormControl>
       <FormMessage className='text-xs' />
       {files?.length > 0 && (
-        <div className='mt-2 flex gap-4 overflow-x-auto'>
-          {files.map((file, fileIndex) => (
-            <div key={`${file.name}-${fileIndex}`} className={cn('relative', imgMaxClassName)}>
-              <div
-                className='absolute top-1 right-1 cursor-pointer rounded-full bg-slate-700 p-1 shadow hover:bg-slate-600'
-                onClick={onRemovePreview(fileIndex)}
-              >
-                <X size={16} className='text-white' />
-              </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={'url' in file ? file.url : file?.preview}
-                alt={file.name}
-                className={cn('size-64 object-cover', imgClassName)}
-              />
-            </div>
+        <div className='mt-2 flex flex-wrap gap-4 overflow-visible'>
+          {files.map((file, index) => (
+            <ImagePreview
+              key={`${file.name}-${index}`}
+              file={file}
+              index={index}
+              onRemovePreview={onRemovePreview}
+              imgClassName={imgClassName}
+              multiple={multiple}
+            />
           ))}
         </div>
       )}

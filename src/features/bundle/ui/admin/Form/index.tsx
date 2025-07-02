@@ -152,6 +152,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
                   desc=' 최대 5개까지 업로드 가능합니다. 첫번째 이미지가 대표 이미지로 사용됩니다.'
                   field={field}
                   isRequired
+                  maxFilesCount={5}
                 />
               )}
             />
