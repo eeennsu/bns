@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { IMAGE_REF_VALUES, MAX_FILE_SIZE } from './consts';
+import { IMAGE_REF_VALUES, MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from './consts';
 
 export const imageFileSchema = z.object({
   id: z.number(),
@@ -8,6 +8,7 @@ export const imageFileSchema = z.object({
   url: z.string().optional(),
   preview: z.string().optional(),
   order: z.number().optional(),
+  lastModified: z.number().optional(),
 });
 
 export const SingleImageFileSchema = z
@@ -54,12 +55,12 @@ export const getMultipleImageFileSchema = (minCount: number = 1, maxCount: numbe
       files =>
         files.every(file => {
           if (file instanceof File) {
-            return file.size <= 1024 * 1024 * 4;
+            return file.size <= MAX_FILE_SIZE_BYTES;
           }
           return true;
         }),
       {
-        message: '최대 4MB의 이미지까지 선택 가능합니다.',
+        message: `최대 ${MAX_FILE_SIZE}의 이미지까지 선택 가능합니다.`,
       },
     );
 

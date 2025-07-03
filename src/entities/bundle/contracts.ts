@@ -9,7 +9,7 @@ import { FAIL_MIN_QUANTITY_MESSAGE } from './consts';
 
 export const BundleProductSchema = z.object({
   id: z.union([z.string(), z.number()]),
-  name: z.string(),
+  name: z.string().optional(),
   quantity: z.number(),
   sortOrder: z.number(),
   price: z.number(),

@@ -12,6 +12,7 @@ import useUploadImage from '@features/image/hooks/useUploadImage';
 import { ADMIN_BUNDLE_KEYS, BUNDLE_TOAST_MESSAGES } from '@entities/bundle/consts';
 import { BundleFormDtoSchema } from '@entities/bundle/contracts';
 import { BundleFormDto } from '@entities/bundle/types';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import useImageFiles from '@hooks/useImageFiles';
 
@@ -61,11 +62,12 @@ const useCreateBundleForm = () => {
 
   const onSubmit = form.handleSubmit(
     async (data: BundleFormDto) => {
-      console.log(data);
-      return;
-      const imageIds = await fetchUploadApi(data.imageFiles, 'bundle');
+      const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BUNDLE);
 
       delete data.imageFiles;
+      console.log('imageIds', imageIds);
+
+      return;
 
       const newData = {
         ...data,

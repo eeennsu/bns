@@ -14,8 +14,8 @@ export const FILE_UPLOAD_TOAST_MESSAGES = {
   FILE_TOO_LARGE: '8BM 이하의 이미지 파일만 업로드할 수 있습니다.',
 };
 
-export const MAX_FILE_SIZE = '8MB';
-export const MAX_FILE_SIZE_BYTES = Number(`${MAX_FILE_SIZE.replace('MB', '')} * 1024 * 1024`);
+export const MAX_FILE_SIZE = '8MB' as const;
+export const MAX_FILE_SIZE_BYTES = parseInt(MAX_FILE_SIZE.replace('MB', ''), 10) * 1024 * 1024;
 
 export const IMAGE_REF_VALUES = {
   BREAD: 'bread',
@@ -25,5 +25,5 @@ export const IMAGE_REF_VALUES = {
   DISH: 'dish',
 } as const;
 
-export const ALLOWED_FILE_TYPES = ['.jpg', '.png', '.jpeg'];
-export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
+export const ALLOWED_FILE_TYPES = ['.jpg', '.png', '.jpeg', '.webp'];
+export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];

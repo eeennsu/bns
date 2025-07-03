@@ -1,3 +1,12 @@
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import { arrayMove, rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { useDropzone } from '@uploadthing/react';
 import { UploadCloud } from 'lucide-react';
 import { Dispatch, ReactNode, SetStateAction } from 'react';
@@ -17,6 +26,7 @@ import { FileWithDropzone } from '@entities/image/types';
 
 import Tooltip from '../Tooltip';
 import ImagePreview from './ImagePreview';
+import SortableImage from './SortableImage';
 
 interface IProps<TName extends string> {
   files: FileWithDropzone[];
@@ -29,6 +39,7 @@ interface IProps<TName extends string> {
   disabled?: boolean;
   imgClassName?: string;
   maxFilesCount?: number;
+  isDrag?: boolean;
 }
 
 const SharedImageFormFieldRender = <TName extends string>({
@@ -42,6 +53,7 @@ const SharedImageFormFieldRender = <TName extends string>({
   disabled,
   imgClassName,
   maxFilesCount = 1,
+  isDrag = true,
 }: IProps<TName>) => {
   const multiple = maxFilesCount > 1;
   const onDrop = (acceptedFiles: File[]) => {
@@ -65,6 +77,7 @@ const SharedImageFormFieldRender = <TName extends string>({
 
     const restoredFiles = acceptedFiles.map((file: File) => {
       return Object.assign(file, {
+        id: crypto.randomUUID(),
         preview: URL.createObjectURL(file),
       });
     });
@@ -87,6 +100,30 @@ const SharedImageFormFieldRender = <TName extends string>({
     URL.revokeObjectURL(files[fileIndex].preview);
     setFiles(files.filter((_, index) => index !== fileIndex));
     field.onChange(files.filter((_, index) => index !== fileIndex));
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
+  );
+
+  const onDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      const oldIndex = files.findIndex(f => f?.id === active.id);
+      const newIndex = files.findIndex(f => f?.id === over?.id);
+
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const newFiles = arrayMove(files, oldIndex, newIndex);
+        setFiles(newFiles);
+        field.onChange(newFiles);
+      }
+    }
   };
 
   return (
@@ -114,18 +151,38 @@ const SharedImageFormFieldRender = <TName extends string>({
           <UploadCloud className='mb-3 size-10 text-blue-500' />
           <p className='text-sm font-semibold'>여기에 파일을 드롭하거나 클릭하여 업로드하세요</p>
           <p className='mt-1 text-xs text-gray-500'>
-            최대 {MAX_FILE_SIZE}의 PNG, JPG, JPEG 파일만을 지원합니다
+            최대 {MAX_FILE_SIZE}의 {ALLOWED_FILE_TYPES.join(', ').replaceAll('.', '')} 파일만을
+            지원합니다
           </p>
         </div>
       </FormControl>
       <FormMessage className='text-xs' />
-      {files?.length > 0 && (
+      {isDrag ? (
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+          <SortableContext items={files.map(f => f.id)} strategy={rectSortingStrategy}>
+            {files?.length > 0 && (
+              <div className='mt-2 flex flex-wrap gap-4 overflow-visible'>
+                {files.map((file, index) => (
+                  <SortableImage
+                    key={file?.id}
+                    index={index}
+                    file={file}
+                    onRemovePreview={onRemovePreview}
+                    imgClassName={imgClassName}
+                    multiple={multiple}
+                  />
+                ))}
+              </div>
+            )}
+          </SortableContext>
+        </DndContext>
+      ) : (
         <div className='mt-2 flex flex-wrap gap-4 overflow-visible'>
           {files.map((file, index) => (
             <ImagePreview
-              key={`${file.name}-${index}`}
-              file={file}
+              key={file?.id}
               index={index}
+              file={file}
               onRemovePreview={onRemovePreview}
               imgClassName={imgClassName}
               multiple={multiple}
