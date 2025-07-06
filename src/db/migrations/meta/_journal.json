@@ -15,6 +15,13 @@
       "when": 1751284811839,
       "tag": "0001_jazzy_starhawk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1751769053972,
+      "tag": "0002_superb_pandemic",
+      "breakpoints": true
     }
   ]
 }

@@ -14,15 +14,12 @@ import { BundleFormDtoSchema } from '@entities/bundle/contracts';
 import { BundleFormDto } from '@entities/bundle/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-import useImageFiles from '@hooks/useImageFiles';
-
 import apiCreateBundle from '../apis/create';
 
 const useCreateBundleForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { files, setFiles } = useImageFiles();
-  const { fetchUploadApi } = useUploadImage();
+  const { fetchUploadApi, files, setFiles } = useUploadImage();
 
   const form = useForm<BundleFormDto>({
     resolver: zodResolver(BundleFormDtoSchema),

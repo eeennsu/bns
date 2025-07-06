@@ -99,7 +99,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseItem(newBread));
+  return NextResponse.json(setSucResponseItem(newBread), { status: 201 });
 });
 
 const getOrderClause = (orderBy?: OrderByType) => {

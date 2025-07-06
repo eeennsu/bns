@@ -104,7 +104,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: Params) => 
     return NextResponse.json({ error: BREAD_ERRORS.MODIFY_FAILED }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseItem(updateBread));
+  return NextResponse.json(setSucResponseItem(updateBread), );
 });
 
 export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
@@ -130,5 +130,5 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
     deleteItem: db.delete(breads).where(eq(breads.id, breadId)),
   });
 
-  return NextResponse.json(defaultResponse);
+  return NextResponse.json(defaultResponse, { status: 204 });
 });

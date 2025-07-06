@@ -1,3 +1,4 @@
+import useImageFiles from '@shared/hooks/useImageFiles';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -8,8 +9,8 @@ import apiUploadImage from '../apis/upload';
 import { compressImage } from '../libs/compress';
 import { useUploadThing } from '../libs/uploadthing';
 
-const useUploadImage = () => {
-  // const [imageFiles, setImageFiles] = useState<IImageFile[]>([]);
+const useUploadImage = (initialImageFiles: FileWithDropzone[] = []) => {
+  const { files, setFiles } = useImageFiles(initialImageFiles);
 
   const { mutateAsync: uploadImage } = useMutation({
     mutationKey: [ADMIN_IMAGE_KEYS.UPLOAD],
@@ -24,20 +25,6 @@ const useUploadImage = () => {
       console.error('onUploadError: ', error);
       toast.error(FILE_UPLOAD_TOAST_MESSAGES.FAILED_UPLOADTHING);
     },
-
-    // onClientUploadComplete: response => {
-    //   setImageFiles(
-    //     response.map(fileItem => ({
-    //       url: fileItem.ufsUrl,
-    //       preview: fileItem.ufsUrl,
-    //       key: fileItem.key,
-    //       name: fileItem.name,
-    //       type: fileItem.type,
-    //       lastModified: fileItem.lastModified,
-    //       size: fileItem.size,
-    //     })),
-    //   );
-    // },
   });
 
   const compressAndUpload = async (files: FileWithDropzone[]) => {
@@ -49,26 +36,30 @@ const useUploadImage = () => {
 
     const compressedFiles = await Promise.all(filesArray.map(file => compressImage(file)));
 
+    console.log('compressedFiles', compressedFiles);
     const response = await startUpload(compressedFiles);
     if (!response) {
       return null;
     }
 
+    console.log('response', response);
+
     return response;
   };
 
   const fetchUploadApi = async (files: FileWithDropzone[], refType: ImageRef) => {
-    const uploadedImagesResponse = await compressAndUpload(files);
+    const uploadthingResponse = await compressAndUpload(files);
 
-    if (!uploadedImagesResponse || uploadedImagesResponse.length === 0) {
+    if (!uploadthingResponse || uploadthingResponse.length === 0) {
       return [];
     }
 
     let imageIds: number[] = [];
 
-    const imageFiles = uploadedImagesResponse.map(uploaded => ({
+    const imageFiles = uploadthingResponse.map((uploaded, index) => ({
       url: uploaded.ufsUrl,
       name: uploaded.name,
+      order: index + 1,
     }));
 
     imageIds = await uploadImage({
@@ -83,7 +74,8 @@ const useUploadImage = () => {
     startUpload,
     fetchUploadApi,
     isUploading,
-    // imageFiles,
+    files,
+    setFiles,
   };
 };
 

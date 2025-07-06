@@ -26,7 +26,7 @@ export const POST = withAuth(async (request: NextRequest) => {
         refTable: refType,
       };
 
-      const order = imageFiles[i]?.order;
+      const order = imageFiles.at(i)?.order;
       return order !== undefined ? { ...base, sortOrder: order } : base;
     });
 
@@ -38,5 +38,5 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: IMAGE_ERRORS.FAILED_SAVE }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseItem({ imageIds }));
+  return NextResponse.json(setSucResponseItem({ imageIds }), { status: 201 });
 });

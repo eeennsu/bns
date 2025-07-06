@@ -15,15 +15,12 @@ import { ADMIN_SAUCE_KEYS, SAUCE_TOAST_MESSAGES } from '@entities/sauce/consts';
 import { SauceFormDtoSchema } from '@entities/sauce/contracts';
 import { SauceFormDto } from '@entities/sauce/types';
 
-import useImageFiles from '@hooks/useImageFiles';
-
 import apiCreateSauce from '../apis/create';
 
 const useCreateSauceForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { files, setFiles } = useImageFiles();
-  const { fetchUploadApi } = useUploadImage();
+  const { fetchUploadApi, files, setFiles } = useUploadImage();
 
   const form = useForm<SauceFormDto>({
     resolver: zodResolver(SauceFormDtoSchema),

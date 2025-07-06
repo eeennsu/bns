@@ -15,15 +15,13 @@ import { BreadFormDto } from '@entities/bread/types';
 import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-import useImageFiles from '@hooks/useImageFiles';
-
 import apiCreateBread from '../apis/create';
 
 const useCreateBreadForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { files, setFiles } = useImageFiles();
-  const { fetchUploadApi } = useUploadImage();
+
+  const { fetchUploadApi, files, setFiles } = useUploadImage();
 
   const form = useForm<BreadFormDto>({
     resolver: zodResolver(BreadFormDtoSchema),

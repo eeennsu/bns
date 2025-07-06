@@ -15,15 +15,12 @@ import { DishFormDtoSchema } from '@entities/dish/contracts';
 import { DishFormDto } from '@entities/dish/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-import useImageFiles from '@hooks/useImageFiles';
-
 import apiCreateDish from '../apis/create';
 
 const useCreateDishForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { files, setFiles } = useImageFiles();
-  const { fetchUploadApi } = useUploadImage();
+  const { fetchUploadApi, files, setFiles } = useUploadImage();
 
   const form = useForm<DishFormDto>({
     resolver: zodResolver(DishFormDtoSchema),

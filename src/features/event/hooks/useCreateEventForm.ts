@@ -14,15 +14,13 @@ import { EventFormDtoSchema } from '@entities/event/contracts';
 import { EventFormDto } from '@entities/event/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-import useImageFiles from '@hooks/useImageFiles';
 
 import apiCreateEvent from '../apis/create';
 
 const useCreateEventForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { files, setFiles } = useImageFiles();
-  const { fetchUploadApi } = useUploadImage();
+  const { fetchUploadApi, files, setFiles } = useUploadImage();
 
   const form = useForm<EventFormDto>({
     resolver: zodResolver(EventFormDtoSchema),

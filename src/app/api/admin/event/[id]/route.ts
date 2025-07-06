@@ -141,5 +141,5 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
     deleteItem: db.delete(events).where(eq(events.id, eventId)),
   });
 
-  return NextResponse.json(defaultResponse);
+  return NextResponse.json(defaultResponse, { status: 204 });
 });

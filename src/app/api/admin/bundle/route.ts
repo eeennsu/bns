@@ -1,11 +1,12 @@
 import db from '@db/index';
-import { bundles } from '@db/schemas/bundles';
+import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
 import { WithImageIds } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { BundleFormDto } from '@entities/bundle/types';
+import { setSucResponseItem } from '@shared/api/response';
 
 export const POST = withAuth(async (request: NextRequest) => {
   const body = (await request.json()) as WithImageIds<BundleFormDto>;
@@ -19,7 +20,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_IMAGE_FILES }, { status: 400 });
   }
 
-  if (!Array.isArray(productsList) || productsList?.length === 0) {
+  if (Object.keys(productsList).length === 0) {
     return NextResponse.json({ error: BUNDLE_ERRORS.MISSING_PRODUCT }, { status: 400 });
   }
 
@@ -38,15 +39,34 @@ export const POST = withAuth(async (request: NextRequest) => {
 
     const bundleId = newBundle.id;
 
-    const breadsToInsert = productsList
-      .filter(product => product.type === 'bread')
-      .map(bread => ({
-        bundleId,
-        breadId: bread.id,
-        sortOrder: bread.sortOrder,
-      }));
+    const breadsToInsert = productsList.breads?.map((bread, index) => ({
+      bundleId,
+      breadId: Number(bread.id),
+      quantity: bread.quantity,
+      sortOrder: bread?.sortOrder ?? index + 1,
+    }));
 
-    console.log(breadsToInsert);
+    const saucesToInsert = productsList.sauces?.map((sauce, index) => ({
+      bundleId,
+      sauceId: Number(sauce.id),
+      quantity: sauce.quantity,
+      sortOrder: sauce.sortOrder ?? index + 1,
+    }));
+
+    const dishesToInsert = productsList.dishes?.map((dish, index) => ({
+      bundleId,
+      dishId: Number(dish.id),
+      quantity: dish.quantity,
+      sortOrder: dish.sortOrder ?? index + 1,
+    }));
+
+    await Promise.all([
+      breadsToInsert.length > 0 ? db.insert(bundleBreads).values(breadsToInsert) : null,
+      saucesToInsert.length > 0 ? db.insert(bundleSauces).values(saucesToInsert) : null,
+      dishesToInsert.length > 0 ? db.insert(bundleDishes).values(dishesToInsert) : null,
+    ]);
+
+    return NextResponse.json(setSucResponseItem(newBundle), { status: 201 });
   } catch (error) {
     console.error(error);
   }
