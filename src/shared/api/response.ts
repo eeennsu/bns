@@ -1,9 +1,5 @@
 import { IServerResponseItem, IServerResponseList } from './typings';
 
-export const defaultResponse = {
-  ok: true,
-};
-
 export const setSucResponseItem = (data: any): IServerResponseItem => ({
   ok: true,
   data,

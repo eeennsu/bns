@@ -2,7 +2,7 @@ import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
 import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
-import { defaultResponse, setSucResponseItem } from '@shared/api/response';
+import { setSucResponseItem } from '@shared/api/response';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import dayjs from 'dayjs';
@@ -141,5 +141,5 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
     deleteItem: db.delete(events).where(eq(events.id, eventId)),
   });
 
-  return NextResponse.json(defaultResponse, { status: 204 });
+  return new NextResponse(null, { status: 204 });
 });

@@ -14,7 +14,6 @@ import { EventFormDtoSchema } from '@entities/event/contracts';
 import { EventFormDto } from '@entities/event/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-
 import apiCreateEvent from '../apis/create';
 
 const useCreateEventForm = () => {
@@ -44,12 +43,10 @@ const useCreateEventForm = () => {
       });
 
       toast.success(EVENT_TOAST_MESSAGES.CREATE_SUCCESS);
+      router.replace(ADMIN_PATHS.event.list());
     },
     onError: error => {
       toast.error(EVENT_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
-    },
-    onSettled: () => {
-      router.replace(ADMIN_PATHS.event.list());
     },
   });
 

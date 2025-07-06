@@ -2,7 +2,7 @@ import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences, images } from '@db/schemas/image';
 import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
-import { defaultResponse, setSucResponseItem } from '@shared/api/response';
+import { setSucResponseItem } from '@shared/api/response';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -104,7 +104,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: Params) => 
     return NextResponse.json({ error: BREAD_ERRORS.MODIFY_FAILED }, { status: 500 });
   }
 
-  return NextResponse.json(setSucResponseItem(updateBread), );
+  return NextResponse.json(setSucResponseItem(updateBread));
 });
 
 export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
@@ -130,5 +130,5 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
     deleteItem: db.delete(breads).where(eq(breads.id, breadId)),
   });
 
-  return NextResponse.json(defaultResponse, { status: 204 });
+  return new NextResponse(null, { status: 204 });
 });

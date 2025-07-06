@@ -12,6 +12,7 @@ export const bundles = pgTable(
     id: serial('id').primaryKey(),
     name: varchar('name', { length: STRING_LENGTH.NAME }).notNull(),
     description: varchar('description', { length: STRING_LENGTH.DESCRIPTION }).notNull(),
+
     price: integer('price').notNull(),
     discountedPrice: integer('discounted_price'),
     sortOrder: SORT_ORDER_COLUMN,

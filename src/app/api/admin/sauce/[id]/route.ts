@@ -2,7 +2,7 @@ import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
 import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
-import { defaultResponse, setSucResponseItem } from '@shared/api/response';
+import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -128,5 +128,5 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
     deleteItem: db.delete(sauces).where(eq(sauces.id, sauceId)),
   });
 
-  return NextResponse.json(defaultResponse, { status: 204 });
+  return new NextResponse(null, { status: 204 });
 });

@@ -20,7 +20,7 @@ export const BUNDLE_TOAST_MESSAGES = {
 
 export const FAIL_MIN_QUANTITY_MESSAGE = '선택한 품목들의 총 수량은 2개 이상이어야 합니다.';
 
-export const BUNDLE_TABLE_HEADERS = ['순서', '이름', '가격', '할인 가격', '생성일', '숨김 여부'];
+export const BUNDLE_TABLE_HEADERS = ['순서', '이름', '가격', '할인된 가격', '생성일', '숨김 여부'];
 export const BUNDLE_COMMAND_GROUP_HEADINGS = [
   {
     label: '빵',

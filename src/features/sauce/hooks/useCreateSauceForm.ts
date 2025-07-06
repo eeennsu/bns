@@ -50,12 +50,10 @@ const useCreateSauceForm = () => {
       ]);
 
       toast.success(SAUCE_TOAST_MESSAGES.CREATE_SUCCESS);
+      router.replace(ADMIN_PATHS.product.sauce.list());
     },
     onError: error => {
       toast.error(SAUCE_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
-    },
-    onSettled: () => {
-      router.replace(ADMIN_PATHS.product.sauce.list());
     },
   });
 

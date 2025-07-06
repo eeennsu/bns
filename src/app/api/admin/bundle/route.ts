@@ -1,12 +1,59 @@
 import db from '@db/index';
 import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
+import { imageReferences } from '@db/schemas/image';
+import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
-import { WithImageIds } from '@shared/api/typings';
+import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
+import { OrderByType, WithImageIds } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
+import { FILTER_TYPES, PER_PAGE_SIZE } from '@shared/consts/commons';
+import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
+import { and, asc, count, desc, eq, ilike, inArray } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { BundleFormDto } from '@entities/bundle/types';
-import { setSucResponseItem } from '@shared/api/response';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
+
+export const GET = withAuth(async (request: NextRequest) => {
+  const searchParams = request.nextUrl.searchParams;
+  const page = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE)) || 1;
+  const pageSize = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE_SIZE)) || PER_PAGE_SIZE.DEFAULT;
+  const showType = searchParams.get(SEARCH_PARAMS_KEYS.SHOW_TYPE) || FILTER_TYPES.ALL;
+  const orderBy = searchParams.get(SEARCH_PARAMS_KEYS.ORDER_BY) || undefined;
+  const orderClause = getOrderClause(orderBy as OrderByType);
+  const search = searchParams.get(SEARCH_PARAMS_KEYS.SEARCH) || '';
+
+  const offset = (page - 1) * pageSize;
+
+  const searchClause = search ? ilike(bundles.name, `%${search}%`) : undefined;
+  const showTypeClause =
+    showType === FILTER_TYPES.ON
+      ? eq(bundles.isHidden, false)
+      : showType === FILTER_TYPES.OFF
+        ? eq(bundles.isHidden, true)
+        : undefined;
+
+  const whereClause = and(searchClause, showTypeClause);
+
+  const [findBundles, [total]] = await Promise.all([
+    db
+      .select()
+      .from(bundles)
+      .where(whereClause)
+      .orderBy(orderClause)
+      .limit(pageSize)
+      .offset(offset),
+    db.select({ count: count() }).from(bundles).where(whereClause),
+  ]);
+
+  return NextResponse.json(
+    setSucResponseList({
+      list: findBundles,
+      totalCount: total.count,
+      page,
+    }),
+  );
+});
 
 export const POST = withAuth(async (request: NextRequest) => {
   const body = (await request.json()) as WithImageIds<BundleFormDto>;
@@ -36,38 +83,83 @@ export const POST = withAuth(async (request: NextRequest) => {
         isHidden,
       })
       .returning();
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: BUNDLE_ERRORS.CREATE_FAILED }, { status: 500 });
+  }
 
+  try {
     const bundleId = newBundle.id;
 
-    const breadsToInsert = productsList.breads?.map((bread, index) => ({
-      bundleId,
-      breadId: Number(bread.id),
-      quantity: bread.quantity,
-      sortOrder: bread?.sortOrder ?? index + 1,
-    }));
+    const breadsToInsert =
+      productsList?.breads?.map((bread, index) => ({
+        bundleId,
+        breadId: Number(bread.id),
+        quantity: bread.quantity,
+        sortOrder: bread?.sortOrder ?? index + 1,
+      })) ?? [];
 
-    const saucesToInsert = productsList.sauces?.map((sauce, index) => ({
-      bundleId,
-      sauceId: Number(sauce.id),
-      quantity: sauce.quantity,
-      sortOrder: sauce.sortOrder ?? index + 1,
-    }));
+    const saucesToInsert =
+      productsList?.sauces?.map((sauce, index) => ({
+        bundleId,
+        sauceId: Number(sauce.id),
+        quantity: sauce.quantity,
+        sortOrder: sauce.sortOrder ?? index + 1,
+      })) ?? [];
 
-    const dishesToInsert = productsList.dishes?.map((dish, index) => ({
-      bundleId,
-      dishId: Number(dish.id),
-      quantity: dish.quantity,
-      sortOrder: dish.sortOrder ?? index + 1,
-    }));
+    const dishesToInsert =
+      productsList?.dishes?.map((dish, index) => ({
+        bundleId,
+        dishId: Number(dish.id),
+        quantity: dish.quantity,
+        sortOrder: dish.sortOrder ?? index + 1,
+      })) ?? [];
 
     await Promise.all([
       breadsToInsert.length > 0 ? db.insert(bundleBreads).values(breadsToInsert) : null,
       saucesToInsert.length > 0 ? db.insert(bundleSauces).values(saucesToInsert) : null,
       dishesToInsert.length > 0 ? db.insert(bundleDishes).values(dishesToInsert) : null,
     ]);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: BUNDLE_ERRORS.CREATE_PRODUCT_FAILED }, { status: 500 });
+  }
+
+  try {
+    await db
+      .update(imageReferences)
+      .set({
+        refId: newBundle.id,
+      })
+      .where(
+        and(
+          inArray(imageReferences.imageId, imageIds),
+          eq(imageReferences.refTable, IMAGE_REF_VALUES.BUNDLE),
+        ),
+      );
 
     return NextResponse.json(setSucResponseItem(newBundle), { status: 201 });
   } catch (error) {
     console.error(error);
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
   }
 });
+
+const getOrderClause = (orderBy?: OrderByType) => {
+  switch (orderBy) {
+    case ORDER_BY_TYPES.CREATED_DESC:
+      return desc(bundles.createdAt);
+    case ORDER_BY_TYPES.CREATED_ASC:
+      return asc(bundles.createdAt);
+    case ORDER_BY_TYPES.PRICE_DESC:
+      return desc(bundles.price);
+    case ORDER_BY_TYPES.PRICE_ASC:
+      return asc(bundles.price);
+    case ORDER_BY_TYPES.SORT_ORDER_DESC:
+      return desc(bundles.sortOrder);
+    case ORDER_BY_TYPES.SORT_ORDER_ASC:
+      return asc(bundles.sortOrder);
+    default:
+      return asc(bundles.sortOrder);
+  }
+};

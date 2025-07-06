@@ -52,12 +52,10 @@ const useCreateBreadForm = () => {
       ]);
 
       toast.success(BREAD_TOAST_MESSAGES.CREATE_SUCCESS);
+      router.replace(ADMIN_PATHS.product.bread.list());
     },
     onError: error => {
       toast.error(BREAD_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
-    },
-    onSettled: () => {
-      router.replace(ADMIN_PATHS.product.bread.list());
     },
   });
 

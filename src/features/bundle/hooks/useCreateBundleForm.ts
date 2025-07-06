@@ -48,12 +48,10 @@ const useCreateBundleForm = () => {
       });
 
       toast.success(BUNDLE_TOAST_MESSAGES.CREATE_SUCCESS);
+      router.replace(ADMIN_PATHS.bundle.list());
     },
     onError: error => {
       toast.error(BUNDLE_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
-    },
-    onSettled: () => {
-      router.replace(ADMIN_PATHS.bundle.list());
     },
   });
 
@@ -62,14 +60,12 @@ const useCreateBundleForm = () => {
       const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BUNDLE);
 
       delete data.imageFiles;
-      console.log('imageIds', imageIds);
 
-      return;
+      if (isNaN(Number(data?.discountedPrice))) {
+        delete data.discountedPrice;
+      }
 
-      const newData = {
-        ...data,
-        imageIds,
-      };
+      const newData = { ...data, imageIds };
 
       await createBundle(newData);
     },

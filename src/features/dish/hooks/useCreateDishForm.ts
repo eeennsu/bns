@@ -51,12 +51,10 @@ const useCreateDishForm = () => {
       ]);
 
       toast.success(DISH_TOAST_MESSAGES.CREATE_SUCCESS);
+      router.replace(ADMIN_PATHS.product.dish.list());
     },
     onError: error => {
       toast.error(DISH_TOAST_MESSAGES.CREATE_FAILED, { description: axiosErrorHandler(error) });
-    },
-    onSettled: () => {
-      router.replace(ADMIN_PATHS.product.dish.list());
     },
   });
 

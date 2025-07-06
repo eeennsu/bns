@@ -71,6 +71,7 @@ export const DISH_ERRORS = {
 
 export const BUNDLE_ERRORS = {
   CREATE_FAILED: '세트 구성 생성에 실패했습니다.',
+  CREATE_PRODUCT_FAILED: '세트 구성 목록 생성에 실패하였습니다.',
   MODIFY_FAILED: '세트 구성 수정에 실패했습니다.',
   DELETE_FAILED: '세트 구성 삭제에 실패했습니다.',
   MISSING_PRODUCT: '세트 구성 생성에 필요한 아이템 목록이 없습니다.',

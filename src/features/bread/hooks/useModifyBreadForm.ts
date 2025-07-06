@@ -68,6 +68,9 @@ const useModifyBread = (bread: IBreadItem) => {
         queryClient.invalidateQueries({
           queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
         }),
+        queryClient.invalidateQueries({
+          queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
+        }),
       ]);
 
       router.replace(ADMIN_PATHS.product.bread.list());
