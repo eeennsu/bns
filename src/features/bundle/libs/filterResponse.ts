@@ -29,7 +29,7 @@ export const filterBundleListResponse = (response: IServerResponseList): IBundle
     name: item?.name,
     description: item?.description,
     price: item?.price,
-    discountedPrice: item?.discountedPrice,
+    discountedPrice: item?.discountedPrice || '',
     productsList: item?.productsList || [],
     sortOrder: item?.sortOrder,
     isHidden: item?.isHidden ?? false,

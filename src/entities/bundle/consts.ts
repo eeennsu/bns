@@ -23,8 +23,8 @@ export const FAIL_MIN_QUANTITY_MESSAGE = '선택한 품목들의 총 수량은 2
 export const BUNDLE_TABLE_HEADERS = [
   '순서',
   '이름',
-  '가격',
-  '할인된 가격',
+  '가격(원)',
+  '할인된 가격(원)',
   '생성일',
   '숨김 여부',
   '삭제',

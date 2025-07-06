@@ -103,7 +103,7 @@ const SharedFormFieldCommand = <T extends ICommandGroup>({
               <span className='text-xs text-gray-400'>{triggerLabel}</span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className={popOverContentClassName}>
+          <PopoverContent className={cn(popOverContentClassName, 'w-96')}>
             <Command shouldFilter={false}>
               <CommandInput
                 placeholder={inputPlaceholder}

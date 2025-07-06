@@ -14,7 +14,7 @@ interface IProps {
   setCommandGroups: Dispatch<SetStateAction<ICommandGroupBundle[]>>;
 }
 
-const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
+const SelectedProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
   const { selectedProducts, updateQuantity, removeSelectedItem, allSumPrice } =
     useSelectProductList({
       commandGroups,
@@ -23,10 +23,25 @@ const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
 
   return selectedProducts?.length > 0 ? (
     <div>
-      <div className='flex w-full flex-col'>
+      <div className='mb-6 flex w-full flex-col'>
         {selectedProducts?.map(group => (
-          <div key={group.heading.value} className='flex flex-col gap-2 py-3 not-last:border-b'>
-            <div className='text-muted-foreground text-xs font-semibold'>{group.heading.label}</div>
+          <div key={group.heading.value} className='flex flex-col gap-1 border-b py-6'>
+            <div className='flex items-center justify-between'>
+              <div className='text-muted-foreground text-xs font-semibold'>
+                {group.heading.label}
+              </div>
+              {group.items.length > 0 && (
+                <p className='text-[10px] text-gray-400'>
+                  선택 합계 :{' '}
+                  <span className='font-semibold'>
+                    {group.items
+                      .reduce((acc, cur) => acc + cur.price * cur.quantity, 0)
+                      .toLocaleString()}
+                  </span>
+                  원
+                </p>
+              )}
+            </div>
             <div className='flex flex-wrap gap-3.5'>
               {group?.items?.length > 0 ? (
                 group?.items?.map(item => (
@@ -38,9 +53,7 @@ const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
                   />
                 ))
               ) : (
-                <p className='text-[10px] text-gray-500'>
-                  추가된 {group?.heading?.label || ''}이(가) 없습니다.
-                </p>
+                <p className='text-[10px] text-gray-400'>아직 추가된 상품이 없습니다.</p>
               )}
             </div>
           </div>
@@ -59,4 +72,4 @@ const SelectProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
   ) : null;
 };
 
-export default SelectProductList;
+export default SelectedProductList;

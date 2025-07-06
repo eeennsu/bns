@@ -23,7 +23,7 @@ import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
 import SharedImageFormFieldRender from '@components/ImageFormFieldRender';
 import SharedSwitchFormFieldRender from '@components/SwitchFormFieldRender';
 
-import SelectProductList from './SelectProductList';
+import SelectedProductList from './SelectProductList';
 
 interface IProps {
   form: UseFormReturn<BundleFormDto>;
@@ -102,7 +102,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
             </p>
           ) : (
             <div className='my-4 space-y-6'>
-              <div className='space-y-3'>
+              <div className='space-y-1'>
                 <div className='flex w-full justify-start'>
                   <SharedFormFieldCommand<ICommandGroupBundle>
                     label='세트 구성품 목록'
@@ -119,7 +119,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
                     formErrorMessage={form?.formState.errors?.productsList?.message}
                   />
                 </div>
-                <SelectProductList
+                <SelectedProductList
                   commandGroups={commandGroups}
                   setCommandGroups={setCommandGroups}
                 />
