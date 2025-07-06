@@ -25,6 +25,7 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
   );
 
   useEffect(() => {
+    console.log('commandGroups', commandGroups);
     const productsList = selectedProducts.reduce<BundleFormDto['productsList']>((acc, cur) => {
       cur.items.forEach((item, index) => {
         const productKey = getProductName(cur.heading.label as BundleProductLabel);
@@ -44,12 +45,12 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     setValue('productsList', productsList);
     setValue('price', allSumPrice);
 
-    if (
-      errors?.productsList &&
+    const isProductValid =
       Object.values(productsList)
         .flat()
-        .reduce((sum, item) => sum + item.quantity, 0) >= 2
-    ) {
+        .reduce((sum, item) => sum + item.quantity, 0) >= 2;
+
+    if (errors?.productsList && isProductValid) {
       clearErrors('productsList');
     }
 

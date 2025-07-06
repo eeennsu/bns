@@ -69,7 +69,15 @@ const AdminBundleListPage: FC = () => {
       <Table<IBundleItem>
         headers={BUNDLE_TABLE_HEADERS}
         items={data?.items}
-        showItems={['sortOrder', 'name', 'price', 'discountedPrice', 'createdAt', 'isHidden']}
+        showItems={[
+          'sortOrder',
+          'name',
+          'price',
+          'discountedPrice',
+          'createdAt',
+          'isHidden',
+          'delete',
+        ]}
         onClickItem={onClickModifyBundle}
         isLoading={isLoading}
         renderItemProps={[

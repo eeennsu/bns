@@ -9,7 +9,7 @@ import { ImageRef } from '@entities/image/types';
 interface IParams {
   refTable: ImageRef;
   refId: number;
-  deleteItem: Promise<unknown>;
+  deleteItem?: Promise<unknown>;
 }
 
 export const deleteImageWithItem = async ({ refTable, refId, deleteItem }: IParams) => {

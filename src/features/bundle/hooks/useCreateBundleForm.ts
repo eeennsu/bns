@@ -57,6 +57,8 @@ const useCreateBundleForm = () => {
 
   const onSubmit = form.handleSubmit(
     async (data: BundleFormDto) => {
+      console.log('data', data);
+      return;
       const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BUNDLE);
 
       delete data.imageFiles;

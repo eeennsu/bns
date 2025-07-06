@@ -12,11 +12,11 @@ import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { BreadFormDto } from '@entities/bread/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-interface Params {
+interface IParams {
   params: Promise<{ id: string }>;
 }
 
-export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
+export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
   const breadId = +(await params).id;
 
   if (!breadId) {
@@ -60,7 +60,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
   return NextResponse.json(setSucResponseItem(response));
 });
 
-export const PUT = withAuth(async (request: NextRequest, { params }: Params) => {
+export const PUT = withAuth(async (request: NextRequest, { params }: IParams) => {
   const breadId = +(await params).id;
 
   if (!breadId) {
@@ -107,7 +107,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: Params) => 
   return NextResponse.json(setSucResponseItem(updateBread));
 });
 
-export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
+export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   const breadId = +(await params).id;
 
   if (!breadId) {

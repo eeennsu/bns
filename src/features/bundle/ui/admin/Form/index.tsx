@@ -17,7 +17,7 @@ import useCommandGroups from '@hooks/useCommandGroups';
 
 import { SelectItem } from '@typings/commons';
 
-import SharedFormFieldCommand from '@components/Command';
+import SharedFormFieldCommand from '@components/FormFieldCommand';
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
 import SharedImageFormFieldRender from '@components/ImageFormFieldRender';

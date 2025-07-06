@@ -10,11 +10,11 @@ import { SAUCE_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-interface Params {
+interface IParams {
   params: Promise<{ id: string }>;
 }
 
-export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
+export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
   const sauceId = +(await params).id;
 
   if (!sauceId) {
@@ -59,7 +59,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
   return NextResponse.json(setSucResponseItem(response));
 });
 
-export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
+export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
   const sauceId = +(await params).id;
 
   if (!sauceId) {
@@ -105,7 +105,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
   return NextResponse.json(setSucResponseItem(updateSauce));
 });
 
-export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
+export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   const sauceId = +(await params).id;
 
   if (!sauceId) {

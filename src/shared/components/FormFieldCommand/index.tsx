@@ -99,7 +99,7 @@ const SharedFormFieldCommand = <T extends ICommandGroup>({
         <Popover>
           <PopoverTrigger asChild>
             <Button variant='outline' className='w-fit justify-start'>
-              <SlidersHorizontal size={16} />
+              <SlidersHorizontal size={14} />
               <span className='text-xs text-gray-400'>{triggerLabel}</span>
             </Button>
           </PopoverTrigger>
@@ -118,7 +118,7 @@ const SharedFormFieldCommand = <T extends ICommandGroup>({
                       {group.items.map(item => (
                         <CommandItem
                           key={`${item.label}-${item.value}`}
-                          value={item.value}
+                          value={`${item.label}-${item.value}`}
                           onSelect={() => onSelect(group.heading, item)}
                           className='flex items-center justify-between gap-2'
                         >
