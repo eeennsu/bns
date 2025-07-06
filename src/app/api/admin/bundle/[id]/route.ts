@@ -25,7 +25,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return NextResponse.json({ error: BUNDLE_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [bundleResult, imageResult] = await Promise.all([
+  const [bundleResult, imageResult, ...productsResult] = await Promise.all([
     db.select().from(bundles).where(eq(bundles.id, bundleId)).limit(1),
     db
       .select({
@@ -42,10 +42,14 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         ),
       )
       .limit(1),
+    db.select().from(bundleBreads).where(eq(bundleBreads.bundleId, bundleId)),
+    db.select().from(bundleSauces).where(eq(bundleSauces.bundleId, bundleId)),
+    db.select().from(bundleDishes).where(eq(bundleDishes.bundleId, bundleId)),
   ]);
 
   const [foundedBundle] = bundleResult;
   const bundleImages = imageResult;
+  const [breadsBundles, sauceBundles, dishBundles] = productsResult;
 
   if (!foundedBundle) {
     return NextResponse.json({ error: BUNDLE_ERRORS.NOT_FOUND_BUNDLE }, { status: 400 });
@@ -54,6 +58,29 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
   const response = {
     ...foundedBundle,
     imageFiles: bundleImages ? [bundleImages] : [],
+    productsList: {
+      ...(breadsBundles.length > 0 && {
+        breads: breadsBundles.map(bread => ({
+          id: bread.breadId,
+          quantity: bread.quantity,
+          sortOrder: bread.sortOrder,
+        })),
+      }),
+      ...(sauceBundles.length > 0 && {
+        sauces: sauceBundles.map(sauce => ({
+          id: sauce.sauceId,
+          quantity: sauce.quantity,
+          sortOrder: sauce.sortOrder,
+        })),
+      }),
+      ...(dishBundles.length > 0 && {
+        dishes: dishBundles.map(dish => ({
+          id: dish.dishId,
+          quantity: dish.quantity,
+          sortOrder: dish.sortOrder,
+        })),
+      }),
+    },
   };
 
   return NextResponse.json(setSucResponseItem(response));
