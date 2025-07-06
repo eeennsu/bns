@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import useCreateBundleForm from '@features/bundle/hooks/useCreateForm';
+import useCreateBundleForm from '@features/bundle/hooks/useCreateBundleForm';
 import BundleForm from '@features/bundle/ui/admin/Form';
 
 import useConfirmBeforeBack from '@hooks/usePreventGoBack';

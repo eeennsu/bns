@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import DetailWidget from '@widgets/admin/detail';
 
 import useGetBundle from '@features/bundle/hooks/useGetBundle';
-import useModifyBundle from '@features/bundle/hooks/useModifyForm';
+import useModifyBundle from '@features/bundle/hooks/useModifyBundleForm';
 import BundleForm from '@features/bundle/ui/admin/Form';
 
 import { IBundleItem } from '@entities/bundle/types';
