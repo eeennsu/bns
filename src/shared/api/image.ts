@@ -9,10 +9,9 @@ import { ImageRef } from '@entities/image/types';
 interface IParams {
   refTable: ImageRef;
   refId: number;
-  deleteItem?: Promise<unknown>;
 }
 
-export const deleteImageWithItem = async ({ refTable, refId, deleteItem }: IParams) => {
+export const deleteImageWithItem = async ({ refTable, refId }: IParams) => {
   const [imageRef] = await db
     .select()
     .from(imageReferences)
@@ -31,54 +30,57 @@ export const deleteImageWithItem = async ({ refTable, refId, deleteItem }: IPara
     void deleteUploadthingFile(image.url);
   }
 
-  await Promise.all(
-    [
-      db.delete(imageReferences).where(eq(imageReferences.id, imageRef.id)),
-      db.delete(images).where(eq(images.id, imageRef.imageId)),
-      deleteItem,
-    ].filter(Boolean),
-  );
+  await Promise.all([
+    db.delete(imageReferences).where(eq(imageReferences.id, imageRef.id)),
+    db.delete(images).where(eq(images.id, imageRef.imageId)),
+  ]);
 };
 
 interface IUpdateImageRefParams {
   refTable: string;
   refId: number;
-  newImageId: number;
+  imageIds: number[];
 }
 
 export const updateImageReference = async ({
   refTable,
   refId,
-  newImageId,
+  imageIds,
 }: IUpdateImageRefParams) => {
-  const [existingImageRef] = await db
+  const existingImageRefS = await db
     .select({
       id: imageReferences.id,
       imageId: imageReferences.imageId,
     })
     .from(imageReferences)
-    .where(and(eq(imageReferences.refTable, refTable), eq(imageReferences.refId, refId)))
-    .limit(1);
+    .where(and(eq(imageReferences.refTable, refTable), eq(imageReferences.refId, refId)));
 
-  if (existingImageRef?.imageId !== newImageId) {
-    if (existingImageRef) {
-      const [existingImage] = await db
-        .select({ id: images.id, url: images.url })
-        .from(images)
-        .where(eq(images.id, existingImageRef.imageId))
-        .limit(1);
+  const existingImageIds = existingImageRefS.map(imageRef => imageRef.imageId);
 
-      if (existingImage?.url) {
-        void deleteUploadthingFile(existingImage.url);
+  const toDeleteImageIds = existingImageRefS.filter(
+    imageRef => !imageIds.includes(imageRef.imageId),
+  );
+  const toInsertImageIds = imageIds.filter(imageId => !existingImageIds.includes(imageId));
+
+  await Promise.all(
+    toDeleteImageIds.map(async ref => {
+      const [img] = await db.select().from(images).where(eq(images.id, ref.imageId)).limit(1);
+      if (img?.url) {
+        void deleteUploadthingFile(img.url);
       }
 
-      await Promise.all([
-        db.delete(imageReferences).where(eq(imageReferences.id, existingImageRef.id)),
-        db.delete(images).where(eq(images.id, existingImageRef.imageId)),
-      ]);
-    }
+      await db.delete(imageReferences).where(eq(imageReferences.id, ref.id));
+      await db.delete(images).where(eq(images.id, ref.imageId));
+    }),
+  );
 
-    // 기존 참조 삭제 후 새 이미지에 refId 할당
-    await db.update(imageReferences).set({ refId }).where(eq(imageReferences.imageId, newImageId));
-  }
+  await Promise.all(
+    toInsertImageIds.map(imageId =>
+      db.insert(imageReferences).values({
+        refTable,
+        refId,
+        imageId,
+      }),
+    ),
+  );
 };

@@ -27,24 +27,31 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [breadResult, imageResult] = await Promise.all([
-    db.select().from(breads).where(eq(breads.id, breadId)).limit(1),
-    db
-      .select({
-        id: images.id,
-        url: images.url,
-        name: images.name,
-      })
-      .from(imageReferences)
-      .innerJoin(images, eq(imageReferences.imageId, images.id))
-      .where(
-        and(
-          eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD),
-          eq(imageReferences.refId, breadId),
-        ),
-      )
-      .limit(1),
-  ]);
+  let breadResult, imageResult;
+
+  try {
+    [breadResult, imageResult] = await Promise.all([
+      db.select().from(breads).where(eq(breads.id, breadId)).limit(1),
+      db
+        .select({
+          id: images.id,
+          url: images.url,
+          name: images.name,
+        })
+        .from(imageReferences)
+        .innerJoin(images, eq(imageReferences.imageId, images.id))
+        .where(
+          and(
+            eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD),
+            eq(imageReferences.refId, breadId),
+          ),
+        )
+        .limit(1),
+    ]);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
+  }
 
   const [foundedBread] = breadResult;
   const [breadImage] = imageResult;
@@ -52,6 +59,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
   if (!foundedBread) {
     return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
   }
+
   const response = {
     ...foundedBread,
     imageFiles: breadImage ? [breadImage] : [],
@@ -78,31 +86,42 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
   }
 
-  await updateImageReference({
-    refTable: IMAGE_REF_VALUES.BREAD,
-    refId: breadId,
-    newImageId: imageId,
-  });
-
   const { name, description, price, mbti, sortOrder, isHidden, isNew, isSignature } = body;
 
-  const updateBread = await db
-    .update(breads)
-    .set({
-      name,
-      description,
-      price: Number(price),
-      mbti,
-      sortOrder: Number(sortOrder),
-      isSignature,
-      isNew,
-      isHidden,
-    })
-    .where(eq(breads.id, breadId));
+  let updateBread;
 
-  if (!updateBread) {
+  try {
+    updateBread = await db
+      .update(breads)
+      .set({
+        name,
+        description,
+        price: Number(price),
+        mbti,
+        sortOrder: Number(sortOrder),
+        isSignature,
+        isNew,
+        isHidden,
+      })
+      .where(eq(breads.id, breadId))
+      .returning();
+  } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: BREAD_ERRORS.MODIFY_FAILED }, { status: 500 });
   }
+
+  try {
+    await updateImageReference({
+      refTable: IMAGE_REF_VALUES.BREAD,
+      refId: breadId,
+      imageIds: [imageId],
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+  }
+
+  console.log('updateBread', updateBread);
 
   return NextResponse.json(setSucResponseItem(updateBread));
 });
@@ -118,17 +137,33 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [foundedBread] = await db.select().from(breads).where(eq(breads.id, breadId)).limit(1);
+  try {
+    const [foundedBread] = await db.select().from(breads).where(eq(breads.id, breadId)).limit(1);
 
-  if (!foundedBread) {
-    return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
+    if (!foundedBread) {
+      return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
+    }
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
   }
 
-  await deleteImageWithItem({
-    refTable: IMAGE_REF_VALUES.BREAD,
-    refId: breadId,
-    deleteItem: db.delete(breads).where(eq(breads.id, breadId)),
-  });
+  try {
+    await db.delete(breads).where(eq(breads.id, breadId));
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: BREAD_ERRORS.DELETE_FAILED }, { status: 500 });
+  }
+
+  try {
+    await deleteImageWithItem({
+      refTable: IMAGE_REF_VALUES.BREAD,
+      refId: breadId,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+  }
 
   return new NextResponse(null, { status: 204 });
 });

@@ -25,21 +25,31 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return NextResponse.json({ error: DISH_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [dishResult, imageResult] = await Promise.all([
-    db.select().from(dishes).where(eq(dishes.id, dishId)).limit(1),
-    db
-      .select({
-        id: images.id,
-        url: images.url,
-        name: images.name,
-      })
-      .from(imageReferences)
-      .innerJoin(images, eq(imageReferences.imageId, images.id))
-      .where(
-        and(eq(imageReferences.refTable, IMAGE_REF_VALUES.DISH), eq(imageReferences.refId, dishId)),
-      )
-      .limit(1),
-  ]);
+  let dishResult, imageResult;
+
+  try {
+    [dishResult, imageResult] = await Promise.all([
+      db.select().from(dishes).where(eq(dishes.id, dishId)).limit(1),
+      db
+        .select({
+          id: images.id,
+          url: images.url,
+          name: images.name,
+        })
+        .from(imageReferences)
+        .innerJoin(images, eq(imageReferences.imageId, images.id))
+        .where(
+          and(
+            eq(imageReferences.refTable, IMAGE_REF_VALUES.DISH),
+            eq(imageReferences.refId, dishId),
+          ),
+        )
+        .limit(1),
+    ]);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: DISH_ERRORS.GET_FAILED }, { status: 500 });
+  }
 
   const [foundedDish] = dishResult;
   const [dishImage] = imageResult;
@@ -74,30 +84,39 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
   }
 
-  await updateImageReference({
-    refTable: IMAGE_REF_VALUES.DISH,
-    refId: dishId,
-    newImageId: imageId,
-  });
-
   const { name, description, price, ingredients, sortOrder, isHidden, isNew, isSignature } = body;
 
-  const updateDish = await db
-    .update(dishes)
-    .set({
-      name,
-      description,
-      price: Number(price),
-      ingredients,
-      sortOrder: Number(sortOrder),
-      isSignature,
-      isNew,
-      isHidden,
-    })
-    .where(eq(dishes.id, dishId));
+  let updateDish;
 
-  if (!updateDish) {
+  try {
+    updateDish = await db
+      .update(dishes)
+      .set({
+        name,
+        description,
+        price: Number(price),
+        ingredients,
+        sortOrder: Number(sortOrder),
+        isSignature,
+        isNew,
+        isHidden,
+      })
+      .where(eq(dishes.id, dishId))
+      .returning();
+  } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: DISH_ERRORS.MODIFY_FAILED }, { status: 500 });
+  }
+
+  try {
+    await updateImageReference({
+      refTable: IMAGE_REF_VALUES.DISH,
+      refId: dishId,
+      imageIds: [imageId],
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
   }
 
   return NextResponse.json(setSucResponseItem(updateDish));
@@ -114,17 +133,33 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return NextResponse.json({ error: DISH_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [foundedDish] = await db.select().from(dishes).where(eq(dishes.id, dishId)).limit(1);
+  try {
+    const [foundedDish] = await db.select().from(dishes).where(eq(dishes.id, dishId)).limit(1);
 
-  if (!foundedDish) {
-    return NextResponse.json({ error: DISH_ERRORS.NOT_FOUND_DISH }, { status: 400 });
+    if (!foundedDish) {
+      return NextResponse.json({ error: DISH_ERRORS.NOT_FOUND_DISH }, { status: 400 });
+    }
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: DISH_ERRORS.GET_FAILED }, { status: 500 });
   }
 
-  await deleteImageWithItem({
-    refTable: IMAGE_REF_VALUES.EVENT,
-    refId: dishId,
-    deleteItem: db.delete(dishes).where(eq(dishes.id, dishId)),
-  });
+  try {
+    await db.delete(dishes).where(eq(dishes.id, dishId));
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: DISH_ERRORS.DELETE_FAILED }, { status: 500 });
+  }
+
+  try {
+    await deleteImageWithItem({
+      refTable: IMAGE_REF_VALUES.EVENT,
+      refId: dishId,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+  }
 
   return new NextResponse(null, { status: 204 });
 });

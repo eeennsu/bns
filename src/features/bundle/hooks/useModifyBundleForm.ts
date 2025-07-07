@@ -68,8 +68,6 @@ const useModifyBundle = (bundle: IBundleItem) => {
   const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
     const updatedImageIds = await getMultiImageIds<BundleFormDto, IBundleItem>(data, bundle);
 
-    return;
-
     const newData = {
       ...data,
       imageIds: updatedImageIds,

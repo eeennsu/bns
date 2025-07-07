@@ -36,11 +36,23 @@ export const GET = withAuth(async (request: NextRequest) => {
 
   const whereClause = and(searchClause, showTypeClause);
 
-  const [findSauces, [total]] = await Promise.all([
-    db.select().from(sauces).where(whereClause).orderBy(orderClause).limit(pageSize).offset(offset),
-    db.select({ count: count() }).from(sauces).where(whereClause),
-  ]);
+  let findSauces, total;
 
+  try {
+    [findSauces, [total]] = await Promise.all([
+      db
+        .select()
+        .from(sauces)
+        .where(whereClause)
+        .orderBy(orderClause)
+        .limit(pageSize)
+        .offset(offset),
+      db.select({ count: count() }).from(sauces).where(whereClause),
+    ]);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: SAUCE_ERRORS.GET_LIST_FAILED }, { status: 500 });
+  }
   return NextResponse.json(
     setSucResponseList({
       list: findSauces,
@@ -94,7 +106,6 @@ export const POST = withAuth(async (request: NextRequest) => {
       );
   } catch (error) {
     console.error('Error inserting image:', error);
-
     return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
   }
 

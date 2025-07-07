@@ -35,16 +35,23 @@ export const GET = withAuth(async (request: NextRequest) => {
 
   const whereClause = and(searchClause, showTypeClause);
 
-  const [findBundles, [total]] = await Promise.all([
-    db
-      .select()
-      .from(bundles)
-      .where(whereClause)
-      .orderBy(orderClause)
-      .limit(pageSize)
-      .offset(offset),
-    db.select({ count: count() }).from(bundles).where(whereClause),
-  ]);
+  let findBundles, total;
+
+  try {
+    [findBundles, [total]] = await Promise.all([
+      db
+        .select()
+        .from(bundles)
+        .where(whereClause)
+        .orderBy(orderClause)
+        .limit(pageSize)
+        .offset(offset),
+      db.select({ count: count() }).from(bundles).where(whereClause),
+    ]);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: BUNDLE_ERRORS.GET_LIST_FAILED }, { status: 500 });
+  }
 
   return NextResponse.json(
     setSucResponseList({
@@ -133,7 +140,10 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .where(
         and(
-          inArray(imageReferences.imageId, imageIds),
+          inArray(
+            imageReferences.imageId,
+            imageIds.map(image => image.id),
+          ),
           eq(imageReferences.refTable, IMAGE_REF_VALUES.BUNDLE),
         ),
       );
