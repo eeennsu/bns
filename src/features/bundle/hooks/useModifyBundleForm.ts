@@ -12,7 +12,6 @@ import getMultiImageIds from '@features/image/apis/getMultiImageIdx';
 import { ADMIN_BUNDLE_KEYS, BUNDLE_TOAST_MESSAGES } from '@entities/bundle/consts';
 import { BundleFormDtoSchema } from '@entities/bundle/contracts';
 import { BundleFormDto, IBundleItem } from '@entities/bundle/types';
-import { IImageFile } from '@entities/image/types';
 
 import useImageFiles from '@hooks/useImageFiles';
 
@@ -22,16 +21,9 @@ const useModifyBundle = (bundle: IBundleItem) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const dishImage = bundle?.imageFiles;
-  const imgs: IImageFile[] = dishImage
-    ? bundle?.imageFiles.map(imageFile => ({
-        id: imageFile?.id,
-        url: imageFile?.url,
-        name: imageFile?.name,
-      }))
-    : [];
+  const bundleImages = bundle?.imageFiles ?? [];
 
-  const { files, setFiles } = useImageFiles();
+  const { files, setFiles } = useImageFiles(bundleImages);
 
   const form = useForm<BundleFormDto>({
     resolver: zodResolver(BundleFormDtoSchema),
@@ -47,7 +39,7 @@ const useModifyBundle = (bundle: IBundleItem) => {
         dishes: [],
         sauces: [],
       },
-      imageFiles: imgs,
+      imageFiles: bundleImages,
     },
   });
 
@@ -74,9 +66,9 @@ const useModifyBundle = (bundle: IBundleItem) => {
   });
 
   const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
-    console.log('data', data);
-    return;
     const updatedImageIds = await getMultiImageIds<BundleFormDto, IBundleItem>(data, bundle);
+
+    return;
 
     const newData = {
       ...data,

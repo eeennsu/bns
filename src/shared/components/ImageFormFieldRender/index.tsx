@@ -162,7 +162,7 @@ const SharedImageFormFieldRender = <TName extends string>({
           <SortableContext items={files.map(f => f.id)} strategy={rectSortingStrategy}>
             {files?.length > 0 && (
               <div className='mt-2 flex flex-wrap gap-4 overflow-visible'>
-                {files.map((file, index) => (
+                {files?.map((file, index) => (
                   <SortableImage
                     key={file?.id}
                     index={index}
@@ -178,7 +178,7 @@ const SharedImageFormFieldRender = <TName extends string>({
         </DndContext>
       ) : (
         <div className='mt-2 flex flex-wrap gap-4 overflow-visible'>
-          {files.map((file, index) => (
+          {files?.map((file, index) => (
             <ImagePreview
               key={file?.id}
               index={index}

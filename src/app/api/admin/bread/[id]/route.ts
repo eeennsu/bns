@@ -17,7 +17,7 @@ interface IParams {
 }
 
 export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
-  const breadId = +(await params).id;
+  const breadId = +(await params)?.id;
 
   if (!breadId) {
     return NextResponse.json({ error: BREAD_ERRORS.MISSING_ID }, { status: 400 });
@@ -61,7 +61,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
 });
 
 export const PUT = withAuth(async (request: NextRequest, { params }: IParams) => {
-  const breadId = +(await params).id;
+  const breadId = +(await params)?.id;
 
   if (!breadId) {
     return NextResponse.json({ error: BREAD_ERRORS.MISSING_ID }, { status: 400 });
@@ -108,7 +108,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
 });
 
 export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
-  const breadId = +(await params).id;
+  const breadId = +(await params)?.id;
 
   if (!breadId) {
     return NextResponse.json({ error: BREAD_ERRORS.MISSING_ID }, { status: 400 });

@@ -1,4 +1,4 @@
-import { inputOnlyNumber } from '@libs/format';
+import { inputOnlyNumber, toPlural } from '@libs/format';
 import FormButton from '@shared/components/FormButton';
 import { LoaderCircle } from 'lucide-react';
 import { BaseSyntheticEvent, Dispatch, FC, SetStateAction, useMemo } from 'react';
@@ -33,23 +33,40 @@ interface IProps {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
   };
+  isModify?: boolean;
 }
 
-const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
-  const { productsList, isLoading: isProductsListLoading } = useGetProductList();
+const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, isModify }) => {
+  const { allProductsList, isLoading: isProductsListLoading } = useGetProductList();
 
   const groupList = useMemo<SelectItem[][]>(
     () => [
-      productsList?.breads.map(convertToSelectItem),
-      productsList?.sauces.map(convertToSelectItem),
-      productsList?.dishes.map(convertToSelectItem),
+      allProductsList?.breads.map(convertToSelectItem),
+      allProductsList?.sauces.map(convertToSelectItem),
+      allProductsList?.dishes.map(convertToSelectItem),
     ],
-    [productsList],
+    [allProductsList],
   );
+
+  const productsList = form.getValues('productsList');
+
+  const commandGroupInitializer = (product: SelectItem, heading: SelectItem) => {
+    if (!isModify) return product;
+
+    const key = toPlural(heading.value.toString());
+    const matched = productsList?.[key]?.find(p => p.id === product.value);
+
+    return {
+      ...product,
+      selected: !!matched,
+      quantity: matched?.quantity ?? 1,
+    };
+  };
 
   const { commandGroups, setCommandGroups } = useCommandGroups<ICommandGroupBundle[]>({
     headings: BUNDLE_COMMAND_GROUP_HEADINGS,
     groupList,
+    initializer: commandGroupInitializer,
   });
 
   return (

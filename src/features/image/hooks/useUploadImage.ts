@@ -36,13 +36,10 @@ const useUploadImage = (initialImageFiles: FileWithDropzone[] = []) => {
 
     const compressedFiles = await Promise.all(filesArray.map(file => compressImage(file)));
 
-    console.log('compressedFiles', compressedFiles);
     const response = await startUpload(compressedFiles);
     if (!response) {
       return null;
     }
-
-    console.log('response', response);
 
     return response;
   };

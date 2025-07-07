@@ -42,6 +42,7 @@ const BundleModify: FC<IProps> = ({ bundle }) => {
         label: '수정',
         onSubmit,
       }}
+      isModify
     />
   );
 };

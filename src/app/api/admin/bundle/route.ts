@@ -92,27 +92,27 @@ export const POST = withAuth(async (request: NextRequest) => {
     const bundleId = newBundle.id;
 
     const breadsToInsert =
-      productsList?.breads?.map((bread, index) => ({
+      productsList?.breads?.map(bread => ({
         bundleId,
         breadId: Number(bread.id),
         quantity: bread.quantity,
-        sortOrder: bread?.sortOrder ?? index + 1,
+        sortOrder: bread?.sortOrder,
       })) ?? [];
 
     const saucesToInsert =
-      productsList?.sauces?.map((sauce, index) => ({
+      productsList?.sauces?.map(sauce => ({
         bundleId,
         sauceId: Number(sauce.id),
         quantity: sauce.quantity,
-        sortOrder: sauce.sortOrder ?? index + 1,
+        sortOrder: sauce.sortOrder,
       })) ?? [];
 
     const dishesToInsert =
-      productsList?.dishes?.map((dish, index) => ({
+      productsList?.dishes?.map(dish => ({
         bundleId,
         dishId: Number(dish.id),
         quantity: dish.quantity,
-        sortOrder: dish.sortOrder ?? index + 1,
+        sortOrder: dish.sortOrder,
       })) ?? [];
 
     await Promise.all([

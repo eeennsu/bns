@@ -65,7 +65,7 @@ export interface IGetListParams extends Record<string, string | number> {
   search?: string;
 }
 
-export type SelectItem<T = string> = { label: string; value: T };
+export type SelectItem = { label: string; value: string | number };
 export interface ICommandGroup<T = Record<string, any>> {
   heading: SelectItem;
   items: Array<

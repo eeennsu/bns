@@ -15,7 +15,7 @@ interface IParams {
 }
 
 export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
-  const bundleId = +(await params).id;
+  const bundleId = +(await params)?.id;
 
   if (!bundleId) {
     return NextResponse.json({ error: BUNDLE_ERRORS.MISSING_ID }, { status: 400 });
@@ -40,8 +40,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           eq(imageReferences.refTable, IMAGE_REF_VALUES.BUNDLE),
           eq(imageReferences.refId, bundleId),
         ),
-      )
-      .limit(1),
+      ),
     db.select().from(bundleBreads).where(eq(bundleBreads.bundleId, bundleId)),
     db.select().from(bundleSauces).where(eq(bundleSauces.bundleId, bundleId)),
     db.select().from(bundleDishes).where(eq(bundleDishes.bundleId, bundleId)),
@@ -57,7 +56,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
 
   const response = {
     ...foundedBundle,
-    imageFiles: bundleImages ? [bundleImages] : [],
+    imageFiles: bundleImages ?? [],
     productsList: {
       ...(breadsBundles.length > 0 && {
         breads: breadsBundles.map(bread => ({
@@ -86,8 +85,13 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
   return NextResponse.json(setSucResponseItem(response));
 });
 
+// export const PUT = withAuth(async (request: NextRequest, { params }: IParams) => {
+//   const bundleId = +(await params)?.id;
+
+// });
+
 export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
-  const bundleId = +(await params).id;
+  const bundleId = +(await params)?.id;
 
   if (!bundleId) {
     return NextResponse.json({ error: BUNDLE_ERRORS.MISSING_ID }, { status: 400 });

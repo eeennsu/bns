@@ -6,7 +6,7 @@ import { BundleProductGroup } from '@entities/bundle/types';
 import apiGetProductsList from '../apis/getProductsList';
 
 interface IReturn {
-  productsList: BundleProductGroup;
+  allProductsList: BundleProductGroup;
   isLoading: boolean;
 }
 
@@ -16,7 +16,7 @@ const useGetProductList = (): IReturn => {
     queryFn: apiGetProductsList,
   });
 
-  return { productsList: data, isLoading };
+  return { allProductsList: data, isLoading };
 };
 
 export default useGetProductList;

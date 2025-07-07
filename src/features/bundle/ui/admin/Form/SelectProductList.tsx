@@ -48,8 +48,12 @@ const SelectedProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) =>
                   <SelectedProductItem
                     key={item.value}
                     item={item}
-                    updateQuantity={delta => updateQuantity(group.heading.value, item.value, delta)}
-                    removeSelectedItem={() => removeSelectedItem(group.heading.value, item.value)}
+                    updateQuantity={delta =>
+                      updateQuantity(group.heading.value as string, item.value as number, delta)
+                    }
+                    removeSelectedItem={() =>
+                      removeSelectedItem(group.heading.value as string, item.value as number)
+                    }
                   />
                 ))
               ) : (

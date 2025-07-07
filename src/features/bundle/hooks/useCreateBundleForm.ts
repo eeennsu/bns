@@ -55,25 +55,19 @@ const useCreateBundleForm = () => {
     },
   });
 
-  const onSubmit = form.handleSubmit(
-    async (data: BundleFormDto) => {
-      const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BUNDLE);
+  const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
+    const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BUNDLE);
 
-      delete data.imageFiles;
+    delete data.imageFiles;
 
-      if (isNaN(Number(data?.discountedPrice))) {
-        delete data.discountedPrice;
-      }
+    if (isNaN(Number(data?.discountedPrice))) {
+      delete data.discountedPrice;
+    }
 
-      const newData = { ...data, imageIds };
+    const newData = { ...data, imageIds };
 
-      await createBundle(newData);
-    },
-    errors => {
-      console.log(errors);
-      formErrorHandler(errors);
-    },
-  );
+    await createBundle(newData);
+  }, formErrorHandler);
 
   return { form, onSubmit, files, setFiles };
 };

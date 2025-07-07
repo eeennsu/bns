@@ -24,8 +24,8 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     0,
   );
 
+  // form value 세팅
   useEffect(() => {
-    console.log('commandGroups', commandGroups);
     const productsList = selectedProducts.reduce<BundleFormDto['productsList']>((acc, cur) => {
       cur.items.forEach((item, index) => {
         const productKey = getProductName(cur.heading.label as BundleProductLabel);
@@ -35,7 +35,6 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
             id: item.value,
             quantity: item.quantity,
             sortOrder: index + 1,
-            price: item.price ?? 0,
           },
         ];
       });
@@ -57,30 +56,25 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProducts]);
 
+  // selectedProducts state 세팅
   useEffect(() => {
     const selectedItems = commandGroups.map(group => {
-      const existingGroup = selectedProducts.find(g => g.heading.value === group.heading.value);
-
       return {
         heading: group.heading,
         items: group.items
           .filter(item => item.selected)
-          .map(item => {
-            const existingItem = existingGroup?.items.find(i => i.value === item.value);
-            return {
-              ...item,
-              quantity: existingItem?.quantity ?? 1,
-            };
-          }),
+          .map(item => ({
+            ...item,
+            quantity: item.quantity ?? 1,
+          })),
       };
     });
 
     setSelectedProducts(selectedItems);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commandGroups]);
 
-  const deselectItem = (groupKey: string, itemKey: string) => {
+  // command groups 선택 아이템 해제
+  const deselectItem = (groupKey: string, itemKey: number) => {
     setCommandGroups(prev =>
       prev.map(group => {
         if (group.heading.value !== groupKey) return group;
@@ -98,7 +92,19 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     );
   };
 
-  const updateQuantity = (groupKey: string, itemKey: string, delta: number) => {
+  // selectedProducts 아이템 삭제
+  const removeSelectedItem = (groupKey: string, itemKey: number) => {
+    setSelectedProducts(prev =>
+      prev.map(group => {
+        if (group.heading.value !== groupKey) return group;
+        return { ...group, items: group.items.filter(item => item.value !== itemKey) };
+      }),
+    );
+    deselectItem(groupKey, itemKey);
+  };
+
+  // selectedProducts 아이템 수량 업데이트
+  const updateQuantity = (groupKey: string, itemKey: number, delta: number) => {
     let removed = false;
     const updatedSelectedProducts = selectedProducts.map(group => {
       if (group.heading.value !== groupKey) return group;
@@ -128,18 +134,9 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     }
   };
 
-  const removeSelectedItem = (groupKey: string, itemKey: string) => {
-    setSelectedProducts(prev =>
-      prev.map(group => {
-        if (group.heading.value !== groupKey) return group;
-        return { ...group, items: group.items.filter(item => item.value !== itemKey) };
-      }),
-    );
-    deselectItem(groupKey, itemKey);
-  };
-
   return {
     selectedProducts,
+    setSelectedProducts,
     updateQuantity,
     removeSelectedItem,
     allSumPrice,

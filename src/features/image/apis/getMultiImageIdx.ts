@@ -24,6 +24,10 @@ const getMultiImageIds = async <T extends { imageFiles?: any }, D extends { imag
     }
   });
 
+  console.log('existingImages', existingImages);
+  console.log('filesToUpload', filesToUpload);
+
+  return;
   let newUploadedImageIds: IFileImagesWithSortOrder[] = [];
 
   if (filesToUpload.length > 0) {
