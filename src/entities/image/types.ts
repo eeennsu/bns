@@ -5,7 +5,7 @@ import { imageFileSchema, ImageRefValueSchema } from './contracts';
 export type FileWithPreview = File & { id: string; preview: string };
 export type FileWithDropzone = FileWithPreview | IImageFile;
 export interface IFileImagesWithSortOrder {
-  id: string;
+  id: number;
   sortOrder: number;
 }
 
@@ -16,7 +16,7 @@ export interface IUploadImage {
   imageFiles: {
     url: string;
     name: string;
-    order?: number;
+    sortOrder?: number;
   }[];
   refType: ImageRef;
 }

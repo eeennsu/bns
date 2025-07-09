@@ -56,7 +56,7 @@ const useUploadImage = (initialImageFiles: FileWithDropzone[] = []) => {
     const imageFiles = uploadthingResponse.map((uploaded, index) => ({
       url: uploaded.ufsUrl,
       name: uploaded.name,
-      order: index + 1,
+      sortOrder: index + 1,
     }));
 
     imageIds = await uploadImage({

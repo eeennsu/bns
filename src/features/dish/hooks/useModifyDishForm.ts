@@ -75,7 +75,7 @@ const useModifyDish = (dish: IDishItem) => {
       router.replace(ADMIN_PATHS.product.dish.list());
     },
     onError: error => {
-      toast.error(DISH_TOAST_MESSAGES.MODIFY_SUCCESS, { description: axiosErrorHandler(error) });
+      toast.error(DISH_TOAST_MESSAGES.MODIFY_FAILED, { description: axiosErrorHandler(error) });
     },
   });
 

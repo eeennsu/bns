@@ -4,20 +4,28 @@ import apiUploadImage from '../apis/upload';
 import { compressImage } from './compress';
 import { uploadFiles } from './uploadthing';
 
-export const uploadImageAndRegister = async (files: FileWithDropzone[], refType: ImageRef) => {
-  const filesArray: File[] = files.filter(file => file instanceof File);
+export const uploadImageAndRegister = async (
+  filesWithSortOrder: {
+    file: FileWithDropzone;
+    sortOrder?: number;
+  }[],
+  refType: ImageRef,
+) => {
+  const filesArray = filesWithSortOrder.map(item => item.file).filter(file => file instanceof File);
 
+  console.log('filesWithSortOrder', filesWithSortOrder);
+  console.log('filesArray', filesArray);
   const compressedFiles = await Promise.all(filesArray.map(file => compressImage(file)));
 
   if (!compressedFiles) {
     return [];
   }
 
-  const [uploadedImageResponse] = await uploadFiles('imageUploader', {
+  const uploadedImageResponse = await uploadFiles('imageUploader', {
     files: compressedFiles,
   });
 
-  if (!uploadedImageResponse) {
+  if (!uploadedImageResponse || uploadedImageResponse.length === 0) {
     return [];
   }
 
@@ -25,14 +33,15 @@ export const uploadImageAndRegister = async (files: FileWithDropzone[], refType:
 
   try {
     imageIds = await apiUploadImage({
-      imageFiles: [
-        {
-          url: uploadedImageResponse.ufsUrl,
-          name: uploadedImageResponse.name,
-        },
-      ],
+      imageFiles: uploadedImageResponse.map((image, index) => ({
+        url: image.ufsUrl,
+        name: image.name,
+        sortOrder: filesWithSortOrder[index]?.sortOrder || undefined,
+      })),
       refType,
     });
+
+    console.log('imageIds', imageIds);
   } catch (error) {
     console.error('error', error);
     imageIds = [];

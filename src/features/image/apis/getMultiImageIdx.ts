@@ -1,6 +1,7 @@
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { IFileImagesWithSortOrder } from '@entities/image/types';
 
-import { uploadFiles } from '../libs/uploadthing';
+import { uploadImageAndRegister } from '../libs/uploadImageAndRegister';
 
 const getMultiImageIds = async <T extends { imageFiles?: any }, D extends { imageFiles: any[] }>(
   data: T,
@@ -27,19 +28,17 @@ const getMultiImageIds = async <T extends { imageFiles?: any }, D extends { imag
   let newUploadedImageIds: IFileImagesWithSortOrder[] = [];
 
   if (filesToUpload.length > 0) {
-    let uploadResponse: any[];
+    let uploadResponse: number[];
 
     try {
-      uploadResponse = await uploadFiles('imageUploader', {
-        files: filesToUpload.map(f => f.file),
-      });
+      uploadResponse = await uploadImageAndRegister(filesToUpload, IMAGE_REF_VALUES.BUNDLE);
     } catch (error) {
       console.error('getMultiImageIds: ', error);
       throw error;
     }
 
-    newUploadedImageIds = uploadResponse.map((image, i) => ({
-      id: image.serverData.imageId,
+    newUploadedImageIds = uploadResponse.map((imageId, i) => ({
+      id: imageId,
       sortOrder: filesToUpload[i].sortOrder,
     }));
   }

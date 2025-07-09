@@ -58,7 +58,7 @@ const DeleteDialog: FC<IProps> = ({ imageUrl, name, onDelete, isLoading }) => {
                 '삭제'
               )}
             </Button>
-            <Button variant='outline' onClick={() => setIsOpen(false)}>
+            <Button variant='outline' onClick={() => setIsOpen(false)} disabled={isLoading}>
               취소
             </Button>
           </div>

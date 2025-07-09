@@ -66,11 +66,16 @@ const useModifyBundle = (bundle: IBundleItem) => {
   });
 
   const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
-    const updatedImageIds = await getMultiImageIds<BundleFormDto, IBundleItem>(data, bundle);
+    const updatedImageIdsWithSortOrder = await getMultiImageIds<BundleFormDto, IBundleItem>(
+      data,
+      bundle,
+    );
+
+    delete data.imageFiles;
 
     const newData = {
       ...data,
-      imageIds: updatedImageIds,
+      imageIdsWithSortOrder: updatedImageIdsWithSortOrder,
     };
 
     await modifyBundle({

@@ -28,8 +28,12 @@ export const IMAGE_ERRORS = {
   MISSING_FILE_DATA: '파일 데이터가 없습니다.',
   MISSING_REF_TABLE_TYPE: '이미지 파일이 참조될 데이터 타입이 없습니다.',
   FAILED_SAVE: '업로드된 이미지 저장에 실패하였습니다.',
+  FAILED_GET_EXISTING_IMAGE_REFS: '찾을 이미지가 존재하지 않습니다.',
+  FAILED_GET_DELETED_IMAGES: '삭제될 이미지를 찾는 데 실패하였습니다.',
   FAILED_UPDATE_IMAGE_DATAS: '이미지 데이터 업데이트에 실패하였습니다.',
   FAILED_DELETE_IMAGE_DATAS: '이미지 데이터 삭제에 실패하였습니다.',
+  FAILED_UPDATE_IMAGE_REF_ID: '이미지 참조 ID 업데이트에 실패하였습니다.',
+  FAILED_UPDATE_SORT_ODER: '이미지 정렬 순서 업데이트에 실패하였습니다.',
 };
 
 export const BREAD_ERRORS = {

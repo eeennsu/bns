@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
-import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
+import { deleteImageWithItem, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -109,10 +109,10 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
   }
 
   try {
-    await updateImageReference({
+    await updateSingleImageReference({
       refTable: IMAGE_REF_VALUES.DISH,
       refId: dishId,
-      imageIds: [imageId],
+      imageId,
     });
   } catch (error) {
     console.log(error);

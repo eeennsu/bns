@@ -8,7 +8,7 @@ import { OrderByType, WithImageIds } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@shared/consts/commons';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
-import { and, asc, count, desc, eq, ilike, inArray } from 'drizzle-orm';
+import { and, asc, count, desc, eq, ilike, inArray, isNull } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { BundleFormDto } from '@entities/bundle/types';
@@ -140,13 +140,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .where(
         and(
-          inArray(
-            imageReferences.imageId,
-            imageIds.map(image => image.id),
-          ),
           eq(imageReferences.refTable, IMAGE_REF_VALUES.BUNDLE),
+          isNull(imageReferences.refId),
+          inArray(imageReferences.imageId, imageIds),
         ),
-      );
+      )
+      .returning();
 
     return NextResponse.json(setSucResponseItem(newBundle), { status: 201 });
   } catch (error) {

@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
-import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
+import { deleteImageWithItem, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
@@ -121,10 +121,10 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
   }
 
   try {
-    await updateImageReference({
+    await updateSingleImageReference({
       refTable: IMAGE_REF_VALUES.EVENT,
       refId: eventId,
-      imageIds: [imageId],
+      imageId,
     });
   } catch (error) {
     console.log(error);

@@ -20,7 +20,9 @@ const getImageId = async <T extends { imageFiles?: any }, D extends { imageFiles
   if (isSameFile) {
     imageId = existFile.id;
   } else {
-    imageId = await uploadImageAndRegister(data.imageFiles, type).then(imageIds => imageIds.at(0));
+    imageId = await uploadImageAndRegister([{ file: newFile }], type).then(imageIds =>
+      imageIds.at(0),
+    );
 
     if (!imageId) {
       return null;

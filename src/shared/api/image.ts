@@ -1,86 +1,207 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, inArray, isNull } from 'drizzle-orm';
 
 import { deleteUploadthingFile } from '@app/api/upload/utapi';
 
-import { ImageRef } from '@entities/image/types';
+import { IFileImagesWithSortOrder, ImageRef } from '@entities/image/types';
 
-interface IParams {
+import { IMAGE_ERRORS } from './errorMessage';
+
+interface IDeleteImageWithItemParams {
   refTable: ImageRef;
   refId: number;
 }
 
-export const deleteImageWithItem = async ({ refTable, refId }: IParams) => {
-  const [imageRef] = await db
+export const deleteImageWithItem = async ({ refTable, refId }: IDeleteImageWithItemParams) => {
+  const imageRefs = await db
     .select()
-    .from(imageReferences)
-    .where(and(eq(imageReferences.refTable, refTable), eq(imageReferences.refId, refId)))
-    .limit(1);
-
-  if (!imageRef) return;
-
-  const [image] = await db
-    .select({ id: images.id, url: images.url })
-    .from(images)
-    .where(eq(images.id, imageRef.imageId))
-    .limit(1);
-
-  if (image?.url) {
-    void deleteUploadthingFile(image.url);
-  }
-
-  await Promise.all([
-    db.delete(imageReferences).where(eq(imageReferences.id, imageRef.id)),
-    db.delete(images).where(eq(images.id, imageRef.imageId)),
-  ]);
-};
-
-interface IUpdateImageRefParams {
-  refTable: string;
-  refId: number;
-  imageIds: number[];
-}
-
-export const updateImageReference = async ({
-  refTable,
-  refId,
-  imageIds,
-}: IUpdateImageRefParams) => {
-  const existingImageRefS = await db
-    .select({
-      id: imageReferences.id,
-      imageId: imageReferences.imageId,
-    })
     .from(imageReferences)
     .where(and(eq(imageReferences.refTable, refTable), eq(imageReferences.refId, refId)));
 
-  const existingImageIds = existingImageRefS.map(imageRef => imageRef.imageId);
+  if (!imageRefs || imageRefs.length === 0) return;
 
-  const toDeleteImageIds = existingImageRefS.filter(
-    imageRef => !imageIds.includes(imageRef.imageId),
-  );
-  const toInsertImageIds = imageIds.filter(imageId => !existingImageIds.includes(imageId));
+  const imageIds = imageRefs.map(ref => ref.imageId);
+  const imageRefIds = imageRefs.map(ref => ref.id);
 
-  await Promise.all(
-    toDeleteImageIds.map(async ref => {
-      const [img] = await db.select().from(images).where(eq(images.id, ref.imageId)).limit(1);
-      if (img?.url) {
-        void deleteUploadthingFile(img.url);
-      }
-
-      await db.delete(imageReferences).where(eq(imageReferences.id, ref.id));
-      await db.delete(images).where(eq(images.id, ref.imageId));
-    }),
-  );
+  const imagesToDelete = await db
+    .select({ id: images.id, url: images.url })
+    .from(images)
+    .where(inArray(images.id, imageIds));
 
   await Promise.all(
-    toInsertImageIds.map(imageId =>
-      db.insert(imageReferences).values({
-        refTable,
-        refId,
-        imageId,
-      }),
-    ),
+    imagesToDelete.map(image => image?.url && deleteUploadthingFile(image.url)).filter(Boolean),
   );
+
+  await Promise.all([
+    db.delete(imageReferences).where(inArray(imageReferences.id, imageRefIds)),
+    db.delete(images).where(inArray(images.id, imageIds)),
+  ]);
+};
+
+interface IUpdateSingleImageRefParams {
+  refTable: string;
+  refId: number;
+  imageId: number;
+}
+
+export const updateSingleImageReference = async ({
+  imageId,
+  refId,
+  refTable,
+}: IUpdateSingleImageRefParams) => {
+  const [existingImageReference] = await db
+    .select()
+    .from(imageReferences)
+    .where(and(eq(imageReferences.refTable, refTable), eq(imageReferences.refId, refId)));
+
+  if (existingImageReference && existingImageReference.imageId !== imageId) {
+    const [existingImage] = await db
+      .select({ id: images.id, url: images.url })
+      .from(images)
+      .where(eq(images.id, existingImageReference.imageId))
+      .limit(1);
+
+    if (existingImage?.url) {
+      void deleteUploadthingFile(existingImage.url);
+    }
+
+    await Promise.all([
+      db.delete(imageReferences).where(eq(imageReferences.id, existingImageReference.id)),
+      db.delete(images).where(eq(images.id, existingImageReference.imageId)),
+    ]);
+  }
+
+  // 신규로 들어온 이미지에 refId 세팅
+  await db
+    .update(imageReferences)
+    .set({ refId })
+    .where(
+      and(
+        eq(imageReferences.imageId, imageId),
+        eq(imageReferences.refTable, refTable),
+        isNull(imageReferences.refId),
+      ),
+    );
+};
+
+interface IUpdateMultiImageRefParams {
+  refTable: string;
+  refId: number;
+  imageIdsWithSortOrder: IFileImagesWithSortOrder[];
+}
+
+export const updateMultiImageReference = async ({
+  refTable,
+  refId,
+  imageIdsWithSortOrder,
+}: IUpdateMultiImageRefParams) => {
+  const incomingImageIds = imageIdsWithSortOrder.map(img => img.id);
+
+  let existingImageReferences;
+
+  try {
+    existingImageReferences = await db
+      .select({
+        id: imageReferences.id,
+        imageId: imageReferences.imageId,
+        sortOrder: imageReferences.sortOrder,
+      })
+      .from(imageReferences)
+      .where(and(eq(imageReferences.refTable, refTable), eq(imageReferences.refId, refId)));
+  } catch (error) {
+    console.error(error);
+    throw new Error(IMAGE_ERRORS.FAILED_GET_EXISTING_IMAGE_REFS);
+  }
+
+  const deletedImageRefIds = existingImageReferences.filter(
+    imageRef => !incomingImageIds.includes(imageRef.imageId),
+  );
+  const toInserts = imageIdsWithSortOrder.filter(
+    img => !existingImageReferences.some(ref => ref.imageId === img.id),
+  );
+
+  const deleteImageRefIds = deletedImageRefIds.map(ref => ref.id);
+  const deletedImageIds = deletedImageRefIds.map(ref => ref.imageId);
+
+  let imagesToDelete;
+
+  try {
+    imagesToDelete = await db
+      .select({ id: images.id, url: images.url })
+      .from(images)
+      .where(inArray(images.id, deletedImageIds));
+  } catch (error) {
+    console.error(error);
+    throw new Error(IMAGE_ERRORS.FAILED_GET_DELETED_IMAGES);
+  }
+
+  if (imagesToDelete.length > 0) {
+    try {
+      await Promise.all(
+        imagesToDelete
+          .map(image => {
+            if (image?.url) return deleteUploadthingFile(image.url) || null;
+          })
+          .filter(Boolean),
+      );
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      await Promise.all([
+        db.delete(imageReferences).where(inArray(imageReferences.id, deleteImageRefIds)),
+        db.delete(images).where(inArray(images.id, deletedImageIds)),
+      ]);
+    } catch (error) {
+      console.error(error);
+      throw new Error(IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS);
+    }
+  }
+
+  const toUpdateSortOrders = imageIdsWithSortOrder.filter(img => {
+    const existing = existingImageReferences.find(ref => ref.imageId === img.id);
+    return existing && existing.sortOrder !== img.sortOrder;
+  });
+
+  if (toUpdateSortOrders.length > 0) {
+    try {
+      await Promise.all(
+        toUpdateSortOrders.map(({ id, sortOrder }) =>
+          db
+            .update(imageReferences)
+            .set({
+              sortOrder,
+            })
+            .where(and(eq(imageReferences.imageId, id), eq(imageReferences.refTable, refTable))),
+        ),
+      );
+    } catch (error) {
+      console.error(error);
+      throw new Error(IMAGE_ERRORS.FAILED_UPDATE_SORT_ODER);
+    }
+  }
+
+  if (toInserts.length > 0) {
+    try {
+      await Promise.all(
+        toInserts.map(img =>
+          db
+            .update(imageReferences)
+            .set({ refId })
+            .where(
+              and(
+                eq(imageReferences.imageId, img.id),
+                eq(imageReferences.refTable, refTable),
+                isNull(imageReferences.refId),
+              ),
+            ),
+        ),
+      );
+    } catch (error) {
+      console.error(error);
+      throw new Error(IMAGE_ERRORS.FAILED_UPDATE_IMAGE_REF_ID);
+    }
+  }
 };

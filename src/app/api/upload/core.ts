@@ -12,9 +12,7 @@ export const ourFileRouter = {
     .onUploadError(({ error }) => {
       throw error;
     })
-    .onUploadComplete(res => {
-      console.log('res.file', res.file);
-    }),
+    .onUploadComplete(() => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

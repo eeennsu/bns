@@ -7,7 +7,7 @@ export const imageFileSchema = z.object({
   name: z.string(),
   url: z.string().optional(),
   preview: z.string().optional(),
-  order: z.number().optional(),
+  sortOrder: z.number().optional(),
   lastModified: z.number().optional(),
 });
 

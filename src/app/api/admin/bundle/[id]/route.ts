@@ -2,9 +2,9 @@ import db from '@db/index';
 import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
 import { imageReferences, images } from '@db/schemas/image';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
-import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
+import { deleteImageWithItem, updateMultiImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
-import { WithImageIds } from '@shared/api/typings';
+import { WithImageIdsSortOrder } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -37,6 +37,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: images.id,
           url: images.url,
           name: images.name,
+          sortOrder: imageReferences.sortOrder,
         })
         .from(imageReferences)
         .innerJoin(images, eq(imageReferences.imageId, images.id))
@@ -52,7 +53,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     ]);
 
     const [foundedBundle] = bundleResult;
-    const bundleImages = imageResult;
+    const bundleImages = imageResult?.sort((prev, next) => prev?.sortOrder - next?.sortOrder);
     const [breadsBundles, sauceBundles, dishBundles] = productsResult;
 
     if (!foundedBundle) {
@@ -105,8 +106,8 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return NextResponse.json({ error: BUNDLE_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const body = (await request.json()) as Partial<WithImageIds<BundleFormDto>>;
-  const imageIdsWithSortOrder = body?.imageIds;
+  const body = (await request.json()) as Partial<WithImageIdsSortOrder<BundleFormDto>>;
+  const imageIdsWithSortOrder = body?.imageIdsWithSortOrder;
 
   if (!imageIdsWithSortOrder) {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
@@ -180,10 +181,10 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
   }
 
   try {
-    await updateImageReference({
+    await updateMultiImageReference({
       refTable: IMAGE_REF_VALUES.BUNDLE,
       refId: bundleId,
-      imageIds: imageIdsWithSortOrder.map(image => image.id),
+      imageIdsWithSortOrder,
     });
   } catch (error) {
     console.log(error);

@@ -19,15 +19,18 @@ export const POST = withAuth(async (request: NextRequest) => {
   let imageIds: number[];
 
   try {
-    const imageRows = await db.insert(images).values(imageFiles).returning();
+    const imageRows = await db
+      .insert(images)
+      .values(imageFiles.map(image => ({ name: image.name, url: image.url })))
+      .returning();
     const imagesWithOrder = imageRows.map((row, i) => {
       const base = {
         imageId: row.id,
         refTable: refType,
       };
 
-      const order = imageFiles.at(i)?.order;
-      return order !== undefined ? { ...base, sortOrder: order } : base;
+      const sortOrder = imageFiles.at(i)?.sortOrder;
+      return sortOrder !== undefined ? { ...base, sortOrder } : base;
     });
 
     await db.insert(imageReferences).values(imagesWithOrder);
