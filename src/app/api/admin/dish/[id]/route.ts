@@ -1,6 +1,7 @@
 import db from '@db/index';
 import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
+import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
@@ -133,6 +134,17 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return NextResponse.json({ error: DISH_ERRORS.INVALID_ID }, { status: 400 });
   }
 
+  const linkedBundles = await getLinkedBundlesByProduct(dishId, 'dish');
+  if (linkedBundles.length > 0) {
+    const names = linkedBundles.map(b => b.name).join(', ');
+    return NextResponse.json(
+      {
+        error: `세트 구성 상품 (${names})에 포함되어있습니다. 해당 세트 구성의 품목을 먼저 삭제해주세요.`,
+      },
+      { status: 400 },
+    );
+  }
+
   try {
     const [foundedDish] = await db.select().from(dishes).where(eq(dishes.id, dishId)).limit(1);
 
@@ -148,6 +160,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     await db.delete(dishes).where(eq(dishes.id, dishId));
   } catch (error) {
     console.log(error);
+
     return NextResponse.json({ error: DISH_ERRORS.DELETE_FAILED }, { status: 500 });
   }
 

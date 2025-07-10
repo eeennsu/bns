@@ -21,6 +21,7 @@ const useDeleteBundleListItem = () => {
       removeQueryItem(deletedId);
     },
     onError: error => {
+      console.log('error', error);
       toast.error(BUNDLE_TOAST_MESSAGES.DELETE_FAILED, { description: axiosErrorHandler(error) });
     },
   });

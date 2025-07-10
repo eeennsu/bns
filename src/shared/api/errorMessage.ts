@@ -99,4 +99,6 @@ export const BUNDLE_ERRORS = {
   MISSING_ID: '상세 아이디가 없습니다.',
   INVALID_ID: '잘못된 상세 아이디입니다.',
   NOT_FOUND_BUNDLE: '존재하지 않는 세트 구성입니다.',
+  LINKED_TO_BUNDLE:
+    '삭제할 상품이, 특정 세트 구성에 포함되어있습니다. 해당 세트 구성의 품목을 먼저 삭제해주세요.',
 };

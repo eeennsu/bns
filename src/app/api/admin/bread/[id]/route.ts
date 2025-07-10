@@ -1,6 +1,7 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences, images } from '@db/schemas/image';
+import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { WithImageId } from '@shared/api/typings';
@@ -135,6 +136,17 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
 
   if (isNaN(breadId)) {
     return NextResponse.json({ error: BREAD_ERRORS.INVALID_ID }, { status: 400 });
+  }
+
+  const linkedBundles = await getLinkedBundlesByProduct(breadId, 'bread');
+  if (linkedBundles.length > 0) {
+    const names = linkedBundles.map(b => b.name).join(', ');
+    return NextResponse.json(
+      {
+        error: `세트 구성 상품 (${names})에 포함되어있습니다. 해당 세트 구성의 품목을 먼저 삭제해주세요.`,
+      },
+      { status: 400 },
+    );
   }
 
   try {

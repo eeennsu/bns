@@ -1,8 +1,8 @@
 import db from '@db/index';
-import { bundleBreads, bundleDishes, bundleSauces } from '@db/schemas/bundles';
+import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
 import { and, eq } from 'drizzle-orm';
 
-import { BundleFormDto } from '@entities/bundle/types';
+import { BundleFormDto, BundleProductValue } from '@entities/bundle/types';
 
 const compareAndUpdate = async <
   T extends { id?: number | string; quantity?: number; sortOrder?: number },
@@ -100,4 +100,34 @@ export const updateBundleProductsDiff = async (
     dishes,
     bundleId,
   );
+};
+
+export const getLinkedBundlesByProduct = async (productId: number, type: BundleProductValue) => {
+  let joinTable;
+  let productIdKey;
+
+  switch (type) {
+    case 'bread':
+      joinTable = bundleBreads;
+      productIdKey = 'breadId';
+      break;
+    case 'sauce':
+      joinTable = bundleSauces;
+      productIdKey = 'sauceId';
+      break;
+    case 'dish':
+      joinTable = bundleDishes;
+      productIdKey = 'dishId';
+      break;
+    default:
+      throw new Error('Invalid product type');
+  }
+
+  const linkedBundles = await db
+    .select({ id: bundles.id, name: bundles.name })
+    .from(joinTable)
+    .innerJoin(bundles, eq(joinTable.bundleId, bundles.id))
+    .where(eq(joinTable[productIdKey], productId));
+
+  return linkedBundles;
 };

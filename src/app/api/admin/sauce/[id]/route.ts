@@ -1,6 +1,7 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
+import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
@@ -130,6 +131,17 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
 
   if (isNaN(sauceId)) {
     return NextResponse.json({ error: SAUCE_ERRORS.INVALID_ID }, { status: 400 });
+  }
+
+  const linkedBundles = await getLinkedBundlesByProduct(sauceId, 'sauce');
+  if (linkedBundles.length > 0) {
+    const names = linkedBundles.map(b => b.name).join(', ');
+    return NextResponse.json(
+      {
+        error: `세트 구성 상품 (${names})에 포함되어있습니다. 해당 세트 구성의 품목을 먼저 삭제해주세요.`,
+      },
+      { status: 400 },
+    );
   }
 
   try {
