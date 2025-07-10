@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
-import { deleteImageWithItem, updateSingleImageReference } from '@shared/api/image';
+import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -152,7 +152,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   }
 
   try {
-    await deleteImageWithItem({
+    await deleteImage({
       refTable: IMAGE_REF_VALUES.EVENT,
       refId: dishId,
     });

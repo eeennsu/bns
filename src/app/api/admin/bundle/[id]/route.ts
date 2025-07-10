@@ -1,8 +1,9 @@
 import db from '@db/index';
 import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
 import { imageReferences, images } from '@db/schemas/image';
+import { updateBundleProductsDiff } from '@shared/api/bundle';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
-import { deleteImageWithItem, updateMultiImageReference } from '@shared/api/image';
+import { deleteImage, updateMultiImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { WithImageIdsSortOrder } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
@@ -138,48 +139,14 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
   // update bundle products
   try {
     if (productsList) {
-      // 2. 기존 제품 연결 삭제
-      await Promise.all([
-        db.delete(bundleBreads).where(eq(bundleBreads.bundleId, bundleId)),
-        db.delete(bundleSauces).where(eq(bundleSauces.bundleId, bundleId)),
-        db.delete(bundleDishes).where(eq(bundleDishes.bundleId, bundleId)),
-      ]);
-
-      const breadsToInsert =
-        productsList?.breads?.map(bread => ({
-          bundleId,
-          breadId: Number(bread.id),
-          quantity: bread.quantity,
-          sortOrder: bread?.sortOrder,
-        })) ?? [];
-
-      const saucesToInsert =
-        productsList?.sauces?.map(sauce => ({
-          bundleId,
-          sauceId: Number(sauce.id),
-          quantity: sauce.quantity,
-          sortOrder: sauce.sortOrder,
-        })) ?? [];
-
-      const dishesToInsert =
-        productsList?.dishes?.map(dish => ({
-          bundleId,
-          dishId: Number(dish.id),
-          quantity: dish.quantity,
-          sortOrder: dish.sortOrder,
-        })) ?? [];
-
-      await Promise.all([
-        breadsToInsert.length > 0 ? db.insert(bundleBreads).values(breadsToInsert) : null,
-        saucesToInsert.length > 0 ? db.insert(bundleSauces).values(saucesToInsert) : null,
-        dishesToInsert.length > 0 ? db.insert(bundleDishes).values(dishesToInsert) : null,
-      ]);
+      await updateBundleProductsDiff(bundleId, productsList);
     }
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED }, { status: 500 });
   }
 
+  // update image
   try {
     await updateMultiImageReference({
       refTable: IMAGE_REF_VALUES.BUNDLE,
@@ -264,7 +231,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   }
 
   try {
-    await deleteImageWithItem({
+    await deleteImage({
       refTable: IMAGE_REF_VALUES.BUNDLE,
       refId: bundleId,
     });

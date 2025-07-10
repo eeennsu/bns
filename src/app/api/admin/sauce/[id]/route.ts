@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { deleteImageWithItem, updateSingleImageReference } from '@shared/api/image';
+import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -78,7 +78,6 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
   }
 
   const body = await req.json();
-  console.log('body', body);
   const imageId = body?.imageId;
 
   if (!imageId) {
@@ -152,7 +151,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   }
 
   try {
-    await deleteImageWithItem({
+    await deleteImage({
       refTable: IMAGE_REF_VALUES.SAUCE,
       refId: sauceId,
     });

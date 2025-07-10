@@ -8,12 +8,12 @@ import { IFileImagesWithSortOrder, ImageRef } from '@entities/image/types';
 
 import { IMAGE_ERRORS } from './errorMessage';
 
-interface IDeleteImageWithItemParams {
+interface IDeleteImageParams {
   refTable: ImageRef;
   refId: number;
 }
 
-export const deleteImageWithItem = async ({ refTable, refId }: IDeleteImageWithItemParams) => {
+export const deleteImage = async ({ refTable, refId }: IDeleteImageParams) => {
   const imageRefs = await db
     .select()
     .from(imageReferences)
@@ -56,33 +56,54 @@ export const updateSingleImageReference = async ({
     .where(and(eq(imageReferences.refTable, refTable), eq(imageReferences.refId, refId)));
 
   if (existingImageReference && existingImageReference.imageId !== imageId) {
-    const [existingImage] = await db
-      .select({ id: images.id, url: images.url })
-      .from(images)
-      .where(eq(images.id, existingImageReference.imageId))
-      .limit(1);
+    let existingImage;
 
-    if (existingImage?.url) {
-      void deleteUploadthingFile(existingImage.url);
+    try {
+      [existingImage] = await db
+        .select({ id: images.id, url: images.url })
+        .from(images)
+        .where(eq(images.id, existingImageReference.imageId))
+        .limit(1);
+    } catch (error) {
+      console.error(error);
+      throw new Error(IMAGE_ERRORS.FAILED_GET_EXISTING_IMAGE);
     }
 
-    await Promise.all([
-      db.delete(imageReferences).where(eq(imageReferences.id, existingImageReference.id)),
-      db.delete(images).where(eq(images.id, existingImageReference.imageId)),
-    ]);
+    if (existingImage?.url) {
+      try {
+        void deleteUploadthingFile(existingImage.url);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    try {
+      await Promise.all([
+        db.delete(imageReferences).where(eq(imageReferences.id, existingImageReference.id)),
+        db.delete(images).where(eq(images.id, existingImageReference.imageId)),
+      ]);
+    } catch (error) {
+      console.error(error);
+      throw new Error(IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS);
+    }
   }
 
   // 신규로 들어온 이미지에 refId 세팅
-  await db
-    .update(imageReferences)
-    .set({ refId })
-    .where(
-      and(
-        eq(imageReferences.imageId, imageId),
-        eq(imageReferences.refTable, refTable),
-        isNull(imageReferences.refId),
-      ),
-    );
+  try {
+    await db
+      .update(imageReferences)
+      .set({ refId })
+      .where(
+        and(
+          eq(imageReferences.imageId, imageId),
+          eq(imageReferences.refTable, refTable),
+          isNull(imageReferences.refId),
+        ),
+      );
+  } catch (error) {
+    console.error(error);
+    throw new Error(IMAGE_ERRORS.FAILED_UPDATE_IMAGE_REF_ID);
+  }
 };
 
 interface IUpdateMultiImageRefParams {

@@ -19,18 +19,18 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
 
   const [selectedProducts, setSelectedProducts] = useState<ICommandGroupBundle[]>([]);
 
-  const allSumPrice = selectedProducts.reduce(
-    (acc, cur) => acc + cur.items.reduce((a, c) => a + c.price * c.quantity, 0),
-    0,
-  );
+  const calculateTotalPrice = (products: ICommandGroupBundle[]) =>
+    products.reduce(
+      (acc, group) => acc + group.items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      0,
+    );
 
-  // form value 세팅
-  useEffect(() => {
-    const productsList = selectedProducts.reduce<BundleFormDto['productsList']>((acc, cur) => {
-      cur.items.forEach((item, index) => {
-        const productKey = getProductName(cur.heading.label as BundleProductLabel);
-        acc[productKey] = [
-          ...(acc[productKey] ?? []),
+  const toFormProductsList = (products: ICommandGroupBundle[]): BundleFormDto['productsList'] => {
+    return products.reduce<BundleFormDto['productsList']>((acc, group) => {
+      group.items.forEach((item, index) => {
+        const key = getProductName(group.heading.label as BundleProductLabel);
+        acc[key] = [
+          ...(acc[key] ?? []),
           {
             id: item.value,
             quantity: item.quantity,
@@ -40,98 +40,96 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
       });
       return acc;
     }, {});
+  };
 
-    setValue('productsList', productsList);
-    setValue('price', allSumPrice);
+  const syncForm = (updated: ICommandGroupBundle[]) => {
+    const productsList = toFormProductsList(updated);
+    const total = calculateTotalPrice(updated);
 
-    const isProductValid =
-      Object.values(productsList)
-        .flat()
-        .reduce((sum, item) => sum + item.quantity, 0) >= 2;
+    setValue('productsList', productsList, { shouldDirty: true });
+    setValue('price', total, { shouldDirty: true });
 
-    if (errors?.productsList && isProductValid) {
+    const totalQuantity = Object.values(productsList)
+      .flat()
+      .reduce((sum, item) => sum + item.quantity, 0);
+
+    if (errors.productsList && totalQuantity >= 2) {
       clearErrors('productsList');
     }
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProducts]);
-
-  // selectedProducts state 세팅
   useEffect(() => {
-    const selectedItems = commandGroups.map(group => {
-      return {
-        heading: group.heading,
-        items: group.items
-          .filter(item => item.selected)
-          .map(item => ({
-            ...item,
-            quantity: item.quantity ?? 1,
-          })),
-      };
-    });
+    const selected = commandGroups.map(group => ({
+      heading: group.heading,
+      items: group.items
+        .filter(item => item.selected)
+        .map(item => ({
+          ...item,
+          quantity: item.quantity ?? 1,
+        })),
+    }));
 
-    setSelectedProducts(selectedItems);
+    setSelectedProducts(selected);
+    syncForm(selected);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commandGroups]);
 
-  // command groups 선택 아이템 해제
-  const deselectItem = (groupKey: string, itemKey: number) => {
+  const deselectCommandGroups = (groupKey: string, itemKey: number) => {
     setCommandGroups(prev =>
-      prev.map(group => {
-        if (group.heading.value !== groupKey) return group;
-
-        return {
-          ...group,
-          items: group.items.map(item => {
-            if (item.value !== itemKey) return item;
-            const updated = { ...item };
-            delete updated.selected;
-            return updated;
-          }),
-        };
-      }),
+      prev.map(group =>
+        group.heading.value !== groupKey
+          ? group
+          : {
+              ...group,
+              items: group.items.map(item =>
+                item.value !== itemKey ? item : { ...item, selected: undefined },
+              ),
+            },
+      ),
     );
   };
 
-  // selectedProducts 아이템 삭제
   const removeSelectedItem = (groupKey: string, itemKey: number) => {
-    setSelectedProducts(prev =>
-      prev.map(group => {
-        if (group.heading.value !== groupKey) return group;
-        return { ...group, items: group.items.filter(item => item.value !== itemKey) };
-      }),
+    const updated = selectedProducts.map(group =>
+      group.heading.value !== groupKey
+        ? group
+        : { ...group, items: group.items.filter(item => item.value !== itemKey) },
     );
-    deselectItem(groupKey, itemKey);
+
+    setSelectedProducts(updated);
+    syncForm(updated);
+    deselectCommandGroups(groupKey, itemKey);
   };
 
-  // selectedProducts 아이템 수량 업데이트
   const updateQuantity = (groupKey: string, itemKey: number, delta: number) => {
     let removed = false;
-    const updatedSelectedProducts = selectedProducts.map(group => {
+
+    const updated = selectedProducts.map(group => {
       if (group.heading.value !== groupKey) return group;
 
-      const updatedItems = group.items.reduce((acc, cur) => {
-        if (cur.value !== itemKey) {
-          acc.push(cur);
+      const items = group.items.reduce(
+        (acc, item) => {
+          if (item.value !== itemKey) {
+            acc.push(item);
+          } else {
+            const newQuantity = item.quantity + delta;
+            if (newQuantity > 0) {
+              acc.push({ ...item, quantity: newQuantity });
+            } else {
+              removed = true;
+            }
+          }
           return acc;
-        }
+        },
+        [] as typeof group.items,
+      );
 
-        const newQuantity = cur.quantity + delta;
-        if (newQuantity > 0) {
-          acc.push({ ...cur, quantity: newQuantity });
-        } else {
-          removed = true;
-        }
-        return acc;
-      }, []);
-
-      return { ...group, items: updatedItems };
+      return { ...group, items };
     });
 
-    setSelectedProducts(updatedSelectedProducts);
-
-    if (removed) {
-      deselectItem(groupKey, itemKey);
-    }
+    setSelectedProducts(updated);
+    syncForm(updated);
+    if (removed) deselectCommandGroups(groupKey, itemKey);
   };
 
   return {
@@ -139,7 +137,7 @@ const useSelectProductList = ({ commandGroups, setCommandGroups }: IParams) => {
     setSelectedProducts,
     updateQuantity,
     removeSelectedItem,
-    allSumPrice,
+    allSumPrice: calculateTotalPrice(selectedProducts),
   };
 };
 

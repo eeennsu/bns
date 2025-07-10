@@ -34,6 +34,8 @@ export const IMAGE_ERRORS = {
   FAILED_DELETE_IMAGE_DATAS: '이미지 데이터 삭제에 실패하였습니다.',
   FAILED_UPDATE_IMAGE_REF_ID: '이미지 참조 ID 업데이트에 실패하였습니다.',
   FAILED_UPDATE_SORT_ODER: '이미지 정렬 순서 업데이트에 실패하였습니다.',
+  FAILED_GET_EXISTING_IMAGE: '이미지 찾기에 실패하였습니다.',
+  FAILED_DELETE_UPLOADTHING_FILE: '업로드 파일 삭제에 실패하였습니다.',
 };
 
 export const BREAD_ERRORS = {

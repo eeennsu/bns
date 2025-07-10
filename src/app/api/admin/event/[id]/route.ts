@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
-import { deleteImageWithItem, updateSingleImageReference } from '@shared/api/image';
+import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
@@ -164,7 +164,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   }
 
   try {
-    await deleteImageWithItem({
+    await deleteImage({
       refTable: IMAGE_REF_VALUES.EVENT,
       refId: eventId,
     });
