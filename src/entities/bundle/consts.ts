@@ -42,6 +42,10 @@ export const BUNDLE_COMMAND_GROUP_HEADINGS = [
     label: '디쉬',
     value: 'dish',
   },
+  {
+    label: '음료',
+    value: 'drink',
+  },
 ] as const;
 
 export const ORDER_BY_SELECT = [

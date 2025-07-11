@@ -57,6 +57,11 @@ export const ADMIN_MENUS: IAdminMenuRoute[][] = [
       menuName: '디쉬 전체 목록',
       order: 1,
     },
+    {
+      path: ADMIN_PATHS.product.drink.list(),
+      menuName: '음료 전체 목록',
+      order: 1,
+    },
   ],
   [
     {

@@ -61,6 +61,17 @@ export const SAUCE_ERRORS = {
   NOT_FOUND_SAUCE: '존재하지 않는 소스입니다.',
 };
 
+export const DRINK_ERRORS = {
+  GET_FAILED: '음료 조회에 실패했습니다.',
+  GET_LIST_FAILED: '음료 목록 조회에 실패했습니다.',
+  CREATE_FAILED: '음료 생성에 실패했습니다.',
+  MODIFY_FAILED: '음료 수정에 실패했습니다.',
+  DELETE_FAILED: '음료 삭제에 실패했습니다.',
+  MISSING_ID: '상세 아이디가 없습니다.',
+  INVALID_ID: '잘못된 상세 아이디입니다.',
+  NOT_FOUND_DRINK: '존재하지 않는 음료입니다.',
+};
+
 export const EVENT_ERRORS = {
   GET_FAILED: '이벤트 조회에 실패했습니다.',
   GET_LIST_FAILED: '이벤트 목록 조회에 실패했습니다.',

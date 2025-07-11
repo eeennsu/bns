@@ -4,6 +4,7 @@ import { pgTable, varchar, integer, index, unique, serial } from 'drizzle-orm/pg
 import { AUDIT_COLUMNS, SORT_ORDER_COLUMN, STRING_LENGTH } from '../consts/commons';
 import { breads } from './breads';
 import { dishes } from './dishes';
+import { drinks } from './drinks';
 import { sauces } from './sauces';
 
 export const bundles = pgTable(
@@ -84,10 +85,32 @@ export const bundleDishes = pgTable(
   ],
 );
 
+export const bundleDrinks = pgTable(
+  'bundle_drinks',
+  {
+    id: serial('id').primaryKey(),
+    bundleId: integer('bundle_id')
+      .notNull()
+      .references(() => bundles.id, { onDelete: 'restrict' }),
+    drinkId: integer('drink_id')
+      .notNull()
+      .references(() => drinks.id),
+    sortOrder: SORT_ORDER_COLUMN,
+    quantity: integer('quantity').notNull(),
+    createdAt: AUDIT_COLUMNS.createdAt,
+  },
+  t => [
+    index('bundle_drinks_bundle_id_idx').on(t.bundleId),
+    index('bundle_drinks_drink_id_idx').on(t.drinkId),
+    unique('bundle_drinks_unique_pair_idx').on(t.bundleId, t.drinkId),
+  ],
+);
+
 export const bundlesRelations = relations(bundles, ({ many }) => ({
   breads: many(bundleBreads),
   sauces: many(bundleSauces),
   dishes: many(bundleDishes),
+  drinks: many(bundleDrinks),
 }));
 
 export const bundleBreadsRelations = relations(bundleBreads, ({ one }) => ({
@@ -120,5 +143,16 @@ export const bundleDishesRelations = relations(bundleDishes, ({ one }) => ({
   dish: one(dishes, {
     fields: [bundleDishes.dishId],
     references: [dishes.id],
+  }),
+}));
+
+export const bundleDrinksRelations = relations(bundleDrinks, ({ one }) => ({
+  bundle: one(bundles, {
+    fields: [bundleDrinks.bundleId],
+    references: [bundles.id],
+  }),
+  drink: one(drinks, {
+    fields: [bundleDrinks.drinkId],
+    references: [drinks.id],
   }),
 }));
