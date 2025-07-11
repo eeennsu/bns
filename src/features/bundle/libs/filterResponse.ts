@@ -66,5 +66,11 @@ export const filterProductsResponse = (response: IServerResponseItem): BundlePro
         price: item?.price || 0,
         sortOrder: index + 1,
       })) || [],
+    drinks: response?.data?.drinks?.map((item, index) => ({
+      id: item?.id || '',
+      name: item?.name || '',
+      price: item?.price || 0,
+      sortOrder: index + 1,
+    })),
   };
 };

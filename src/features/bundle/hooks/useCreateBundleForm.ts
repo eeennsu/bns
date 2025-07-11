@@ -35,6 +35,7 @@ const useCreateBundleForm = () => {
         breads: [],
         sauces: [],
         dishes: [],
+        drinks: [],
       },
     },
   });

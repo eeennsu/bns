@@ -39,14 +39,11 @@ interface IProps {
 const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, isModify }) => {
   const { allProductsList, isLoading: isProductsListLoading } = useGetProductList();
 
-  const groupList = useMemo<SelectItem[][]>(
-    () => [
-      allProductsList?.breads.map(convertToSelectItem),
-      allProductsList?.sauces.map(convertToSelectItem),
-      allProductsList?.dishes.map(convertToSelectItem),
-    ],
-    [allProductsList],
-  );
+  const groupList = useMemo<SelectItem[][]>(() => {
+    if (!allProductsList) return [];
+
+    return Object.keys(allProductsList)?.map(key => allProductsList[key]?.map(convertToSelectItem));
+  }, [allProductsList]);
 
   const productsList = form.getValues('productsList');
 

@@ -1,5 +1,11 @@
 import db from '@db/index';
-import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
+import {
+  bundleBreads,
+  bundleDishes,
+  bundleDrinks,
+  bundles,
+  bundleSauces,
+} from '@db/schemas/bundles';
 import { imageReferences, images } from '@db/schemas/image';
 import { updateBundleProductsDiff } from '@shared/api/bundle';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
@@ -51,11 +57,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
       db.select().from(bundleBreads).where(eq(bundleBreads.bundleId, bundleId)),
       db.select().from(bundleSauces).where(eq(bundleSauces.bundleId, bundleId)),
       db.select().from(bundleDishes).where(eq(bundleDishes.bundleId, bundleId)),
+      db.select().from(bundleDrinks).where(eq(bundleDrinks.bundleId, bundleId)),
     ]);
 
     const [foundedBundle] = bundleResult;
     const bundleImages = imageResult?.sort((prev, next) => prev?.sortOrder - next?.sortOrder);
-    const [breadsBundles, sauceBundles, dishBundles] = productsResult;
+    const [breadsBundles, sauceBundles, dishBundles, drinkBundles] = productsResult;
 
     if (!foundedBundle) {
       return NextResponse.json({ error: BUNDLE_ERRORS.NOT_FOUND_BUNDLE }, { status: 400 });
@@ -84,6 +91,13 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
             id: dish.dishId,
             quantity: dish.quantity,
             sortOrder: dish.sortOrder,
+          })),
+        }),
+        ...(drinkBundles.length > 0 && {
+          drinks: drinkBundles.map(drink => ({
+            id: drink.drinkId,
+            quantity: drink.quantity,
+            sortOrder: drink.sortOrder,
           })),
         }),
       },
@@ -215,6 +229,15 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       .limit(1);
     if (hasSauces.length > 0) {
       tasks.push(db.delete(bundleSauces).where(eq(bundleSauces.bundleId, bundleId)));
+    }
+
+    const hasDrinks = await db
+      .select()
+      .from(bundleDrinks)
+      .where(eq(bundleDrinks.bundleId, bundleId))
+      .limit(1);
+    if (hasDrinks.length > 0) {
+      tasks.push(db.delete(bundleDrinks).where(eq(bundleDrinks.bundleId, bundleId)));
     }
 
     await Promise.all(tasks);

@@ -1,5 +1,11 @@
 import db from '@db/index';
-import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
+import {
+  bundleBreads,
+  bundleDishes,
+  bundleDrinks,
+  bundles,
+  bundleSauces,
+} from '@db/schemas/bundles';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
@@ -122,10 +128,19 @@ export const POST = withAuth(async (request: NextRequest) => {
         sortOrder: dish.sortOrder,
       })) ?? [];
 
+    const drinksToInsert =
+      productsList?.drinks?.map(drink => ({
+        bundleId,
+        drinkId: Number(drink.id),
+        quantity: drink.quantity,
+        sortOrder: drink.sortOrder,
+      })) ?? [];
+
     await Promise.all([
       breadsToInsert.length > 0 ? db.insert(bundleBreads).values(breadsToInsert) : null,
       saucesToInsert.length > 0 ? db.insert(bundleSauces).values(saucesToInsert) : null,
       dishesToInsert.length > 0 ? db.insert(bundleDishes).values(dishesToInsert) : null,
+      drinksToInsert.length > 0 ? db.insert(bundleDrinks).values(drinksToInsert) : null,
     ]);
   } catch (error) {
     console.error(error);

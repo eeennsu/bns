@@ -17,18 +17,13 @@ export const BundleProductGroupSchema = z.object({
   breads: z.array(BundleProductSelectItemSchema).optional(),
   sauces: z.array(BundleProductSelectItemSchema).optional(),
   dishes: z.array(BundleProductSelectItemSchema).optional(),
+  drinks: z.array(BundleProductSelectItemSchema).optional(),
 });
 
 export const BundleProductSchema = z.object({
   id: z.union([z.string(), z.number()]), // number id
   name: z.string(),
   price: z.number(),
-});
-
-export const BundleProductListSchema = z.object({
-  breads: z.array(BundleProductSchema),
-  sauces: z.array(BundleProductSchema),
-  dishes: z.array(BundleProductSchema),
 });
 
 export const BundleFormDtoSchema = z.object({

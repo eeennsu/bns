@@ -1,6 +1,7 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { dishes } from '@db/schemas/dishes';
+import { drinks } from '@db/schemas/drinks';
 import { sauces } from '@db/schemas/sauces';
 import { BUNDLE_ERRORS } from '@shared/api/errorMessage';
 import { setSucResponseItem } from '@shared/api/response';
@@ -33,13 +34,23 @@ export const GET = withAuth(async () => {
       .from(dishes)
       .orderBy(asc(dishes.price));
 
-    const [_breads, _sauces, _dishes] = await Promise.all([breadsQuery, sauceQuery, dishQuery]);
+    const drinkQuery = db
+      .select({ id: drinks.id, name: drinks.name, price: drinks.price })
+      .from(drinks);
+
+    const [_breads, _sauces, _dishes, _drinks] = await Promise.all([
+      breadsQuery,
+      sauceQuery,
+      dishQuery,
+      drinkQuery,
+    ]);
 
     return NextResponse.json(
       setSucResponseItem({
         breads: _breads,
         sauces: _sauces,
         dishes: _dishes,
+        drinks: _drinks,
       }),
     );
   } catch (error) {

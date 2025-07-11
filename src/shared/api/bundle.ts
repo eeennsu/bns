@@ -1,5 +1,11 @@
 import db from '@db/index';
-import { bundleBreads, bundleDishes, bundles, bundleSauces } from '@db/schemas/bundles';
+import {
+  bundleBreads,
+  bundleDishes,
+  bundleDrinks,
+  bundles,
+  bundleSauces,
+} from '@db/schemas/bundles';
 import { and, eq } from 'drizzle-orm';
 
 import { BundleFormDto, BundleProductValue } from '@entities/bundle/types';
@@ -100,6 +106,20 @@ export const updateBundleProductsDiff = async (
     dishes,
     bundleId,
   );
+
+  // drinks
+  const drinks = productsList.drinks ?? [];
+  const existingDrinks = await db
+    .select()
+    .from(bundleDrinks)
+    .where(eq(bundleDrinks.bundleId, bundleId));
+
+  await compareAndUpdate(
+    { idKey: 'drinkId', table: bundleDrinks, productIdKey: 'drinkId' },
+    existingDrinks,
+    drinks,
+    bundleId,
+  );
 };
 
 export const getLinkedBundlesByProduct = async (productId: number, type: BundleProductValue) => {
@@ -118,6 +138,10 @@ export const getLinkedBundlesByProduct = async (productId: number, type: BundleP
     case 'dish':
       joinTable = bundleDishes;
       productIdKey = 'dishId';
+      break;
+    case 'drink':
+      joinTable = bundleDrinks;
+      productIdKey = 'drinkId';
       break;
     default:
       throw new Error('Invalid product type');
