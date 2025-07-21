@@ -12,7 +12,7 @@ import usePreventRefresh from '@hooks/usePreventRefresh';
 import PageContainer from '@components/PageContainer';
 
 const AdminBundleCreatePage: FC = () => {
-  const { allProducts, isLoading: isProductsLoading } = useGetProducts();
+  const { allProducts, isLoading: isAllProductsLoading } = useGetProducts();
   const { form, onSubmit, files, setFiles } = useCreateBundleForm();
 
   usePreventRefresh();
@@ -29,7 +29,7 @@ const AdminBundleCreatePage: FC = () => {
           onSubmit,
         }}
         allProducts={allProducts}
-        isProductsLoading={isProductsLoading}
+        isAllProductsLoading={isAllProductsLoading}
       />
     </PageContainer>
   );

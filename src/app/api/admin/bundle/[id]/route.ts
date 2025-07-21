@@ -59,6 +59,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleBreads.id,
           breadId: bundleBreads.breadId,
           quantity: bundleBreads.quantity,
+          sortOrder: bundleBreads.sortOrder,
         })
         .from(bundleBreads)
         .where(eq(bundleBreads.bundleId, bundleId)),
@@ -67,6 +68,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleSauces.id,
           sauceId: bundleSauces.sauceId,
           quantity: bundleSauces.quantity,
+          sortOrder: bundleSauces.sortOrder,
         })
         .from(bundleSauces)
         .where(eq(bundleSauces.bundleId, bundleId)),
@@ -75,6 +77,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleDishes.id,
           dishId: bundleDishes.dishId,
           quantity: bundleDishes.quantity,
+          sortOrder: bundleDishes.sortOrder,
         })
         .from(bundleDishes)
         .where(eq(bundleDishes.bundleId, bundleId)),
@@ -83,6 +86,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleDrinks.id,
           drinkId: bundleDrinks.drinkId,
           quantity: bundleDrinks.quantity,
+          sortOrder: bundleDrinks.sortOrder,
         })
         .from(bundleDrinks)
         .where(eq(bundleDrinks.bundleId, bundleId)),

@@ -65,6 +65,8 @@ const SelectedProductList: FC<IProps> = ({
     return grouped;
   }, [productFields]);
 
+  console.log('groupedProductFields', groupedProductFields);
+
   const allSumPrice = useMemo(() => {
     return Object.values(productFields).reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
   }, [productFields]);

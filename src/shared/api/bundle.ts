@@ -27,7 +27,11 @@ const compareAndUpdate = async <
 
   const toUpdate = incoming.filter(i => {
     const match = existingRows.find(e => e[current.productIdKey] === i.id);
-    return match && (match.quantity !== i.quantity || match.sortOrder !== i.sortOrder);
+    return (
+      match &&
+      (Number(match.quantity) !== Number(i.quantity) ||
+        Number(match.sortOrder) !== Number(i.sortOrder))
+    );
   });
 
   await Promise.all([

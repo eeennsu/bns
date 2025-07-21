@@ -21,10 +21,11 @@ export type IProduct = {
 
 export type IBundleProduct = IProduct & {
   quantity: number;
-  breadId?: number;
-  sauceId?: number;
-  dishId?: number;
-  drinkId?: number;
+  sortOrder: number;
+  breadId?: number | undefined;
+  sauceId?: number | undefined;
+  dishId?: number | undefined;
+  drinkId?: number | undefined;
 };
 
 export interface IBundle extends FilterDate<Bundle> {}

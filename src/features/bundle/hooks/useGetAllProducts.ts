@@ -8,15 +8,16 @@ import getProducts from '../apis/getProducts';
 interface IReturn {
   allProducts: IProduct[];
   isLoading: boolean;
+  isError: boolean;
 }
 
 const useGetAllProducts = (): IReturn => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [ADMIN_BUNDLE_KEYS.GET_PRODUCT_LIST],
     queryFn: getProducts,
   });
 
-  return { allProducts: data, isLoading };
+  return { allProducts: data, isLoading, isError };
 };
 
 export default useGetAllProducts;

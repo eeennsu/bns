@@ -1,5 +1,6 @@
 import { inputOnlyNumber } from '@libs/format';
 import FormButton from '@shared/components/FormButton';
+import { FIELD_ARRAY_ID } from '@shared/consts/commons';
 import { LoaderCircle } from 'lucide-react';
 import { BaseSyntheticEvent, Dispatch, FC, SetStateAction, useMemo } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
@@ -30,9 +31,9 @@ interface IProps {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
   };
-  allProducts: IProduct[];
-  isProductsLoading: boolean;
   isModify?: boolean;
+  allProducts: IProduct[];
+  isAllProductsLoading: boolean;
 }
 
 const BundleForm: FC<IProps> = ({
@@ -40,9 +41,9 @@ const BundleForm: FC<IProps> = ({
   form,
   files,
   setFiles,
-  allProducts,
-  isProductsLoading,
   isModify,
+  allProducts,
+  isAllProductsLoading,
 }) => {
   const groupList = useMemo<Array<SelectProductItem[]>>(() => {
     if (!allProducts) return [];
@@ -72,7 +73,7 @@ const BundleForm: FC<IProps> = ({
   } = useFieldArray({
     name: 'products',
     control: form.control,
-    keyName: 'fid',
+    keyName: FIELD_ARRAY_ID,
   });
 
   const commandGroupInitializer = (product: SelectItem, heading: SelectItem) => {
@@ -100,6 +101,12 @@ const BundleForm: FC<IProps> = ({
 
     if (existingProductIndex !== -1) {
       removeProduct(existingProductIndex);
+
+      productFields.forEach(product => {
+        if (product.sortOrder > productFields[existingProductIndex]?.sortOrder) {
+          product.sortOrder -= 1;
+        }
+      });
     } else {
       appendProduct({
         id: selectProductItem.value,
@@ -107,6 +114,7 @@ const BundleForm: FC<IProps> = ({
         quantity: 1,
         name: selectProductItem.label,
         price: selectProductItem.price,
+        sortOrder: 0,
       });
     }
   };
@@ -152,7 +160,7 @@ const BundleForm: FC<IProps> = ({
             )}
           />
 
-          {isProductsLoading ? (
+          {isAllProductsLoading ? (
             <div className='flex items-center gap-2 text-xs text-gray-400'>
               <LoaderCircle className='animate-spin' /> 세트 구성품 목록을 불러오는 중입니다...
             </div>

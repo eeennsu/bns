@@ -105,19 +105,39 @@ export const POST = withAuth(async (request: NextRequest) => {
     const bundleId = newBundle.id;
 
     const { breadsToInsert, saucesToInsert, dishesToInsert, drinksToInsert } = products.reduce(
-      (acc, { type, id, quantity }) => {
+      (acc, { type, id, quantity, sortOrder: productSortOrder }) => {
         switch (type) {
           case 'bread':
-            acc.breadsToInsert.push({ bundleId, breadId: id, quantity, sortOrder });
+            acc.breadsToInsert.push({
+              bundleId,
+              breadId: id,
+              quantity,
+              sortOrder: productSortOrder,
+            });
             break;
           case 'sauce':
-            acc.saucesToInsert.push({ bundleId, sauceId: id, quantity, sortOrder });
+            acc.saucesToInsert.push({
+              bundleId,
+              sauceId: id,
+              quantity,
+              sortOrder: productSortOrder,
+            });
             break;
           case 'dish':
-            acc.dishesToInsert.push({ bundleId, dishId: id, quantity, sortOrder });
+            acc.dishesToInsert.push({
+              bundleId,
+              dishId: id,
+              quantity,
+              sortOrder: productSortOrder,
+            });
             break;
           case 'drink':
-            acc.drinksToInsert.push({ bundleId, drinkId: id, quantity, sortOrder });
+            acc.drinksToInsert.push({
+              bundleId,
+              drinkId: id,
+              quantity,
+              sortOrder: productSortOrder,
+            });
             break;
         }
         return acc;

@@ -4,36 +4,56 @@ import type { FC } from 'react';
 
 import DetailWidget from '@widgets/admin/detail';
 
-import useGetProducts from '@features/bundle/hooks/useGetAllProducts';
+import useGetAllProducts from '@features/bundle/hooks/useGetAllProducts';
 import useGetBundle from '@features/bundle/hooks/useGetBundle';
 import useModifyBundle from '@features/bundle/hooks/useModifyBundleForm';
 import BundleForm from '@features/bundle/ui/admin/Form';
 
-import { IBundleItem } from '@entities/bundle/types';
+import { IBundleItem, IProduct } from '@entities/bundle/types';
 
 import useConfirmBeforeBack from '@hooks/usePreventGoBack';
 import usePreventRefresh from '@hooks/usePreventRefresh';
 
 const AdminBundleModifyPage: FC = () => {
-  const { bundle, isError, isLoading } = useGetBundle();
+  const {
+    allProducts,
+    isLoading: isAllProductsLoading,
+    isError: isAllProductsError,
+  } = useGetAllProducts();
+  const { bundle, bundleProducts, isError, isLoading } = useGetBundle(allProducts);
 
   usePreventRefresh();
   useConfirmBeforeBack();
 
   return (
-    <DetailWidget isError={isError} isLoading={isLoading}>
-      <BundleModify bundle={bundle} />
+    <DetailWidget
+      isError={isError || isAllProductsError}
+      isLoading={isLoading || isAllProductsLoading}
+    >
+      <BundleModify
+        bundle={bundle}
+        bundleProducts={bundleProducts}
+        allProducts={allProducts}
+        isAllProductsLoading={isAllProductsLoading}
+      />
     </DetailWidget>
   );
 };
 
 interface IProps {
   bundle: IBundleItem;
+  bundleProducts: IProduct[];
+  allProducts: IProduct[];
+  isAllProductsLoading: boolean;
 }
 
-const BundleModify: FC<IProps> = ({ bundle }) => {
-  const { allProducts, isLoading: isProductsLoading } = useGetProducts();
-  const { files, form, onSubmit, setFiles } = useModifyBundle(bundle, allProducts);
+const BundleModify: FC<IProps> = ({
+  bundle,
+  bundleProducts,
+  allProducts,
+  isAllProductsLoading,
+}) => {
+  const { files, form, onSubmit, setFiles } = useModifyBundle(bundle, bundleProducts);
 
   return (
     <BundleForm
@@ -44,9 +64,9 @@ const BundleModify: FC<IProps> = ({ bundle }) => {
         label: '수정하기',
         onSubmit,
       }}
-      allProducts={allProducts}
-      isProductsLoading={isProductsLoading}
       isModify
+      allProducts={allProducts}
+      isAllProductsLoading={isAllProductsLoading}
     />
   );
 };
