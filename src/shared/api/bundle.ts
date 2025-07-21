@@ -8,7 +8,8 @@ import {
 } from '@db/schemas/bundles';
 import { and, eq } from 'drizzle-orm';
 
-import { BundleFormDto, BundleProductValue } from '@entities/bundle/types';
+import { BUNDLE_PRODUCT_TYPE } from '@entities/bundle/consts';
+import { BundleProduct, BundleProductValue } from '@entities/bundle/types';
 
 const compareAndUpdate = async <
   T extends { id?: number | string; quantity?: number; sortOrder?: number },
@@ -61,12 +62,30 @@ const compareAndUpdate = async <
   ]);
 };
 
-export const updateBundleProductsDiff = async (
-  bundleId: number,
-  productsList: BundleFormDto['productsList'],
-) => {
+export const updateBundleProductsDiff = async (bundleId: number, products: BundleProduct[]) => {
+  const breads = [];
+  const sauces = [];
+  const dishes = [];
+  const drinks = [];
+
+  for (const product of products) {
+    switch (product.type) {
+      case BUNDLE_PRODUCT_TYPE.BREAD:
+        breads.push(product);
+        break;
+      case BUNDLE_PRODUCT_TYPE.SAUCE:
+        sauces.push(product);
+        break;
+      case BUNDLE_PRODUCT_TYPE.DISH:
+        dishes.push(product);
+        break;
+      case BUNDLE_PRODUCT_TYPE.DRINK:
+        drinks.push(product);
+        break;
+    }
+  }
+
   // breads
-  const breads = productsList.breads ?? [];
   const existingBreads = await db
     .select()
     .from(bundleBreads)
@@ -80,7 +99,6 @@ export const updateBundleProductsDiff = async (
   );
 
   // sauces
-  const sauces = productsList.sauces ?? [];
   const existingSauces = await db
     .select()
     .from(bundleSauces)
@@ -94,7 +112,6 @@ export const updateBundleProductsDiff = async (
   );
 
   // dishes
-  const dishes = productsList.dishes ?? [];
   const existingDishes = await db
     .select()
     .from(bundleDishes)
@@ -108,7 +125,6 @@ export const updateBundleProductsDiff = async (
   );
 
   // drinks
-  const drinks = productsList.drinks ?? [];
   const existingDrinks = await db
     .select()
     .from(bundleDrinks)
@@ -127,19 +143,19 @@ export const getLinkedBundlesByProduct = async (productId: number, type: BundleP
   let productIdKey;
 
   switch (type) {
-    case 'bread':
+    case BUNDLE_PRODUCT_TYPE.BREAD:
       joinTable = bundleBreads;
       productIdKey = 'breadId';
       break;
-    case 'sauce':
+    case BUNDLE_PRODUCT_TYPE.SAUCE:
       joinTable = bundleSauces;
       productIdKey = 'sauceId';
       break;
-    case 'dish':
+    case BUNDLE_PRODUCT_TYPE.DISH:
       joinTable = bundleDishes;
       productIdKey = 'dishId';
       break;
-    case 'drink':
+    case BUNDLE_PRODUCT_TYPE.DRINK:
       joinTable = bundleDrinks;
       productIdKey = 'drinkId';
       break;
@@ -155,3 +171,8 @@ export const getLinkedBundlesByProduct = async (productId: number, type: BundleP
 
   return linkedBundles;
 };
+
+export const mapWithType = <T extends { id: number; name: string; price: number }>(
+  items: T[],
+  type: string,
+) => items.map(item => ({ ...item, type }));

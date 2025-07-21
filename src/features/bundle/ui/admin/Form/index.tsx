@@ -1,21 +1,18 @@
-import { inputOnlyNumber, toPlural } from '@libs/format';
+import { inputOnlyNumber } from '@libs/format';
 import FormButton from '@shared/components/FormButton';
 import { LoaderCircle } from 'lucide-react';
 import { BaseSyntheticEvent, Dispatch, FC, SetStateAction, useMemo } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
 
 import { Form, FormField } from '@shadcn-ui/ui';
 
-import useGetProductList from '@features/bundle/hooks/useGetProductsList';
-import { convertToSelectItem } from '@features/bundle/libs/selectItem';
-
 import { BUNDLE_COMMAND_GROUP_HEADINGS } from '@entities/bundle/consts';
-import { BundleFormDto, ICommandGroupBundle } from '@entities/bundle/types';
+import { BundleFormDto, ICommandGroupBundle, IProduct } from '@entities/bundle/types';
 import { FileWithDropzone } from '@entities/image/types';
 
 import useCommandGroups from '@hooks/useCommandGroups';
 
-import { SelectItem } from '@typings/commons';
+import { SelectItem, SelectProductItem } from '@typings/commons';
 
 import SharedFormFieldCommand from '@components/FormFieldCommand';
 import SharedFormFieldRender from '@components/FormFieldRender';
@@ -33,25 +30,55 @@ interface IProps {
     label: string;
     onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
   };
+  allProducts: IProduct[];
+  isProductsLoading: boolean;
   isModify?: boolean;
 }
 
-const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, isModify }) => {
-  const { allProductsList, isLoading: isProductsListLoading } = useGetProductList();
+const BundleForm: FC<IProps> = ({
+  submitProps,
+  form,
+  files,
+  setFiles,
+  allProducts,
+  isProductsLoading,
+  isModify,
+}) => {
+  const groupList = useMemo<Array<SelectProductItem[]>>(() => {
+    if (!allProducts) return [];
 
-  const groupList = useMemo<SelectItem[][]>(() => {
-    if (!allProductsList) return [];
+    const groupMap: Record<string, SelectProductItem[]> = {
+      bread: [],
+      sauce: [],
+      dish: [],
+      drink: [],
+    };
 
-    return Object.keys(allProductsList)?.map(key => allProductsList[key]?.map(convertToSelectItem));
-  }, [allProductsList]);
+    allProducts.forEach(product => {
+      const { id, name, type } = product;
+      if (type in groupMap) {
+        groupMap[type].push({ label: name, value: id, price: product.price });
+      }
+    });
 
-  const productsList = form.getValues('productsList');
+    return [groupMap.bread, groupMap.sauce, groupMap.dish, groupMap.drink];
+  }, [allProducts]);
+
+  const {
+    fields: productFields,
+    append: appendProduct,
+    remove: removeProduct,
+    update: updateProduct,
+  } = useFieldArray({
+    name: 'products',
+    control: form.control,
+    keyName: 'fid',
+  });
 
   const commandGroupInitializer = (product: SelectItem, heading: SelectItem) => {
     if (!isModify) return product;
 
-    const key = toPlural(heading.value.toString());
-    const matched = productsList?.[key]?.find(p => p.id === product.value);
+    const matched = productFields.find(p => p.type === heading.value && p.id === product.value);
 
     return {
       ...product,
@@ -65,6 +92,24 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, isModify }
     groupList,
     initializer: commandGroupInitializer,
   });
+
+  const handleSelect = (heading: SelectItem, selectProductItem: SelectProductItem) => {
+    const existingProductIndex = productFields.findIndex(
+      item => item.type === heading.value && item.id === selectProductItem.value,
+    );
+
+    if (existingProductIndex !== -1) {
+      removeProduct(existingProductIndex);
+    } else {
+      appendProduct({
+        id: selectProductItem.value,
+        type: heading.value.toString(),
+        quantity: 1,
+        name: selectProductItem.label,
+        price: selectProductItem.price,
+      });
+    }
+  };
 
   return (
     <Form {...form}>
@@ -98,6 +143,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, isModify }
               />
             </div>
           </div>
+
           <FormField
             name='description'
             control={form.control}
@@ -106,7 +152,7 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, isModify }
             )}
           />
 
-          {isProductsListLoading ? (
+          {isProductsLoading ? (
             <div className='flex items-center gap-2 text-xs text-gray-400'>
               <LoaderCircle className='animate-spin' /> 세트 구성품 목록을 불러오는 중입니다...
             </div>
@@ -125,17 +171,20 @@ const BundleForm: FC<IProps> = ({ submitProps, form, files, setFiles, isModify }
                     triggerLabel='추가할 구성품 목록을 선택해주세요'
                     commandGroups={commandGroups}
                     setCommandGroups={setCommandGroups}
+                    handleSelect={handleSelect}
                     renderSubLabel={item => (
                       <span className='mt-[3px] ml-1.5 text-[10px] text-gray-600'>
-                        {item.price.toLocaleString()}원
+                        {item.price?.toLocaleString()}원
                       </span>
                     )}
-                    formErrorMessage={form?.formState.errors?.productsList?.message}
+                    formErrorMessage={form?.formState.errors?.products?.message}
                   />
                 </div>
                 <SelectedProductList
-                  commandGroups={commandGroups}
                   setCommandGroups={setCommandGroups}
+                  productFields={productFields}
+                  updateProduct={updateProduct}
+                  removeProduct={removeProduct}
                 />
               </div>
 

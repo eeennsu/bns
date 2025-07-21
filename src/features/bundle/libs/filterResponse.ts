@@ -1,7 +1,7 @@
 import { IServerResponseItem, IServerResponseList } from '@shared/api/typings';
 import { dateFormat } from '@shared/libs/date';
 
-import { BundleProductGroup, IBundleItem, IBundleList } from '@entities/bundle/types';
+import { IBundleItem, IBundleList, IProduct } from '@entities/bundle/types';
 
 export const filterBundleResponse = (response: IServerResponseItem): IBundleItem => {
   return {
@@ -13,7 +13,7 @@ export const filterBundleResponse = (response: IServerResponseItem): IBundleItem
     description: response?.data?.description,
     price: response?.data?.price,
     discountedPrice: response?.data?.discountedPrice,
-    productsList: response?.data?.productsList || [],
+    products: response?.data?.products || [],
     sortOrder: response?.data?.sortOrder,
     isHidden: response?.data?.isHidden ?? false,
     imageFiles: response?.data?.imageFiles || [],
@@ -30,7 +30,7 @@ export const filterBundleListResponse = (response: IServerResponseList): IBundle
     description: item?.description,
     price: item?.price,
     discountedPrice: item?.discountedPrice || '',
-    productsList: item?.productsList || [],
+    products: item?.products || [],
     sortOrder: item?.sortOrder,
     isHidden: item?.isHidden ?? false,
     imageFiles: item?.imageFiles || [],
@@ -43,34 +43,6 @@ export const filterBundleListResponse = (response: IServerResponseList): IBundle
   };
 };
 
-export const filterProductsResponse = (response: IServerResponseItem): BundleProductGroup => {
-  return {
-    breads:
-      response?.data?.breads?.map((item, index) => ({
-        id: item?.id || '',
-        name: item?.name || '',
-        price: item?.price || 0,
-        sortOrder: index + 1,
-      })) || [],
-    sauces:
-      response?.data?.sauces?.map((item, index) => ({
-        id: item?.id || '',
-        name: item?.name || '',
-        price: item?.price || '',
-        sortOrder: index + 1,
-      })) || [],
-    dishes:
-      response?.data?.dishes?.map((item, index) => ({
-        id: item?.id || '',
-        name: item?.name || '',
-        price: item?.price || 0,
-        sortOrder: index + 1,
-      })) || [],
-    drinks: response?.data?.drinks?.map((item, index) => ({
-      id: item?.id || '',
-      name: item?.name || '',
-      price: item?.price || 0,
-      sortOrder: index + 1,
-    })),
-  };
+export const filterProductsResponse = (response: IServerResponseItem): IProduct[] => {
+  return response?.data;
 };

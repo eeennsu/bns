@@ -1,58 +1,159 @@
 import { Info } from 'lucide-react';
-import { Dispatch, SetStateAction, type FC } from 'react';
+import { Dispatch, SetStateAction, useMemo, type FC } from 'react';
+import { FieldArrayWithId, UseFieldArrayRemove, UseFieldArrayUpdate } from 'react-hook-form';
 
 import { Alert, AlertTitle } from '@shadcn-ui/ui';
 
-import useSelectProductList from '@features/bundle/hooks/useSelectProductList';
+import { getProductLabel } from '@features/bundle/libs/getProductLabel';
 
-import { ICommandGroupBundle } from '@entities/bundle/types';
+import {
+  BundleFormDto,
+  BundleProductValue,
+  ICommandGroupBundle,
+  SelectedProductItem as SelectedProductItemType,
+} from '@entities/bundle/types';
 
 import SelectedProductItem from './SelectedProductItem';
 
 interface IProps {
-  commandGroups: ICommandGroupBundle[];
   setCommandGroups: Dispatch<SetStateAction<ICommandGroupBundle[]>>;
+  productFields: FieldArrayWithId<BundleFormDto, 'products', 'fid'>[];
+  updateProduct: UseFieldArrayUpdate<BundleFormDto, 'products'>;
+  removeProduct: UseFieldArrayRemove;
 }
 
-const SelectedProductList: FC<IProps> = ({ commandGroups, setCommandGroups }) => {
-  const { selectedProducts, updateQuantity, removeSelectedItem, allSumPrice } =
-    useSelectProductList({
-      commandGroups,
-      setCommandGroups,
-    });
+const SelectedProductList: FC<IProps> = ({
+  setCommandGroups,
+  productFields,
+  updateProduct,
+  removeProduct,
+}) => {
+  const groupedProductFields = useMemo(() => {
+    const grouped = productFields.reduce<{
+      bread: SelectedProductItemType[];
+      sauce: SelectedProductItemType[];
+      dish: SelectedProductItemType[];
+      drink: SelectedProductItemType[];
+    }>(
+      (acc, product) => {
+        const productItem = {
+          label: product.name,
+          value: product.id,
+          quantity: product.quantity,
+          price: product.price,
+          sortOrder: product.sortOrder,
+        };
 
-  return selectedProducts?.length > 0 ? (
+        if (product.type in acc) {
+          acc[product.type as keyof typeof acc].push(productItem);
+        }
+
+        return acc;
+      },
+      {
+        bread: [],
+        sauce: [],
+        dish: [],
+        drink: [],
+      },
+    );
+
+    for (const key of Object.keys(grouped) as Array<keyof typeof grouped>) {
+      grouped[key].sort((a, b) => a.sortOrder - b.sortOrder);
+    }
+
+    return grouped;
+  }, [productFields]);
+
+  const allSumPrice = useMemo(() => {
+    return Object.values(productFields).reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
+  }, [productFields]);
+
+  const updateProductQuantity = (
+    type: BundleProductValue,
+    value: number | string,
+    delta: number,
+  ) => {
+    const existingProductIndex = productFields.findIndex(
+      item => item.type === type && item.id === value,
+    );
+    if (existingProductIndex === -1) return;
+
+    const newQuantity = productFields[existingProductIndex].quantity + delta;
+
+    if (newQuantity > 0) {
+      updateProduct(existingProductIndex, {
+        ...productFields[existingProductIndex],
+        quantity: newQuantity,
+      });
+    } else {
+      removeProductWithCommandGroup(existingProductIndex, type, value);
+    }
+  };
+
+  const removeProductItem = (type: BundleProductValue, value: number | string) => {
+    const existingProductIndex = productFields.findIndex(
+      item => item.type === type && item.id === value,
+    );
+    if (existingProductIndex === -1) return;
+
+    removeProductWithCommandGroup(existingProductIndex, type, value);
+  };
+
+  const removeProductWithCommandGroup = (
+    removeIndex: number,
+    type: BundleProductValue,
+    value: number | string,
+  ) => {
+    removeProduct(removeIndex);
+    setCommandGroups(prev =>
+      prev.map(group => {
+        if (group.heading.value !== type) return group;
+
+        const updatedItems = group.items.map(item =>
+          item.value === value ? { ...item, selected: undefined } : item,
+        );
+
+        return {
+          ...group,
+          items: updatedItems,
+        };
+      }),
+    );
+  };
+
+  return productFields?.length > 0 ? (
     <div>
       <div className='mb-6 flex w-full flex-col'>
-        {selectedProducts?.map(group => (
-          <div key={group.heading.value} className='flex flex-col gap-1 border-b py-6'>
+        {Object.keys(groupedProductFields).map(key => (
+          <div key={key} className='flex flex-col gap-1 border-b py-6'>
             <div className='flex items-center justify-between'>
               <div className='text-muted-foreground text-xs font-semibold'>
-                {group.heading.label}
+                {getProductLabel(key as BundleProductValue)}
               </div>
-              {group.items.length > 0 && (
+              {groupedProductFields[key].length > 0 && (
                 <p className='text-[10px] text-gray-400'>
                   선택 합계 :{' '}
                   <span className='font-semibold'>
-                    {group.items
+                    {groupedProductFields[key]
                       .reduce((acc, cur) => acc + cur.price * cur.quantity, 0)
-                      .toLocaleString()}
+                      ?.toLocaleString()}
                   </span>
                   원
                 </p>
               )}
             </div>
             <div className='flex flex-wrap gap-3.5'>
-              {group?.items?.length > 0 ? (
-                group?.items?.map(item => (
+              {groupedProductFields[key]?.length > 0 ? (
+                groupedProductFields[key]?.map((item: SelectedProductItemType) => (
                   <SelectedProductItem
-                    key={item.value}
+                    key={`${item.value}-${item.label}`}
                     item={item}
-                    updateQuantity={delta =>
-                      updateQuantity(group.heading.value as string, item.value as number, delta)
+                    updateProductQuantity={delta =>
+                      updateProductQuantity(key as BundleProductValue, item.value, delta)
                     }
                     removeSelectedItem={() =>
-                      removeSelectedItem(group.heading.value as string, item.value as number)
+                      removeProductItem(key as BundleProductValue, item.value)
                     }
                   />
                 ))

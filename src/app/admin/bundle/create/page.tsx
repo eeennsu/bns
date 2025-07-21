@@ -3,6 +3,7 @@
 import type { FC } from 'react';
 
 import useCreateBundleForm from '@features/bundle/hooks/useCreateBundleForm';
+import useGetProducts from '@features/bundle/hooks/useGetAllProducts';
 import BundleForm from '@features/bundle/ui/admin/Form';
 
 import useConfirmBeforeBack from '@hooks/usePreventGoBack';
@@ -11,6 +12,7 @@ import usePreventRefresh from '@hooks/usePreventRefresh';
 import PageContainer from '@components/PageContainer';
 
 const AdminBundleCreatePage: FC = () => {
+  const { allProducts, isLoading: isProductsLoading } = useGetProducts();
   const { form, onSubmit, files, setFiles } = useCreateBundleForm();
 
   usePreventRefresh();
@@ -23,9 +25,11 @@ const AdminBundleCreatePage: FC = () => {
         files={files}
         setFiles={setFiles}
         submitProps={{
-          label: '생성',
+          label: '생성하기',
           onSubmit,
         }}
+        allProducts={allProducts}
+        isProductsLoading={isProductsLoading}
       />
     </PageContainer>
   );

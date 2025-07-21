@@ -1,3 +1,4 @@
+import { Updater } from '@shared/typings/commons';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
@@ -5,7 +6,7 @@ import { STORAGE_KEYS } from '@consts/storage';
 
 interface ISidebarStore {
   isSidebarOpen: boolean;
-  setIsSidebarOpen: (data: boolean | ((prev: boolean) => boolean)) => void;
+  setIsSidebarOpen: Updater<boolean>;
 }
 
 const useSidebarStore = create<ISidebarStore>()(

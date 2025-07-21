@@ -31,12 +31,7 @@ const useCreateBundleForm = () => {
       imageFiles: [],
       isHidden: false,
       sortOrder: '',
-      productsList: {
-        breads: [],
-        sauces: [],
-        dishes: [],
-        drinks: [],
-      },
+      products: [],
     },
   });
 
@@ -65,7 +60,10 @@ const useCreateBundleForm = () => {
       delete data.discountedPrice;
     }
 
-    const newData = { ...data, imageIds };
+    const newData = {
+      ...data,
+      imageIds,
+    };
 
     await createBundle(newData);
   }, formErrorHandler);

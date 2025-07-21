@@ -27,6 +27,7 @@ interface IProps<T extends ICommandGroup> {
   commandGroups: T[];
   setCommandGroups: Dispatch<SetStateAction<T[]>>;
   label?: string;
+  handleSelect?: (heading: SelectItem, selectItem: SelectItem) => void;
   renderSubLabel?: (item: T['items'][number]) => JSX.Element;
   isRequired?: boolean;
   triggerLabel?: string;
@@ -39,6 +40,7 @@ interface IProps<T extends ICommandGroup> {
 const SharedFormFieldCommand = <T extends ICommandGroup>({
   commandGroups,
   setCommandGroups,
+  handleSelect,
   label,
   renderSubLabel,
   isRequired,
@@ -119,7 +121,10 @@ const SharedFormFieldCommand = <T extends ICommandGroup>({
                         <CommandItem
                           key={`${item.label}-${item.value}`}
                           value={`${item.label}-${item.value}`}
-                          onSelect={() => onSelect(group.heading, item)}
+                          onSelect={() => {
+                            onSelect(group.heading, item);
+                            handleSelect?.(group.heading, item);
+                          }}
                           className='flex items-center justify-between gap-2'
                         >
                           <div className='flex items-center gap-1'>

@@ -4,6 +4,7 @@ import type { FC } from 'react';
 
 import DetailWidget from '@widgets/admin/detail';
 
+import useGetProducts from '@features/bundle/hooks/useGetAllProducts';
 import useGetBundle from '@features/bundle/hooks/useGetBundle';
 import useModifyBundle from '@features/bundle/hooks/useModifyBundleForm';
 import BundleForm from '@features/bundle/ui/admin/Form';
@@ -31,7 +32,8 @@ interface IProps {
 }
 
 const BundleModify: FC<IProps> = ({ bundle }) => {
-  const { files, form, onSubmit, setFiles } = useModifyBundle(bundle);
+  const { allProducts, isLoading: isProductsLoading } = useGetProducts();
+  const { files, form, onSubmit, setFiles } = useModifyBundle(bundle, allProducts);
 
   return (
     <BundleForm
@@ -39,9 +41,11 @@ const BundleModify: FC<IProps> = ({ bundle }) => {
       form={form}
       setFiles={setFiles}
       submitProps={{
-        label: '수정',
+        label: '수정하기',
         onSubmit,
       }}
+      allProducts={allProducts}
+      isProductsLoading={isProductsLoading}
       isModify
     />
   );

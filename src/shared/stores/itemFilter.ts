@@ -1,10 +1,10 @@
 import { FILTER_TYPES, ITEM_SHOW_TYPE } from '@shared/consts/commons';
-import { ItemShowLabel } from '@shared/typings/commons';
+import { ItemShowLabel, Updater } from '@shared/typings/commons';
 import { create } from 'zustand';
 
 interface IItemShowFilterStore {
   showFilter: ItemShowLabel;
-  setShowFilter: (value: ItemShowLabel | ((prev: ItemShowLabel) => ItemShowLabel)) => void;
+  setShowFilter: Updater<ItemShowLabel>;
 }
 
 const useItemShowFilterStore = create<IItemShowFilterStore>(set => ({

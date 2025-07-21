@@ -7,7 +7,7 @@ import {
   bundleSauces,
 } from '@db/schemas/bundles';
 import { imageReferences, images } from '@db/schemas/image';
-import { updateBundleProductsDiff } from '@shared/api/bundle';
+import { mapWithType, updateBundleProductsDiff } from '@shared/api/bundle';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
 import { deleteImage, updateMultiImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
@@ -54,10 +54,38 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
             eq(imageReferences.refId, bundleId),
           ),
         ),
-      db.select().from(bundleBreads).where(eq(bundleBreads.bundleId, bundleId)),
-      db.select().from(bundleSauces).where(eq(bundleSauces.bundleId, bundleId)),
-      db.select().from(bundleDishes).where(eq(bundleDishes.bundleId, bundleId)),
-      db.select().from(bundleDrinks).where(eq(bundleDrinks.bundleId, bundleId)),
+      db
+        .select({
+          id: bundleBreads.id,
+          breadId: bundleBreads.breadId,
+          quantity: bundleBreads.quantity,
+        })
+        .from(bundleBreads)
+        .where(eq(bundleBreads.bundleId, bundleId)),
+      db
+        .select({
+          id: bundleSauces.id,
+          sauceId: bundleSauces.sauceId,
+          quantity: bundleSauces.quantity,
+        })
+        .from(bundleSauces)
+        .where(eq(bundleSauces.bundleId, bundleId)),
+      db
+        .select({
+          id: bundleDishes.id,
+          dishId: bundleDishes.dishId,
+          quantity: bundleDishes.quantity,
+        })
+        .from(bundleDishes)
+        .where(eq(bundleDishes.bundleId, bundleId)),
+      db
+        .select({
+          id: bundleDrinks.id,
+          drinkId: bundleDrinks.drinkId,
+          quantity: bundleDrinks.quantity,
+        })
+        .from(bundleDrinks)
+        .where(eq(bundleDrinks.bundleId, bundleId)),
     ]);
 
     const [foundedBundle] = bundleResult;
@@ -71,36 +99,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     response = {
       ...foundedBundle,
       imageFiles: bundleImages ?? [],
-      productsList: {
-        ...(breadsBundles.length > 0 && {
-          breads: breadsBundles.map(bread => ({
-            id: bread.breadId,
-            quantity: bread.quantity,
-            sortOrder: bread.sortOrder,
-          })),
-        }),
-        ...(sauceBundles.length > 0 && {
-          sauces: sauceBundles.map(sauce => ({
-            id: sauce.sauceId,
-            quantity: sauce.quantity,
-            sortOrder: sauce.sortOrder,
-          })),
-        }),
-        ...(dishBundles.length > 0 && {
-          dishes: dishBundles.map(dish => ({
-            id: dish.dishId,
-            quantity: dish.quantity,
-            sortOrder: dish.sortOrder,
-          })),
-        }),
-        ...(drinkBundles.length > 0 && {
-          drinks: drinkBundles.map(drink => ({
-            id: drink.drinkId,
-            quantity: drink.quantity,
-            sortOrder: drink.sortOrder,
-          })),
-        }),
-      },
+      products: [
+        ...mapWithType(breadsBundles, 'bread'),
+        ...mapWithType(sauceBundles, 'sauce'),
+        ...mapWithType(dishBundles, 'dish'),
+        ...mapWithType(drinkBundles, 'drink'),
+      ],
     };
   } catch (error) {
     console.error(error);
@@ -128,7 +132,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
   }
 
-  const { name, description, price, discountedPrice, productsList, sortOrder, isHidden } = body;
+  const { name, description, price, discountedPrice, products, sortOrder, isHidden } = body;
 
   let updateBundle;
 
@@ -152,8 +156,8 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
 
   // update bundle products
   try {
-    if (productsList) {
-      await updateBundleProductsDiff(bundleId, productsList);
+    if (products) {
+      await updateBundleProductsDiff(bundleId, products);
     }
   } catch (error) {
     console.log(error);

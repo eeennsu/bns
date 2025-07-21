@@ -7,23 +7,13 @@ import { SortOrderSchema } from '@contracts/common';
 
 import { FAIL_MIN_QUANTITY_MESSAGE } from './consts';
 
-export const BundleProductSelectItemSchema = z.object({
-  id: z.union([z.string(), z.number()]), // number id
-  quantity: z.number(),
-  sortOrder: z.number(),
-});
-
-export const BundleProductGroupSchema = z.object({
-  breads: z.array(BundleProductSelectItemSchema).optional(),
-  sauces: z.array(BundleProductSelectItemSchema).optional(),
-  dishes: z.array(BundleProductSelectItemSchema).optional(),
-  drinks: z.array(BundleProductSelectItemSchema).optional(),
-});
-
 export const BundleProductSchema = z.object({
   id: z.union([z.string(), z.number()]), // number id
-  name: z.string(),
+  type: z.string(), // 'breads', 'sauces', 'dishes', 'drinks'
   price: z.number(),
+  quantity: z.number(),
+  name: z.string().optional(), // ui 표시를 위한 이름
+  sortOrder: z.number(),
 });
 
 export const BundleFormDtoSchema = z.object({
@@ -44,14 +34,23 @@ export const BundleFormDtoSchema = z.object({
   sortOrder: SortOrderSchema,
   isHidden: z.boolean(),
   imageFiles: getMultipleImageFileSchema(1, 5),
-  productsList: BundleProductGroupSchema.refine(
-    val => {
-      const totalQuantity = Object.values(val)
-        .flat()
-        .reduce((sum, item) => sum + item?.quantity || 0, 0);
+  // productsList: BundleProductGroupSchema.refine(
+  //   val => {
+  //     const totalQuantity = Object.values(val)
+  //       .flat()
+  //       .reduce((sum, item) => sum + item?.quantity || 0, 0);
 
+  //     return totalQuantity >= 2;
+  //   },
+  //   { message: FAIL_MIN_QUANTITY_MESSAGE },
+  // ),
+  products: z.array(BundleProductSchema).refine(
+    val => {
+      const totalQuantity = val.reduce((sum, item) => sum + item.quantity, 0);
       return totalQuantity >= 2;
     },
-    { message: FAIL_MIN_QUANTITY_MESSAGE },
+    {
+      message: FAIL_MIN_QUANTITY_MESSAGE,
+    },
   ),
 });

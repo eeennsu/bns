@@ -71,7 +71,7 @@ export const GET = withAuth(async (request: NextRequest) => {
 export const POST = withAuth(async (request: NextRequest) => {
   const body = (await request.json()) as WithImageIds<BundleFormDto>;
 
-  const { name, description, price, discountedPrice, productsList, imageIds, isHidden, sortOrder } =
+  const { name, description, price, discountedPrice, products, imageIds, isHidden, sortOrder } =
     body;
 
   let newBundle;
@@ -80,7 +80,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_IMAGE_FILES }, { status: 400 });
   }
 
-  if (Object.keys(productsList).length === 0) {
+  if (products.length === 0) {
     return NextResponse.json({ error: BUNDLE_ERRORS.MISSING_PRODUCT }, { status: 400 });
   }
 
@@ -104,37 +104,31 @@ export const POST = withAuth(async (request: NextRequest) => {
   try {
     const bundleId = newBundle.id;
 
-    const breadsToInsert =
-      productsList?.breads?.map(bread => ({
-        bundleId,
-        breadId: Number(bread.id),
-        quantity: bread.quantity,
-        sortOrder: bread?.sortOrder,
-      })) ?? [];
-
-    const saucesToInsert =
-      productsList?.sauces?.map(sauce => ({
-        bundleId,
-        sauceId: Number(sauce.id),
-        quantity: sauce.quantity,
-        sortOrder: sauce.sortOrder,
-      })) ?? [];
-
-    const dishesToInsert =
-      productsList?.dishes?.map(dish => ({
-        bundleId,
-        dishId: Number(dish.id),
-        quantity: dish.quantity,
-        sortOrder: dish.sortOrder,
-      })) ?? [];
-
-    const drinksToInsert =
-      productsList?.drinks?.map(drink => ({
-        bundleId,
-        drinkId: Number(drink.id),
-        quantity: drink.quantity,
-        sortOrder: drink.sortOrder,
-      })) ?? [];
+    const { breadsToInsert, saucesToInsert, dishesToInsert, drinksToInsert } = products.reduce(
+      (acc, { type, id, quantity }) => {
+        switch (type) {
+          case 'bread':
+            acc.breadsToInsert.push({ bundleId, breadId: id, quantity, sortOrder });
+            break;
+          case 'sauce':
+            acc.saucesToInsert.push({ bundleId, sauceId: id, quantity, sortOrder });
+            break;
+          case 'dish':
+            acc.dishesToInsert.push({ bundleId, dishId: id, quantity, sortOrder });
+            break;
+          case 'drink':
+            acc.drinksToInsert.push({ bundleId, drinkId: id, quantity, sortOrder });
+            break;
+        }
+        return acc;
+      },
+      {
+        breadsToInsert: [],
+        saucesToInsert: [],
+        dishesToInsert: [],
+        drinksToInsert: [],
+      },
+    );
 
     await Promise.all([
       breadsToInsert.length > 0 ? db.insert(bundleBreads).values(breadsToInsert) : null,

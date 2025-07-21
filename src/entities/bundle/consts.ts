@@ -29,22 +29,30 @@ export const BUNDLE_TABLE_HEADERS = [
   '숨김 여부',
   '삭제',
 ];
+
+export const BUNDLE_PRODUCT_TYPE = {
+  BREAD: 'bread',
+  SAUCE: 'sauce',
+  DISH: 'dish',
+  DRINK: 'drink',
+} as const;
+
 export const BUNDLE_COMMAND_GROUP_HEADINGS = [
   {
     label: '빵',
-    value: 'bread',
+    value: BUNDLE_PRODUCT_TYPE.BREAD,
   },
   {
     label: '소스',
-    value: 'sauce',
+    value: BUNDLE_PRODUCT_TYPE.SAUCE,
   },
   {
     label: '디쉬',
-    value: 'dish',
+    value: BUNDLE_PRODUCT_TYPE.DISH,
   },
   {
     label: '음료',
-    value: 'drink',
+    value: BUNDLE_PRODUCT_TYPE.DRINK,
   },
 ] as const;
 
