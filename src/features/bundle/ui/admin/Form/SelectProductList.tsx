@@ -41,7 +41,6 @@ const SelectedProductList: FC<IProps> = ({
           value: product.id,
           quantity: product.quantity,
           price: product.price,
-          sortOrder: product.sortOrder,
         };
 
         if (product.type in acc) {
@@ -58,14 +57,18 @@ const SelectedProductList: FC<IProps> = ({
       },
     );
 
+    // sort를 이름 or 가격으로 변경
     for (const key of Object.keys(grouped) as Array<keyof typeof grouped>) {
-      grouped[key].sort((a, b) => a.sortOrder - b.sortOrder);
+      grouped[key].sort((a, b) => {
+        if (a.price !== b.price) {
+          return a.price - b.price;
+        }
+        return a.label.localeCompare(b.label);
+      });
     }
 
     return grouped;
   }, [productFields]);
-
-  console.log('groupedProductFields', groupedProductFields);
 
   const allSumPrice = useMemo(() => {
     return Object.values(productFields).reduce((acc, cur) => acc + cur.price * cur.quantity, 0);

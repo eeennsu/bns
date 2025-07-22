@@ -16,7 +16,6 @@ import { BundleFormDto, IBundleItem, IProduct } from '@entities/bundle/types';
 import useImageFiles from '@hooks/useImageFiles';
 
 import apiModifyBundle from '../apis/modify';
-import { getSortedBundleProducts } from '../libs/sortedBundleProducts';
 
 const useModifyBundle = (bundle: IBundleItem, bundleProducts: IProduct[]) => {
   const router = useRouter();
@@ -67,13 +66,11 @@ const useModifyBundle = (bundle: IBundleItem, bundleProducts: IProduct[]) => {
       data,
       bundle,
     );
-    const sortedBundleProducts = getSortedBundleProducts(data.products);
 
     delete data.imageFiles;
 
     const newData = {
       ...data,
-      products: sortedBundleProducts,
       imageIdsWithSortOrder: updatedImageIdsWithSortOrder,
     };
 

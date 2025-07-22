@@ -13,7 +13,6 @@ export const BundleProductSchema = z.object({
   price: z.number(),
   quantity: z.number(),
   name: z.string().optional(), // ui 표시를 위한 이름
-  sortOrder: z.number(),
 });
 
 export const BundleFormDtoSchema = z.object({

@@ -11,9 +11,7 @@ import { and, eq } from 'drizzle-orm';
 import { BUNDLE_PRODUCT_TYPE } from '@entities/bundle/consts';
 import { BundleProduct, BundleProductValue } from '@entities/bundle/types';
 
-const compareAndUpdate = async <
-  T extends { id?: number | string; quantity?: number; sortOrder?: number },
->(
+const compareAndUpdate = async <T extends { id?: number | string; quantity?: number }>(
   current: { idKey: keyof any; table: any; productIdKey: string },
   existingRows: any[],
   incoming: T[],
@@ -27,11 +25,7 @@ const compareAndUpdate = async <
 
   const toUpdate = incoming.filter(i => {
     const match = existingRows.find(e => e[current.productIdKey] === i.id);
-    return (
-      match &&
-      (Number(match.quantity) !== Number(i.quantity) ||
-        Number(match.sortOrder) !== Number(i.sortOrder))
-    );
+    return match && Number(match.quantity) !== Number(i.quantity);
   });
 
   await Promise.all([
@@ -51,14 +45,13 @@ const compareAndUpdate = async <
             bundleId,
             [current.productIdKey]: Number(i.id),
             quantity: i.quantity,
-            sortOrder: i.sortOrder,
           })),
         )
       : null,
     ...toUpdate.map(u =>
       db
         .update(current.table)
-        .set({ quantity: u.quantity, sortOrder: u.sortOrder })
+        .set({ quantity: u.quantity })
         .where(
           and(eq(current.table.bundleId, bundleId), eq(current.table[current.productIdKey], u.id)),
         ),

@@ -41,6 +41,6 @@ export type BundleFormDto = z.infer<typeof BundleFormDtoSchema>;
 export type BundleProduct = z.infer<typeof BundleProductSchema>;
 
 export type SelectProductItem = SelectItem & { price: number };
-export type SelectedProductItem = SelectProductItem & { quantity: number; sortOrder: number };
+export type SelectedProductItem = SelectProductItem & { quantity: number };
 
 export type ICommandGroupBundle = ICommandGroup<SelectedProductItem>;

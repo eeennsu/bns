@@ -15,7 +15,6 @@ import { BundleFormDto } from '@entities/bundle/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import apiCreateBundle from '../apis/create';
-import { getSortedBundleProducts } from '../libs/sortedBundleProducts';
 
 const useCreateBundleForm = () => {
   const router = useRouter();
@@ -54,7 +53,6 @@ const useCreateBundleForm = () => {
 
   const onSubmit = form.handleSubmit(async (data: BundleFormDto) => {
     const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BUNDLE);
-    const sortedBundleProducts = getSortedBundleProducts(data.products);
 
     delete data.imageFiles;
     delete data.products;
@@ -65,7 +63,6 @@ const useCreateBundleForm = () => {
 
     const newData = {
       ...data,
-      products: sortedBundleProducts,
       imageIds,
     };
 

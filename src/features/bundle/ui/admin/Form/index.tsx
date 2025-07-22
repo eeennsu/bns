@@ -101,12 +101,6 @@ const BundleForm: FC<IProps> = ({
 
     if (existingProductIndex !== -1) {
       removeProduct(existingProductIndex);
-
-      productFields.forEach(product => {
-        if (product.sortOrder > productFields[existingProductIndex]?.sortOrder) {
-          product.sortOrder -= 1;
-        }
-      });
     } else {
       appendProduct({
         id: selectProductItem.value,
@@ -114,7 +108,6 @@ const BundleForm: FC<IProps> = ({
         quantity: 1,
         name: selectProductItem.label,
         price: selectProductItem.price,
-        sortOrder: 0,
       });
     }
   };
