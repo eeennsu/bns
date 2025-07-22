@@ -57,7 +57,7 @@ const DetailSauce: FC<IProps> = ({ id = 1 }) => {
 
               <div className='flex items-center justify-between gap-3 sm:gap-2'>
                 <p className='text-lg font-bold text-[#3E2723] md:text-xl'>
-                  {bread.price.toLocaleString()}원
+                  {bread.price?.toLocaleString()}원
                 </p>
                 {(bread?.isNew || bread.isBestSeller) && (
                   <div className='flex items-center gap-2'>

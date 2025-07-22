@@ -1,3 +1,4 @@
+import { SORT_ORDER_COLUMN } from '@db/consts/commons';
 import { relations } from 'drizzle-orm';
 import { index, integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
 
@@ -14,9 +15,9 @@ export const imageReferences = pgTable(
     imageId: integer('image_id').notNull(),
     refTable: varchar('ref_table', { length: 50 }).notNull(),
     refId: integer('ref_id'), // 이미지 저장 후 참조될 데이터 생성 후 할당될 것임
-    order: integer('order').default(1).notNull(),
+    sortOrder: SORT_ORDER_COLUMN,
   },
-  t => [index('idx_ref_table_id_order').on(t.refTable, t.refId, t.order)],
+  t => [index('idx_ref_table_id_order').on(t.refTable, t.refId, t.sortOrder)],
 );
 
 export const imageRelations = relations(images, ({ many }) => ({

@@ -9,7 +9,7 @@ interface IParams {
 
 const apiModifyBundle = async ({ id, data }: IParams): Promise<void> => {
   if (!id) throw new Error('id is required');
-  await axiosAdmin.put('/admin/bundle/', data);
+  await axiosAdmin.put(`/admin/bundle/${id}`, data);
 };
 
 export default apiModifyBundle;

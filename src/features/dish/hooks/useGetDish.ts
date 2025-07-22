@@ -12,7 +12,6 @@ const useGetDish = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: [ADMIN_DISH_KEYS.GET, id],
     queryFn: () => apiGetDish({ id }),
-    enabled: !!id,
   });
 
   return { dish: data, isLoading, isError };

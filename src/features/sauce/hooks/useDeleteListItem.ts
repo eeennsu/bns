@@ -4,13 +4,17 @@ import { axiosErrorHandler } from '@shared/utils/axios/utilError';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import { ADMIN_BUNDLE_KEYS } from '@entities/bundle/consts';
 import { ADMIN_SAUCE_KEYS, SAUCE_TOAST_MESSAGES } from '@entities/sauce/consts';
 
 import apiDeleteSauce from '../apis/delete';
 
 const useDeleteSauceListItem = () => {
   const { page } = usePageSearchParams();
-  const { removeQueryItem } = useRemoveQueryListItem([ADMIN_SAUCE_KEYS.GET_LIST, page]);
+  const { queryClient, removeQueryItem } = useRemoveQueryListItem([
+    ADMIN_SAUCE_KEYS.GET_LIST,
+    page,
+  ]);
 
   const { mutateAsync: deleteSauce, isPending } = useMutation({
     mutationKey: [ADMIN_SAUCE_KEYS.DELETE],
@@ -19,6 +23,10 @@ const useDeleteSauceListItem = () => {
       toast.success(SAUCE_TOAST_MESSAGES.DELETE_SUCCESS);
 
       removeQueryItem(deletedId);
+
+      await queryClient.invalidateQueries({
+        queryKey: [ADMIN_BUNDLE_KEYS.GET_LIST],
+      });
     },
     onError: error => {
       toast.error(SAUCE_TOAST_MESSAGES.DELETE_FAILED, { description: axiosErrorHandler(error) });

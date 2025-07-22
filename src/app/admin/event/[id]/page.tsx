@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import DetailWidget from '@widgets/admin/detail';
 
 import useGetEvent from '@features/event/hooks/useGetEvent';
-import useModifyEvent from '@features/event/hooks/useModifyForm';
+import useModifyEvent from '@features/event/hooks/useModifyEventForm';
 import EventForm from '@features/event/ui/admin/Form';
 
 import { IEventItem } from '@entities/event/types';

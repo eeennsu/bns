@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import useCreateEventForm from '@features/event/hooks/useCreateForm';
+import useCreateEventForm from '@features/event/hooks/useCreateEventForm';
 import EventForm from '@features/event/ui/admin/Form';
 
 import useConfirmBeforeBack from '@hooks/usePreventGoBack';
@@ -23,7 +23,7 @@ const AdminEventCreatePage: FC = () => {
         files={files}
         setFiles={setFiles}
         submitProps={{
-          label: '생성',
+          label: '생성하기',
           onSubmit,
         }}
       />

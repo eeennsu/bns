@@ -36,10 +36,23 @@ export const GET = withAuth(async (request: NextRequest) => {
 
   const whereClause = and(searchClause, showTypeClause);
 
-  const [findBreads, [total]] = await Promise.all([
-    db.select().from(breads).where(whereClause).orderBy(orderClause).limit(pageSize).offset(offset),
-    db.select({ count: count() }).from(breads).where(whereClause),
-  ]);
+  let findBreads, total;
+
+  try {
+    [findBreads, [total]] = await Promise.all([
+      db
+        .select()
+        .from(breads)
+        .where(whereClause)
+        .orderBy(orderClause)
+        .limit(pageSize)
+        .offset(offset),
+      db.select({ count: count() }).from(breads).where(whereClause),
+    ]);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
+  }
 
   return NextResponse.json(
     setSucResponseList({
@@ -75,8 +88,8 @@ export const POST = withAuth(async (request: NextRequest) => {
         isHidden,
       })
       .returning();
-  } catch (e) {
-    console.error('Error inserting bread:', e);
+  } catch (error) {
+    console.error('Error inserting bread:', error);
     return NextResponse.json({ error: BREAD_ERRORS.CREATE_FAILED }, { status: 500 });
   }
 
@@ -93,13 +106,12 @@ export const POST = withAuth(async (request: NextRequest) => {
           isNull(imageReferences.refId),
         ),
       );
-  } catch (e) {
-    console.error('Error inserting image:', e);
 
+    return NextResponse.json(setSucResponseItem(newBread), { status: 201 });
+  } catch (error) {
+    console.error('Error inserting image:', error);
     return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
   }
-
-  return NextResponse.json(setSucResponseItem(newBread));
 });
 
 const getOrderClause = (orderBy?: OrderByType) => {

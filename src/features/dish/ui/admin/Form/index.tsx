@@ -1,5 +1,5 @@
 import { STRING_LENGTH } from '@db/consts/commons';
-import { inputOnlyNumber } from '@libs/inputOnlyNumber';
+import { inputOnlyNumber } from '@libs/format';
 import FormButton from '@shared/components/FormButton';
 import SharedTagInputFormFieldRender from '@shared/components/TagInputFormFieldRender';
 import type { BaseSyntheticEvent, Dispatch, FC, SetStateAction } from 'react';

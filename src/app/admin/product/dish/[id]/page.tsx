@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import DetailWidget from '@widgets/admin/detail';
 
 import useGetDish from '@features/dish/hooks/useGetDish';
-import useModifyDish from '@features/dish/hooks/useModifyForm';
+import useModifyDish from '@features/dish/hooks/useModifyDishForm';
 import DishForm from '@features/dish/ui/admin/Form';
 
 import { IDishItem } from '@entities/dish/types';

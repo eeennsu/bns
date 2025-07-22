@@ -5,17 +5,34 @@ import { IImageFile } from '@entities/image/types';
 
 import { FilterDate, ICommandGroup, IList, SelectItem } from '@typings/commons';
 
-import { BUNDLE_ITEM_TYPES } from './consts';
+import { BUNDLE_COMMAND_GROUP_HEADINGS, BUNDLE_PRODUCT_TYPE } from './consts';
 import { BundleFormDtoSchema, BundleProductSchema } from './contracts';
 
-export type BundleItemType = (typeof BUNDLE_ITEM_TYPES)[number];
+export type BundleProductLabel = (typeof BUNDLE_PRODUCT_TYPE)[keyof typeof BUNDLE_PRODUCT_TYPE];
+export type BundleProductValue = (typeof BUNDLE_COMMAND_GROUP_HEADINGS)[number]['value'];
 type Bundle = typeof bundles.$inferSelect;
+
+export type IProduct = {
+  id: number;
+  name: string;
+  price: number;
+  type: BundleProductValue;
+};
+
+export type IBundleProduct = IProduct & {
+  quantity: number;
+  sortOrder: number;
+  breadId?: number | undefined;
+  sauceId?: number | undefined;
+  dishId?: number | undefined;
+  drinkId?: number | undefined;
+};
 
 export interface IBundle extends FilterDate<Bundle> {}
 
 export interface IBundleItem extends IBundle {
   imageFiles: IImageFile[];
-  productsList: BundleProduct[];
+  products: IBundleProduct[];
 }
 
 export interface IBundleList extends IList<IBundleItem> {}

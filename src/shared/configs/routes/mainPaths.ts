@@ -36,6 +36,17 @@ export const MAIN_PATHS = {
         return MAIN_PATHS.product.sauce.root().concat(`/${slug}`);
       },
     },
+    drink: {
+      root() {
+        return MAIN_PATHS.product.root().concat('/drink');
+      },
+      list() {
+        return MAIN_PATHS.product.drink.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail({ slug }: IPathSlug) {
+        return MAIN_PATHS.product.drink.root().concat(`/${slug}`);
+      },
+    },
     bundle() {
       return MAIN_PATHS.product.root().concat('/bundle');
     },

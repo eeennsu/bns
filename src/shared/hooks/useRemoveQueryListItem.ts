@@ -19,7 +19,7 @@ const useRemoveQueryListItem = <T extends IList<ItemBase>>(key: any[]) => {
     });
   };
 
-  return { removeQueryItem };
+  return { queryClient, removeQueryItem };
 };
 
 export default useRemoveQueryListItem;
