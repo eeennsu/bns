@@ -5,10 +5,12 @@ const utilQueryClient = (config?: QueryClientConfig) =>
   new QueryClient({
     defaultOptions: {
       queries: {
-        gcTime: 1000 * 60 * 10,
-        staleTime: 1000 * 60 * 10,
+        gcTime: 1000 * 60 * 10, // 10
+        staleTime: 1000 * 60 * 10, // 10
         notifyOnChangeProps: 'all',
         refetchOnWindowFocus: false,
+        refetchOnMount: true,
+        refetchOnReconnect: true,
         retry: 1,
         ...config?.defaultOptions?.queries,
       },

@@ -31,7 +31,7 @@ const SharedDatePickerFormFieldRender = <TName extends string>({
         <FormLabel className='gap-0.5'>
           {label}
           {isRequired ? <strong className='required'>*</strong> : ''}
-          {tooltip && <Tooltip description={tooltip} />}
+          {tooltip ? <Tooltip content={tooltip} triggerClassName='ml-1' /> : null}
         </FormLabel>
       ) : null}
       <Popover>

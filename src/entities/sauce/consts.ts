@@ -20,7 +20,7 @@ export const SAUCE_TOAST_MESSAGES = {
 export const SAUCE_TABLE_HEADERS = [
   '순서',
   '이름',
-  '가격',
+  '가격(원)',
   '시그니처 여부',
   '신메뉴 여부',
   '생성일',

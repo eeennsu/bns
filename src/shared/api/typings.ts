@@ -3,6 +3,7 @@ import { COOKIE_KEYS } from '@shared/consts/storage';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { User } from '@entities/auth/types';
+import { IFileImagesWithSortOrder } from '@entities/image/types';
 
 import { ORDER_BY_TYPES } from './consts';
 
@@ -19,13 +20,18 @@ export interface IRefreshTokenPayload extends ITokenPayload {
 }
 
 export type WithImageId<T> = Omit<T, 'imageFiles'> & { imageId: number };
-export type WithImageIds<T> = Omit<T, 'imageFiles'> & { imageIds: number[] };
+export type WithImageIds<T> = Omit<T, 'imageFiles'> & {
+  imageIds: number[];
+};
+export type WithImageIdsSortOrder<T> = Omit<T, 'imageFiles'> & {
+  imageIdsWithSortOrder: IFileImagesWithSortOrder[];
+};
 
 export type ApiParams = Promise<{ id: string }>;
 
 export type ApiHandler = (
-  request: NextRequest,
-  { params }: { params: ApiParams },
+  request?: NextRequest,
+  { params }?: { params: ApiParams },
 ) => Promise<NextResponse>;
 
 export type OrderByType = (typeof ORDER_BY_TYPES)[keyof typeof ORDER_BY_TYPES];

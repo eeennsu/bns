@@ -20,7 +20,7 @@ export const BREAD_TOAST_MESSAGES = {
 export const BREAD_TABLE_HEADERS = [
   '정렬 순서',
   '이름',
-  '가격',
+  '가격(원)',
   'MBTI',
   '시그니처 여부',
   '신메뉴 여부',

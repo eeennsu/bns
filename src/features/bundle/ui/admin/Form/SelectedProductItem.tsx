@@ -5,11 +5,11 @@ import { SelectedProductItem as SelectedProductItemType } from '@entities/bundle
 
 interface IProps {
   item: SelectedProductItemType;
-  updateQuantity: (delta: number) => void;
-  removeSelectedItem: () => void;
+  updateProductQuantity?: (delta: number) => void;
+  removeSelectedItem?: () => void;
 }
 
-const SelectedProductItem: FC<IProps> = ({ item, updateQuantity, removeSelectedItem }) => {
+const SelectedProductItem: FC<IProps> = ({ item, updateProductQuantity, removeSelectedItem }) => {
   return (
     <div className='group relative flex min-w-90 items-center justify-between rounded-sm border border-gray-300 bg-white px-4 py-3'>
       <button
@@ -22,14 +22,14 @@ const SelectedProductItem: FC<IProps> = ({ item, updateQuantity, removeSelectedI
       <div className='flex flex-col'>
         <span className='text-foreground truncate text-sm font-medium'>{item.label}</span>
         <span className='text-muted-foreground mt-0.5 text-xs'>
-          {item.price.toLocaleString()}원
+          {item.price?.toLocaleString()}원
         </span>
       </div>
 
       <div className='flex items-center gap-2'>
         <button
           type='button'
-          onClick={() => updateQuantity(-1)}
+          onClick={() => updateProductQuantity(-1)}
           className='border-input bg-background text-muted-foreground flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border active:scale-95'
         >
           <Minus size={16} />
@@ -41,7 +41,7 @@ const SelectedProductItem: FC<IProps> = ({ item, updateQuantity, removeSelectedI
         )}
         <button
           type='button'
-          onClick={() => updateQuantity(1)}
+          onClick={() => updateProductQuantity(1)}
           className='border-input bg-background text-muted-foreground hover:bg-accent hover:text-foreground flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border transition active:scale-95'
         >
           <Plus size={16} />

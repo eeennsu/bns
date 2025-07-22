@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import DetailWidget from '@widgets/admin/detail';
 
 import useGetSauce from '@features/sauce/hooks/useGetSauce';
-import useModifySauce from '@features/sauce/hooks/useModifyForm';
+import useModifySauce from '@features/sauce/hooks/useModifySauceForm';
 import SauceForm from '@features/sauce/ui/admin/Form';
 
 import { ISauceItem } from '@entities/sauce/types';

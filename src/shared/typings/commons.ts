@@ -65,7 +65,9 @@ export interface IGetListParams extends Record<string, string | number> {
   search?: string;
 }
 
-export type SelectItem<T = string> = { label: string; value: T };
+export type SelectItem = { label: string; value: string | number };
+
+export type SelectProductItem = SelectItem & { price: number };
 export interface ICommandGroup<T = Record<string, any>> {
   heading: SelectItem;
   items: Array<
@@ -90,3 +92,5 @@ export interface IItemResponse {
 
 export type ItemShowValue = (typeof FILTER_TYPES)[keyof typeof FILTER_TYPES];
 export type ItemShowLabel = '전체' | '공개' | '비공개';
+
+export type Updater<T> = (value: T | ((prev: T) => T)) => void;

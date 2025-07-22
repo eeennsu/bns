@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import useCreateDishForm from '@features/dish/hooks/useCreateForm';
+import useCreateDishForm from '@features/dish/hooks/useCreateDishForm';
 import DishForm from '@features/dish/ui/admin/Form';
 
 import useConfirmBeforeBack from '@hooks/usePreventGoBack';

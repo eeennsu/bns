@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import useCreateSauceForm from '@features/sauce/hooks/useCreateForm';
+import useCreateSauceForm from '@features/sauce/hooks/useCreateSauceForm';
 import SauceForm from '@features/sauce/ui/admin/Form';
 
 import useConfirmBeforeBack from '@hooks/usePreventGoBack';

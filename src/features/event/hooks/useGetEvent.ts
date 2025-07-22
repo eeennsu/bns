@@ -12,7 +12,6 @@ const useGetEvent = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: [ADMIN_EVENT_KEYS.GET, id],
     queryFn: () => apiGetEvent({ id }),
-    enabled: !!id,
   });
 
   return { event: data, isLoading, isError };

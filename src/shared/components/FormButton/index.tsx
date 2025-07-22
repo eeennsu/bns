@@ -2,7 +2,7 @@ import { Button } from '@shared/shadcn-ui/ui';
 import { cn } from '@shared/shadcn-ui/utils';
 import { LoaderCircle } from 'lucide-react';
 import type { ComponentProps, FC } from 'react';
-import { UseFormReturn, useFormState } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 
 interface IProps extends ComponentProps<typeof Button> {
   formContext: UseFormReturn<any>;
@@ -10,7 +10,8 @@ interface IProps extends ComponentProps<typeof Button> {
 }
 
 const FormButton: FC<IProps> = ({ formContext, label, className, ...props }) => {
-  const { isDirty, isSubmitting } = useFormState(formContext);
+  const { formState } = formContext;
+  const { isSubmitting, isDirty } = formState;
 
   return (
     <Button

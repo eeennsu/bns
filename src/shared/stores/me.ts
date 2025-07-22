@@ -2,11 +2,11 @@ import { create } from 'zustand';
 
 import { IMe } from '@entities/auth/types';
 
-import { Nullable } from '@typings/commons';
+import { Nullable, Updater } from '@typings/commons';
 
 interface MeStore {
   me: Nullable<IMe>;
-  setMe: (data: Nullable<IMe> | ((prev: Nullable<IMe>) => Nullable<IMe>)) => void;
+  setMe: Updater<Nullable<IMe>>;
 }
 
 const useMeStore = create<MeStore>(set => ({

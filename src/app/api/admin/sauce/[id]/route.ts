@@ -1,8 +1,9 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { deleteImageWithItem, updateImageReference } from '@shared/api/image';
-import { defaultResponse, setSucResponseItem } from '@shared/api/response';
+import { getLinkedBundlesByProduct } from '@shared/api/bundle';
+import { deleteImage, updateSingleImageReference } from '@shared/api/image';
+import { setSucResponseItem } from '@shared/api/response';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -10,12 +11,12 @@ import { SAUCE_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-interface Params {
+interface IParams {
   params: Promise<{ id: string }>;
 }
 
-export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
-  const sauceId = +(await params).id;
+export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
+  const sauceId = +(await params)?.id;
 
   if (!sauceId) {
     return NextResponse.json({ error: SAUCE_ERRORS.MISSING_ID }, { status: 400 });
@@ -25,24 +26,31 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: SAUCE_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [sauceResult, imageResult] = await Promise.all([
-    db.select().from(sauces).where(eq(sauces.id, sauceId)).limit(1),
-    db
-      .select({
-        id: images.id,
-        url: images.url,
-        name: images.name,
-      })
-      .from(imageReferences)
-      .innerJoin(images, eq(imageReferences.imageId, images.id))
-      .where(
-        and(
-          eq(imageReferences.refTable, IMAGE_REF_VALUES.SAUCE),
-          eq(imageReferences.refId, sauceId),
-        ),
-      )
-      .limit(1),
-  ]);
+  let sauceResult, imageResult;
+
+  try {
+    [sauceResult, imageResult] = await Promise.all([
+      db.select().from(sauces).where(eq(sauces.id, sauceId)).limit(1),
+      db
+        .select({
+          id: images.id,
+          url: images.url,
+          name: images.name,
+        })
+        .from(imageReferences)
+        .innerJoin(images, eq(imageReferences.imageId, images.id))
+        .where(
+          and(
+            eq(imageReferences.refTable, IMAGE_REF_VALUES.SAUCE),
+            eq(imageReferences.refId, sauceId),
+          ),
+        )
+        .limit(1),
+    ]);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: SAUCE_ERRORS.GET_FAILED }, { status: 500 });
+  }
 
   const [foundedSauce] = sauceResult;
   const [sauceImage] = imageResult;
@@ -59,8 +67,8 @@ export const GET = withAuth(async (_: NextRequest, { params }: Params) => {
   return NextResponse.json(setSucResponseItem(response));
 });
 
-export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
-  const sauceId = +(await params).id;
+export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
+  const sauceId = +(await params)?.id;
 
   if (!sauceId) {
     return NextResponse.json({ error: SAUCE_ERRORS.MISSING_ID }, { status: 400 });
@@ -77,36 +85,45 @@ export const PUT = withAuth(async (req: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
   }
 
-  await updateImageReference({
-    refTable: IMAGE_REF_VALUES.SAUCE,
-    refId: sauceId,
-    newImageId: imageId,
-  });
-
   const { name, description, price, sortOrder, isHidden, isNew, isSignature } = body;
 
-  const updateSauce = await db
-    .update(sauces)
-    .set({
-      name,
-      description,
-      price: Number(price),
-      sortOrder: Number(sortOrder),
-      isSignature,
-      isNew,
-      isHidden,
-    })
-    .where(eq(sauces.id, sauceId));
+  let updateSauce;
 
-  if (!updateSauce) {
+  try {
+    updateSauce = await db
+      .update(sauces)
+      .set({
+        name,
+        description,
+        price: Number(price),
+        sortOrder: Number(sortOrder),
+        isSignature,
+        isNew,
+        isHidden,
+      })
+      .where(eq(sauces.id, sauceId))
+      .returning();
+  } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: SAUCE_ERRORS.MODIFY_FAILED }, { status: 500 });
+  }
+
+  try {
+    await updateSingleImageReference({
+      refTable: IMAGE_REF_VALUES.SAUCE,
+      refId: sauceId,
+      imageId,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
   }
 
   return NextResponse.json(setSucResponseItem(updateSauce));
 });
 
-export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
-  const sauceId = +(await params).id;
+export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
+  const sauceId = +(await params)?.id;
 
   if (!sauceId) {
     return NextResponse.json({ error: SAUCE_ERRORS.MISSING_ID }, { status: 400 });
@@ -116,17 +133,44 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: Params) => {
     return NextResponse.json({ error: SAUCE_ERRORS.INVALID_ID }, { status: 400 });
   }
 
-  const [foundedSauce] = await db.select().from(sauces).where(eq(sauces.id, sauceId)).limit(1);
-
-  if (!foundedSauce) {
-    return NextResponse.json({ error: SAUCE_ERRORS.NOT_FOUND_SAUCE }, { status: 400 });
+  const linkedBundles = await getLinkedBundlesByProduct(sauceId, 'sauce');
+  if (linkedBundles.length > 0) {
+    const names = linkedBundles.map(b => b.name).join(', ');
+    return NextResponse.json(
+      {
+        error: `세트 구성 상품 (${names})에 포함되어있습니다. 해당 세트 구성의 품목을 먼저 삭제해주세요.`,
+      },
+      { status: 400 },
+    );
   }
 
-  await deleteImageWithItem({
-    refTable: IMAGE_REF_VALUES.SAUCE,
-    refId: sauceId,
-    deleteItem: db.delete(sauces).where(eq(sauces.id, sauceId)),
-  });
+  try {
+    const [foundedSauce] = await db.select().from(sauces).where(eq(sauces.id, sauceId)).limit(1);
 
-  return NextResponse.json(defaultResponse);
+    if (!foundedSauce) {
+      return NextResponse.json({ error: SAUCE_ERRORS.NOT_FOUND_SAUCE }, { status: 400 });
+    }
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: SAUCE_ERRORS.GET_FAILED }, { status: 500 });
+  }
+
+  try {
+    await db.delete(sauces).where(eq(sauces.id, sauceId));
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: SAUCE_ERRORS.DELETE_FAILED }, { status: 500 });
+  }
+
+  try {
+    await deleteImage({
+      refTable: IMAGE_REF_VALUES.SAUCE,
+      refId: sauceId,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+  }
+
+  return new NextResponse(null, { status: 204 });
 });

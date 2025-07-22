@@ -11,3 +11,5 @@ export const FILTER_TYPES = {
   ON: 'on',
   OFF: 'off',
 } as const;
+
+export const FIELD_ARRAY_ID = 'fid' as const;
