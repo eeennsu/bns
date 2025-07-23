@@ -61,7 +61,7 @@ const AdminDessertListPage: FC = () => {
       <TableSearch
         {...searchForm}
         total={paginationData.total}
-        placeholder='소스 이름을 입력해주세요'
+        placeholder='디저트 이름을 입력해주세요'
         orderSelectList={ORDER_BY_SELECT}
         orderBy={setOrderBy(orderBy as OrderByType)}
         setOrderBy={setOrderByDessert}

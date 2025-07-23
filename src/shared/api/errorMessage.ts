@@ -61,6 +61,18 @@ export const SAUCE_ERRORS = {
   NOT_FOUND_SAUCE: '존재하지 않는 소스입니다.',
 };
 
+export const DISH_ERRORS = {
+  GET_FAILED: '디쉬 조회에 실패했습니다.',
+  GET_LIST_FAILED: '디쉬 목록 조회에 실패했습니다.',
+  CREATE_FAILED: '디쉬 생성에 실패했습니다.',
+  MODIFY_FAILED: '디쉬 수정에 실패했습니다.',
+  DELETE_FAILED: '디쉬 삭제에 실패했습니다.',
+  MISSING_ID: '상세 아이디가 없습니다.',
+  INVALID_ID: '잘못된 상세 아이디입니다.',
+  NOT_FOUND_DISH: '존재하지 않는 디쉬입니다.',
+  INVALID_INGREDIENTS: '잘못된 재료 목록입니다.',
+};
+
 export const DRINK_ERRORS = {
   GET_FAILED: '음료 조회에 실패했습니다.',
   GET_LIST_FAILED: '음료 목록 조회에 실패했습니다.',
@@ -72,28 +84,15 @@ export const DRINK_ERRORS = {
   NOT_FOUND_DRINK: '존재하지 않는 음료입니다.',
 };
 
-export const EVENT_ERRORS = {
-  GET_FAILED: '이벤트 조회에 실패했습니다.',
-  GET_LIST_FAILED: '이벤트 목록 조회에 실패했습니다.',
-  CREATE_FAILED: '이벤트 생성에 실패했습니다.',
-  MODIFY_FAILED: '이벤트 수정에 실패했습니다.',
-  DELETE_FAILED: '이벤트 삭제에 실패했습니다.',
+export const DESSERT_ERRORS = {
+  GET_FAILED: '디저트 조회에 실패했습니다.',
+  GET_LIST_FAILED: '디저트 목록 조회에 실패했습니다.',
+  CREATE_FAILED: '디저트 생성에 실패했습니다.',
+  MODIFY_FAILED: '디저트 수정에 실패했습니다.',
+  DELETE_FAILED: '디저트 삭제에 실패했습니다.',
   MISSING_ID: '상세 아이디가 없습니다.',
   INVALID_ID: '잘못된 상세 아이디입니다.',
-  NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',
-  INVALID_DATE: '날짜 형식이 잘못되었습니다.',
-  OVER_DATE: '시작 날짜는 종료 날짜보다 이전이어야 합니다.',
-};
-
-export const DISH_ERRORS = {
-  GET_FAILED: '디쉬 조회에 실패했습니다.',
-  GET_LIST_FAILED: '디쉬 목록 조회에 실패했습니다.',
-  CREATE_FAILED: '디쉬 생성에 실패했습니다.',
-  MODIFY_FAILED: '디쉬 수정에 실패했습니다.',
-  DELETE_FAILED: '디쉬 삭제에 실패했습니다.',
-  MISSING_ID: '상세 아이디가 없습니다.',
-  INVALID_ID: '잘못된 상세 아이디입니다.',
-  NOT_FOUND_DISH: '존재하지 않는 디쉬입니다.',
+  NOT_FOUND_DESSERT: '존재하지 않는 디저트입니다.',
   INVALID_INGREDIENTS: '잘못된 재료 목록입니다.',
 };
 
@@ -112,4 +111,17 @@ export const BUNDLE_ERRORS = {
   NOT_FOUND_BUNDLE: '존재하지 않는 세트 구성입니다.',
   LINKED_TO_BUNDLE:
     '삭제할 상품이, 특정 세트 구성에 포함되어있습니다. 해당 세트 구성의 품목을 먼저 삭제해주세요.',
+};
+
+export const EVENT_ERRORS = {
+  GET_FAILED: '이벤트 조회에 실패했습니다.',
+  GET_LIST_FAILED: '이벤트 목록 조회에 실패했습니다.',
+  CREATE_FAILED: '이벤트 생성에 실패했습니다.',
+  MODIFY_FAILED: '이벤트 수정에 실패했습니다.',
+  DELETE_FAILED: '이벤트 삭제에 실패했습니다.',
+  MISSING_ID: '상세 아이디가 없습니다.',
+  INVALID_ID: '잘못된 상세 아이디입니다.',
+  NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',
+  INVALID_DATE: '날짜 형식이 잘못되었습니다.',
+  OVER_DATE: '시작 날짜는 종료 날짜보다 이전이어야 합니다.',
 };
