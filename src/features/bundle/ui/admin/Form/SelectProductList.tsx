@@ -34,6 +34,7 @@ const SelectedProductList: FC<IProps> = ({
       sauce: SelectedProductItemType[];
       dish: SelectedProductItemType[];
       drink: SelectedProductItemType[];
+      dessert: SelectedProductItemType[];
     }>(
       (acc, product) => {
         const productItem = {
@@ -54,6 +55,7 @@ const SelectedProductList: FC<IProps> = ({
         sauce: [],
         dish: [],
         drink: [],
+        dessert: [],
       },
     );
 

@@ -1,5 +1,6 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
+import { desserts } from '@db/schemas/desserts';
 import { dishes } from '@db/schemas/dishes';
 import { drinks } from '@db/schemas/drinks';
 import { sauces } from '@db/schemas/sauces';
@@ -42,11 +43,17 @@ export const GET = withAuth(async () => {
       .from(drinks)
       .orderBy(asc(drinks.price));
 
-    const [_breads, _sauces, _dishes, _drinks] = await Promise.all([
+    const dessertQuery = db
+      .select({ id: desserts.id, name: desserts.name, price: desserts.price })
+      .from(desserts)
+      .orderBy(asc(desserts.price));
+
+    const [_breads, _sauces, _dishes, _drinks, _desserts] = await Promise.all([
       breadsQuery,
       sauceQuery,
       dishQuery,
       drinkQuery,
+      dessertQuery,
     ]);
 
     const allProducts = [
@@ -54,6 +61,7 @@ export const GET = withAuth(async () => {
       ...mapWithType(_sauces, BUNDLE_PRODUCT_TYPE.SAUCE),
       ...mapWithType(_dishes, BUNDLE_PRODUCT_TYPE.DISH),
       ...mapWithType(_drinks, BUNDLE_PRODUCT_TYPE.DRINK),
+      ...mapWithType(_desserts, BUNDLE_PRODUCT_TYPE.DESSERT),
     ];
 
     return NextResponse.json(setSucResponseItem(allProducts));

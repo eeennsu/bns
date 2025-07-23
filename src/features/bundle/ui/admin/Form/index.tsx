@@ -53,6 +53,7 @@ const BundleForm: FC<IProps> = ({
       sauce: [],
       dish: [],
       drink: [],
+      dessert: [],
     };
 
     allProducts.forEach(product => {
@@ -62,7 +63,7 @@ const BundleForm: FC<IProps> = ({
       }
     });
 
-    return [groupMap.bread, groupMap.sauce, groupMap.dish, groupMap.drink];
+    return [groupMap.bread, groupMap.sauce, groupMap.dish, groupMap.drink, groupMap.dessert];
   }, [allProducts]);
 
   const {

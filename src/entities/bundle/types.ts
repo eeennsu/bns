@@ -26,6 +26,7 @@ export type IBundleProduct = IProduct & {
   sauceId?: number | undefined;
   dishId?: number | undefined;
   drinkId?: number | undefined;
+  dessertId?: number | undefined;
 };
 
 export interface IBundle extends FilterDate<Bundle> {}

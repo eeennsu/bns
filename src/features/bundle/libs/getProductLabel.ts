@@ -11,6 +11,8 @@ export const getProductLabel = (value: BundleProductValue) => {
       return '디쉬';
     case BUNDLE_PRODUCT_TYPE.DRINK:
       return '음료';
+    case BUNDLE_PRODUCT_TYPE.DESSERT:
+      return '디저트';
     default:
       return '';
   }
