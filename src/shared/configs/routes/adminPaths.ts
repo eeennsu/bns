@@ -79,6 +79,23 @@ export const ADMIN_PATHS = {
         return ADMIN_PATHS.product.drink.root().concat('/modify');
       },
     },
+    dessert: {
+      root() {
+        return ADMIN_PATHS.product.root().concat('/dessert');
+      },
+      list() {
+        return ADMIN_PATHS.product.dessert.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail: ({ slug }: IPathSlug) => {
+        return ADMIN_PATHS.product.dessert.root().concat(`/${slug}`);
+      },
+      create: () => {
+        return ADMIN_PATHS.product.dessert.root().concat('/create');
+      },
+      modify: () => {
+        return ADMIN_PATHS.product.dessert.root().concat('/modify');
+      },
+    },
   },
   bundle: {
     root() {
