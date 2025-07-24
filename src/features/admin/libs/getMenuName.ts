@@ -5,6 +5,7 @@ const PAGE_NAME_MAP = {
   event: '이벤트',
   dish: '디쉬',
   drink: '음료',
+  dessert: '디저트',
 };
 
 export const getAdminPageName = (pathname: string): string => {

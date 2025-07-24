@@ -24,6 +24,7 @@ export const IMAGE_REF_VALUES = {
   BUNDLE: 'bundle',
   DISH: 'dish',
   DRINK: 'drink',
+  DESSERT: 'dessert',
 } as const;
 
 export const ALLOWED_FILE_TYPES = ['.jpg', '.png', '.jpeg', '.webp'];

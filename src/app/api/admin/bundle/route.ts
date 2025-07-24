@@ -1,6 +1,7 @@
 import db from '@db/index';
 import {
   bundleBreads,
+  bundleDesserts,
   bundleDishes,
   bundleDrinks,
   bundles,
@@ -104,53 +105,64 @@ export const POST = withAuth(async (request: NextRequest) => {
   try {
     const bundleId = newBundle.id;
 
-    const { breadsToInsert, saucesToInsert, dishesToInsert, drinksToInsert } = products.reduce(
-      (acc, { type, id, quantity }) => {
-        switch (type) {
-          case 'bread':
-            acc.breadsToInsert.push({
-              bundleId,
-              breadId: id,
-              quantity,
-            });
-            break;
-          case 'sauce':
-            acc.saucesToInsert.push({
-              bundleId,
-              sauceId: id,
-              quantity,
-            });
-            break;
-          case 'dish':
-            acc.dishesToInsert.push({
-              bundleId,
-              dishId: id,
-              quantity,
-            });
-            break;
-          case 'drink':
-            acc.drinksToInsert.push({
-              bundleId,
-              drinkId: id,
-              quantity,
-            });
-            break;
-        }
-        return acc;
-      },
-      {
-        breadsToInsert: [],
-        saucesToInsert: [],
-        dishesToInsert: [],
-        drinksToInsert: [],
-      },
-    );
+    const { breadsToInsert, saucesToInsert, dishesToInsert, drinksToInsert, dessertsToInsert } =
+      products.reduce(
+        (acc, { type, id, quantity }) => {
+          switch (type) {
+            case 'bread':
+              acc.breadsToInsert.push({
+                bundleId,
+                breadId: id,
+                quantity,
+              });
+              break;
+            case 'sauce':
+              acc.saucesToInsert.push({
+                bundleId,
+                sauceId: id,
+                quantity,
+              });
+              break;
+            case 'dish':
+              acc.dishesToInsert.push({
+                bundleId,
+                dishId: id,
+                quantity,
+              });
+              break;
+            case 'drink':
+              acc.drinksToInsert.push({
+                bundleId,
+                drinkId: id,
+                quantity,
+              });
+              break;
+
+            case 'dessert':
+              acc.dessertsToInsert.push({
+                bundleId,
+                dessertId: id,
+                quantity,
+              });
+              break;
+          }
+          return acc;
+        },
+        {
+          breadsToInsert: [],
+          saucesToInsert: [],
+          dishesToInsert: [],
+          drinksToInsert: [],
+          dessertsToInsert: [],
+        },
+      );
 
     await Promise.all([
       breadsToInsert.length > 0 ? db.insert(bundleBreads).values(breadsToInsert) : null,
       saucesToInsert.length > 0 ? db.insert(bundleSauces).values(saucesToInsert) : null,
       dishesToInsert.length > 0 ? db.insert(bundleDishes).values(dishesToInsert) : null,
       drinksToInsert.length > 0 ? db.insert(bundleDrinks).values(drinksToInsert) : null,
+      dessertsToInsert.length > 0 ? db.insert(bundleDesserts).values(dessertsToInsert) : null,
     ]);
   } catch (error) {
     console.error(error);

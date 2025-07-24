@@ -1,6 +1,7 @@
 import db from '@db/index';
 import {
   bundleBreads,
+  bundleDesserts,
   bundleDishes,
   bundleDrinks,
   bundles,
@@ -60,78 +61,57 @@ const compareAndUpdate = async <T extends { id?: number | string; quantity?: num
 };
 
 export const updateBundleProductsDiff = async (bundleId: number, products: BundleProduct[]) => {
-  const breads = [];
-  const sauces = [];
-  const dishes = [];
-  const drinks = [];
+  const grouped = {
+    [BUNDLE_PRODUCT_TYPE.BREAD]: [],
+    [BUNDLE_PRODUCT_TYPE.SAUCE]: [],
+    [BUNDLE_PRODUCT_TYPE.DISH]: [],
+    [BUNDLE_PRODUCT_TYPE.DRINK]: [],
+    [BUNDLE_PRODUCT_TYPE.DESSERT]: [],
+  };
 
   for (const product of products) {
-    switch (product.type) {
-      case BUNDLE_PRODUCT_TYPE.BREAD:
-        breads.push(product);
-        break;
-      case BUNDLE_PRODUCT_TYPE.SAUCE:
-        sauces.push(product);
-        break;
-      case BUNDLE_PRODUCT_TYPE.DISH:
-        dishes.push(product);
-        break;
-      case BUNDLE_PRODUCT_TYPE.DRINK:
-        drinks.push(product);
-        break;
-    }
+    grouped[product.type]?.push(product);
   }
 
-  // breads
-  const existingBreads = await db
-    .select()
-    .from(bundleBreads)
-    .where(eq(bundleBreads.bundleId, bundleId));
+  const config = [
+    {
+      type: BUNDLE_PRODUCT_TYPE.BREAD,
+      table: bundleBreads,
+      idKey: 'breadId',
+    },
+    {
+      type: BUNDLE_PRODUCT_TYPE.SAUCE,
+      table: bundleSauces,
+      idKey: 'sauceId',
+    },
+    {
+      type: BUNDLE_PRODUCT_TYPE.DISH,
+      table: bundleDishes,
+      idKey: 'dishId',
+    },
+    {
+      type: BUNDLE_PRODUCT_TYPE.DRINK,
+      table: bundleDrinks,
+      idKey: 'drinkId',
+    },
+    {
+      type: BUNDLE_PRODUCT_TYPE.DESSERT,
+      table: bundleDesserts,
+      idKey: 'dessertId',
+    },
+  ];
 
-  await compareAndUpdate(
-    { idKey: 'breadId', table: bundleBreads, productIdKey: 'breadId' },
-    existingBreads,
-    breads,
-    bundleId,
-  );
+  await Promise.all(
+    config.map(async ({ type, table, idKey }) => {
+      const existing = await db.select().from(table).where(eq(table.bundleId, bundleId));
 
-  // sauces
-  const existingSauces = await db
-    .select()
-    .from(bundleSauces)
-    .where(eq(bundleSauces.bundleId, bundleId));
-
-  await compareAndUpdate(
-    { idKey: 'sauceId', table: bundleSauces, productIdKey: 'sauceId' },
-    existingSauces,
-    sauces,
-    bundleId,
-  );
-
-  // dishes
-  const existingDishes = await db
-    .select()
-    .from(bundleDishes)
-    .where(eq(bundleDishes.bundleId, bundleId));
-
-  await compareAndUpdate(
-    { idKey: 'dishId', table: bundleDishes, productIdKey: 'dishId' },
-    existingDishes,
-    dishes,
-    bundleId,
-  );
-
-  // drinks
-  const existingDrinks = await db
-    .select()
-    .from(bundleDrinks)
-    .where(eq(bundleDrinks.bundleId, bundleId));
-
-  await compareAndUpdate(
-    { idKey: 'drinkId', table: bundleDrinks, productIdKey: 'drinkId' },
-    existingDrinks,
-    drinks,
-    bundleId,
+      await compareAndUpdate(
+        { idKey, table, productIdKey: idKey },
+        existing,
+        grouped[type],
+        bundleId,
+      );
+    }),
   );
 };
 
@@ -155,6 +135,10 @@ export const getLinkedBundlesByProduct = async (productId: number, type: BundleP
     case BUNDLE_PRODUCT_TYPE.DRINK:
       joinTable = bundleDrinks;
       productIdKey = 'drinkId';
+      break;
+    case BUNDLE_PRODUCT_TYPE.DESSERT:
+      joinTable = bundleDesserts;
+      productIdKey = 'dessertId';
       break;
     default:
       throw new Error('Invalid product type');

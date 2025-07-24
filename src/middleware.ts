@@ -3,9 +3,9 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
 export const middleware = (request: NextRequest) => {
-  const refreshToken = request.cookies.get(COOKIE_KEYS.REFRESH)?.value;
+  const accessToken = request.cookies.get(COOKIE_KEYS.ACCESS)?.value;
 
-  if (!refreshToken) {
+  if (!accessToken) {
     const response = NextResponse.redirect(new URL(MAIN_PATHS.home(), request.url));
     response.cookies.set(COOKIE_KEYS.LOGIN_EXPIRED, 'true', { path: '/', httpOnly: false });
 

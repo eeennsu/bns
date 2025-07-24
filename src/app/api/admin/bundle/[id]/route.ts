@@ -1,6 +1,7 @@
 import db from '@db/index';
 import {
   bundleBreads,
+  bundleDesserts,
   bundleDishes,
   bundleDrinks,
   bundles,
@@ -44,7 +45,6 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: images.id,
           url: images.url,
           name: images.name,
-          sortOrder: imageReferences.sortOrder,
         })
         .from(imageReferences)
         .innerJoin(images, eq(imageReferences.imageId, images.id))
@@ -59,7 +59,6 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleBreads.id,
           breadId: bundleBreads.breadId,
           quantity: bundleBreads.quantity,
-          sortOrder: bundleBreads.sortOrder,
         })
         .from(bundleBreads)
         .where(eq(bundleBreads.bundleId, bundleId)),
@@ -68,7 +67,6 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleSauces.id,
           sauceId: bundleSauces.sauceId,
           quantity: bundleSauces.quantity,
-          sortOrder: bundleSauces.sortOrder,
         })
         .from(bundleSauces)
         .where(eq(bundleSauces.bundleId, bundleId)),
@@ -86,15 +84,22 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleDrinks.id,
           drinkId: bundleDrinks.drinkId,
           quantity: bundleDrinks.quantity,
-          sortOrder: bundleDrinks.sortOrder,
         })
         .from(bundleDrinks)
         .where(eq(bundleDrinks.bundleId, bundleId)),
+      db
+        .select({
+          id: bundleDesserts.id,
+          dessertId: bundleDesserts.dessertId,
+          quantity: bundleDesserts.quantity,
+        })
+        .from(bundleDesserts)
+        .where(eq(bundleDesserts.bundleId, bundleId)),
     ]);
 
     const [foundedBundle] = bundleResult;
     const bundleImages = imageResult?.sort((prev, next) => prev?.sortOrder - next?.sortOrder);
-    const [breadsBundles, sauceBundles, dishBundles, drinkBundles] = productsResult;
+    const [breadsBundles, sauceBundles, dishBundles, drinkBundles, dessertBundles] = productsResult;
 
     if (!foundedBundle) {
       return NextResponse.json({ error: BUNDLE_ERRORS.NOT_FOUND_BUNDLE }, { status: 400 });
@@ -108,6 +113,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         ...mapWithType(sauceBundles, 'sauce'),
         ...mapWithType(dishBundles, 'dish'),
         ...mapWithType(drinkBundles, 'drink'),
+        ...mapWithType(dessertBundles, 'dessert'),
       ],
     };
   } catch (error) {
@@ -246,6 +252,15 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       .limit(1);
     if (hasDrinks.length > 0) {
       tasks.push(db.delete(bundleDrinks).where(eq(bundleDrinks.bundleId, bundleId)));
+    }
+
+    const hasDesserts = await db
+      .select()
+      .from(bundleDesserts)
+      .where(eq(bundleDesserts.bundleId, bundleId))
+      .limit(1);
+    if (hasDesserts.length > 0) {
+      tasks.push(db.delete(bundleDesserts).where(eq(bundleDesserts.bundleId, bundleId)));
     }
 
     await Promise.all(tasks);
