@@ -35,6 +35,7 @@ export const BUNDLE_PRODUCT_TYPE = {
   SAUCE: 'sauce',
   DISH: 'dish',
   DRINK: 'drink',
+  DESSERT: 'dessert',
 } as const;
 
 export const BUNDLE_COMMAND_GROUP_HEADINGS = [
@@ -53,6 +54,10 @@ export const BUNDLE_COMMAND_GROUP_HEADINGS = [
   {
     label: '음료',
     value: BUNDLE_PRODUCT_TYPE.DRINK,
+  },
+  {
+    label: '디저트',
+    value: BUNDLE_PRODUCT_TYPE.DESSERT,
   },
 ] as const;
 

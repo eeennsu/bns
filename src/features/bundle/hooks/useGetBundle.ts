@@ -28,9 +28,15 @@ const useGetBundle = (allProducts: IProduct[]): IReturn => {
       (data?.products ?? []).map(product => {
         if (!allProducts)
           return {
-            id: product.breadId || product.sauceId || product.dishId || product.drinkId || 0,
-            type: product.type,
-            quantity: product.quantity,
+            id:
+              product?.breadId ||
+              product?.sauceId ||
+              product?.dishId ||
+              product?.drinkId ||
+              product?.dessertId ||
+              0,
+            type: product?.type,
+            quantity: product?.quantity || 0,
             name: '',
             price: 0,
             sortOrder: 0,
@@ -62,6 +68,12 @@ const useGetBundle = (allProducts: IProduct[]): IReturn => {
               p => p.id === product.drinkId && p.type === BUNDLE_PRODUCT_TYPE.DRINK,
             );
             break;
+
+          case BUNDLE_PRODUCT_TYPE.DESSERT:
+            matched = allProducts.find(
+              p => p.id === product.dessertId && p.type === BUNDLE_PRODUCT_TYPE.DESSERT,
+            );
+            break;
         }
 
         return {
@@ -71,6 +83,7 @@ const useGetBundle = (allProducts: IProduct[]): IReturn => {
             product.sauceId ||
             product.dishId ||
             product.drinkId ||
+            product.dessertId ||
             0,
           type: product.type,
           quantity: product.quantity,
