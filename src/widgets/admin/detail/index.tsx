@@ -10,7 +10,7 @@ interface IProps {
 
 const DetailWidget: FC<PropsWithChildren<IProps>> = ({ isError, isLoading, children }) => {
   if (isLoading) return <DetailPageLoading />;
-  if (isError) throw Error();
+  if (isError) return null;
 
   return <PageContainer>{children}</PageContainer>;
 };
