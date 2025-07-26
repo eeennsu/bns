@@ -1,13 +1,11 @@
-export const TOKEN_EXPIRES_EXP = {
+export const TOKEN_EXPIRES = {
   ACCESS: '10m',
   REFRESH: '7d',
 } as const;
 
-export const TOKEN_EXPIRES_MAX_AGE = {
-  ACCESS: 10 * 60, // 10분
+export const COOKIE_EXPIRES = {
+  ACCESS: 7 * 24 * 60 * 60, // 7일, (accessToken의 expires가 10분이므로 괜찮음)
   REFRESH: 7 * 24 * 60 * 60, // 7일
-  // ACCESS: 5,
-  // REFRESH: 10,
 } as const;
 
 export const ORDER_BY_TYPES = {

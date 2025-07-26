@@ -3,6 +3,7 @@ import { imageReferences } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
@@ -50,8 +51,11 @@ export const GET = withAuth(async (request: NextRequest) => {
       db.select({ count: count() }).from(sauces).where(whereClause),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: SAUCE_ERRORS.GET_LIST_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: SAUCE_ERRORS.GET_LIST_FAILED,
+      context: 'GET_SAUCE',
+      payload: error,
+    });
   }
   return NextResponse.json(
     setSucResponseList({
@@ -87,8 +91,11 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    console.error('Error inserting sauce:', error);
-    return NextResponse.json({ error: SAUCE_ERRORS.CREATE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: SAUCE_ERRORS.CREATE_FAILED,
+      context: 'CREATE_SAUCE',
+      payload: error,
+    });
   }
 
   try {
@@ -105,8 +112,11 @@ export const POST = withAuth(async (request: NextRequest) => {
         ),
       );
   } catch (error) {
-    console.error('Error inserting image:', error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(newSauce), { status: 201 });

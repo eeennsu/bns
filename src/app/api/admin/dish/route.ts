@@ -3,6 +3,7 @@ import { dishes } from '@db/schemas/dishes';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
@@ -90,8 +91,11 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    console.error('Error inserting dish:', error);
-    return NextResponse.json({ error: DISH_ERRORS.CREATE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DISH_ERRORS.CREATE_FAILED,
+      context: 'CREATE_DISH',
+      payload: error,
+    });
   }
 
   try {
@@ -108,9 +112,11 @@ export const POST = withAuth(async (request: NextRequest) => {
         ),
       );
   } catch (error) {
-    console.error('Error inserting image:', error);
-
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(newDish), { status: 201 });

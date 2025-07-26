@@ -1,5 +1,6 @@
 import 'server-only';
 
+import * as Sentry from '@sentry/nextjs';
 import { COOKIE_KEYS } from '@shared/consts/storage';
 import { cookies } from 'next/headers';
 
@@ -25,7 +26,8 @@ export const getServerSession = async () => {
 
     return null;
   } catch (error) {
-    console.error('getServerSession error : ', error);
-    throw error;
+    if (error instanceof Error && error.message !== 'jwt expired') {
+      Sentry.captureException(error);
+    }
   }
 };

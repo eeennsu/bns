@@ -4,6 +4,7 @@ import { imageReferences, images } from '@db/schemas/image';
 import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -48,8 +49,11 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DISH_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DISH_ERRORS.GET_FAILED,
+      context: 'GET_DISH',
+      payload: error,
+    });
   }
 
   const [foundedDish] = dishResult;
@@ -105,8 +109,11 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       .where(eq(dishes.id, dishId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DISH_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DISH_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_DISH',
+      payload: error,
+    });
   }
 
   try {
@@ -116,8 +123,11 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       imageId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(updateDish));
@@ -152,26 +162,34 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: DISH_ERRORS.NOT_FOUND_DISH }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DISH_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DISH_ERRORS.GET_FAILED,
+      context: 'GET_DISH',
+      payload: error,
+    });
   }
 
   try {
     await db.delete(dishes).where(eq(dishes.id, dishId));
   } catch (error) {
-    console.log(error);
-
-    return NextResponse.json({ error: DISH_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DISH_ERRORS.DELETE_FAILED,
+      context: 'DELETE_DISH',
+      payload: error,
+    });
   }
 
   try {
     await deleteImage({
-      refTable: IMAGE_REF_VALUES.EVENT,
+      refTable: IMAGE_REF_VALUES.DISH,
       refId: dishId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE',
+      payload: error,
+    });
   }
 
   return new NextResponse(null, { status: 204 });
