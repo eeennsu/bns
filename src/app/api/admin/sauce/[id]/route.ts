@@ -4,6 +4,7 @@ import { sauces } from '@db/schemas/sauces';
 import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -48,8 +49,11 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: SAUCE_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: SAUCE_ERRORS.GET_FAILED,
+      context: 'GET_SAUCE',
+      payload: error,
+    });
   }
 
   const [foundedSauce] = sauceResult;
@@ -104,8 +108,11 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       .where(eq(sauces.id, sauceId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: SAUCE_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: SAUCE_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_SAUCE',
+      payload: error,
+    });
   }
 
   try {
@@ -115,8 +122,11 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       imageId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(updateSauce));
@@ -151,15 +161,21 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: SAUCE_ERRORS.NOT_FOUND_SAUCE }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: SAUCE_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: SAUCE_ERRORS.GET_FAILED,
+      context: 'GET_SAUCE',
+      payload: error,
+    });
   }
 
   try {
     await db.delete(sauces).where(eq(sauces.id, sauceId));
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: SAUCE_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: SAUCE_ERRORS.DELETE_FAILED,
+      context: 'DELETE_SAUCE',
+      payload: error,
+    });
   }
 
   try {
@@ -168,8 +184,11 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: sauceId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE',
+      payload: error,
+    });
   }
 
   return new NextResponse(null, { status: 204 });

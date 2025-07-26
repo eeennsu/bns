@@ -11,6 +11,7 @@ import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { OrderByType, WithImageIds } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@shared/consts/commons';
@@ -56,8 +57,11 @@ export const GET = withAuth(async (request: NextRequest) => {
       db.select({ count: count() }).from(bundles).where(whereClause),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.GET_LIST_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.GET_LIST_FAILED,
+      context: 'GET_BUNDLE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(
@@ -98,8 +102,11 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.CREATE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.CREATE_FAILED,
+      context: 'CREATE_BUNDLE',
+      payload: error,
+    });
   }
 
   try {
@@ -165,8 +172,11 @@ export const POST = withAuth(async (request: NextRequest) => {
       dessertsToInsert.length > 0 ? db.insert(bundleDesserts).values(dessertsToInsert) : null,
     ]);
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.CREATE_PRODUCT_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.CREATE_PRODUCT_FAILED,
+      context: 'CREATE_BUNDLE_PRODUCT',
+      payload: error,
+    });
   }
 
   try {
@@ -186,8 +196,11 @@ export const POST = withAuth(async (request: NextRequest) => {
 
     return NextResponse.json(setSucResponseItem(newBundle), { status: 201 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 });
 

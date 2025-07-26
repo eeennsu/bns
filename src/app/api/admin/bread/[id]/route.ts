@@ -4,6 +4,7 @@ import { imageReferences, images } from '@db/schemas/image';
 import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -18,6 +19,7 @@ interface IParams {
 }
 
 export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
+  throw new Error('빵 상세 조회 API 에러 테스트');
   const breadId = +(await params)?.id;
 
   if (!breadId) {
@@ -50,8 +52,11 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BREAD_ERRORS.GET_FAILED,
+      context: 'GET_BREAD',
+      payload: error,
+    });
   }
 
   const [foundedBread] = breadResult;
@@ -107,8 +112,11 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .where(eq(breads.id, breadId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BREAD_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_BREAD',
+      payload: error,
+    });
   }
 
   try {
@@ -118,8 +126,11 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       imageId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   console.log('updateBread', updateBread);
@@ -156,15 +167,21 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BREAD_ERRORS.GET_FAILED,
+      context: 'GET_BREAD',
+      payload: error,
+    });
   }
 
   try {
     await db.delete(breads).where(eq(breads.id, breadId));
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BREAD_ERRORS.DELETE_FAILED,
+      context: 'DELETE_BREAD',
+      payload: error,
+    });
   }
 
   try {
@@ -173,8 +190,11 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: breadId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE',
+      payload: error,
+    });
   }
 
   return new NextResponse(null, { status: 204 });

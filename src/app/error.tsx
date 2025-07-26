@@ -1,5 +1,6 @@
 'use client';
 
+import * as Sentry from '@sentry/nextjs';
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 
@@ -12,7 +13,7 @@ interface IProps {
 
 const ErrorPage: NextPage<IProps> = ({ error }) => {
   useEffect(() => {
-    console.log(error);
+    Sentry.captureException(error);
   }, [error]);
 
   return <ErrorLayout />;

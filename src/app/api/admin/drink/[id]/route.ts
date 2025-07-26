@@ -4,6 +4,7 @@ import { imageReferences, images } from '@db/schemas/image';
 import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -48,8 +49,11 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DRINK_ERRORS.GET_FAILED,
+      context: 'GET_DRINK',
+      payload: error,
+    });
   }
 
   const [foundedDrink] = drinkResult;
@@ -104,8 +108,11 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       .where(eq(drinks.id, drinkId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DRINK_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_DRINK',
+      payload: error,
+    });
   }
 
   try {
@@ -115,8 +122,11 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       imageId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(updateDrink));
@@ -151,15 +161,21 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: DRINK_ERRORS.NOT_FOUND_DRINK }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DRINK_ERRORS.GET_FAILED,
+      context: 'GET_DRINK',
+      payload: error,
+    });
   }
 
   try {
     await db.delete(drinks).where(eq(drinks.id, drinkId));
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: DRINK_ERRORS.DELETE_FAILED,
+      context: 'DELETE_DRINK',
+      payload: error,
+    });
   }
 
   try {
@@ -168,8 +184,11 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: drinkId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE',
+      payload: error,
+    });
   }
 
   return new NextResponse(null, { status: 204 });

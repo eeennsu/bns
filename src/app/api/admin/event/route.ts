@@ -3,6 +3,7 @@ import { events } from '@db/schemas/events';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import dayjs from 'dayjs';
@@ -86,8 +87,11 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    console.error('Error inserting event:', error);
-    return NextResponse.json({ error: EVENT_ERRORS.CREATE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: EVENT_ERRORS.CREATE_FAILED,
+      context: 'CREATE_EVENT',
+      payload: error,
+    });
   }
 
   try {
@@ -104,9 +108,11 @@ export const POST = withAuth(async (request: NextRequest) => {
         ),
       );
   } catch (error) {
-    console.error('Error inserting image:', error);
-
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(newEvent), { status: 201 });

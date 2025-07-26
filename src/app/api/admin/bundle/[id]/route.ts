@@ -12,6 +12,7 @@ import { mapWithType, updateBundleProductsDiff } from '@shared/api/bundle';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
 import { deleteImage, updateMultiImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithSentry } from '@shared/api/responseWithSentry';
 import { WithImageIdsSortOrder } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -117,8 +118,11 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
       ],
     };
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.CREATE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.CREATE_FAILED,
+      context: 'GET_BUNDLE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(response));
@@ -160,8 +164,11 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .where(eq(bundles.id, bundleId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_BUNDLE',
+      payload: error,
+    });
   }
 
   // update bundle products
@@ -170,8 +177,11 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       await updateBundleProductsDiff(bundleId, products);
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED,
+      context: 'MODIFY_BUNDLE_PRODUCT',
+      payload: error,
+    });
   }
 
   // update image
@@ -182,8 +192,11 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       imageIdsWithSortOrder,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE',
+      payload: error,
+    });
   }
 
   return NextResponse.json(setSucResponseItem(updateBundle));
@@ -211,8 +224,11 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: BUNDLE_ERRORS.NOT_FOUND_BUNDLE }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.GET_FAILED,
+      context: 'GET_BUNDLE',
+      payload: error,
+    });
   }
 
   try {
@@ -265,15 +281,21 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
 
     await Promise.all(tasks);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.DELETE_FAILED,
+      context: 'DELETE_BUNDLE_PRODUCT',
+      payload: error,
+    });
   }
 
   try {
     await db.delete(bundles).where(eq(bundles.id, bundleId));
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithSentry({
+      error: BUNDLE_ERRORS.DELETE_FAILED,
+      context: 'DELETE_BUNDLE',
+      payload: error,
+    });
   }
 
   try {
@@ -282,8 +304,11 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: bundleId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithSentry({
+      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE',
+      payload: error,
+    });
   }
 
   return new NextResponse(null, { status: 204 });
