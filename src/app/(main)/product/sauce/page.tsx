@@ -1,4 +1,6 @@
 import { FILTER_TYPES } from '@shared/consts/commons';
+import { ProductCategorySchema } from '@shared/contracts/common';
+import { parseSchema } from '@shared/libs/parseSchema';
 import type { FC } from 'react';
 
 import SauceListContact from '@features/bread/ui/list/Contact';
@@ -15,14 +17,14 @@ interface IParams {
 }
 
 const SauceListPage: FC<IParams> = async ({ searchParams }) => {
-  const page = (await searchParams)?.page || '1';
-  const category = (await searchParams)?.category || FILTER_TYPES.ALL;
+  const { page = '1', category = FILTER_TYPES.ALL } = await searchParams;
+  const parsedCategory = parseSchema(ProductCategorySchema, category, FILTER_TYPES.ALL);
 
   return (
     <>
       <SauceListHead />
       <BaseContainer>
-        <SauceListContent currentPage={page} category={category} />
+        <SauceListContent currentPage={page} category={parsedCategory} />
         <SauceListContact />
       </BaseContainer>
     </>

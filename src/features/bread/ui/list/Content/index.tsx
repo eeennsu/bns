@@ -21,7 +21,7 @@ interface IProps {
 const BreadListContent: FC<IProps> = async ({ currentPage, category }) => {
   const [error, breadList] = await getBreadList({
     page: +currentPage,
-    pageSize: PER_PAGE_SIZE.DEFAULT,
+    pageSize: PER_PAGE_SIZE.PRODUCT,
     category,
   });
 

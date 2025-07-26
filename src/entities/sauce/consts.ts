@@ -36,3 +36,9 @@ export const ORDER_BY_SELECT = [
   '가격 낮은순',
   '가격 높은순',
 ];
+
+export const SAUCE_CATEGORY_SELECT = [
+  { id: 'all', name: '전체' },
+  { id: 'signature', name: '시그니처' },
+  { id: 'new', name: '신제품' },
+];
