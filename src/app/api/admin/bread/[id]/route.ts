@@ -19,7 +19,6 @@ interface IParams {
 }
 
 export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
-  throw new Error('빵 상세 조회 API 에러 테스트');
   const breadId = +(await params)?.id;
 
   if (!breadId) {
