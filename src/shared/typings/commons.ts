@@ -2,7 +2,7 @@ import { FILTER_TYPES } from '@shared/consts/commons';
 import { JSX } from 'react';
 import { z } from 'zod';
 
-import { SearchFormDtoSchema } from '@contracts/common';
+import { ProductCategorySchema, SearchFormDtoSchema } from '@contracts/common';
 
 export type Nullable<T> = T | null;
 
@@ -94,3 +94,14 @@ export type ItemShowValue = (typeof FILTER_TYPES)[keyof typeof FILTER_TYPES];
 export type ItemShowLabel = '전체' | '공개' | '비공개';
 
 export type Updater<T> = (value: T | ((prev: T) => T)) => void;
+export interface IPageParams {
+  page: number;
+  pageSize: number;
+  search?: string;
+}
+
+export type ProductData<T> = Partial<T> & {
+  image: string;
+};
+
+export type ProductCategory = z.infer<typeof ProductCategorySchema>;

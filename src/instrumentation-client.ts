@@ -3,7 +3,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 import * as Sentry from '@sentry/nextjs';
 
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     // 프로젝트 고유 주소
     dsn: process.env.SENTRY_DNS,
@@ -32,6 +32,6 @@ if (process.env.NODE_ENV === 'production') {
     // 콘솔 로그
     debug: false,
   });
-}
+// }
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

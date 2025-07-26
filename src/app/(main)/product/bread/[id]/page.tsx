@@ -1,15 +1,15 @@
 import type { FC } from 'react';
 
-import DetailBread from '@features/bread/ui/detail/Detail';
+import DetailBreadContent from '../DetailBreadContent';
 
 interface IParams {
   params: Promise<{ id: string }>;
 }
 
 const DetailBreadPage: FC<IParams> = async ({ params }) => {
-  const breadId = (await params).id;
+  const breadId = (await params)?.id || '';
 
-  return <DetailBread id={breadId} />;
+  return <DetailBreadContent breadId={breadId} />;
 };
 
 export default DetailBreadPage;
