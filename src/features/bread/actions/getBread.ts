@@ -33,7 +33,6 @@ const fetchBread = async ({ id }: IParams) => {
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(eq(breads.id, id))
     .limit(1);
-  throw new Error('TEST_ERROR');
   return (await breadQuery).at(0);
 };
 
