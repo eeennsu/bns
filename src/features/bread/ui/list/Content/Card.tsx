@@ -1,12 +1,15 @@
+import { ProductData } from '@shared/typings/commons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
 
+import { IBread } from '@entities/bread/types';
+
 import ProductBadge from '@components/ProductBadge';
 
 interface Props {
-  bread: any;
+  bread: ProductData<IBread>;
 }
 
 const BreadCard: FC<Props> = ({ bread }) => {
@@ -22,7 +25,7 @@ const BreadCard: FC<Props> = ({ bread }) => {
         </div>
         <div className='absolute top-3 left-3 flex flex-wrap items-center gap-1'>
           {bread.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
-          {bread.isBest && <ProductBadge variant='signature'>Signature</ProductBadge>}
+          {bread.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
         </div>
       </div>
 
@@ -30,10 +33,6 @@ const BreadCard: FC<Props> = ({ bread }) => {
         <h3 className='font-gowun-dodum line-clamp-2 text-center text-base font-bold text-[#8B4513] sm:text-left sm:text-xl'>
           {bread.name}
         </h3>
-
-        <p className='line-clamp-3 hidden text-xs text-[#3E2723] sm:block sm:text-sm'>
-          {bread.description}
-        </p>
       </div>
     </Link>
   );

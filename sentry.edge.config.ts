@@ -3,7 +3,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 import * as Sentry from '@sentry/nextjs';
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = true;
 
 Sentry.init({
   dsn: isProduction ? process.env.SENTRY_DSN : undefined,
