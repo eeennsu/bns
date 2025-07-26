@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge } from '@shared/shadcn-ui/ui';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Suspense, type FC, type PropsWithChildren } from 'react';
 
 import { cn } from '@shadcn-ui/utils';
