@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences, images } from '@db/schemas/image';
-import { tryCatchAction } from '@shared/libs/serverAction';
+import { executeWithCapture } from '@shared/libs/serverAction';
 import { and, eq } from 'drizzle-orm';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
@@ -36,6 +36,6 @@ const fetchBread = async ({ id }: IParams) => {
   return (await breadQuery).at(0);
 };
 
-const getBread = ({ id }: IParams) => tryCatchAction('getBread', fetchBread, { id });
+const getBread = ({ id }: IParams) => executeWithCapture('getBread', fetchBread, { id });
 
 export default getBread;

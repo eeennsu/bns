@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { tryCatchAction } from '@shared/libs/serverAction';
+import { executeWithCapture } from '@shared/libs/serverAction';
 import { and, eq } from 'drizzle-orm';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
@@ -35,6 +35,6 @@ const fetchSauce = async ({ id }: IParams) => {
   return (await sauceQuery).at(0);
 };
 
-const getSauce = ({ id }: IParams) => tryCatchAction('getSauce', fetchSauce, { id });
+const getSauce = ({ id }: IParams) => executeWithCapture('getSauce', fetchSauce, { id });
 
 export default getSauce;

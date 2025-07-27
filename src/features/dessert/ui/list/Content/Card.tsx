@@ -22,7 +22,7 @@ const DrinkCard: FC<Props> = ({ drink }) => {
         </div>
         <div className='absolute top-3 left-3 flex flex-wrap items-center gap-1'>
           {drink.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
-          {drink.isBest && <ProductBadge variant='signature'>Signature</ProductBadge>}
+          {drink.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
         </div>
       </div>
 

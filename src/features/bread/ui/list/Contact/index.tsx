@@ -15,7 +15,7 @@ const BreadListContact: FC = () => {
         도 가능합니다.
       </p>
       <Link
-        href={MAIN_PATHS.product.bundle()}
+        href={MAIN_PATHS.product.bundle.list()}
         className='inline-block rounded-full bg-[#8B5E3C] px-6 py-3 text-xs font-semibold text-[#fffdf8] shadow-sm transition hover:bg-[#7a5033] sm:px-8 sm:py-4 sm:text-sm md:text-base'
       >
         세트 구성 보기
