@@ -3,7 +3,7 @@ import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import dayjs from 'dayjs';
@@ -51,7 +51,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: EVENT_ERRORS.GET_FAILED,
       context: 'GET_EVENT',
@@ -123,7 +123,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .where(eq(events.id, eventId))
       .returning();
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: EVENT_ERRORS.MODIFY_FAILED,
       context: 'MODIFY_EVENT',
@@ -141,7 +141,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       imageId,
     });
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
       context: 'UPDATE_IMAGE_DATAS',
@@ -173,7 +173,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: EVENT_ERRORS.NOT_FOUND_EVENT }, { status: 400 });
     }
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: EVENT_ERRORS.GET_FAILED,
       context: 'GET_EVENT',
@@ -186,7 +186,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   try {
     await db.delete(events).where(eq(events.id, eventId));
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: EVENT_ERRORS.DELETE_FAILED,
       context: 'DELETE_EVENT',
@@ -202,7 +202,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: eventId,
     });
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
       context: 'DELETE_IMAGE_DATAS',

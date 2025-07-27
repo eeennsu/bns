@@ -3,7 +3,7 @@ import { events } from '@db/schemas/events';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import dayjs from 'dayjs';
@@ -52,7 +52,7 @@ export const GET = withAuth(async (request: NextRequest) => {
       db.select({ count: count() }).from(events).where(whereClause),
     ]);
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: EVENT_ERRORS.GET_LIST_FAILED,
       context: 'GET_EVENT',
@@ -106,7 +106,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: EVENT_ERRORS.CREATE_FAILED,
       context: 'CREATE_EVENT',
@@ -130,7 +130,7 @@ export const POST = withAuth(async (request: NextRequest) => {
         ),
       );
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
       context: 'UPDATE_IMAGE_DATAS',

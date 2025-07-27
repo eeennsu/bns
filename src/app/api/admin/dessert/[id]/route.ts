@@ -4,7 +4,7 @@ import { imageReferences, images } from '@db/schemas/image';
 import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -49,7 +49,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: DESSERT_ERRORS.GET_FAILED,
       context: 'GET_DESSERT',
@@ -111,7 +111,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       .where(eq(desserts.id, dessertId))
       .returning();
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: DESSERT_ERRORS.MODIFY_FAILED,
       context: 'MODIFY_DESSERT',
@@ -129,7 +129,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       imageId,
     });
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
       context: 'UPDATE_IMAGE_DATAS',
@@ -176,7 +176,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: DESSERT_ERRORS.NOT_FOUND_DESSERT }, { status: 400 });
     }
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: DESSERT_ERRORS.GET_FAILED,
       context: 'GET_DESSERT',
@@ -189,7 +189,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
   try {
     await db.delete(desserts).where(eq(desserts.id, dessertId));
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: DESSERT_ERRORS.DELETE_FAILED,
       context: 'DELETE_DESSERT',
@@ -205,7 +205,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: dessertId,
     });
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
       context: 'DELETE_IMAGE_DATAS',

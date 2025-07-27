@@ -19,6 +19,13 @@ export class ServerError extends Error {
   }
 }
 
+export class AxiosResponseError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'AxiosResponseError';
+  }
+}
+
 export class ErrorPageError extends Error {
   constructor(message: string) {
     super(message);

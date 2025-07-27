@@ -11,7 +11,7 @@ import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { OrderByType, WithImageIds } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@shared/consts/commons';
@@ -57,7 +57,7 @@ export const GET = withAuth(async (request: NextRequest) => {
       db.select({ count: count() }).from(bundles).where(whereClause),
     ]);
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.GET_LIST_FAILED,
       context: 'GET_BUNDLE',
@@ -105,7 +105,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.CREATE_FAILED,
       context: 'CREATE_BUNDLE',
@@ -178,7 +178,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       dessertsToInsert.length > 0 ? db.insert(bundleDesserts).values(dessertsToInsert) : null,
     ]);
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.CREATE_PRODUCT_FAILED,
       context: 'CREATE_BUNDLE_PRODUCT',
@@ -205,7 +205,7 @@ export const POST = withAuth(async (request: NextRequest) => {
 
     return NextResponse.json(setSucResponseItem(newBundle), { status: 201 });
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
       context: 'UPDATE_IMAGE_DATAS',

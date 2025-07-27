@@ -11,7 +11,7 @@ interface IParams {
   statusCode?: number;
 }
 
-export const responseWithSentry = ({
+export const responseWithCapture = ({
   error,
   context,
   payload = {},

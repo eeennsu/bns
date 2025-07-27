@@ -7,7 +7,7 @@ import { sauces } from '@db/schemas/sauces';
 import { mapWithType } from '@shared/api/bundle';
 import { BUNDLE_ERRORS } from '@shared/api/errorMessage';
 import { setSucResponseItem } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { asc } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -67,7 +67,7 @@ export const GET = withAuth(async () => {
 
     return NextResponse.json(setSucResponseItem(allProducts));
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
       context: 'GET_BUNDLE_PRODUCT',

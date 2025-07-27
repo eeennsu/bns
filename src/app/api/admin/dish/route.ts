@@ -3,7 +3,7 @@ import { dishes } from '@db/schemas/dishes';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
@@ -51,7 +51,7 @@ export const GET = withAuth(async (request: NextRequest) => {
       db.select({ count: count() }).from(dishes).where(whereClause),
     ]);
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: DISH_ERRORS.GET_LIST_FAILED,
       context: 'GET_DISH',
@@ -110,7 +110,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: DISH_ERRORS.CREATE_FAILED,
       context: 'CREATE_DISH',
@@ -134,7 +134,7 @@ export const POST = withAuth(async (request: NextRequest) => {
         ),
       );
   } catch (error) {
-    return responseWithSentry({
+    return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
       context: 'UPDATE_IMAGE',
