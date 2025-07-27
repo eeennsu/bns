@@ -40,7 +40,11 @@ const fetchSauceList = async ({ page, pageSize, category }: IParams) => {
 };
 
 const getSauceList = (params: IParams) =>
-  executeWithCapture('getSauceList', fetchSauceList, params);
+  executeWithCapture({
+    context: 'GET_SAUCE_LIST',
+    fn: fetchSauceList,
+    args: [params],
+  });
 
 export default getSauceList;
 

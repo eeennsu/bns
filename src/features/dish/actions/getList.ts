@@ -39,7 +39,12 @@ const fetchDishList = async ({ page, pageSize, category }: IParams) => {
   return dishListQuery;
 };
 
-const getDishList = (params: IParams) => executeWithCapture('getDishList', fetchDishList, params);
+const getDishList = (params: IParams) =>
+  executeWithCapture({
+    context: 'GET_DISH_LIST',
+    fn: fetchDishList,
+    args: [params],
+  });
 
 export default getDishList;
 

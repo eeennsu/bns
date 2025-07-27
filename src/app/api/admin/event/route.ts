@@ -3,7 +3,7 @@ import { events } from '@db/schemas/events';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import dayjs from 'dayjs';
@@ -38,10 +38,29 @@ export const GET = withAuth(async (request: NextRequest) => {
 
   const whereClause = and(searchClause, showTypeClause);
 
-  const [findEvents, [total]] = await Promise.all([
-    db.select().from(events).where(whereClause).orderBy(orderClause).limit(pageSize).offset(offset),
-    db.select({ count: count() }).from(events).where(whereClause),
-  ]);
+  let findEvents, total;
+
+  try {
+    [findEvents, [total]] = await Promise.all([
+      db
+        .select()
+        .from(events)
+        .where(whereClause)
+        .orderBy(orderClause)
+        .limit(pageSize)
+        .offset(offset),
+      db.select({ count: count() }).from(events).where(whereClause),
+    ]);
+  } catch (error) {
+    return responseWithCapture({
+      error,
+      message: EVENT_ERRORS.GET_LIST_FAILED,
+      context: 'GET_EVENT',
+      payload: {
+        searchParams,
+      },
+    });
+  }
 
   return NextResponse.json(
     setSucResponseList({
@@ -87,10 +106,13 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    return responseWithSentry({
-      error: EVENT_ERRORS.CREATE_FAILED,
+    return responseWithCapture({
+      error,
+      message: EVENT_ERRORS.CREATE_FAILED,
       context: 'CREATE_EVENT',
-      payload: error,
+      payload: {
+        body,
+      },
     });
   }
 
@@ -108,10 +130,13 @@ export const POST = withAuth(async (request: NextRequest) => {
         ),
       );
   } catch (error) {
-    return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        body,
+      },
     });
   }
 

@@ -35,6 +35,11 @@ const fetchDrink = async ({ id }: IParams) => {
   return (await drinkQuery).at(0);
 };
 
-const getDrink = ({ id }: IParams) => executeWithCapture('getDrink', fetchDrink, { id });
+const getDrink = (params: IParams) =>
+  executeWithCapture({
+    context: 'GET_DRINK',
+    fn: fetchDrink,
+    args: [params],
+  });
 
 export default getDrink;

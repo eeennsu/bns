@@ -40,7 +40,11 @@ const fetchDessertList = async ({ page, pageSize, category }: IParams) => {
 };
 
 const getDessertList = (params: IParams) =>
-  executeWithCapture('getDessertList', fetchDessertList, params);
+  executeWithCapture({
+    context: 'GET_DESSERT_LIST',
+    fn: fetchDessertList,
+    args: [params],
+  });
 
 export default getDessertList;
 

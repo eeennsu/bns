@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === 'production') {
     // 추가 기능들, 현재는 replay integration 추가
     integrations: [
       Sentry.replayIntegration(),
-      Sentry.httpClientIntegration(),
       Sentry.captureConsoleIntegration({
         levels: ['error'],
       }),

@@ -114,6 +114,11 @@ const fetchBundle = async ({ id }: IParams): Promise<IBundleDisplay | null> => {
   return bundle;
 };
 
-const getBundle = ({ id }: IParams) => executeWithCapture('getBundle', fetchBundle, { id });
+const getBundle = (params: IParams) =>
+  executeWithCapture({
+    context: 'GET_BUNDLE',
+    fn: fetchBundle,
+    args: [params],
+  });
 
 export default getBundle;

@@ -12,7 +12,7 @@ import { mapWithType, updateBundleProductsDiff } from '@shared/api/bundle';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
 import { deleteImage, updateMultiImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { WithImageIdsSortOrder } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -117,10 +117,13 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
       ],
     };
   } catch (error) {
-    return responseWithSentry({
-      error: BUNDLE_ERRORS.CREATE_FAILED,
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.GET_LIST_FAILED,
       context: 'GET_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+      },
     });
   }
 
@@ -163,10 +166,14 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .where(eq(bundles.id, bundleId))
       .returning();
   } catch (error) {
-    return responseWithSentry({
-      error: BUNDLE_ERRORS.MODIFY_FAILED,
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.MODIFY_FAILED,
       context: 'MODIFY_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+        body,
+      },
     });
   }
 
@@ -176,10 +183,14 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       await updateBundleProductsDiff(bundleId, products);
     }
   } catch (error) {
-    return responseWithSentry({
-      error: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED,
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED,
       context: 'MODIFY_BUNDLE_PRODUCT',
-      payload: error,
+      payload: {
+        bundleId,
+        body,
+      },
     });
   }
 
@@ -191,10 +202,14 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       imageIdsWithSortOrder,
     });
   } catch (error) {
-    return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        bundleId,
+        body,
+      },
     });
   }
 
@@ -223,10 +238,13 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: BUNDLE_ERRORS.NOT_FOUND_BUNDLE }, { status: 400 });
     }
   } catch (error) {
-    return responseWithSentry({
-      error: BUNDLE_ERRORS.GET_FAILED,
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.GET_FAILED,
       context: 'GET_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+      },
     });
   }
 
@@ -280,20 +298,26 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
 
     await Promise.all(tasks);
   } catch (error) {
-    return responseWithSentry({
-      error: BUNDLE_ERRORS.DELETE_FAILED,
-      context: 'DELETE_BUNDLE_PRODUCT',
-      payload: error,
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
+      context: 'GET_BUNDLE_PRODUCT',
+      payload: {
+        bundleId,
+      },
     });
   }
 
   try {
     await db.delete(bundles).where(eq(bundles.id, bundleId));
   } catch (error) {
-    return responseWithSentry({
-      error: BUNDLE_ERRORS.DELETE_FAILED,
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.DELETE_FAILED,
       context: 'DELETE_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+      },
     });
   }
 
@@ -303,10 +327,13 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: bundleId,
     });
   } catch (error) {
-    return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE',
-      payload: error,
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE_DATAS',
+      payload: {
+        bundleId,
+      },
     });
   }
 

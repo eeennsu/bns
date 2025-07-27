@@ -8,8 +8,6 @@ import BundleCard from './Card';
 const BundleListContent: FC = async () => {
   const [error, bundleList] = await getBundleList();
 
-  console.log('bundleList', bundleList);
-
   return (
     <section className='container !max-w-5xl space-y-4 sm:space-y-8'>
       <p className='text-center text-[#6c6055]'>

@@ -8,27 +8,23 @@ export const handleRefresh = (refreshToken: string | undefined) => {
     return { error: AUTH_ERRORS.MISSING_REFRESH_TOKEN };
   }
 
-  try {
-    const payload = verifyToken(refreshToken);
+  const payload = verifyToken(refreshToken);
 
-    if (typeof payload !== 'object' || !payload?.id || !payload?.username) {
-      return { error: AUTH_ERRORS.INVALID_TOKEN_PAYLOAD };
-    }
-
-    const accessToken = generateToken(
-      { id: payload.id, username: payload.username, role: payload.role },
-      COOKIE_KEYS.ACCESS,
-    );
-
-    return {
-      user: {
-        id: payload.id,
-        username: payload.username,
-        role: payload.role,
-      },
-      accessToken,
-    };
-  } catch {
-    return { error: AUTH_ERRORS.INVALID_REFRESH_TOKEN };
+  if (typeof payload !== 'object' || !payload?.id || !payload?.username) {
+    return { error: AUTH_ERRORS.INVALID_TOKEN_PAYLOAD };
   }
+
+  const accessToken = generateToken(
+    { id: payload.id, username: payload.username, role: payload.role },
+    COOKIE_KEYS.ACCESS,
+  );
+
+  return {
+    user: {
+      id: payload.id,
+      username: payload.username,
+      role: payload.role,
+    },
+    accessToken,
+  };
 };

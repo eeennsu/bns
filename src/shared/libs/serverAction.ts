@@ -1,13 +1,32 @@
-export const executeWithCapture = async <T extends unknown[], U>(
-  feature: string,
-  fn: (...args: T) => Promise<U>,
-  ...args: T
-): Promise<[null, U] | [Error, U]> => {
-  console.log('executeWithCapture', feature);
+import * as Sentry from '@sentry/nextjs';
+import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
+
+import { ServerActionError } from '../class/customError';
+
+interface IParams<T extends unknown[], U> {
+  fn: (...args: T) => Promise<U>;
+  args: T;
+  context: string;
+}
+
+export const executeWithCapture = async <T extends unknown[], U>({
+  fn,
+  args,
+  context,
+}: IParams<T, U>): Promise<[undefined, U] | [ServerActionError]> => {
   try {
     const result = await fn(...args);
-    return [null, result];
-  } catch (error) {
-    return [error instanceof Error ? error : new Error('알 수 없는 에러가 발생했습니다.'), null];
+    return [undefined, result];
+  } catch (err) {
+    const serverActionError = new ServerActionError(err?.message || UNKNOWN_ERROR_MESSAGE);
+
+    Sentry.captureException(serverActionError, {
+      extra: {
+        actionName: context,
+        args: args as unknown,
+      },
+    });
+
+    return [serverActionError];
   }
 };

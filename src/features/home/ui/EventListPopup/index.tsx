@@ -101,6 +101,7 @@ export const EventListPopup: FC = () => {
           <DontShowOption
             checked={dontShowForThreeDays}
             onCheckedChange={setDontShowForThreeDays}
+            onHideEvent={onHideEvent}
           />
         </section>
       </motion.div>

@@ -3,7 +3,7 @@ import { breads } from '@db/schemas/breads';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
-import { responseWithSentry } from '@shared/api/responseWithSentry';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
@@ -17,6 +17,7 @@ import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
 
 export const GET = withAuth(async (request: NextRequest) => {
+  throw new Error('액시오스 에러 테스트!');
   const searchParams = request.nextUrl.searchParams;
   const page = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE)) || 1;
   const pageSize = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE_SIZE)) || PER_PAGE_SIZE.DEFAULT;
@@ -51,10 +52,13 @@ export const GET = withAuth(async (request: NextRequest) => {
       db.select({ count: count() }).from(breads).where(whereClause),
     ]);
   } catch (error) {
-    return responseWithSentry({
-      error: BREAD_ERRORS.GET_FAILED,
+    return responseWithCapture({
+      error,
       context: 'GET_BREAD',
-      payload: error,
+      message: BREAD_ERRORS.GET_FAILED,
+      payload: {
+        searchParams,
+      },
     });
   }
 
@@ -93,10 +97,13 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    return responseWithSentry({
-      error: BREAD_ERRORS.CREATE_FAILED,
+    return responseWithCapture({
+      error,
       context: 'CREATE_BREAD',
-      payload: error,
+      message: BREAD_ERRORS.CREATE_FAILED,
+      payload: {
+        body,
+      },
     });
   }
 
@@ -116,10 +123,13 @@ export const POST = withAuth(async (request: NextRequest) => {
 
     return NextResponse.json(setSucResponseItem(newBread), { status: 201 });
   } catch (error) {
-    return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPLOAD,
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_UPLOAD,
       context: 'UPDATE_IMAGE',
-      payload: error,
+      payload: {
+        body,
+      },
     });
   }
 });

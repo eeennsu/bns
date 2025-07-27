@@ -33,6 +33,11 @@ const fetchBundleList = async () => {
   return bundleListQuery;
 };
 
-const getBundleList = () => executeWithCapture('getBundleList', fetchBundleList);
+const getBundleList = () =>
+  executeWithCapture({
+    context: 'GET_BUNDLE_LIST',
+    fn: fetchBundleList,
+    args: [],
+  });
 
 export default getBundleList;
