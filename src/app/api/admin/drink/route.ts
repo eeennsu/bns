@@ -52,9 +52,12 @@ export const GET = withAuth(async (request: NextRequest) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: DRINK_ERRORS.GET_LIST_FAILED,
-      context: 'GET_DRINK',
-      payload: error,
+      error,
+      message: DRINK_ERRORS.GET_LIST_FAILED,
+      context: 'GET_DRINK_DATAS',
+      payload: {
+        searchParams,
+      },
     });
   }
   return NextResponse.json(
@@ -92,9 +95,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: DRINK_ERRORS.CREATE_FAILED,
-      context: 'CREATE_DRINK',
-      payload: error,
+      error,
+      message: DRINK_ERRORS.CREATE_FAILED,
+      context: 'CREATE_DRINK_DATAS',
+      payload: {
+        body,
+      },
     });
   }
 
@@ -113,9 +119,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       );
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        body,
+      },
     });
   }
 

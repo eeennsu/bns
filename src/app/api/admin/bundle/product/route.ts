@@ -68,9 +68,9 @@ export const GET = withAuth(async () => {
     return NextResponse.json(setSucResponseItem(allProducts));
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
+      error,
+      message: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
       context: 'GET_BUNDLE_PRODUCT',
-      payload: error,
     });
   }
 });

@@ -40,7 +40,11 @@ const fetchDrinkList = async ({ page, pageSize, category }: IParams) => {
 };
 
 const getDrinkList = (params: IParams) =>
-  executeWithCapture('getDrinkList', fetchDrinkList, params);
+  executeWithCapture({
+    context: 'GET_DRINK_LIST',
+    fn: fetchDrinkList,
+    args: [params],
+  });
 
 export default getDrinkList;
 

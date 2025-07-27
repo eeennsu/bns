@@ -36,6 +36,11 @@ const fetchBread = async ({ id }: IParams) => {
   return (await breadQuery).at(0);
 };
 
-const getBread = ({ id }: IParams) => executeWithCapture('getBread', fetchBread, { id });
+const getBread = (params: IParams) =>
+  executeWithCapture({
+    context: 'GET_BREAD',
+    fn: fetchBread,
+    args: [params],
+  });
 
 export default getBread;

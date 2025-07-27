@@ -35,6 +35,11 @@ const fetchDish = async ({ id }: IParams) => {
   return (await dishQuery).at(0);
 };
 
-const getDish = ({ id }: IParams) => executeWithCapture('getDish', fetchDish, { id });
+const getDish = (params: IParams) =>
+  executeWithCapture({
+    context: 'GET_DISH',
+    fn: fetchDish,
+    args: [params],
+  });
 
 export default getDish;

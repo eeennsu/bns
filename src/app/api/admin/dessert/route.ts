@@ -52,9 +52,12 @@ export const GET = withAuth(async (request: NextRequest) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: DESSERT_ERRORS.GET_LIST_FAILED,
+      error,
+      message: DESSERT_ERRORS.GET_LIST_FAILED,
       context: 'GET_DESSERT',
-      payload: error,
+      payload: {
+        searchParams,
+      },
     });
   }
   return NextResponse.json(
@@ -92,9 +95,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: DESSERT_ERRORS.CREATE_FAILED,
+      error,
+      message: DESSERT_ERRORS.CREATE_FAILED,
       context: 'CREATE_DESSERT',
-      payload: error,
+      payload: {
+        body,
+      },
     });
   }
 
@@ -113,9 +119,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       );
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        body,
+      },
     });
   }
 

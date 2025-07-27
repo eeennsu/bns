@@ -58,9 +58,12 @@ export const GET = withAuth(async (request: NextRequest) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.GET_LIST_FAILED,
+      error,
+      message: BUNDLE_ERRORS.GET_LIST_FAILED,
       context: 'GET_BUNDLE',
-      payload: error,
+      payload: {
+        searchParams,
+      },
     });
   }
 
@@ -103,9 +106,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.CREATE_FAILED,
+      error,
+      message: BUNDLE_ERRORS.CREATE_FAILED,
       context: 'CREATE_BUNDLE',
-      payload: error,
+      payload: {
+        body,
+      },
     });
   }
 
@@ -173,9 +179,12 @@ export const POST = withAuth(async (request: NextRequest) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.CREATE_PRODUCT_FAILED,
+      error,
+      message: BUNDLE_ERRORS.CREATE_PRODUCT_FAILED,
       context: 'CREATE_BUNDLE_PRODUCT',
-      payload: error,
+      payload: {
+        body,
+      },
     });
   }
 
@@ -197,9 +206,12 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json(setSucResponseItem(newBundle), { status: 201 });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        body,
+      },
     });
   }
 });

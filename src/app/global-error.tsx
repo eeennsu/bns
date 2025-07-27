@@ -1,6 +1,8 @@
 'use client';
 
 import * as Sentry from '@sentry/nextjs';
+import { GlobalErrorPageError } from '@shared/class/customError';
+import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import NextError from 'next/error';
 import { FC, useEffect } from 'react';
 
@@ -8,9 +10,11 @@ interface IProps {
   error: Error & { digest?: string };
 }
 
-const GlobalError: FC<IProps> = ({ error }) => {
+const GlobalErrorPage: FC<IProps> = ({ error }) => {
   useEffect(() => {
-    Sentry.captureException(error);
+    const globalErrorPageError = new GlobalErrorPageError(error?.message || UNKNOWN_ERROR_MESSAGE);
+
+    Sentry.captureException(globalErrorPageError);
   }, [error]);
 
   return (
@@ -26,4 +30,4 @@ const GlobalError: FC<IProps> = ({ error }) => {
   );
 };
 
-export default GlobalError;
+export default GlobalErrorPage;

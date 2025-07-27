@@ -40,7 +40,11 @@ const fetchBreadList = async ({ page, pageSize, category }: IParams) => {
 };
 
 const getBreadList = (params: IParams) =>
-  executeWithCapture('getBreadList', fetchBreadList, params);
+  executeWithCapture({
+    context: 'GET_BREAD_LIST',
+    fn: fetchBreadList,
+    args: [params],
+  });
 
 export default getBreadList;
 

@@ -52,9 +52,12 @@ export const GET = withAuth(async (request: NextRequest) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: BREAD_ERRORS.GET_FAILED,
+      error,
       context: 'GET_BREAD',
-      payload: error,
+      message: BREAD_ERRORS.GET_FAILED,
+      payload: {
+        searchParams,
+      },
     });
   }
 
@@ -94,9 +97,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: BREAD_ERRORS.CREATE_FAILED,
+      error,
       context: 'CREATE_BREAD',
-      payload: error,
+      message: BREAD_ERRORS.CREATE_FAILED,
+      payload: {
+        body,
+      },
     });
   }
 
@@ -117,9 +123,12 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json(setSucResponseItem(newBread), { status: 201 });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPLOAD,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPLOAD,
       context: 'UPDATE_IMAGE',
-      payload: error,
+      payload: {
+        body,
+      },
     });
   }
 });

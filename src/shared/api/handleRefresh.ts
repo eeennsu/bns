@@ -1,3 +1,6 @@
+import * as Sentry from '@sentry/nextjs';
+import { JWTError } from '@shared/class/customError';
+import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import { COOKIE_KEYS } from '@shared/consts/storage';
 
 import { generateToken, verifyToken } from './auth';
@@ -8,8 +11,10 @@ export const handleRefresh = (refreshToken: string | undefined) => {
     return { error: AUTH_ERRORS.MISSING_REFRESH_TOKEN };
   }
 
+  let payload;
+
   try {
-    const payload = verifyToken(refreshToken);
+    payload = verifyToken(refreshToken);
 
     if (typeof payload !== 'object' || !payload?.id || !payload?.username) {
       return { error: AUTH_ERRORS.INVALID_TOKEN_PAYLOAD };
@@ -28,7 +33,16 @@ export const handleRefresh = (refreshToken: string | undefined) => {
       },
       accessToken,
     };
-  } catch {
+  } catch (error) {
+    const jwtError = new JWTError(error?.message || UNKNOWN_ERROR_MESSAGE);
+
+    Sentry.captureException(jwtError, {
+      extra: {
+        refreshToken,
+        payload,
+      },
+    });
+
     return { error: AUTH_ERRORS.INVALID_REFRESH_TOKEN };
   }
 };

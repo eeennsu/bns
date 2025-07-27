@@ -52,9 +52,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: EVENT_ERRORS.GET_FAILED,
+      error,
+      message: EVENT_ERRORS.GET_FAILED,
       context: 'GET_EVENT',
-      payload: error,
+      payload: {
+        eventId,
+      },
     });
   }
 
@@ -121,9 +124,13 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: EVENT_ERRORS.MODIFY_FAILED,
+      error,
+      message: EVENT_ERRORS.MODIFY_FAILED,
       context: 'MODIFY_EVENT',
-      payload: error,
+      payload: {
+        eventId,
+        body,
+      },
     });
   }
 
@@ -135,9 +142,13 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        eventId,
+        body,
+      },
     });
   }
 
@@ -163,9 +174,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     }
   } catch (error) {
     return responseWithSentry({
-      error: EVENT_ERRORS.GET_FAILED,
+      error,
+      message: EVENT_ERRORS.GET_FAILED,
       context: 'GET_EVENT',
-      payload: error,
+      payload: {
+        eventId,
+      },
     });
   }
 
@@ -173,9 +187,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     await db.delete(events).where(eq(events.id, eventId));
   } catch (error) {
     return responseWithSentry({
-      error: EVENT_ERRORS.DELETE_FAILED,
+      error,
+      message: EVENT_ERRORS.DELETE_FAILED,
       context: 'DELETE_EVENT',
-      payload: error,
+      payload: {
+        eventId,
+      },
     });
   }
 
@@ -186,9 +203,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE_DATAS',
+      payload: {
+        eventId,
+      },
     });
   }
 

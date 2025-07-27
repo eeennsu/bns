@@ -35,6 +35,11 @@ const fetchSauce = async ({ id }: IParams) => {
   return (await sauceQuery).at(0);
 };
 
-const getSauce = ({ id }: IParams) => executeWithCapture('getSauce', fetchSauce, { id });
+const getSauce = (params: IParams) =>
+  executeWithCapture({
+    context: 'GET_SAUCE',
+    fn: fetchSauce,
+    args: [params],
+  });
 
 export default getSauce;

@@ -118,9 +118,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     };
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.CREATE_FAILED,
+      error,
+      message: BUNDLE_ERRORS.GET_LIST_FAILED,
       context: 'GET_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+      },
     });
   }
 
@@ -164,9 +167,13 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.MODIFY_FAILED,
+      error,
+      message: BUNDLE_ERRORS.MODIFY_FAILED,
       context: 'MODIFY_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+        body,
+      },
     });
   }
 
@@ -177,9 +184,13 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     }
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED,
+      error,
+      message: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED,
       context: 'MODIFY_BUNDLE_PRODUCT',
-      payload: error,
+      payload: {
+        bundleId,
+        body,
+      },
     });
   }
 
@@ -192,9 +203,13 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        bundleId,
+        body,
+      },
     });
   }
 
@@ -224,9 +239,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     }
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.GET_FAILED,
+      error,
+      message: BUNDLE_ERRORS.GET_FAILED,
       context: 'GET_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+      },
     });
   }
 
@@ -281,9 +299,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     await Promise.all(tasks);
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.DELETE_FAILED,
-      context: 'DELETE_BUNDLE_PRODUCT',
-      payload: error,
+      error,
+      message: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
+      context: 'GET_BUNDLE_PRODUCT',
+      payload: {
+        bundleId,
+      },
     });
   }
 
@@ -291,9 +312,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     await db.delete(bundles).where(eq(bundles.id, bundleId));
   } catch (error) {
     return responseWithSentry({
-      error: BUNDLE_ERRORS.DELETE_FAILED,
+      error,
+      message: BUNDLE_ERRORS.DELETE_FAILED,
       context: 'DELETE_BUNDLE',
-      payload: error,
+      payload: {
+        bundleId,
+      },
     });
   }
 
@@ -304,9 +328,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE_DATAS',
+      payload: {
+        bundleId,
+      },
     });
   }
 

@@ -52,9 +52,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: BREAD_ERRORS.GET_FAILED,
+      error,
       context: 'GET_BREAD',
-      payload: error,
+      message: BREAD_ERRORS.GET_FAILED,
+      payload: {
+        breadId,
+      },
     });
   }
 
@@ -112,9 +115,13 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: BREAD_ERRORS.MODIFY_FAILED,
-      context: 'MODIFY_BREAD',
-      payload: error,
+      error,
+      message: BREAD_ERRORS.MODIFY_FAILED,
+      context: 'UPDATE_BREAD',
+      payload: {
+        breadId,
+        body,
+      },
     });
   }
 
@@ -126,13 +133,15 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_BREAD_IMAGE',
+      payload: {
+        breadId,
+        body,
+      },
     });
   }
-
-  console.log('updateBread', updateBread);
 
   return NextResponse.json(setSucResponseItem(updateBread));
 });
@@ -167,9 +176,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     }
   } catch (error) {
     return responseWithSentry({
-      error: BREAD_ERRORS.GET_FAILED,
+      error,
+      message: BREAD_ERRORS.GET_FAILED,
       context: 'GET_BREAD',
-      payload: error,
+      payload: {
+        breadId,
+      },
     });
   }
 
@@ -177,9 +189,13 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     await db.delete(breads).where(eq(breads.id, breadId));
   } catch (error) {
     return responseWithSentry({
-      error: BREAD_ERRORS.DELETE_FAILED,
+      error,
+      message: BREAD_ERRORS.DELETE_FAILED,
       context: 'DELETE_BREAD',
-      payload: error,
+      payload: {
+        breadId,
+        linkedBundles,
+      },
     });
   }
 
@@ -190,9 +206,13 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_BREAD_IMAGE',
+      payload: {
+        breadId,
+        linkedBundles,
+      },
     });
   }
 

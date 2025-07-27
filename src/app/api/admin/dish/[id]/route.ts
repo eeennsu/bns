@@ -50,9 +50,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: DISH_ERRORS.GET_FAILED,
-      context: 'GET_DISH',
-      payload: error,
+      error,
+      message: DISH_ERRORS.GET_FAILED,
+      context: 'GET_DISH_DATAS',
+      payload: {
+        dishId,
+      },
     });
   }
 
@@ -110,9 +113,13 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: DISH_ERRORS.MODIFY_FAILED,
-      context: 'MODIFY_DISH',
-      payload: error,
+      error,
+      message: DISH_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_DISH_DATAS',
+      payload: {
+        dishId,
+        body,
+      },
     });
   }
 
@@ -124,9 +131,13 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        dishId,
+        body,
+      },
     });
   }
 
@@ -163,9 +174,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     }
   } catch (error) {
     return responseWithSentry({
-      error: DISH_ERRORS.GET_FAILED,
-      context: 'GET_DISH',
-      payload: error,
+      error,
+      message: DISH_ERRORS.GET_FAILED,
+      context: 'GET_DISH_DATAS',
+      payload: {
+        dishId,
+      },
     });
   }
 
@@ -173,9 +187,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     await db.delete(dishes).where(eq(dishes.id, dishId));
   } catch (error) {
     return responseWithSentry({
-      error: DISH_ERRORS.DELETE_FAILED,
-      context: 'DELETE_DISH',
-      payload: error,
+      error,
+      message: DISH_ERRORS.DELETE_FAILED,
+      context: 'DELETE_DISH_DATAS',
+      payload: {
+        dishId,
+      },
     });
   }
 
@@ -186,9 +203,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE_DATAS',
+      payload: {
+        dishId,
+      },
     });
   }
 

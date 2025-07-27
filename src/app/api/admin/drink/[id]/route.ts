@@ -50,9 +50,12 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     ]);
   } catch (error) {
     return responseWithSentry({
-      error: DRINK_ERRORS.GET_FAILED,
+      error,
+      message: DRINK_ERRORS.GET_FAILED,
       context: 'GET_DRINK',
-      payload: error,
+      payload: {
+        drinkId,
+      },
     });
   }
 
@@ -109,9 +112,13 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       .returning();
   } catch (error) {
     return responseWithSentry({
-      error: DRINK_ERRORS.MODIFY_FAILED,
+      error,
+      message: DRINK_ERRORS.MODIFY_FAILED,
       context: 'MODIFY_DRINK',
-      payload: error,
+      payload: {
+        drinkId,
+        body,
+      },
     });
   }
 
@@ -123,9 +130,13 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        drinkId,
+        body,
+      },
     });
   }
 
@@ -162,9 +173,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     }
   } catch (error) {
     return responseWithSentry({
-      error: DRINK_ERRORS.GET_FAILED,
+      error,
+      message: DRINK_ERRORS.GET_FAILED,
       context: 'GET_DRINK',
-      payload: error,
+      payload: {
+        drinkId,
+      },
     });
   }
 
@@ -172,9 +186,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     await db.delete(drinks).where(eq(drinks.id, drinkId));
   } catch (error) {
     return responseWithSentry({
-      error: DRINK_ERRORS.DELETE_FAILED,
+      error,
+      message: DRINK_ERRORS.DELETE_FAILED,
       context: 'DELETE_DRINK',
-      payload: error,
+      payload: {
+        drinkId,
+      },
     });
   }
 
@@ -185,9 +202,12 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     });
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE_DATAS',
+      payload: {
+        drinkId,
+      },
     });
   }
 

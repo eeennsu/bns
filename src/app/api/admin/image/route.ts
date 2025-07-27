@@ -39,9 +39,12 @@ export const POST = withAuth(async (request: NextRequest) => {
     imageIds = imageRows.map(row => row.id);
   } catch (error) {
     return responseWithSentry({
-      error: IMAGE_ERRORS.FAILED_SAVE,
-      context: 'CREATE_IMAGE',
-      payload: error,
+      error,
+      message: IMAGE_ERRORS.FAILED_SAVE,
+      context: 'CREATE_IMAGE_DATAS',
+      payload: {
+        imageFiles,
+      },
     });
   }
 
