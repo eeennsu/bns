@@ -37,3 +37,5 @@ export const getDateSchema = (label: string) => {
     .nullable()
     .refine(date => date !== null, { message: `${label} 날짜를 선택해주세요.` });
 };
+
+export const ProductCategorySchema = z.enum(['all', 'signature', 'new']);

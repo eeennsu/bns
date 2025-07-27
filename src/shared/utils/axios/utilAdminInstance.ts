@@ -1,3 +1,6 @@
+import * as Sentry from '@sentry/nextjs';
+import { AxiosResponseError } from '@shared/class/customError';
+import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import useMeStore from '@shared/stores/me';
 import axios, { AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 import { ADMIN_ERRORS } from 'src/shared/api/errorMessage';
@@ -15,30 +18,43 @@ const axiosAdmin = axios.create({
 axiosAdmin.interceptors.response.use(
   res => res,
   async (error: AxiosError | Error): Promise<AxiosError> => {
-    if (isAxiosError(error)) {
-      const originalRequest = error?.config as InternalAxiosRequestConfig & { _retry?: boolean };
+    const isAxios = isAxiosError(error);
+    const status = isAxios ? error.response?.status : undefined;
+    const message = isAxios ? error.response?.data?.error : undefined;
+    const originalRequest = isAxios
+      ? (error.config as InternalAxiosRequestConfig & { _retry?: boolean })
+      : undefined;
 
-      if (originalRequest?.url) {
-        const status = error?.response?.status;
-        const message = error?.response?.data?.error;
+    const shouldRetry =
+      isAxios &&
+      originalRequest?.url &&
+      status === 401 &&
+      message === ADMIN_ERRORS.MISSING_ACCESS_TOKEN &&
+      !originalRequest._retry;
 
-        if (
-          status === 401 &&
-          message === ADMIN_ERRORS.MISSING_ACCESS_TOKEN &&
-          !originalRequest._retry
-        ) {
-          originalRequest._retry = true;
+    if (shouldRetry) {
+      originalRequest._retry = true;
 
-          try {
-            await apiRefresh();
-            return axiosAdmin(originalRequest);
-          } catch (error) {
-            useMeStore().setMe(null);
-            return Promise.reject(error);
-          }
-        }
+      try {
+        await apiRefresh();
+        return axiosAdmin(originalRequest);
+      } catch (refreshError) {
+        useMeStore().setMe(null);
+        return Promise.reject(refreshError);
       }
     }
+
+    const axiosResponseError = new AxiosResponseError(
+      isAxios ? message || UNKNOWN_ERROR_MESSAGE : UNKNOWN_ERROR_MESSAGE,
+    );
+
+    Sentry.captureException(axiosResponseError, {
+      extra: {
+        status,
+        url: originalRequest?.url,
+      },
+    });
+
     return Promise.reject(error);
   },
 );

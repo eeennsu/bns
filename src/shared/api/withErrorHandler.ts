@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs';
+import { ServerError } from '@shared/class/customError';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { SERVER_ERRORS } from './errorMessage';
@@ -8,7 +10,9 @@ export const withErrorHandler = (apiHandler: ApiHandler) => {
     try {
       return await apiHandler(request, { params });
     } catch (error) {
-      console.error('Error on withErrorHandler: ', error);
+      const serverError = new ServerError(error?.message || SERVER_ERRORS.UNEXPECTED_ERROR);
+
+      Sentry.captureException(serverError);
       return NextResponse.json({ error: SERVER_ERRORS.UNEXPECTED_ERROR }, { status: 500 });
     }
   };

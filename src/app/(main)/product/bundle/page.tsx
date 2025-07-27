@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import BundleListContact from '@features/bundle/ui/Contact';
-import BundleListContent from '@features/bundle/ui/Content';
-import BundleListHead from '@features/bundle/ui/Head';
+import BundleListContact from '@features/bundle/ui/list/Contact';
+import BundleListContent from '@features/bundle/ui/list/Content';
+import BundleListHead from '@features/bundle/ui/list/Head';
 
 const BundleListPage: FC = () => {
   return (

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import DetailBread from '@features/bread/ui/detail/Detail';
+import DetailBreadContent from '@app/(main)/product/bread/DetailBreadContent';
 
 import PageModal from '@components/PageModal';
 
@@ -9,11 +9,11 @@ interface IParams {
 }
 
 const DetailBreadModalPage: FC<IParams> = async ({ params }) => {
-  const breadId = (await params).id;
+  const breadId = (await params)?.id || '';
 
   return (
     <PageModal className='bg-[#FFFFF0]'>
-      <DetailBread id={breadId} />
+      <DetailBreadContent breadId={breadId} />
     </PageModal>
   );
 };

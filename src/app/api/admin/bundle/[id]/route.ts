@@ -12,6 +12,7 @@ import { mapWithType, updateBundleProductsDiff } from '@shared/api/bundle';
 import { BUNDLE_ERRORS, IMAGE_ERRORS } from '@shared/api/errorMessage';
 import { deleteImage, updateMultiImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { WithImageIdsSortOrder } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -75,7 +76,6 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
           id: bundleDishes.id,
           dishId: bundleDishes.dishId,
           quantity: bundleDishes.quantity,
-          sortOrder: bundleDishes.sortOrder,
         })
         .from(bundleDishes)
         .where(eq(bundleDishes.bundleId, bundleId)),
@@ -117,8 +117,14 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
       ],
     };
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.CREATE_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.GET_LIST_FAILED,
+      context: 'GET_BUNDLE',
+      payload: {
+        bundleId,
+      },
+    });
   }
 
   return NextResponse.json(setSucResponseItem(response));
@@ -160,8 +166,15 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .where(eq(bundles.id, bundleId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_BUNDLE',
+      payload: {
+        bundleId,
+        body,
+      },
+    });
   }
 
   // update bundle products
@@ -170,8 +183,15 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       await updateBundleProductsDiff(bundleId, products);
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED,
+      context: 'MODIFY_BUNDLE_PRODUCT',
+      payload: {
+        bundleId,
+        body,
+      },
+    });
   }
 
   // update image
@@ -182,8 +202,15 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       imageIdsWithSortOrder,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        bundleId,
+        body,
+      },
+    });
   }
 
   return NextResponse.json(setSucResponseItem(updateBundle));
@@ -211,8 +238,14 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: BUNDLE_ERRORS.NOT_FOUND_BUNDLE }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.GET_FAILED,
+      context: 'GET_BUNDLE',
+      payload: {
+        bundleId,
+      },
+    });
   }
 
   try {
@@ -265,15 +298,27 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
 
     await Promise.all(tasks);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
+      context: 'GET_BUNDLE_PRODUCT',
+      payload: {
+        bundleId,
+      },
+    });
   }
 
   try {
     await db.delete(bundles).where(eq(bundles.id, bundleId));
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BUNDLE_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BUNDLE_ERRORS.DELETE_FAILED,
+      context: 'DELETE_BUNDLE',
+      payload: {
+        bundleId,
+      },
+    });
   }
 
   try {
@@ -282,8 +327,14 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: bundleId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE_DATAS',
+      payload: {
+        bundleId,
+      },
+    });
   }
 
   return new NextResponse(null, { status: 204 });

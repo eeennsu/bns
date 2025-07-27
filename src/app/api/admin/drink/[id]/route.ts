@@ -4,6 +4,7 @@ import { imageReferences, images } from '@db/schemas/image';
 import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
@@ -48,8 +49,14 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: DRINK_ERRORS.GET_FAILED,
+      context: 'GET_DRINK',
+      payload: {
+        drinkId,
+      },
+    });
   }
 
   const [foundedDrink] = drinkResult;
@@ -104,8 +111,15 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       .where(eq(drinks.id, drinkId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: DRINK_ERRORS.MODIFY_FAILED,
+      context: 'MODIFY_DRINK',
+      payload: {
+        drinkId,
+        body,
+      },
+    });
   }
 
   try {
@@ -115,8 +129,15 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
       imageId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_IMAGE_DATAS',
+      payload: {
+        drinkId,
+        body,
+      },
+    });
   }
 
   return NextResponse.json(setSucResponseItem(updateDrink));
@@ -151,15 +172,27 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: DRINK_ERRORS.NOT_FOUND_DRINK }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: DRINK_ERRORS.GET_FAILED,
+      context: 'GET_DRINK',
+      payload: {
+        drinkId,
+      },
+    });
   }
 
   try {
     await db.delete(drinks).where(eq(drinks.id, drinkId));
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: DRINK_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: DRINK_ERRORS.DELETE_FAILED,
+      context: 'DELETE_DRINK',
+      payload: {
+        drinkId,
+      },
+    });
   }
 
   try {
@@ -168,8 +201,14 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: drinkId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_IMAGE_DATAS',
+      payload: {
+        drinkId,
+      },
+    });
   }
 
   return new NextResponse(null, { status: 204 });

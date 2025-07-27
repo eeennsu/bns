@@ -3,6 +3,7 @@ import { breads } from '@db/schemas/breads';
 import { imageReferences } from '@db/schemas/image';
 import { ORDER_BY_TYPES } from '@shared/api/consts';
 import { setSucResponseItem, setSucResponseList } from '@shared/api/response';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
@@ -50,8 +51,14 @@ export const GET = withAuth(async (request: NextRequest) => {
       db.select({ count: count() }).from(breads).where(whereClause),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      context: 'GET_BREAD',
+      message: BREAD_ERRORS.GET_FAILED,
+      payload: {
+        searchParams,
+      },
+    });
   }
 
   return NextResponse.json(
@@ -89,8 +96,14 @@ export const POST = withAuth(async (request: NextRequest) => {
       })
       .returning();
   } catch (error) {
-    console.error('Error inserting bread:', error);
-    return NextResponse.json({ error: BREAD_ERRORS.CREATE_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      context: 'CREATE_BREAD',
+      message: BREAD_ERRORS.CREATE_FAILED,
+      payload: {
+        body,
+      },
+    });
   }
 
   try {
@@ -109,8 +122,14 @@ export const POST = withAuth(async (request: NextRequest) => {
 
     return NextResponse.json(setSucResponseItem(newBread), { status: 201 });
   } catch (error) {
-    console.error('Error inserting image:', error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPLOAD }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_UPLOAD,
+      context: 'UPDATE_IMAGE',
+      payload: {
+        body,
+      },
+    });
   }
 });
 

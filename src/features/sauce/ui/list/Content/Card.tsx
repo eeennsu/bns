@@ -22,7 +22,7 @@ const SauceCard: FC<Props> = ({ sauce }) => {
         </div>
         <div className='absolute top-3 left-3 flex flex-wrap items-center gap-1'>
           {sauce.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
-          {sauce.isBest && <ProductBadge variant='signature'>Signature</ProductBadge>}
+          {sauce.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
         </div>
       </div>
 

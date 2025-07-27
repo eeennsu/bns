@@ -1,5 +1,8 @@
 import 'server-only';
 
+import * as Sentry from '@sentry/nextjs';
+import { JWTError } from '@shared/class/customError';
+import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import { COOKIE_KEYS } from '@shared/consts/storage';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from 'src/shared/api/auth';
@@ -21,7 +24,12 @@ export const withAuth = (apiHandler: ApiHandler) => {
     try {
       payload = verifyToken(accessToken);
     } catch (error: any) {
-      console.error('verifyToken Error : ', error);
+      if (error instanceof Error && error.message !== 'jwt expired') {
+        const jWTError = new JWTError(error?.message || UNKNOWN_ERROR_MESSAGE);
+
+        Sentry.captureException(jWTError);
+      }
+
       return NextResponse.json({ error: ADMIN_ERRORS.INVALID_ACCESS_TOKEN }, { status: 401 });
     }
 

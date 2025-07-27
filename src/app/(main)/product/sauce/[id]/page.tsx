@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import DetailSauce from '@features/sauce/ui/detail/Detail';
+import DetailSauceContent from '../DetailSauceContent';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -9,7 +9,7 @@ interface IParams {
 const DetailSaucePage: FC<IParams> = async ({ params }) => {
   const sauceId = (await params).id;
 
-  return <DetailSauce id={sauceId} />;
+  return <DetailSauceContent sauceId={sauceId} />;
 };
 
 export default DetailSaucePage;

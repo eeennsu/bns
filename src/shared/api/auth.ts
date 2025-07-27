@@ -8,14 +8,13 @@ import { NextResponse } from 'next/server';
 import { IVerifyToken } from '@entities/auth/types';
 
 import { assertEnv } from '../libs/assertEnv';
-import { TOKEN_EXPIRES_EXP, TOKEN_EXPIRES_MAX_AGE } from './consts';
+import { COOKIE_EXPIRES, TOKEN_EXPIRES } from './consts';
 import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from './typings';
 
 export const comparePassword = async (password: string, hashed: string) => {
   try {
     return await bcrypt.compare(password, hashed);
-  } catch (error) {
-    console.log('error', error);
+  } catch {
     return false;
   }
 };
@@ -29,8 +28,7 @@ export const generateToken = (
 
   const tokenPayloadWithType = { ...payload, type: tokenType };
 
-  const expiresIn =
-    tokenType === COOKIE_KEYS.ACCESS ? TOKEN_EXPIRES_EXP.ACCESS : TOKEN_EXPIRES_EXP.REFRESH;
+  const expiresIn = tokenType === COOKIE_KEYS.ACCESS ? TOKEN_EXPIRES.ACCESS : TOKEN_EXPIRES.REFRESH;
 
   return sign(tokenPayloadWithType, jwtSecret, {
     expiresIn,
@@ -53,7 +51,7 @@ export const setAccessTokenCookie = (response: NextResponse, token: string) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: TOKEN_EXPIRES_MAX_AGE.ACCESS,
+    maxAge: COOKIE_EXPIRES.ACCESS,
   });
 };
 
@@ -62,6 +60,6 @@ export const setRefreshTokenCookie = (response: NextResponse, token: string) => 
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: TOKEN_EXPIRES_MAX_AGE.REFRESH,
+    maxAge: COOKIE_EXPIRES.REFRESH,
   });
 };

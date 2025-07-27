@@ -1,28 +1,27 @@
 import { ScrollArea } from '@shared/shadcn-ui/ui/scroll-area';
+import { ProductData } from '@shared/typings/commons';
 import dayjs from 'dayjs';
 import { CalendarDays } from 'lucide-react';
 import Image from 'next/image';
 import { FC } from 'react';
 
-interface EventPopupProps {
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  image: string;
+import { IEvent } from '@entities/event/types';
+
+interface IProps {
+  event: ProductData<IEvent>;
 }
 
-const EventPopup: FC<EventPopupProps> = ({ title, description, startDate, endDate, image }) => {
+const EventPopup: FC<IProps> = ({ event }) => {
   const dateFormat = (date: string) => {
     return dayjs(date).format('YYYY년 MM월 DD일 ddd');
   };
 
   return (
-    <div className='flex flex-col gap-1.5 p-4 text-[#2f2f2f]'>
+    <div className='flex w-full flex-col gap-1.5 p-4 text-[#2f2f2f]'>
       <figure className='relative flex max-h-[350px] w-full flex-1 overflow-hidden rounded-xl shadow-sm'>
         <Image
-          src={image}
-          alt={title}
+          src={event.image}
+          alt={event.name}
           fill
           className='w-full object-cover transition-transform duration-300 hover:scale-[1.02]'
         />
@@ -30,17 +29,17 @@ const EventPopup: FC<EventPopupProps> = ({ title, description, startDate, endDat
           <CalendarDays className='size-4' />
           진행 기간
           <span>
-            {dateFormat(startDate)} ~ {dateFormat(endDate)}
+            {dateFormat(event.startDate.toString())} ~ {dateFormat(event.endDate.toString())}
           </span>
         </div>
       </figure>
 
       <h3 className='mt-3 text-xl leading-tight font-semibold tracking-tight text-gray-900'>
-        {title}
+        {event.name}
       </h3>
 
       <ScrollArea className='h-fit max-h-[100px] rounded-lg px-3 text-sm leading-relaxed text-gray-700'>
-        {description}
+        {event.description}
       </ScrollArea>
     </div>
   );

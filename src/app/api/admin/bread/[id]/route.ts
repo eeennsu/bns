@@ -4,6 +4,7 @@ import { imageReferences, images } from '@db/schemas/image';
 import { getLinkedBundlesByProduct } from '@shared/api/bundle';
 import { deleteImage, updateSingleImageReference } from '@shared/api/image';
 import { setSucResponseItem } from '@shared/api/response';
+import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
@@ -50,8 +51,14 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
         .limit(1),
     ]);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      context: 'GET_BREAD',
+      message: BREAD_ERRORS.GET_FAILED,
+      payload: {
+        breadId,
+      },
+    });
   }
 
   const [foundedBread] = breadResult;
@@ -107,8 +114,15 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .where(eq(breads.id, breadId))
       .returning();
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.MODIFY_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BREAD_ERRORS.MODIFY_FAILED,
+      context: 'UPDATE_BREAD',
+      payload: {
+        breadId,
+        body,
+      },
+    });
   }
 
   try {
@@ -118,11 +132,16 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       imageId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
+      context: 'UPDATE_BREAD_IMAGE',
+      payload: {
+        breadId,
+        body,
+      },
+    });
   }
-
-  console.log('updateBread', updateBread);
 
   return NextResponse.json(setSucResponseItem(updateBread));
 });
@@ -156,15 +175,28 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       return NextResponse.json({ error: BREAD_ERRORS.NOT_FOUND_BREAD }, { status: 400 });
     }
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.GET_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BREAD_ERRORS.GET_FAILED,
+      context: 'GET_BREAD',
+      payload: {
+        breadId,
+      },
+    });
   }
 
   try {
     await db.delete(breads).where(eq(breads.id, breadId));
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: BREAD_ERRORS.DELETE_FAILED }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: BREAD_ERRORS.DELETE_FAILED,
+      context: 'DELETE_BREAD',
+      payload: {
+        breadId,
+        linkedBundles,
+      },
+    });
   }
 
   try {
@@ -173,8 +205,15 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       refId: breadId,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS }, { status: 500 });
+    return responseWithCapture({
+      error,
+      message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
+      context: 'DELETE_BREAD_IMAGE',
+      payload: {
+        breadId,
+        linkedBundles,
+      },
+    });
   }
 
   return new NextResponse(null, { status: 204 });

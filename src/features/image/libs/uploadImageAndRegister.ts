@@ -13,8 +13,6 @@ export const uploadImageAndRegister = async (
 ) => {
   const filesArray = filesWithSortOrder.map(item => item.file).filter(file => file instanceof File);
 
-  console.log('filesWithSortOrder', filesWithSortOrder);
-  console.log('filesArray', filesArray);
   const compressedFiles = await Promise.all(filesArray.map(file => compressImage(file)));
 
   if (!compressedFiles) {
@@ -40,10 +38,7 @@ export const uploadImageAndRegister = async (
       })),
       refType,
     });
-
-    console.log('imageIds', imageIds);
-  } catch (error) {
-    console.error('error', error);
+  } catch {
     imageIds = [];
   }
 

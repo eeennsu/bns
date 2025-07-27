@@ -40,7 +40,6 @@ const useLogin = ({ closeModal }: IParams = {}) => {
       });
     },
     onError: error => {
-      console.log(error);
       toast.error(AUTH_TOAST_MESSAGES.LOGIN_FAILED, { description: axiosErrorHandler(error) });
     },
   });

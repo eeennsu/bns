@@ -1,20 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC } from 'react';
 
-import EventPopup from '@features/event/ui/Popup';
+import EventPopup from '@features/event/ui/detail';
 
-import { Direction } from '@typings/commons';
+import { IEvent } from '@entities/event/types';
+
+import { Direction, ProductData } from '@typings/commons';
 
 interface Props {
   direction: Direction;
-  event: {
-    id: string;
-    title: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    image: string;
-  };
+  event: ProductData<IEvent>;
 }
 
 const AnimatedEventPopup: FC<Props> = ({ direction, event }) => {
@@ -40,7 +35,7 @@ const AnimatedEventPopup: FC<Props> = ({ direction, event }) => {
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className='flex w-full flex-1'
       >
-        <EventPopup key={event.id} {...event} />
+        <EventPopup key={event.id} event={event} />
       </motion.div>
     </AnimatePresence>
   );

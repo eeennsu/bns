@@ -1,5 +1,8 @@
 import 'server-only';
 
+import * as Sentry from '@sentry/nextjs';
+import { ServerSessionError } from '@shared/class/customError';
+import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import { COOKIE_KEYS } from '@shared/consts/storage';
 import { cookies } from 'next/headers';
 
@@ -25,7 +28,9 @@ export const getServerSession = async () => {
 
     return null;
   } catch (error) {
-    console.error('getServerSession error : ', error);
-    throw error;
+    if (error instanceof Error && error.message !== 'jwt expired') {
+      const serverSessionError = new ServerSessionError(error?.message || UNKNOWN_ERROR_MESSAGE);
+      Sentry.captureException(serverSessionError);
+    }
   }
 };
