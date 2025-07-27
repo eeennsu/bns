@@ -21,7 +21,7 @@ const Footer: FC = () => {
 
   const onOpenLoginModal = (e: MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
-    console.log('!@?#!@?#');
+
     openModal();
   };
 

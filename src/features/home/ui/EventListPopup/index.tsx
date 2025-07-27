@@ -1,7 +1,10 @@
 'use client';
 
+import { ProductData } from '@shared/typings/commons';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
+
+import { IEvent } from '@entities/event/types';
 
 import useEventPopup from '../../hooks/useEventPopup';
 import AnimatedEventPopup from './AnimatedEventPopup';
@@ -10,37 +13,11 @@ import DontShowOption from './DontShowOption';
 import DotButton from './DotButton';
 import EventPopupHeader from './EventPopupHeader';
 
-const events = [
-  {
-    id: '1',
-    title: '허니브레드 버터 세트 이벤트',
-    description:
-      '허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다 허니브레드 버터 세트는 엄청나게 맛있습니다',
-    startDate: '2025-05-17',
-    endDate: '2025-05-19',
-    image: 'https://picsum.photos/id/237/200/300',
-  },
-  {
-    id: '2',
-    title: '땅콩 빵 버터 세트 이벤트',
-    description:
-      '땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다 땅콩 빵 버터 세트는 엄청나게 맛있습니다',
-    startDate: '2025-05-17',
-    endDate: '2025-05-19',
-    image: 'https://picsum.photos/id/37/200/300',
-  },
-  {
-    id: '3',
-    title: '메론빵 이벤트',
-    description:
-      '메론빵은 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다 메론빵 이벤트는 엄청나게 맛있습니다',
-    startDate: '2025-05-17',
-    endDate: '2025-05-19',
-    image: 'https://picsum.photos/id/67/200/300',
-  },
-];
+interface IProps {
+  events: ProductData<IEvent>[];
+}
 
-export const EventListPopup: FC = () => {
+export const EventListPopup: FC<IProps> = ({ events }) => {
   const {
     isShow,
     currentEventIndex,
