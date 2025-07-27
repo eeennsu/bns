@@ -20,9 +20,21 @@ export const MAIN_MENU_LIST: IHeaderMenu[] = [
         title: '소스',
         path: MAIN_PATHS.product.sauce.list(),
       },
+      dish: {
+        title: '디쉬',
+        path: MAIN_PATHS.product.dish.list(),
+      },
+      drink: {
+        title: '음료',
+        path: MAIN_PATHS.product.drink.list(),
+      },
+      dessert: {
+        title: '디저트',
+        path: MAIN_PATHS.product.dessert.list(),
+      },
       bundle: {
         title: '세트 구성',
-        path: MAIN_PATHS.product.bundle(),
+        path: MAIN_PATHS.product.bundle.list(),
       },
     } as const,
   },

@@ -1,9 +1,9 @@
-export const tryCatchAction = async <T extends unknown[], U>(
+export const executeWithCapture = async <T extends unknown[], U>(
   feature: string,
   fn: (...args: T) => Promise<U>,
   ...args: T
 ): Promise<[null, U] | [Error, U]> => {
-  console.log('tryCatchAction', feature);
+  console.log('executeWithCapture', feature);
   try {
     const result = await fn(...args);
     return [null, result];

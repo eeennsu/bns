@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { BRAND_INFO } from '@consts/brand';
 
-const BreadListContact: FC = () => {
+const BundleListContact: FC = () => {
   return (
     <section className='mx-auto w-full max-w-4xl text-center sm:px-6 sm:py-12 md:px-10 md:py-14'>
       <h2 className='text-wood mb-3 text-2xl font-bold tracking-tight sm:mb-4 sm:text-3xl md:text-4xl'>
@@ -21,4 +21,4 @@ const BreadListContact: FC = () => {
   );
 };
 
-export default BreadListContact;
+export default BundleListContact;

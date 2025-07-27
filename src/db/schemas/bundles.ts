@@ -14,7 +14,6 @@ export const bundles = pgTable(
     id: serial('id').primaryKey(),
     name: varchar('name', { length: STRING_LENGTH.NAME }).notNull(),
     description: varchar('description', { length: STRING_LENGTH.DESCRIPTION }).notNull(),
-
     price: integer('price').notNull(),
     discountedPrice: integer('discounted_price'),
     sortOrder: SORT_ORDER_COLUMN,
@@ -33,7 +32,6 @@ export const bundleBreads = pgTable(
     breadId: integer('bread_id')
       .notNull()
       .references(() => breads.id),
-    sortOrder: SORT_ORDER_COLUMN,
     quantity: integer('quantity').notNull(),
     createdAt: AUDIT_COLUMNS.createdAt,
   },
@@ -54,7 +52,6 @@ export const bundleSauces = pgTable(
     sauceId: integer('sauce_id')
       .notNull()
       .references(() => sauces.id),
-    sortOrder: SORT_ORDER_COLUMN,
     quantity: integer('quantity').notNull(),
     createdAt: AUDIT_COLUMNS.createdAt,
   },
@@ -75,7 +72,6 @@ export const bundleDishes = pgTable(
     dishId: integer('dish_id')
       .notNull()
       .references(() => dishes.id),
-    sortOrder: SORT_ORDER_COLUMN,
     quantity: integer('quantity').notNull(),
     createdAt: AUDIT_COLUMNS.createdAt,
   },
@@ -96,7 +92,6 @@ export const bundleDrinks = pgTable(
     drinkId: integer('drink_id')
       .notNull()
       .references(() => drinks.id),
-    sortOrder: SORT_ORDER_COLUMN,
     quantity: integer('quantity').notNull(),
     createdAt: AUDIT_COLUMNS.createdAt,
   },
@@ -117,7 +112,6 @@ export const bundleDesserts = pgTable(
     dessertId: integer('dessert_id')
       .notNull()
       .references(() => desserts.id),
-    sortOrder: SORT_ORDER_COLUMN,
     quantity: integer('quantity').notNull(),
     createdAt: AUDIT_COLUMNS.createdAt,
   },

@@ -14,6 +14,7 @@ export const MAIN_PATHS = {
     root() {
       return MAIN_PATHS.root.concat('product');
     },
+
     bread: {
       root() {
         return MAIN_PATHS.product.root().concat('/bread');
@@ -25,6 +26,7 @@ export const MAIN_PATHS = {
         return MAIN_PATHS.product.bread.root().concat(`/${slug}`);
       },
     },
+
     sauce: {
       root() {
         return MAIN_PATHS.product.root().concat('/sauce');
@@ -36,6 +38,19 @@ export const MAIN_PATHS = {
         return MAIN_PATHS.product.sauce.root().concat(`/${slug}`);
       },
     },
+
+    dish: {
+      root() {
+        return MAIN_PATHS.product.root().concat('/dish');
+      },
+      list() {
+        return MAIN_PATHS.product.dish.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail({ slug }: IPathSlug) {
+        return MAIN_PATHS.product.dish.root().concat(`/${slug}`);
+      },
+    },
+
     drink: {
       root() {
         return MAIN_PATHS.product.root().concat('/drink');
@@ -47,8 +62,29 @@ export const MAIN_PATHS = {
         return MAIN_PATHS.product.drink.root().concat(`/${slug}`);
       },
     },
-    bundle() {
-      return MAIN_PATHS.product.root().concat('/bundle');
+
+    dessert: {
+      root() {
+        return MAIN_PATHS.product.root().concat('/dessert');
+      },
+      list() {
+        return MAIN_PATHS.product.dessert.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail({ slug }: IPathSlug) {
+        return MAIN_PATHS.product.dessert.root().concat(`/${slug}`);
+      },
+    },
+
+    bundle: {
+      root() {
+        return MAIN_PATHS.product.root().concat('/bundle');
+      },
+      list() {
+        return MAIN_PATHS.product.bundle.root().concat(LIST_PAGE_ROUTE);
+      },
+      detail({ slug }: IPathSlug) {
+        return MAIN_PATHS.product.bundle.root().concat(`/${slug}`);
+      },
     },
   },
 } as const;

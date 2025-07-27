@@ -3,7 +3,7 @@
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { tryCatchAction } from '@shared/libs/serverAction';
+import { executeWithCapture } from '@shared/libs/serverAction';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
 import { and, asc, eq } from 'drizzle-orm';
 
@@ -39,7 +39,8 @@ const fetchSauceList = async ({ page, pageSize, category }: IParams) => {
   return sauceListQuery;
 };
 
-const getSauceList = (params: IParams) => tryCatchAction('getSauceList', fetchSauceList, params);
+const getSauceList = (params: IParams) =>
+  executeWithCapture('getSauceList', fetchSauceList, params);
 
 export default getSauceList;
 

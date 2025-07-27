@@ -45,3 +45,26 @@ export type SelectProductItem = SelectItem & { price: number };
 export type SelectedProductItem = SelectProductItem & { quantity: number };
 
 export type ICommandGroupBundle = ICommandGroup<SelectedProductItem>;
+
+export interface IBundleProductDisplay {
+  id: number;
+  // bundleId: number;
+  name: string;
+  quantity: number;
+}
+
+export interface IBundleDisplay {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  discountedPrice: number;
+  images: { id: number; url: string }[];
+  products: {
+    breads: IBundleProductDisplay[];
+    sauces: IBundleProductDisplay[];
+    dishes: IBundleProductDisplay[];
+    drinks: IBundleProductDisplay[];
+    desserts: IBundleProductDisplay[];
+  };
+}
