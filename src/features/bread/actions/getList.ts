@@ -32,7 +32,7 @@ const fetchBreadList = async ({ page, pageSize, category }: IParams) => {
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(and(eq(breads.isHidden, false), getCategoryClause(category)))
-    .orderBy(asc(breads.sortOrder))
+    .orderBy(asc(breads.sortOrder), asc(breads.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
