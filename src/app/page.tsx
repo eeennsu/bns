@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
+import EventList from '@features/event/ui/list';
 import BrushBackground from '@features/home/ui/BrushBackground';
 import ContactUs from '@features/home/ui/ContactUs';
-import EventListPopup from '@features/home/ui/EventListPopup';
 import Hero from '@features/home/ui/Hero';
 import LoginExpireToast from '@features/home/ui/LoginExpireToast';
 import Signature from '@features/home/ui/Signature';
@@ -17,8 +17,8 @@ const HomePage: FC = async () => {
       </div>
 
       <ContactUs />
-      <EventListPopup />
       <LoginExpireToast />
+      <EventList />
     </main>
   );
 };

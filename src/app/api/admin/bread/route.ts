@@ -17,7 +17,6 @@ import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
 
 export const GET = withAuth(async (request: NextRequest) => {
-  throw new Error('액시오스 에러 테스트!');
   const searchParams = request.nextUrl.searchParams;
   const page = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE)) || 1;
   const pageSize = Number(searchParams.get(SEARCH_PARAMS_KEYS.PAGE_SIZE)) || PER_PAGE_SIZE.DEFAULT;

@@ -3,14 +3,16 @@
 import dayjs from 'dayjs';
 import { useLayoutEffect, useState } from 'react';
 
-import { Direction } from '@typings/commons';
+import { IEvent } from '@entities/event/types';
+
+import { Direction, ProductData } from '@typings/commons';
 
 import useEventPopupStore from '@stores/eventPopup';
 
 import { STORAGE_KEYS } from '@consts/storage';
 
 interface IParams {
-  events: any[];
+  events: ProductData<IEvent>[];
 }
 
 const useEventPopup = ({ events }: IParams) => {

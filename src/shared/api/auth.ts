@@ -14,8 +14,7 @@ import { IAccessTokenPayload, IRefreshTokenPayload, TokenType } from './typings'
 export const comparePassword = async (password: string, hashed: string) => {
   try {
     return await bcrypt.compare(password, hashed);
-  } catch (error) {
-    console.log('error', error);
+  } catch {
     return false;
   }
 };
