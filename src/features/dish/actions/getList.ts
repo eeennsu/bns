@@ -32,7 +32,7 @@ const fetchDishList = async ({ page, pageSize, category }: IParams) => {
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(and(eq(dishes.isHidden, false), getCategoryClause(category)))
-    .orderBy(asc(dishes.sortOrder))
+    .orderBy(asc(dishes.sortOrder), asc(dishes.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 

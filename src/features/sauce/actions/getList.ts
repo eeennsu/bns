@@ -32,7 +32,7 @@ const fetchSauceList = async ({ page, pageSize, category }: IParams) => {
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(and(eq(sauces.isHidden, false), getCategoryClause(category)))
-    .orderBy(asc(sauces.sortOrder))
+    .orderBy(asc(sauces.sortOrder), asc(sauces.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
