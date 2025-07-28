@@ -110,9 +110,9 @@ const Table = <T extends Record<string, any>>({
         <TableCell key={key}>
           <div className='flex items-center justify-center'>
             {cellValue === true ? (
-              <CircleCheckBig className='text-green-500' size={16} />
+              <CircleCheckBig className='size-4.5 text-green-500' />
             ) : (
-              <X className='text-red-500' size={16} />
+              <X className='siz4-4.5 text-red-500' />
             )}
           </div>
         </TableCell>
