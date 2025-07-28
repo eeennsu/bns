@@ -2,7 +2,7 @@ import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
 import { executeWithCapture } from '@shared/libs/serverAction';
-import { and, eq, gte } from 'drizzle-orm';
+import { and, asc, eq, gte } from 'drizzle-orm';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -26,7 +26,7 @@ const fetchEventList = async () => {
     )
     .leftJoin(images, eq(imageReferences.imageId, images.id))
     .where(and(eq(events.isHidden, false), gte(events.endDate, new Date())))
-    .orderBy(events.sortOrder);
+    .orderBy(events.sortOrder, asc(events.startDate));
 
   return eventListQuery;
 };

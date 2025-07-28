@@ -28,7 +28,7 @@ const fetchBundleList = async () => {
     )
     .leftJoin(images, eq(imageReferences.imageId, images.id))
     .where(eq(bundles.isHidden, false))
-    .orderBy(asc(bundles.sortOrder), asc(imageReferences.sortOrder));
+    .orderBy(asc(bundles.sortOrder), asc(bundles.price));
 
   return bundleListQuery;
 };
