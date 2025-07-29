@@ -9,7 +9,7 @@ interface IParams<T extends unknown[], U> {
   context: string;
 }
 
-export const executeWithCapture = async <T extends unknown[], U>({
+export const actionWithCapture = async <T extends unknown[], U>({
   fn,
   args,
   context,
