@@ -162,8 +162,6 @@ const TagsInput: FC<TagsInputProps> = ({
     };
     const target = e.currentTarget;
 
-    // ? Suggest : the multi select should support the same pattern
-
     switch (e.key) {
       case 'ArrowLeft':
         if (dir === 'rtl') {
@@ -189,7 +187,6 @@ const TagsInput: FC<TagsInputProps> = ({
         }
         break;
 
-      case 'Backspace':
       case 'Delete':
         if (value.length > 0) {
           if (activeIndex !== -1 && activeIndex < value.length) {

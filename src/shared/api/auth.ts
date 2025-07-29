@@ -41,9 +41,17 @@ export const verifyToken = (token: string) => {
     throw new Error('Token is missing');
   }
 
-  const jwtSecret = assertEnv({ env: process.env.JWT_SECRET, key: 'JWT_SECRET' });
+  try {
+    const jwtSecret = assertEnv({ env: process.env.JWT_SECRET, key: 'JWT_SECRET' });
 
-  return verify(token, jwtSecret) as IVerifyToken;
+    return verify(token, jwtSecret) as IVerifyToken;
+  } catch (error: any) {
+    if (error?.name === 'TokenExpiredError') {
+      return null;
+    }
+
+    throw error;
+  }
 };
 
 export const setAccessTokenCookie = (response: NextResponse, token: string) => {
