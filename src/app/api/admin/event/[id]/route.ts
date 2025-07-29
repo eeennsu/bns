@@ -94,7 +94,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_ID }, { status: 400 });
   }
 
-  const { name, description, startDate, endDate, sortOrder, isHidden } = body;
+  const { name, shortDescription, longDescription, startDate, endDate, sortOrder, isHidden } = body;
 
   const _startDate = dayjs(startDate);
   const _endDate = dayjs(endDate);
@@ -114,7 +114,8 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       .update(events)
       .set({
         name,
-        description,
+        shortDescription,
+        longDescription,
         startDate: _startDate.toDate(),
         endDate: _endDate.toDate(),
         sortOrder: Number(sortOrder),

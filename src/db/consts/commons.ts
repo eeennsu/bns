@@ -13,6 +13,7 @@ export const AUDIT_COLUMNS = {
 export const STRING_LENGTH = {
   NAME: 64,
   DESCRIPTION: 1000,
+  LONG_DESCRIPTION: 50000,
   IMAGE: 2048,
 };
 

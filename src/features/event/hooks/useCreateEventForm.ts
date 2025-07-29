@@ -25,7 +25,8 @@ const useCreateEventForm = () => {
     resolver: zodResolver(EventFormDtoSchema),
     defaultValues: {
       name: '',
-      description: '',
+      shortDescription: '',
+      longDescription: '',
       imageFiles: [],
       sortOrder: '',
       startDate: null,

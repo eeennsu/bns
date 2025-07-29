@@ -11,7 +11,8 @@ const fetchEventList = async () => {
     .select({
       id: events.id,
       name: events.name,
-      description: events.description,
+      shortDescription: events.shortDescription,
+      longDescription: events.longDescription,
       startDate: events.startDate,
       endDate: events.endDate,
       image: images.url,
