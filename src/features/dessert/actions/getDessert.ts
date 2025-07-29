@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { desserts } from '@db/schemas/desserts';
 import { imageReferences, images } from '@db/schemas/image';
-import { executeWithCapture } from '@shared/libs/serverAction';
+import { actionWithCapture } from '@shared/libs/serverAction';
 import { and, eq } from 'drizzle-orm';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
@@ -36,7 +36,7 @@ const fetchDessert = async ({ id }: IParams) => {
 };
 
 const getDessert = (params: IParams) =>
-  executeWithCapture({
+  actionWithCapture({
     context: 'GET_DESSERT',
     fn: fetchDessert,
     args: [params],

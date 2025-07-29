@@ -72,14 +72,29 @@ const EventForm: FC<IProps> = ({ submitProps, form, files, setFiles }) => {
           />
 
           <FormField
-            name='description'
+            name='shortDescription'
             control={form.control}
             render={({ field }) => (
               <SharedFormTextareaFieldRender
-                label='설명'
+                label='요약 설명'
                 field={field}
                 isRequired
                 maxLength={STRING_LENGTH.DESCRIPTION}
+                className='h-14'
+              />
+            )}
+          />
+
+          <FormField
+            name='longDescription'
+            control={form.control}
+            render={({ field }) => (
+              <SharedFormTextareaFieldRender
+                label='상세 설명'
+                field={field}
+                isRequired
+                maxLength={STRING_LENGTH.LONG_DESCRIPTION}
+                className='h-64'
               />
             )}
           />

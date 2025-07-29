@@ -13,7 +13,7 @@ import { dishes } from '@db/schemas/dishes';
 import { drinks } from '@db/schemas/drinks';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { executeWithCapture } from '@shared/libs/serverAction';
+import { actionWithCapture } from '@shared/libs/serverAction';
 import { and, asc, eq } from 'drizzle-orm';
 
 import { IBundleDisplay } from '@entities/bundle/types';
@@ -115,7 +115,7 @@ const fetchBundle = async ({ id }: IParams): Promise<IBundleDisplay | null> => {
 };
 
 const getBundle = (params: IParams) =>
-  executeWithCapture({
+  actionWithCapture({
     context: 'GET_BUNDLE',
     fn: fetchBundle,
     args: [params],

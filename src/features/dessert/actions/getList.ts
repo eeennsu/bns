@@ -3,7 +3,7 @@
 import db from '@db/index';
 import { desserts } from '@db/schemas/desserts';
 import { imageReferences, images } from '@db/schemas/image';
-import { executeWithCapture } from '@shared/libs/serverAction';
+import { actionWithCapture } from '@shared/libs/serverAction';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
 import { and, asc, eq } from 'drizzle-orm';
 
@@ -40,7 +40,7 @@ const fetchDessertList = async ({ page, pageSize, category }: IParams) => {
 };
 
 const getDessertList = (params: IParams) =>
-  executeWithCapture({
+  actionWithCapture({
     context: 'GET_DESSERT_LIST',
     fn: fetchDessertList,
     args: [params],

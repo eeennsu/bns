@@ -9,42 +9,15 @@ import {
   CarouselPrevious,
 } from '@shadcn-ui/ui';
 
+import getSignatureList from '@features/home/actions/getSignatureList';
+
 import SignatureCard from './SignatureCard';
 
-const DUMMY_SIGNATURES = [
-  {
-    id: 1,
-    name: '사워도우 불',
-    description: '바삭한 크러스트와 부드럽고 톡 쏘는 속살이 특징인 클래식 사워도우입니다.',
-  },
-  {
-    id: 2,
-    name: '러스틱 바게트',
-    description:
-      '전통적인 프랑스 스타일의 바게트로, 바삭한 크러스트와 공기 가득한 속살이 특징입니다.',
-  },
-  {
-    id: 3,
-    name: '멀티그레인 로프',
-    description: '7가지 곡물과 씨앗이 가득 담긴 영양가 높은 빵입니다.',
-  },
-  {
-    id: 4,
-    name: '올리브 & 로즈마리',
-    description: '칼라마타 올리브와 신선한 로즈마리가 들어간 지중해 스타일의 빵입니다.',
-  },
-  {
-    id: 5,
-    name: '체다 & 허니',
-    description: '체다 치즈와 꿀이 조화를 이루는 달콤하고 짭짤한 빵입니다.',
-  },
-  {
-    id: 6,
-    name: '호두 & 크랜베리',
-    description: '호두와 크랜베리가 들어간 달콤하고 고소한 빵입니다.',
-  },
-];
-const Signature: FC = () => {
+const SignatureProducts: FC = async () => {
+  const [error, signatures] = await getSignatureList();
+
+  if (error) return null;
+
   return (
     <section className='relative container space-y-8 rounded-2xl px-4 py-12 sm:px-6 md:px-10 lg:space-y-12'>
       <div className='space-y-2 text-center'>
@@ -68,12 +41,12 @@ const Signature: FC = () => {
         className='mx-auto w-full max-w-[1200px]'
       >
         <CarouselContent>
-          {DUMMY_SIGNATURES.map((bread, index) => (
+          {signatures?.map(signature => (
             <CarouselItem
-              key={bread.name}
+              key={`signature-${signature.type}-${signature.id}`}
               className='basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4'
             >
-              <SignatureCard bread={bread} index={index} />
+              <SignatureCard signature={signature} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -84,4 +57,4 @@ const Signature: FC = () => {
   );
 };
 
-export default Signature;
+export default SignatureProducts;
