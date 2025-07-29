@@ -8,7 +8,14 @@ export const events = pgTable(
   {
     id: serial('id').primaryKey(),
     name: varchar('name', { length: STRING_LENGTH.NAME }).notNull(),
-    description: varchar('description', { length: STRING_LENGTH.DESCRIPTION }).notNull(),
+    shortDescription: varchar('description', { length: STRING_LENGTH.DESCRIPTION })
+      .notNull()
+      .default(''),
+    longDescription: varchar('long_description', {
+      length: STRING_LENGTH.LONG_DESCRIPTION,
+    })
+      .notNull()
+      .default(''),
     startDate: timestamp('start_date').notNull(),
     endDate: timestamp('end_date').notNull(),
     sortOrder: SORT_ORDER_COLUMN,

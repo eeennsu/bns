@@ -74,7 +74,16 @@ export const GET = withAuth(async (request: NextRequest) => {
 export const POST = withAuth(async (request: NextRequest) => {
   const body = (await request.json()) as Partial<WithImageId<EventFormDto>>;
 
-  const { name, description, startDate, endDate, sortOrder, imageId, isHidden } = body;
+  const {
+    name,
+    shortDescription,
+    longDescription,
+    startDate,
+    endDate,
+    sortOrder,
+    imageId,
+    isHidden,
+  } = body;
 
   let newEvent;
 
@@ -98,7 +107,8 @@ export const POST = withAuth(async (request: NextRequest) => {
       .insert(events)
       .values({
         name,
-        description,
+        shortDescription,
+        longDescription,
         sortOrder: Number(sortOrder),
         isHidden,
         startDate: _startDate.toDate(),

@@ -10,7 +10,6 @@ interface IProps<TName extends string> extends TextareaHTMLAttributes<HTMLTextAr
   label: string;
   isRequired?: boolean;
   disabled?: boolean;
-  height?: string;
   placeholder?: string;
   onKeyDownLines?: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
 }
@@ -20,10 +19,10 @@ const SharedFormTextareaFieldRender = <TName extends string>({
   label,
   isRequired,
   disabled,
-  height = 'h-28',
   placeholder,
   onKeyDownLines,
   maxLength,
+  className,
   ...restProps
 }: IProps<TName>) => {
   const curLength = field.value?.length ?? 0;
@@ -37,9 +36,9 @@ const SharedFormTextareaFieldRender = <TName extends string>({
         <div className='relative'>
           <Textarea
             className={cn(
-              height,
-              'resize-none placeholder:text-xs placeholder:text-gray-400',
+              'h-28 resize-none placeholder:text-xs placeholder:text-gray-400',
               maxLength && 'pr-16',
+              className,
             )}
             {...field}
             maxLength={maxLength}
