@@ -1,7 +1,7 @@
-'use server';
+import 'server-only';
 
 import db from '@db/index';
-import { drinks } from '@db/schemas/drinks';
+import { desserts } from '@db/schemas/desserts';
 import { imageReferences, images } from '@db/schemas/image';
 import { actionWithCapture } from '@shared/libs/serverAction';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
@@ -13,46 +13,46 @@ interface IParams extends IPageParams {
   category?: ProductCategory;
 }
 
-const fetchDrinkList = async ({ page, pageSize, category }: IParams) => {
-  const drinkListQuery = db
+const fetchDessertList = async ({ page, pageSize, category }: IParams) => {
+  const dessertListQuery = db
     .select({
-      id: drinks.id,
-      name: drinks.name,
-      isSignature: drinks.isSignature,
-      isNew: drinks.isNew,
+      id: desserts.id,
+      name: desserts.name,
+      isSignature: desserts.isSignature,
+      isNew: desserts.isNew,
       image: images.url,
     })
-    .from(drinks)
+    .from(desserts)
     .innerJoin(
       imageReferences,
       and(
-        eq(drinks.id, imageReferences.refId),
-        eq(imageReferences.refTable, IMAGE_REF_VALUES.DRINK),
+        eq(desserts.id, imageReferences.refId),
+        eq(imageReferences.refTable, IMAGE_REF_VALUES.DESSERT),
       ),
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
-    .where(and(eq(drinks.isHidden, false), getCategoryClause(category)))
-    .orderBy(asc(drinks.sortOrder), asc(drinks.price))
+    .where(and(eq(desserts.isHidden, false), getCategoryClause(category)))
+    .orderBy(asc(desserts.sortOrder), asc(desserts.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
-  return drinkListQuery;
+  return dessertListQuery;
 };
 
-const getDrinkList = (params: IParams) =>
+const getDessertList = (params: IParams) =>
   actionWithCapture({
-    context: 'GET_DRINK_LIST',
-    fn: fetchDrinkList,
+    context: 'GET_DESSERT_LIST',
+    fn: fetchDessertList,
     args: [params],
   });
 
-export default getDrinkList;
+export default getDessertList;
 
 const getCategoryClause = (category?: ProductCategory) => {
   switch (category) {
     case 'signature':
-      return eq(drinks.isSignature, true);
+      return eq(desserts.isSignature, true);
     case 'new':
-      return eq(drinks.isNew, true);
+      return eq(desserts.isNew, true);
   }
 };

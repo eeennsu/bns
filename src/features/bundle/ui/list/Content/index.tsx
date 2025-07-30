@@ -1,7 +1,7 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
 import { FC } from 'react';
 
-import getBundleList from '@features/bundle/actions/getList';
+import getBundleList from '@features/bundle/queries/getList';
 
 import BundleCard from './Card';
 

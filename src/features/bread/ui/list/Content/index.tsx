@@ -2,7 +2,7 @@ import ErrorMessage from '@shared/components/ErrorMessage';
 import { ProductCategory } from '@shared/typings/commons';
 import { FC } from 'react';
 
-import getBreadList from '@features/bread/actions/getList';
+import getBreadList from '@features/bread/queries/getList';
 
 import { BREAD_CATEGORY_SELECT } from '@entities/bread/consts';
 

@@ -1,7 +1,7 @@
-'use server';
+import 'server-only';
 
 import db from '@db/index';
-import { desserts } from '@db/schemas/desserts';
+import { breads } from '@db/schemas/breads';
 import { imageReferences, images } from '@db/schemas/image';
 import { actionWithCapture } from '@shared/libs/serverAction';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
@@ -13,46 +13,46 @@ interface IParams extends IPageParams {
   category?: ProductCategory;
 }
 
-const fetchDessertList = async ({ page, pageSize, category }: IParams) => {
-  const dessertListQuery = db
+const fetchBreadList = async ({ page, pageSize, category }: IParams) => {
+  const breadListQuery = db
     .select({
-      id: desserts.id,
-      name: desserts.name,
-      isSignature: desserts.isSignature,
-      isNew: desserts.isNew,
+      id: breads.id,
+      name: breads.name,
+      isSignature: breads.isSignature,
+      isNew: breads.isNew,
       image: images.url,
     })
-    .from(desserts)
+    .from(breads)
     .innerJoin(
       imageReferences,
       and(
-        eq(desserts.id, imageReferences.refId),
-        eq(imageReferences.refTable, IMAGE_REF_VALUES.DESSERT),
+        eq(breads.id, imageReferences.refId),
+        eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD),
       ),
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
-    .where(and(eq(desserts.isHidden, false), getCategoryClause(category)))
-    .orderBy(asc(desserts.sortOrder), asc(desserts.price))
+    .where(and(eq(breads.isHidden, false), getCategoryClause(category)))
+    .orderBy(asc(breads.sortOrder), asc(breads.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
-  return dessertListQuery;
+  return breadListQuery;
 };
 
-const getDessertList = (params: IParams) =>
+const getBreadList = (params: IParams) =>
   actionWithCapture({
-    context: 'GET_DESSERT_LIST',
-    fn: fetchDessertList,
+    context: 'GET_BREAD_LIST',
+    fn: fetchBreadList,
     args: [params],
   });
 
-export default getDessertList;
+export default getBreadList;
 
 const getCategoryClause = (category?: ProductCategory) => {
   switch (category) {
     case 'signature':
-      return eq(desserts.isSignature, true);
+      return eq(breads.isSignature, true);
     case 'new':
-      return eq(desserts.isNew, true);
+      return eq(breads.isNew, true);
   }
 };

@@ -1,4 +1,4 @@
-'use server';
+import 'server-only';
 
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';

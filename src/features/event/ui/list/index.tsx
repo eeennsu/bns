@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import getEventList from '@features/event/actions/getList';
+import getEventList from '@features/event/queries/getList';
 import EventListPopup from '@features/home/ui/EventListPopup';
 
 const EventList: FC = async () => {

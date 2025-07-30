@@ -3,7 +3,7 @@ import { ProductCategory } from '@shared/typings/commons';
 import type { FC } from 'react';
 
 import CategoryLink from '@features/bread/ui/list/Content/CategoryLink';
-import getSauceList from '@features/sauce/actions/getList';
+import getSauceList from '@features/sauce/queries/getList';
 
 import { SAUCE_CATEGORY_SELECT } from '@entities/sauce/consts';
 

@@ -1,3 +1,5 @@
+import 'server-only';
+
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';

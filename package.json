@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbo",
-    "build": "pnpm lint && pnpm prettier && next build",
+    "dev": "next dev --turbopack",
+    "build": "pnpm lint && pnpm prettier && next build --turbopack",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "start": "next start",
     "prettier": "prettier --config .prettierrc --write \"**/*.{ts,tsx,md}\"",

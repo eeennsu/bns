@@ -1,7 +1,7 @@
-'use server';
+import 'server-only';
 
 import db from '@db/index';
-import { breads } from '@db/schemas/breads';
+import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
 import { actionWithCapture } from '@shared/libs/serverAction';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
@@ -13,46 +13,46 @@ interface IParams extends IPageParams {
   category?: ProductCategory;
 }
 
-const fetchBreadList = async ({ page, pageSize, category }: IParams) => {
-  const breadListQuery = db
+const fetchDishList = async ({ page, pageSize, category }: IParams) => {
+  const dishListQuery = db
     .select({
-      id: breads.id,
-      name: breads.name,
-      isSignature: breads.isSignature,
-      isNew: breads.isNew,
+      id: dishes.id,
+      name: dishes.name,
+      isSignature: dishes.isSignature,
+      isNew: dishes.isNew,
       image: images.url,
     })
-    .from(breads)
+    .from(dishes)
     .innerJoin(
       imageReferences,
       and(
-        eq(breads.id, imageReferences.refId),
-        eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD),
+        eq(dishes.id, imageReferences.refId),
+        eq(imageReferences.refTable, IMAGE_REF_VALUES.DISH),
       ),
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
-    .where(and(eq(breads.isHidden, false), getCategoryClause(category)))
-    .orderBy(asc(breads.sortOrder), asc(breads.price))
+    .where(and(eq(dishes.isHidden, false), getCategoryClause(category)))
+    .orderBy(asc(dishes.sortOrder), asc(dishes.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
-  return breadListQuery;
+  return dishListQuery;
 };
 
-const getBreadList = (params: IParams) =>
+const getDishList = (params: IParams) =>
   actionWithCapture({
-    context: 'GET_BREAD_LIST',
-    fn: fetchBreadList,
+    context: 'GET_DISH_LIST',
+    fn: fetchDishList,
     args: [params],
   });
 
-export default getBreadList;
+export default getDishList;
 
 const getCategoryClause = (category?: ProductCategory) => {
   switch (category) {
     case 'signature':
-      return eq(breads.isSignature, true);
+      return eq(dishes.isSignature, true);
     case 'new':
-      return eq(breads.isNew, true);
+      return eq(dishes.isNew, true);
   }
 };

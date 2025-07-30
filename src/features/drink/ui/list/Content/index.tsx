@@ -3,7 +3,7 @@ import { ProductCategory } from '@shared/typings/commons';
 import type { FC } from 'react';
 
 import CategoryLink from '@features/bread/ui/list/Content/CategoryLink';
-import getDrinkList from '@features/drink/actions/getList';
+import getDrinkList from '@features/drink/queries/getList';
 
 import { DRINK_CATEGORY_SELECT } from '@entities/drink/consts';
 

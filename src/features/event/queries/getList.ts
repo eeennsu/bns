@@ -1,3 +1,5 @@
+import 'server-only';
+
 import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';

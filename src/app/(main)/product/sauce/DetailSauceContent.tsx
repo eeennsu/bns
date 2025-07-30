@@ -1,7 +1,7 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
 import { FC } from 'react';
 
-import getSauce from '@features/sauce/actions/getSauce';
+import getSauce from '@features/sauce/queries/getSauce';
 import DetailSauce from '@features/sauce/ui/detail/Detail';
 
 interface IProps {
