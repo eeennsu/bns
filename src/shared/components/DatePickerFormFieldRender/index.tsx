@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 
 import { Button, FormControl, FormItem, FormLabel, FormMessage } from '@shadcn-ui/ui';
@@ -25,6 +25,8 @@ const SharedDatePickerFormFieldRender = <TName extends string>({
   tooltip,
   ...restProps
 }: IProps<TName>) => {
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+
   return (
     <FormItem className='flex flex-col items-start gap-2 py-2'>
       {label ? (
@@ -34,7 +36,7 @@ const SharedDatePickerFormFieldRender = <TName extends string>({
           {tooltip ? <Tooltip content={tooltip} triggerClassName='ml-1' /> : null}
         </FormLabel>
       ) : null}
-      <Popover>
+      <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
         <FormControl>
           <PopoverTrigger asChild>
             <Button
@@ -64,7 +66,10 @@ const SharedDatePickerFormFieldRender = <TName extends string>({
             mode='single'
             {...restProps}
             selected={field.value}
-            onSelect={field.onChange}
+            onSelect={e => {
+              field.onChange(e);
+              setIsCalendarOpen(false);
+            }}
             initialFocus
             locale={ko}
           />

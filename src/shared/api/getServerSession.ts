@@ -11,19 +11,19 @@ import { verifyToken } from './auth';
 export const getServerSession = async () => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(COOKIE_KEYS.ACCESS)?.value;
-  const refreshToken = cookieStore.get(COOKIE_KEYS.REFRESH)?.value;
+  // const refreshToken = cookieStore.get(COOKIE_KEYS.REFRESH)?.value;
 
   try {
     if (accessToken) {
       const user = verifyToken(accessToken);
 
+      if (!user) {
+        return { user: null };
+      }
+
       return {
         user: { id: user.id, username: user.username, role: user.role, isAuthenticated: true },
       };
-    }
-
-    if (refreshToken && !accessToken) {
-      return { user: null };
     }
 
     return null;

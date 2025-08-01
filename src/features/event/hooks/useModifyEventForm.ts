@@ -40,7 +40,8 @@ const useModifyEvent = (event: IEventItem) => {
     resolver: zodResolver(EventFormDtoSchema),
     defaultValues: {
       name: event?.name || '',
-      description: event?.description || '',
+      shortDescription: event?.shortDescription || '',
+      longDescription: event?.longDescription || '',
       // dateRange: {
       //   from: event?.startDate || '',
       //   to: event?.endDate || '',

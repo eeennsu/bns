@@ -1,0 +1,1 @@
+ALTER TABLE "events" ADD COLUMN "long_description" varchar(50000) DEFAULT '';

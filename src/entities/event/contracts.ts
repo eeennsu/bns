@@ -15,11 +15,18 @@ export const EventFormDtoSchema = z
       .max(STRING_LENGTH.NAME, {
         message: `최대 ${STRING_LENGTH.NAME}자 까지 입력할 수 있습니다.`,
       }),
-    description: z
+    shortDescription: z
       .string()
-      .min(1, { message: '이벤트 설명을 입력해주세요.' })
+      .min(1, { message: '이벤트 요약 설명을 입력해주세요.' })
       .max(STRING_LENGTH.DESCRIPTION, {
         message: `최대 ${STRING_LENGTH.DESCRIPTION}자 까지 입력할 수 있습니다.`,
+      }),
+
+    longDescription: z
+      .string()
+      .min(1, { message: '이벤트 상세 설명을 입력해주세요.' })
+      .max(STRING_LENGTH.LONG_DESCRIPTION, {
+        message: `최대 ${STRING_LENGTH.LONG_DESCRIPTION}자 까지 입력할 수 있습니다.`,
       }),
     // dateRange: z
     //   .object({

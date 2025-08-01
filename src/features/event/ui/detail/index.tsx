@@ -39,7 +39,7 @@ const EventPopup: FC<IProps> = ({ event }) => {
       </h3>
 
       <ScrollArea className='h-fit max-h-[100px] rounded-lg px-3 text-sm leading-relaxed text-gray-700'>
-        {event.description}
+        {event.shortDescription}
       </ScrollArea>
     </div>
   );

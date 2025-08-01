@@ -1,7 +1,7 @@
 import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
-import { executeWithCapture } from '@shared/libs/serverAction';
+import { actionWithCapture } from '@shared/libs/serverAction';
 import { and, asc, eq, gte } from 'drizzle-orm';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
@@ -11,7 +11,8 @@ const fetchEventList = async () => {
     .select({
       id: events.id,
       name: events.name,
-      description: events.description,
+      shortDescription: events.shortDescription,
+      longDescription: events.longDescription,
       startDate: events.startDate,
       endDate: events.endDate,
       image: images.url,
@@ -32,7 +33,7 @@ const fetchEventList = async () => {
 };
 
 const getEventList = () =>
-  executeWithCapture({
+  actionWithCapture({
     context: 'GET_EVENT_LIST',
     fn: fetchEventList,
     args: [],

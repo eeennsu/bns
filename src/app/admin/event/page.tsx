@@ -85,12 +85,18 @@ const AdminEventListPage: FC = () => {
           },
           {
             itemKey: 'startDate',
-            children: event => <span className='text-blue-500'>{String(event?.startDate)}</span>,
+            children: event => (
+              <span onClick={onClickModifyEvent(event)} className='text-blue-500'>
+                {String(event?.startDate)}
+              </span>
+            ),
           },
           {
             itemKey: 'endDate',
             children: event => (
-              <span className='font-semibold text-rose-500'>{String(event?.endDate)}</span>
+              <span onClick={onClickModifyEvent(event)} className='font-semibold text-rose-500'>
+                {String(event?.endDate)}
+              </span>
             ),
           },
         ]}
