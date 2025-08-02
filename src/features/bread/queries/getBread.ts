@@ -1,9 +1,13 @@
+import 'server-only';
+
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
+import { BREAD_CACHE_TAG, BREAD_CONTEXT } from '@entities/bread/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
@@ -11,7 +15,10 @@ interface IParams {
 }
 
 const fetchBread = async ({ id }: IParams) => {
-  const breadQuery = db
+  'use cache';
+  cacheTag(`${BREAD_CACHE_TAG.GET}:${id}`);
+
+  const breadQuery = await db
     .select({
       id: breads.id,
       name: breads.name,
@@ -33,12 +40,13 @@ const fetchBread = async ({ id }: IParams) => {
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(eq(breads.id, id))
     .limit(1);
-  return (await breadQuery).at(0);
+
+  return breadQuery.at(0);
 };
 
 const getBread = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_BREAD',
+  fetchWithCapture({
+    context: BREAD_CONTEXT.GET,
     fn: fetchBread,
     args: [params],
   });

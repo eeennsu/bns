@@ -3,7 +3,7 @@ import { ProductCategory } from '@shared/typings/commons';
 import type { FC } from 'react';
 
 import CategoryLink from '@features/bread/ui/list/Content/CategoryLink';
-import getSauceList from '@features/sauce/actions/getList';
+import getSauceList from '@features/sauce/queries/getList';
 
 import { SAUCE_CATEGORY_SELECT } from '@entities/sauce/consts';
 
@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const SauceListContent: FC<IProps> = async ({ currentPage, category }) => {
-  const [error, sauceList] = await getSauceList({
+  const [error, data] = await getSauceList({
     page: +currentPage,
     pageSize: PER_PAGE_SIZE.PRODUCT,
     category,
@@ -47,13 +47,13 @@ const SauceListContent: FC<IProps> = async ({ currentPage, category }) => {
         <ErrorMessage />
       ) : (
         <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
-          {sauceList.map(sauce => (
+          {data.list.map(sauce => (
             <SauceCard key={sauce.id} sauce={sauce} />
           ))}
         </section>
       )}
 
-      <Pagination total={30} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
+      <Pagination total={data.total} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
     </>
   );
 };

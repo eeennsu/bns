@@ -42,3 +42,16 @@ export const DRINK_CATEGORY_SELECT = [
   { id: 'signature', name: '시그니처' },
   { id: 'new', name: '신제품' },
 ];
+
+export const DRINK_CONTEXT = {
+  GET: 'GET_DRINK',
+  GET_LIST: 'GET_DRINK_LIST',
+  CREATE: 'CREATE_DRINK',
+  MODIFY: 'MODIFY_DRINK',
+  DELETE: 'DELETE_DRINK',
+} as const;
+
+export const DRINK_CACHE_TAG = {
+  GET: 'GET_DRINK',
+  GET_LIST: 'GET_DRINK_LIST',
+};

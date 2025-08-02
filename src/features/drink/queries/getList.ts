@@ -1,12 +1,14 @@
-'use server';
+import 'server-only';
 
 import db from '@db/index';
 import { drinks } from '@db/schemas/drinks';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
-import { and, asc, eq } from 'drizzle-orm';
+import { and, asc, count, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
+import { DRINK_CACHE_TAG, DRINK_CONTEXT } from '@entities/drink/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams extends IPageParams {
@@ -14,7 +16,16 @@ interface IParams extends IPageParams {
 }
 
 const fetchDrinkList = async ({ page, pageSize, category }: IParams) => {
-  const drinkListQuery = db
+  'use cache';
+  cacheTag(DRINK_CACHE_TAG.GET_LIST);
+
+  const categoryClause = getCategoryClause(category);
+  const whereClause = categoryClause
+    ? and(eq(drinks.isHidden, false), categoryClause)
+    : eq(drinks.isHidden, false);
+
+  const totalQuery = db.select({ count: count() }).from(drinks).where(whereClause);
+  const listQuery = db
     .select({
       id: drinks.id,
       name: drinks.name,
@@ -31,17 +42,23 @@ const fetchDrinkList = async ({ page, pageSize, category }: IParams) => {
       ),
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
-    .where(and(eq(drinks.isHidden, false), getCategoryClause(category)))
+    .where(whereClause)
     .orderBy(asc(drinks.sortOrder), asc(drinks.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
-  return drinkListQuery;
+  const [_total, list] = await Promise.all([totalQuery, listQuery]);
+  const total = _total?.[0]?.count;
+
+  return {
+    list: list || [],
+    total: total || list?.length || 0,
+  };
 };
 
 const getDrinkList = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_DRINK_LIST',
+  fetchWithCapture({
+    context: DRINK_CONTEXT.GET_LIST,
     fn: fetchDrinkList,
     args: [params],
   });

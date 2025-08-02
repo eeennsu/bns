@@ -1,3 +1,5 @@
+import 'server-only';
+
 import db from '@db/index';
 import { breads } from '@db/schemas/breads';
 import {
@@ -13,9 +15,11 @@ import { dishes } from '@db/schemas/dishes';
 import { drinks } from '@db/schemas/drinks';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
+import { BUNDLE_CACHE_TAG, BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { IBundleDisplay } from '@entities/bundle/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -24,6 +28,9 @@ interface IParams {
 }
 
 const fetchBundle = async ({ id }: IParams): Promise<IBundleDisplay | null> => {
+  'use cache';
+  cacheTag(`${BUNDLE_CACHE_TAG.GET}:${id}`);
+
   const [bundleRow] = await db
     .select({
       id: bundles.id,
@@ -115,8 +122,8 @@ const fetchBundle = async ({ id }: IParams): Promise<IBundleDisplay | null> => {
 };
 
 const getBundle = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_BUNDLE',
+  fetchWithCapture({
+    context: BUNDLE_CONTEXT.GET,
     fn: fetchBundle,
     args: [params],
   });

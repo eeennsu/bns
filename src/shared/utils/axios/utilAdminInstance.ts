@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/nextjs';
-import { AxiosResponseError } from '@shared/class/customError';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
+import { AxiosResponseError } from '@shared/libs/customError';
 import useMeStore from '@shared/stores/me';
 import axios, { AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 import { ADMIN_ERRORS } from 'src/shared/api/errorMessage';

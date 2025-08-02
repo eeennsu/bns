@@ -1,15 +1,15 @@
 import * as Sentry from '@sentry/nextjs';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 
-import { ServerActionError } from '../class/customError';
+import { ServerActionError } from '../libs/customError';
 
 interface IParams<T extends unknown[], U> {
   fn: (...args: T) => Promise<U>;
-  args: T;
+  args?: T;
   context: string;
 }
 
-export const actionWithCapture = async <T extends unknown[], U>({
+export const fetchWithCapture = async <T extends unknown[], U>({
   fn,
   args,
   context,
@@ -23,9 +23,11 @@ export const actionWithCapture = async <T extends unknown[], U>({
     Sentry.captureException(serverActionError, {
       extra: {
         actionName: context,
-        args: args as unknown,
+        ...(args ? { payload: args } : {}),
       },
     });
+
+    if (process.env.NODE_ENV === 'development') console.error('fetchWithCapture error: ', err);
 
     return [serverActionError];
   }

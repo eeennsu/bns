@@ -1,9 +1,9 @@
 import 'server-only';
 
 import * as Sentry from '@sentry/nextjs';
-import { ServerSessionError } from '@shared/class/customError';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import { COOKIE_KEYS } from '@shared/consts/storage';
+import { ServerSessionError } from '@shared/libs/customError';
 import { cookies } from 'next/headers';
 
 import { verifyToken } from './auth';

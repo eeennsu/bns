@@ -7,12 +7,14 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { DRINK_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
+import { DRINK_CACHE_TAG, DRINK_CONTEXT } from '@entities/drink/consts';
 import { DrinkFormDto } from '@entities/drink/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
 
@@ -54,7 +56,7 @@ export const GET = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: DRINK_ERRORS.GET_LIST_FAILED,
-      context: 'GET_DRINK_DATAS',
+      context: DRINK_CONTEXT.GET,
       payload: {
         searchParams,
       },
@@ -97,7 +99,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: DRINK_ERRORS.CREATE_FAILED,
-      context: 'CREATE_DRINK_DATAS',
+      context: DRINK_CONTEXT.CREATE,
       payload: {
         body,
       },
@@ -121,12 +123,14 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         body,
       },
     });
   }
+
+  revalidateTag(DRINK_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(newDrink), { status: 201 });
 });

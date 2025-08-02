@@ -1,13 +1,20 @@
+import 'server-only';
+
 import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq, gte } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
+import { EVENT_CACHE_TAG, EVENT_CONTEXT } from '@entities/event/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 const fetchEventList = async () => {
-  const eventListQuery = await db
+  'use cache';
+  cacheTag(EVENT_CACHE_TAG.GET_LIST);
+
+  const listQuery = await db
     .select({
       id: events.id,
       name: events.name,
@@ -29,12 +36,14 @@ const fetchEventList = async () => {
     .where(and(eq(events.isHidden, false), gte(events.endDate, new Date())))
     .orderBy(events.sortOrder, asc(events.startDate));
 
-  return eventListQuery;
+  return {
+    list: listQuery || [],
+  };
 };
 
 const getEventList = () =>
-  actionWithCapture({
-    context: 'GET_EVENT_LIST',
+  fetchWithCapture({
+    context: EVENT_CONTEXT.GET_LIST,
     fn: fetchEventList,
     args: [],
   });

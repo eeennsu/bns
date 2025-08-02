@@ -42,3 +42,16 @@ export const DISH_CATEGORY_SELECT = [
   { id: 'signature', name: '시그니처' },
   { id: 'new', name: '신제품' },
 ];
+
+export const DISH_CONTEXT = {
+  GET: 'GET_DISH',
+  GET_LIST: 'GET_DISH_LIST',
+  CREATE: 'CREATE_DISH',
+  MODIFY: 'MODIFY_DISH',
+  DELETE: 'DELETE_DISH',
+} as const;
+
+export const DISH_CACHE_TAG = {
+  GET: 'GET_DISH',
+  GET_LIST: 'GET_DISH_LIST',
+};

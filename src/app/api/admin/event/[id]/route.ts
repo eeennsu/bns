@@ -8,11 +8,13 @@ import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import dayjs from 'dayjs';
 import { and, eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { EVENT_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
+import { EVENT_CACHE_TAG, EVENT_CONTEXT } from '@entities/event/consts';
 import { EventFormDto } from '@entities/event/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -54,7 +56,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: EVENT_ERRORS.GET_FAILED,
-      context: 'GET_EVENT',
+      context: EVENT_CONTEXT.GET,
       payload: {
         eventId,
       },
@@ -127,7 +129,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return responseWithCapture({
       error,
       message: EVENT_ERRORS.MODIFY_FAILED,
-      context: 'MODIFY_EVENT',
+      context: EVENT_CONTEXT.MODIFY,
       payload: {
         eventId,
         body,
@@ -145,13 +147,15 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         eventId,
         body,
       },
     });
   }
+
+  revalidateTag(EVENT_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(updateEvent));
 });
@@ -177,7 +181,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: EVENT_ERRORS.GET_FAILED,
-      context: 'GET_EVENT',
+      context: EVENT_CONTEXT.GET,
       payload: {
         eventId,
       },
@@ -190,7 +194,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: EVENT_ERRORS.DELETE_FAILED,
-      context: 'DELETE_EVENT',
+      context: EVENT_CONTEXT.DELETE,
       payload: {
         eventId,
       },
@@ -206,12 +210,14 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.DELETE,
       payload: {
         eventId,
       },
     });
   }
+
+  revalidateTag(EVENT_CACHE_TAG.GET_LIST);
 
   return new NextResponse(null, { status: 204 });
 });

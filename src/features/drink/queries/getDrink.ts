@@ -1,9 +1,13 @@
+import 'server-only';
+
 import db from '@db/index';
 import { drinks } from '@db/schemas/drinks';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
+import { DRINK_CACHE_TAG, DRINK_CONTEXT } from '@entities/drink/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
@@ -11,7 +15,10 @@ interface IParams {
 }
 
 const fetchDrink = async ({ id }: IParams) => {
-  const drinkQuery = db
+  'use cache';
+  cacheTag(`${DRINK_CACHE_TAG.GET}:${id}`);
+
+  const drinkQuery = await db
     .select({
       id: drinks.id,
       name: drinks.name,
@@ -32,12 +39,13 @@ const fetchDrink = async ({ id }: IParams) => {
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(eq(drinks.id, id))
     .limit(1);
-  return (await drinkQuery).at(0);
+
+  return drinkQuery.at(0);
 };
 
 const getDrink = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_DRINK',
+  fetchWithCapture({
+    context: DRINK_CONTEXT.GET,
     fn: fetchDrink,
     args: [params],
   });

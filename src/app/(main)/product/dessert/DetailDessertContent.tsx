@@ -1,7 +1,7 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
 import { FC } from 'react';
 
-import getDessert from '@features/dessert/actions/getDessert';
+import getDessert from '@features/dessert/queries/getDessert';
 import DetailDessert from '@features/dessert/ui/detail/Detail';
 
 interface IProps {

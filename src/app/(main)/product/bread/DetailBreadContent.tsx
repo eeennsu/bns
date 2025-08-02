@@ -1,7 +1,7 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
 import { FC } from 'react';
 
-import getBread from '@features/bread/actions/getBread';
+import getBread from '@features/bread/queries/getBread';
 import DetailBread from '@features/bread/ui/detail/Detail';
 
 interface IProps {

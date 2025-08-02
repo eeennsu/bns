@@ -3,7 +3,7 @@ import { ProductCategory } from '@shared/typings/commons';
 import type { FC } from 'react';
 
 import CategoryLink from '@features/bread/ui/list/Content/CategoryLink';
-import getDishList from '@features/dish/actions/getList';
+import getDishList from '@features/dish/queries/getList';
 
 import { DISH_CATEGORY_SELECT } from '@entities/dish/consts';
 
@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const DishListContent: FC<IProps> = async ({ currentPage, category }) => {
-  const [error, dishList] = await getDishList({
+  const [error, data] = await getDishList({
     page: +currentPage,
     pageSize: PER_PAGE_SIZE.PRODUCT,
     category,
@@ -47,13 +47,13 @@ const DishListContent: FC<IProps> = async ({ currentPage, category }) => {
         <ErrorMessage />
       ) : (
         <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
-          {dishList.map(dish => (
+          {data.list.map(dish => (
             <DishCard key={dish.id} dish={dish} />
           ))}
         </section>
       )}
 
-      <Pagination total={30} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
+      <Pagination total={data.total} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
     </>
   );
 };

@@ -1,9 +1,13 @@
+import 'server-only';
+
 import db from '@db/index';
 import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
+import { DISH_CACHE_TAG, DISH_CONTEXT } from '@entities/dish/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
@@ -11,7 +15,10 @@ interface IParams {
 }
 
 const fetchDish = async ({ id }: IParams) => {
-  const dishQuery = db
+  'use cache';
+  cacheTag(`${DISH_CACHE_TAG.GET}:${id}`);
+
+  const dishQuery = await db
     .select({
       id: dishes.id,
       name: dishes.name,
@@ -32,12 +39,13 @@ const fetchDish = async ({ id }: IParams) => {
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(eq(dishes.id, id))
     .limit(1);
-  return (await dishQuery).at(0);
+
+  return dishQuery.at(0);
 };
 
 const getDish = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_DISH',
+  fetchWithCapture({
+    context: DISH_CONTEXT.GET,
     fn: fetchDish,
     args: [params],
   });

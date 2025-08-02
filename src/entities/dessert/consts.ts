@@ -42,3 +42,16 @@ export const DESSERT_CATEGORY_SELECT = [
   { id: 'signature', name: '시그니처' },
   { id: 'new', name: '신제품' },
 ];
+
+export const DESSERT_CONTEXT = {
+  GET: 'GET_DESSERT',
+  GET_LIST: 'GET_DESSERT_LIST',
+  CREATE: 'CREATE_DESSERT',
+  MODIFY: 'MODIFY_DESSERT',
+  DELETE: 'DELETE_DESSERT',
+} as const;
+
+export const DESSERT_CACHE_TAG = {
+  GET: 'GET_DESSERT',
+  GET_LIST: 'GET_DESSERT_LIST',
+};

@@ -1,9 +1,9 @@
 import 'server-only';
 
 import * as Sentry from '@sentry/nextjs';
-import { JWTError } from '@shared/class/customError';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import { COOKIE_KEYS } from '@shared/consts/storage';
+import { JWTError } from '@shared/libs/customError';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from 'src/shared/api/auth';
 
@@ -29,6 +29,8 @@ export const withAuth = (apiHandler: ApiHandler) => {
 
         Sentry.captureException(jWTError);
       }
+
+      if (process.env.NODE_ENV === 'development') console.error('withAuth error: ', error);
 
       return NextResponse.json({ error: ADMIN_ERRORS.INVALID_ACCESS_TOKEN }, { status: 401 });
     }
