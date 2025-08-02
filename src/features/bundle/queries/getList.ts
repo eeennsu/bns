@@ -3,9 +3,10 @@ import 'server-only';
 import db from '@db/index';
 import { bundles } from '@db/schemas/bundles';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq } from 'drizzle-orm';
 
+import { BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 const fetchBundleList = async () => {
@@ -34,8 +35,8 @@ const fetchBundleList = async () => {
 };
 
 const getBundleList = () =>
-  actionWithCapture({
-    context: 'GET_BUNDLE_LIST',
+  fetchWithCapture({
+    context: BUNDLE_CONTEXT.GET_LIST,
     fn: fetchBundleList,
     args: [],
   });

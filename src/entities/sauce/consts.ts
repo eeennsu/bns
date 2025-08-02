@@ -42,3 +42,11 @@ export const SAUCE_CATEGORY_SELECT = [
   { id: 'signature', name: '시그니처' },
   { id: 'new', name: '신제품' },
 ];
+
+export const SAUCE_CONTEXT = {
+  GET: 'GET_SAUCE',
+  GET_LIST: 'GET_SAUCE_LIST',
+  CREATE: 'CREATE_SAUCE',
+  MODIFY: 'MODIFY_SAUCE',
+  DELETE: 'DELETE_SAUCE',
+} as const;

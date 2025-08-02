@@ -3,9 +3,10 @@ import 'server-only';
 import db from '@db/index';
 import { drinks } from '@db/schemas/drinks';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, eq } from 'drizzle-orm';
 
+import { DRINK_CONTEXT } from '@entities/drink/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
@@ -38,8 +39,8 @@ const fetchDrink = async ({ id }: IParams) => {
 };
 
 const getDrink = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_DRINK',
+  fetchWithCapture({
+    context: DRINK_CONTEXT.GET,
     fn: fetchDrink,
     args: [params],
   });

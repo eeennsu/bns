@@ -43,3 +43,11 @@ export const BREAD_CATEGORY_SELECT = [
   { id: 'signature', name: '시그니처' },
   { id: 'new', name: '신제품' },
 ];
+
+export const BREAD_CONTEXT = {
+  GET: 'GET_BREAD',
+  GET_LIST: 'GET_BREAD_LIST',
+  CREATE: 'CREATE_BREAD',
+  MODIFY: 'MODIFY_BREAD',
+  DELETE: 'DELETE_BREAD',
+} as const;

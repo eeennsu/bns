@@ -29,3 +29,10 @@ export const IMAGE_REF_VALUES = {
 
 export const ALLOWED_FILE_TYPES = ['.jpg', '.png', '.jpeg', '.webp'];
 export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
+export const IMAGE_CONTEXT = {
+  GET: 'GET_IMAGE_DATA',
+  CREATE: 'CREATE_IMAGE_DATA',
+  UPLOAD: 'UPLOAD_IMAGE_DATA',
+  DELETE: 'DELETE_IMAGE_DATA',
+};

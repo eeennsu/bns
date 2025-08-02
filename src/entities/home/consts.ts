@@ -1,0 +1,3 @@
+export const HOME_CONTEXT = {
+  GET_SIGNATURE_LIST: 'GET_SIGNATURE_LIST',
+};

@@ -1,9 +1,9 @@
 import 'server-only';
 
 import * as Sentry from '@sentry/nextjs';
-import { JWTError } from '@shared/class/customError';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
 import { COOKIE_KEYS } from '@shared/consts/storage';
+import { JWTError } from '@shared/libs/customError';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from 'src/shared/api/auth';
 

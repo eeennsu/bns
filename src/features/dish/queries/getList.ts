@@ -3,10 +3,11 @@ import 'server-only';
 import db from '@db/index';
 import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
 import { and, asc, eq } from 'drizzle-orm';
 
+import { DISH_CONTEXT } from '@entities/dish/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams extends IPageParams {
@@ -40,8 +41,8 @@ const fetchDishList = async ({ page, pageSize, category }: IParams) => {
 };
 
 const getDishList = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_DISH_LIST',
+  fetchWithCapture({
+    context: DISH_CONTEXT.GET_LIST,
     fn: fetchDishList,
     args: [params],
   });

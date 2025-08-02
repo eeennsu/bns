@@ -15,9 +15,10 @@ import { dishes } from '@db/schemas/dishes';
 import { drinks } from '@db/schemas/drinks';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq } from 'drizzle-orm';
 
+import { BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { IBundleDisplay } from '@entities/bundle/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -117,8 +118,8 @@ const fetchBundle = async ({ id }: IParams): Promise<IBundleDisplay | null> => {
 };
 
 const getBundle = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_BUNDLE',
+  fetchWithCapture({
+    context: BUNDLE_CONTEXT.GET,
     fn: fetchBundle,
     args: [params],
   });

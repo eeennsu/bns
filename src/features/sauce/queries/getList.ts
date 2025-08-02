@@ -3,11 +3,12 @@ import 'server-only';
 import db from '@db/index';
 import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
 import { and, asc, eq } from 'drizzle-orm';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { SAUCE_CONTEXT } from '@entities/sauce/consts';
 
 interface IParams extends IPageParams {
   category?: ProductCategory;
@@ -40,8 +41,8 @@ const fetchSauceList = async ({ page, pageSize, category }: IParams) => {
 };
 
 const getSauceList = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_SAUCE_LIST',
+  fetchWithCapture({
+    context: SAUCE_CONTEXT.GET_LIST,
     fn: fetchSauceList,
     args: [params],
   });

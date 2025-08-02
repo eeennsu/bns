@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/nextjs';
-import { ApiError } from '@shared/class/customError';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
+import { ApiError } from '@shared/libs/customError';
 import { NextResponse } from 'next/server';
 
 interface IParams {

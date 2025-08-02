@@ -5,10 +5,11 @@ import { dishes } from '@db/schemas/dishes';
 import { drinks } from '@db/schemas/drinks';
 import { images, imageReferences } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq } from 'drizzle-orm';
 
 import { BundleProductValue } from '@entities/bundle/types';
+import { HOME_CONTEXT } from '@entities/home/consts';
 import { ISignatureProduct } from '@entities/home/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -61,8 +62,8 @@ const fetchSignatureList = async (): Promise<ISignatureProduct[]> => {
 };
 
 const getSignatureList = () =>
-  actionWithCapture({
-    context: 'GET_SIGNATURE_LIST',
+  fetchWithCapture({
+    context: HOME_CONTEXT.GET_SIGNATURE_LIST,
     fn: fetchSignatureList,
     args: [],
   });

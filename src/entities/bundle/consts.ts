@@ -69,3 +69,11 @@ export const ORDER_BY_SELECT = [
   '가격 낮은순',
   '가격 높은순',
 ];
+
+export const BUNDLE_CONTEXT = {
+  GET: 'GET_BUNDLE',
+  GET_LIST: 'GET_BUNDLE_LIST',
+  CREATE: 'CREATE_BUNDLE',
+  MODIFY: 'MODIFY_BUNDLE',
+  DELETE: 'DELETE_BUNDLE',
+} as const;

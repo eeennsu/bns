@@ -3,9 +3,10 @@ import 'server-only';
 import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq, gte } from 'drizzle-orm';
 
+import { EVENT_CONTEXT } from '@entities/event/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 const fetchEventList = async () => {
@@ -35,8 +36,8 @@ const fetchEventList = async () => {
 };
 
 const getEventList = () =>
-  actionWithCapture({
-    context: 'GET_EVENT_LIST',
+  fetchWithCapture({
+    context: EVENT_CONTEXT.GET_LIST,
     fn: fetchEventList,
     args: [],
   });

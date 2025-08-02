@@ -3,9 +3,10 @@ import 'server-only';
 import db from '@db/index';
 import { dishes } from '@db/schemas/dishes';
 import { imageReferences, images } from '@db/schemas/image';
-import { actionWithCapture } from '@shared/libs/serverAction';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, eq } from 'drizzle-orm';
 
+import { DISH_CONTEXT } from '@entities/dish/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
@@ -38,8 +39,8 @@ const fetchDish = async ({ id }: IParams) => {
 };
 
 const getDish = (params: IParams) =>
-  actionWithCapture({
-    context: 'GET_DISH',
+  fetchWithCapture({
+    context: DISH_CONTEXT.GET,
     fn: fetchDish,
     args: [params],
   });

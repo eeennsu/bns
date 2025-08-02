@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/nextjs';
-import { ServerError } from '@shared/class/customError';
+import { ServerError } from '@shared/libs/customError';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { SERVER_ERRORS } from './errorMessage';
