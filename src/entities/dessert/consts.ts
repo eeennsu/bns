@@ -50,3 +50,8 @@ export const DESSERT_CONTEXT = {
   MODIFY: 'MODIFY_DESSERT',
   DELETE: 'DELETE_DESSERT',
 } as const;
+
+export const DESSERT_CACHE_TAG = {
+  GET: 'GET_DESSERT',
+  GET_LIST: 'GET_DESSERT_LIST',
+};

@@ -50,3 +50,8 @@ export const SAUCE_CONTEXT = {
   MODIFY: 'MODIFY_SAUCE',
   DELETE: 'DELETE_SAUCE',
 } as const;
+
+export const SAUCE_CACHE_TAG = {
+  GET: 'GET_SAUCE',
+  GET_LIST: 'GET_SAUCE_LIST',
+};

@@ -16,9 +16,10 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { WithImageIdsSortOrder } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { BUNDLE_CONTEXT } from '@entities/bundle/consts';
+import { BUNDLE_CACHE_TAG, BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { BundleFormDto } from '@entities/bundle/types';
 import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -214,6 +215,9 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     });
   }
 
+  revalidateTag(BUNDLE_CACHE_TAG.GET_LIST);
+  revalidateTag(`${BUNDLE_CACHE_TAG.GET}:${bundleId}`);
+
   return NextResponse.json(setSucResponseItem(updateBundle));
 });
 
@@ -337,6 +341,9 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       },
     });
   }
+
+  revalidateTag(BUNDLE_CACHE_TAG.GET_LIST);
+  revalidateTag(`${BUNDLE_CACHE_TAG.GET}:${bundleId}`);
 
   return new NextResponse(null, { status: 204 });
 });

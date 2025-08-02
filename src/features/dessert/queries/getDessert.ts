@@ -5,8 +5,9 @@ import { desserts } from '@db/schemas/desserts';
 import { imageReferences, images } from '@db/schemas/image';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
-import { DESSERT_CONTEXT } from '@entities/dessert/consts';
+import { DESSERT_CACHE_TAG, DESSERT_CONTEXT } from '@entities/dessert/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
@@ -14,7 +15,10 @@ interface IParams {
 }
 
 const fetchDessert = async ({ id }: IParams) => {
-  const dessertQuery = db
+  'use cache';
+  cacheTag(DESSERT_CACHE_TAG.GET_LIST);
+
+  const dessertQuery = await db
     .select({
       id: desserts.id,
       name: desserts.name,
@@ -35,7 +39,8 @@ const fetchDessert = async ({ id }: IParams) => {
     .innerJoin(images, eq(imageReferences.imageId, images.id))
     .where(eq(desserts.id, id))
     .limit(1);
-  return (await dessertQuery).at(0);
+
+  return dessertQuery.at(0);
 };
 
 const getDessert = (params: IParams) =>

@@ -17,8 +17,9 @@ import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
-import { BUNDLE_CONTEXT } from '@entities/bundle/consts';
+import { BUNDLE_CACHE_TAG, BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { IBundleDisplay } from '@entities/bundle/types';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -27,6 +28,9 @@ interface IParams {
 }
 
 const fetchBundle = async ({ id }: IParams): Promise<IBundleDisplay | null> => {
+  'use cache';
+  cacheTag(`${BUNDLE_CACHE_TAG.GET}:${id}`);
+
   const [bundleRow] = await db
     .select({
       id: bundles.id,

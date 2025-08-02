@@ -36,3 +36,7 @@ export const EVENT_CONTEXT = {
   MODIFY: 'MODIFY_EVENT',
   DELETE: 'DELETE_EVENT',
 };
+
+export const EVENT_CACHE_TAG = {
+  GET_LIST: 'GET_EVENT_LIST',
+};

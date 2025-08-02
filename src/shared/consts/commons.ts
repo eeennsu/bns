@@ -2,7 +2,7 @@ import { ItemShowLabel } from '@shared/typings/commons';
 
 export const PER_PAGE_SIZE = {
   DEFAULT: 20,
-  PRODUCT: 4,
+  PRODUCT: 12,
 } as const;
 
 export const ITEM_SHOW_TYPE: ItemShowLabel[] = ['전체', '공개', '비공개'];

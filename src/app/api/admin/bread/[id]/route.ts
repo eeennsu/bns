@@ -8,10 +8,11 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
-import { BREAD_CONTEXT } from '@entities/bread/consts';
+import { BREAD_CACHE_TAG, BREAD_CONTEXT } from '@entities/bread/consts';
 import { BreadFormDto } from '@entities/bread/types';
 import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -73,6 +74,8 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     ...foundedBread,
     imageFiles: breadImage ? [breadImage] : [],
   };
+
+  revalidateTag(BREAD_CACHE_TAG.GET);
 
   return NextResponse.json(setSucResponseItem(response));
 });
@@ -143,6 +146,9 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
       },
     });
   }
+
+  revalidateTag(`${BREAD_CACHE_TAG.GET}:${breadId}`);
+  revalidateTag(BREAD_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(updateBread));
 });
@@ -216,6 +222,9 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       },
     });
   }
+
+  revalidateTag(`${BREAD_CACHE_TAG.GET}:${breadId}`);
+  revalidateTag(BREAD_CACHE_TAG.GET_LIST);
 
   return new NextResponse(null, { status: 204 });
 });

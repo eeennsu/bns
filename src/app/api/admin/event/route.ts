@@ -8,11 +8,12 @@ import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import dayjs from 'dayjs';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { EVENT_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
-import { EVENT_CONTEXT } from '@entities/event/consts';
+import { EVENT_CACHE_TAG, EVENT_CONTEXT } from '@entities/event/consts';
 import { EventFormDto } from '@entities/event/types';
 import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -150,6 +151,8 @@ export const POST = withAuth(async (request: NextRequest) => {
       },
     });
   }
+
+  revalidateTag(EVENT_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(newEvent), { status: 201 });
 });

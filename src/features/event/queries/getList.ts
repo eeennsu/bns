@@ -5,11 +5,15 @@ import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { and, asc, eq, gte } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
-import { EVENT_CONTEXT } from '@entities/event/consts';
+import { EVENT_CACHE_TAG, EVENT_CONTEXT } from '@entities/event/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 const fetchEventList = async () => {
+  'use cache';
+  cacheTag(EVENT_CACHE_TAG.GET_LIST);
+
   const listQuery = await db
     .select({
       id: events.id,

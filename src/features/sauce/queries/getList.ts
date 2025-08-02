@@ -6,15 +6,19 @@ import { sauces } from '@db/schemas/sauces';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
 import { and, asc, count, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
-import { SAUCE_CONTEXT } from '@entities/sauce/consts';
+import { SAUCE_CACHE_TAG, SAUCE_CONTEXT } from '@entities/sauce/consts';
 
 interface IParams extends IPageParams {
   category?: ProductCategory;
 }
 
 const fetchSauceList = async ({ page, pageSize, category }: IParams) => {
+  'use cache';
+  cacheTag(SAUCE_CACHE_TAG.GET_LIST);
+
   const categoryClause = getCategoryClause(category);
   const whereClause = categoryClause
     ? and(eq(sauces.isHidden, false), categoryClause)

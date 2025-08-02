@@ -1,6 +1,11 @@
 import { Info } from 'lucide-react';
-import { Dispatch, SetStateAction, useMemo, type FC } from 'react';
-import { FieldArrayWithId, UseFieldArrayRemove, UseFieldArrayUpdate } from 'react-hook-form';
+import { Dispatch, SetStateAction, useEffect, useMemo, type FC } from 'react';
+import {
+  FieldArrayWithId,
+  UseFieldArrayRemove,
+  UseFieldArrayUpdate,
+  UseFormReturn,
+} from 'react-hook-form';
 
 import { Alert, AlertTitle } from '@shadcn-ui/ui';
 
@@ -16,6 +21,7 @@ import {
 import SelectedProductItem from './SelectedProductItem';
 
 interface IProps {
+  form: UseFormReturn<BundleFormDto>;
   setCommandGroups: Dispatch<SetStateAction<ICommandGroupBundle[]>>;
   productFields: FieldArrayWithId<BundleFormDto, 'products', 'fid'>[];
   updateProduct: UseFieldArrayUpdate<BundleFormDto, 'products'>;
@@ -23,6 +29,7 @@ interface IProps {
 }
 
 const SelectedProductList: FC<IProps> = ({
+  form,
   setCommandGroups,
   productFields,
   updateProduct,
@@ -128,6 +135,14 @@ const SelectedProductList: FC<IProps> = ({
       }),
     );
   };
+
+  useEffect(() => {
+    if (Number(allSumPrice) > 0) {
+      form.setValue('price', allSumPrice);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allSumPrice]);
 
   return productFields?.length > 0 ? (
     <div>

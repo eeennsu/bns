@@ -7,11 +7,12 @@ import { setSucResponseItem } from '@shared/api/response';
 import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { SAUCE_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
 import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
-import { SAUCE_CONTEXT } from '@entities/sauce/consts';
+import { SAUCE_CACHE_TAG, SAUCE_CONTEXT } from '@entities/sauce/consts';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -141,6 +142,9 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     });
   }
 
+  revalidateTag(`${SAUCE_CACHE_TAG.GET}:${sauceId}`);
+  revalidateTag(SAUCE_CACHE_TAG.GET_LIST);
+
   return NextResponse.json(setSucResponseItem(updateSauce));
 });
 
@@ -211,6 +215,9 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       },
     });
   }
+
+  revalidateTag(`${SAUCE_CACHE_TAG.GET}:${sauceId}`);
+  revalidateTag(SAUCE_CACHE_TAG.GET_LIST);
 
   return new NextResponse(null, { status: 204 });
 });

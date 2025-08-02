@@ -27,6 +27,8 @@ export const fetchWithCapture = async <T extends unknown[], U>({
       },
     });
 
+    if (process.env.NODE_ENV === 'development') console.error('fetchWithCapture error: ', err);
+
     return [serverActionError];
   }
 };

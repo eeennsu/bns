@@ -50,3 +50,8 @@ export const DRINK_CONTEXT = {
   MODIFY: 'MODIFY_DRINK',
   DELETE: 'DELETE_DRINK',
 } as const;
+
+export const DRINK_CACHE_TAG = {
+  GET: 'GET_DRINK',
+  GET_LIST: 'GET_DRINK_LIST',
+};

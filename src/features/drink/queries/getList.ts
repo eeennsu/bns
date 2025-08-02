@@ -6,8 +6,9 @@ import { imageReferences, images } from '@db/schemas/image';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
 import { and, asc, count, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
-import { DRINK_CONTEXT } from '@entities/drink/consts';
+import { DRINK_CACHE_TAG, DRINK_CONTEXT } from '@entities/drink/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams extends IPageParams {
@@ -15,6 +16,9 @@ interface IParams extends IPageParams {
 }
 
 const fetchDrinkList = async ({ page, pageSize, category }: IParams) => {
+  'use cache';
+  cacheTag(DRINK_CACHE_TAG.GET_LIST);
+
   const categoryClause = getCategoryClause(category);
   const whereClause = categoryClause
     ? and(eq(drinks.isHidden, false), categoryClause)

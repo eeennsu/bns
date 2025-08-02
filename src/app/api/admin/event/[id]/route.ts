@@ -8,10 +8,11 @@ import { WithImageId } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import dayjs from 'dayjs';
 import { and, eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { EVENT_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
-import { EVENT_CONTEXT } from '@entities/event/consts';
+import { EVENT_CACHE_TAG, EVENT_CONTEXT } from '@entities/event/consts';
 import { EventFormDto } from '@entities/event/types';
 import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -154,6 +155,8 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     });
   }
 
+  revalidateTag(EVENT_CACHE_TAG.GET_LIST);
+
   return NextResponse.json(setSucResponseItem(updateEvent));
 });
 
@@ -213,6 +216,8 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
       },
     });
   }
+
+  revalidateTag(EVENT_CACHE_TAG.GET_LIST);
 
   return new NextResponse(null, { status: 204 });
 });

@@ -7,12 +7,13 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { SAUCE_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
 import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
-import { SAUCE_CONTEXT } from '@entities/sauce/consts';
+import { SAUCE_CACHE_TAG, SAUCE_CONTEXT } from '@entities/sauce/consts';
 import { SauceFormDto } from '@entities/sauce/types';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
@@ -128,6 +129,8 @@ export const POST = withAuth(async (request: NextRequest) => {
       },
     });
   }
+
+  revalidateTag(SAUCE_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(newSauce), { status: 201 });
 });

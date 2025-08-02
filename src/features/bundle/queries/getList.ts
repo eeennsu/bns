@@ -6,13 +6,17 @@ import { imageReferences, images } from '@db/schemas/image';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { IPageParams } from '@shared/typings/commons';
 import { and, asc, count, eq } from 'drizzle-orm';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 
-import { BUNDLE_CONTEXT } from '@entities/bundle/consts';
+import { BUNDLE_CACHE_TAG, BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams extends IPageParams {}
 
 const fetchBundleList = async ({ page, pageSize }: IParams) => {
+  'use cache';
+  cacheTag(BUNDLE_CACHE_TAG.GET_LIST);
+
   const totalQuery = db.select({ count: count() }).from(bundles);
   const listQuery = await db
     .select({

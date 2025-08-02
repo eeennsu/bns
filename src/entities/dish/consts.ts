@@ -50,3 +50,8 @@ export const DISH_CONTEXT = {
   MODIFY: 'MODIFY_DISH',
   DELETE: 'DELETE_DISH',
 } as const;
+
+export const DISH_CACHE_TAG = {
+  GET: 'GET_DISH',
+  GET_LIST: 'GET_DISH_LIST',
+};

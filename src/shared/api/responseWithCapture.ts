@@ -18,6 +18,8 @@ export const responseWithCapture = ({
   message = '알 수 없는 서버 오류가 발생했습니다.',
   statusCode = 500,
 }: IParams) => {
+  if (process.env.NODE_ENV === 'development') console.error('responseWithCapture error: ', error);
+
   const apiError = new ApiError(error instanceof Error ? error?.message : UNKNOWN_ERROR_MESSAGE);
   Sentry.captureException(apiError, {
     extra: {

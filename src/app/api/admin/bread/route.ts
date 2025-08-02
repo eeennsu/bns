@@ -7,11 +7,12 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
-import { BREAD_CONTEXT } from '@entities/bread/consts';
+import { BREAD_CACHE_TAG, BREAD_CONTEXT } from '@entities/bread/consts';
 import { BreadFormDto } from '@entities/bread/types';
 import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
@@ -120,6 +121,8 @@ export const POST = withAuth(async (request: NextRequest) => {
           isNull(imageReferences.refId),
         ),
       );
+
+    revalidateTag(BREAD_CACHE_TAG.GET_LIST);
 
     return NextResponse.json(setSucResponseItem(newBread), { status: 201 });
   } catch (error) {

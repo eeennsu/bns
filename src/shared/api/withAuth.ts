@@ -30,6 +30,8 @@ export const withAuth = (apiHandler: ApiHandler) => {
         Sentry.captureException(jWTError);
       }
 
+      if (process.env.NODE_ENV === 'development') console.error('withAuth error: ', error);
+
       return NextResponse.json({ error: ADMIN_ERRORS.INVALID_ACCESS_TOKEN }, { status: 401 });
     }
 

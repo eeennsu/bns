@@ -51,3 +51,8 @@ export const BREAD_CONTEXT = {
   MODIFY: 'MODIFY_BREAD',
   DELETE: 'DELETE_BREAD',
 } as const;
+
+export const BREAD_CACHE_TAG = {
+  GET: 'GET_BREAD',
+  GET_LIST: 'GET_BREAD_LIST',
+};
