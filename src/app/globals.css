@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+HU:wght@100..400&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'uploadthing/tw/v4';
@@ -203,4 +204,8 @@ input[type='number'] {
   to {
     transform: rotate(360deg);
   }
+}
+
+.font-playwrite {
+  font-family: 'Playwrite HU', cursive;
 }

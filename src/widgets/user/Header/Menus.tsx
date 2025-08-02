@@ -1,5 +1,7 @@
 'use client';
 
+import { ASTA_SANS } from '@shared/consts/font';
+import { cn } from '@shared/shadcn-ui/utils';
 import type { FC } from 'react';
 
 import useCurrentPathname from '@hooks/useCurrentPathname';
@@ -13,31 +15,28 @@ const Menus: FC = () => {
   const { getIsCurPathname } = useCurrentPathname();
 
   return (
-    <nav className='mr-20 hidden items-center gap-8 lg:flex'>
-      {MAIN_MENU_LIST.map(menu => {
-        const isCurrentRoute = getIsCurPathname(menu.path);
+    <nav className={cn('mr-24 hidden lg:block', ASTA_SANS.className)}>
+      <div className='flex items-center gap-10'>
+        {MAIN_MENU_LIST.map(menu => {
+          if (menu?.subMenus) {
+            return (
+              <HeaderDropdownMenu key={menu.title} href={menu.path} subMenus={menu.subMenus}>
+                {menu.title}
+              </HeaderDropdownMenu>
+            );
+          }
 
-        if (menu?.subMenus) {
           return (
-            <HeaderDropdownMenu
+            <MenuButton
               key={menu.title}
               href={menu.path}
-              isCurrentRoute={Object.values(menu.subMenus).some(subMenu =>
-                getIsCurPathname(subMenu.path),
-              )}
-              subMenus={menu.subMenus}
+              isCurrentRoute={getIsCurPathname(menu.path)}
             >
               {menu.title}
-            </HeaderDropdownMenu>
+            </MenuButton>
           );
-        }
-
-        return (
-          <MenuButton key={menu.title} href={menu.path} isCurrentRoute={isCurrentRoute}>
-            {menu.title}
-          </MenuButton>
-        );
-      })}
+        })}
+      </div>
     </nav>
   );
 };

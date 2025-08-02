@@ -77,7 +77,7 @@ const RootLayout = ({ children }: { children: Readonly<ReactNode> }) => {
       <body className={`${NANUM_GOTHIC.className} ${OPEN_SANS.className} antialiased`}>
         <ConfigProviders>
           <ClientSetup />
-          <div className='relative flex h-dvh w-full flex-col'>
+          <div className='flex h-dvh w-full flex-col'>
             <RootPageContainer>{children}</RootPageContainer>
           </div>
         </ConfigProviders>

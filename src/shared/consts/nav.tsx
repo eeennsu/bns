@@ -8,8 +8,13 @@ export const MAIN_MENU_LIST: IHeaderMenu[] = [
     title: '소개',
     path: MAIN_PATHS.about(),
   },
+
   {
-    title: '제품',
+    title: '이벤트',
+    path: MAIN_PATHS.event.list(),
+  },
+  {
+    title: '상품 안내',
     path: MAIN_PATHS.product.bread.list(),
     subMenus: {
       bread: {
@@ -36,7 +41,7 @@ export const MAIN_MENU_LIST: IHeaderMenu[] = [
         title: '세트 구성',
         path: MAIN_PATHS.product.bundle.list(),
       },
-    } as const,
+    },
   },
 ] as const;
 

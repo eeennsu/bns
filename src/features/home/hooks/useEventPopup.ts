@@ -39,11 +39,9 @@ const useEventPopup = ({ events }: IParams) => {
   }, [events]);
 
   const onHideEvent = () => {
-    if (dontShowForThreeDays) {
-      const threeDaysLater = dayjs().add(3, 'day');
+    const threeDaysLater = dayjs().add(3, 'day');
 
-      localStorage.setItem(STORAGE_KEYS.POPUP_HIDE_UNTIL, threeDaysLater.toISOString());
-    }
+    localStorage.setItem(STORAGE_KEYS.POPUP_HIDE_UNTIL, threeDaysLater.toISOString());
 
     setIsShow(false);
   };
