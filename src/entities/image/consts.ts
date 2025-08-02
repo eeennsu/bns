@@ -33,6 +33,6 @@ export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'ima
 export const IMAGE_CONTEXT = {
   GET: 'GET_IMAGE_DATA',
   CREATE: 'CREATE_IMAGE_DATA',
-  UPLOAD: 'UPLOAD_IMAGE_DATA',
+  UPDATE: 'UPDATE_IMAGE_DATA',
   DELETE: 'DELETE_IMAGE_DATA',
 };

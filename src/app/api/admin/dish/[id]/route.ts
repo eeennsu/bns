@@ -10,7 +10,8 @@ import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { DISH_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { DISH_CONTEXT } from '@entities/dish/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -52,7 +53,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DISH_ERRORS.GET_FAILED,
-      context: 'GET_DISH_DATAS',
+      context: DISH_CONTEXT.GET,
       payload: {
         dishId,
       },
@@ -115,7 +116,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DISH_ERRORS.MODIFY_FAILED,
-      context: 'MODIFY_DISH_DATAS',
+      context: DISH_CONTEXT.MODIFY,
       payload: {
         dishId,
         body,
@@ -133,7 +134,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         dishId,
         body,
@@ -176,7 +177,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DISH_ERRORS.GET_FAILED,
-      context: 'GET_DISH_DATAS',
+      context: DISH_CONTEXT.GET,
       payload: {
         dishId,
       },
@@ -189,7 +190,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DISH_ERRORS.DELETE_FAILED,
-      context: 'DELETE_DISH_DATAS',
+      context: DISH_CONTEXT.DELETE,
       payload: {
         dishId,
       },
@@ -205,7 +206,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.DELETE,
       payload: {
         dishId,
       },

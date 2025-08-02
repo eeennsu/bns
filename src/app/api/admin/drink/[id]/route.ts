@@ -10,7 +10,8 @@ import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { DRINK_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { DRINK_CONTEXT } from '@entities/drink/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -52,7 +53,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DRINK_ERRORS.GET_FAILED,
-      context: 'GET_DRINK',
+      context: DRINK_CONTEXT.GET,
       payload: {
         drinkId,
       },
@@ -114,7 +115,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DRINK_ERRORS.MODIFY_FAILED,
-      context: 'MODIFY_DRINK',
+      context: DRINK_CONTEXT.MODIFY,
       payload: {
         drinkId,
         body,
@@ -132,7 +133,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         drinkId,
         body,
@@ -175,7 +176,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DRINK_ERRORS.GET_FAILED,
-      context: 'GET_DRINK',
+      context: DRINK_CONTEXT.GET,
       payload: {
         drinkId,
       },
@@ -188,7 +189,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DRINK_ERRORS.DELETE_FAILED,
-      context: 'DELETE_DRINK',
+      context: DRINK_CONTEXT.DELETE,
       payload: {
         drinkId,
       },
@@ -204,7 +205,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.DELETE,
       payload: {
         drinkId,
       },

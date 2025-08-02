@@ -23,7 +23,7 @@ export const fetchWithCapture = async <T extends unknown[], U>({
     Sentry.captureException(serverActionError, {
       extra: {
         actionName: context,
-        ...(args ? { args } : {}),
+        ...(args ? { payload: args } : {}),
       },
     });
 

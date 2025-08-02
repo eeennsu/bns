@@ -11,8 +11,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
+import { BREAD_CONTEXT } from '@entities/bread/consts';
 import { BreadFormDto } from '@entities/bread/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
 
@@ -53,7 +54,7 @@ export const GET = withAuth(async (request: NextRequest) => {
   } catch (error) {
     return responseWithCapture({
       error,
-      context: 'GET_BREAD',
+      context: BREAD_CONTEXT.GET,
       message: BREAD_ERRORS.GET_FAILED,
       payload: {
         searchParams,
@@ -98,7 +99,7 @@ export const POST = withAuth(async (request: NextRequest) => {
   } catch (error) {
     return responseWithCapture({
       error,
-      context: 'CREATE_BREAD',
+      context: BREAD_CONTEXT.CREATE,
       message: BREAD_ERRORS.CREATE_FAILED,
       payload: {
         body,
@@ -125,7 +126,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         body,
       },

@@ -11,8 +11,9 @@ import { and, eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
+import { BREAD_CONTEXT } from '@entities/bread/consts';
 import { BreadFormDto } from '@entities/bread/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -53,7 +54,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
   } catch (error) {
     return responseWithCapture({
       error,
-      context: 'GET_BREAD',
+      context: BREAD_CONTEXT.GET,
       message: BREAD_ERRORS.GET_FAILED,
       payload: {
         breadId,
@@ -117,7 +118,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return responseWithCapture({
       error,
       message: BREAD_ERRORS.MODIFY_FAILED,
-      context: 'UPDATE_BREAD',
+      context: BREAD_CONTEXT.MODIFY,
       payload: {
         breadId,
         body,
@@ -135,7 +136,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_BREAD_IMAGE',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         breadId,
         body,
@@ -178,7 +179,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: BREAD_ERRORS.GET_FAILED,
-      context: 'GET_BREAD',
+      context: BREAD_CONTEXT.GET,
       payload: {
         breadId,
       },
@@ -191,7 +192,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: BREAD_ERRORS.DELETE_FAILED,
-      context: 'DELETE_BREAD',
+      context: BREAD_CONTEXT.DELETE,
       payload: {
         breadId,
         linkedBundles,
@@ -208,7 +209,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_BREAD_IMAGE',
+      context: IMAGE_CONTEXT.DELETE,
       payload: {
         breadId,
         linkedBundles,

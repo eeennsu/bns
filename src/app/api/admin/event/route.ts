@@ -12,8 +12,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { EVENT_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
+import { EVENT_CONTEXT } from '@entities/event/consts';
 import { EventFormDto } from '@entities/event/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
 
@@ -55,7 +56,7 @@ export const GET = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: EVENT_ERRORS.GET_LIST_FAILED,
-      context: 'GET_EVENT',
+      context: EVENT_CONTEXT.GET,
       payload: {
         searchParams,
       },
@@ -119,7 +120,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: EVENT_ERRORS.CREATE_FAILED,
-      context: 'CREATE_EVENT',
+      context: EVENT_CONTEXT.CREATE,
       payload: {
         body,
       },
@@ -143,7 +144,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         body,
       },

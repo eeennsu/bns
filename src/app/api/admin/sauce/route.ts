@@ -11,7 +11,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { SAUCE_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
+import { SAUCE_CONTEXT } from '@entities/sauce/consts';
 import { SauceFormDto } from '@entities/sauce/types';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
@@ -54,7 +55,7 @@ export const GET = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: SAUCE_ERRORS.GET_LIST_FAILED,
-      context: 'GET_SAUCE',
+      context: SAUCE_CONTEXT.GET,
       payload: {
         searchParams,
       },
@@ -97,7 +98,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: SAUCE_ERRORS.CREATE_FAILED,
-      context: 'CREATE_SAUCE',
+      context: SAUCE_CONTEXT.CREATE,
       payload: {
         body,
       },
@@ -121,7 +122,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         body,
       },

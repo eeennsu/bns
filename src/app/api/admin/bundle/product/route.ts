@@ -12,7 +12,7 @@ import { withAuth } from '@shared/api/withAuth';
 import { asc } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
-import { BUNDLE_PRODUCT_TYPE } from '@entities/bundle/consts';
+import { BUNDLE_CONTEXT, BUNDLE_PRODUCT_TYPE } from '@entities/bundle/consts';
 
 export const GET = withAuth(async () => {
   try {
@@ -70,7 +70,7 @@ export const GET = withAuth(async () => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
-      context: 'GET_BUNDLE_PRODUCT',
+      context: BUNDLE_CONTEXT.GET_PRODUCT_LIST,
     });
   }
 });
