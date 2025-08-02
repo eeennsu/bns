@@ -50,7 +50,7 @@ const Pagination: FC<IProps> = ({
           <PaginationPrevious
             className={cn(
               'hover:bg-wood/10',
-              isPrevPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
+              isPrevPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-25',
               arrowClassName,
             )}
             onClick={() => onChangePage(currentPage - 1)}
@@ -80,7 +80,7 @@ const Pagination: FC<IProps> = ({
           <PaginationNext
             className={cn(
               'hover:bg-wood/10',
-              isNextPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
+              isNextPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-25',
               arrowClassName,
             )}
             onClick={() => onChangePage(currentPage + 1)}

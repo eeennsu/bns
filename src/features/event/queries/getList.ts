@@ -10,7 +10,7 @@ import { EVENT_CONTEXT } from '@entities/event/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
 const fetchEventList = async () => {
-  const eventListQuery = await db
+  const listQuery = await db
     .select({
       id: events.id,
       name: events.name,
@@ -32,7 +32,9 @@ const fetchEventList = async () => {
     .where(and(eq(events.isHidden, false), gte(events.endDate, new Date())))
     .orderBy(events.sortOrder, asc(events.startDate));
 
-  return eventListQuery;
+  return {
+    list: listQuery || [],
+  };
 };
 
 const getEventList = () =>

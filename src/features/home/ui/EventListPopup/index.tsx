@@ -31,7 +31,6 @@ export const EventListPopup: FC<IProps> = ({ events }) => {
   if (!isShow || events.length === 0) return null;
 
   const currentEvent = events[currentEventIndex];
-
   if (!currentEvent) return null;
 
   return (

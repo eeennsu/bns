@@ -5,7 +5,7 @@ import { imageReferences, images } from '@db/schemas/image';
 import { sauces } from '@db/schemas/sauces';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
 import { IPageParams, ProductCategory } from '@shared/typings/commons';
-import { and, asc, eq } from 'drizzle-orm';
+import { and, asc, count, eq } from 'drizzle-orm';
 
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 import { SAUCE_CONTEXT } from '@entities/sauce/consts';
@@ -15,7 +15,13 @@ interface IParams extends IPageParams {
 }
 
 const fetchSauceList = async ({ page, pageSize, category }: IParams) => {
-  const sauceListQuery = db
+  const categoryClause = getCategoryClause(category);
+  const whereClause = categoryClause
+    ? and(eq(sauces.isHidden, false), categoryClause)
+    : eq(sauces.isHidden, false);
+
+  const totalQuery = db.select({ count: count() }).from(sauces).where(whereClause);
+  const listQuery = db
     .select({
       id: sauces.id,
       name: sauces.name,
@@ -32,12 +38,18 @@ const fetchSauceList = async ({ page, pageSize, category }: IParams) => {
       ),
     )
     .innerJoin(images, eq(imageReferences.imageId, images.id))
-    .where(and(eq(sauces.isHidden, false), getCategoryClause(category)))
+    .where(whereClause)
     .orderBy(asc(sauces.sortOrder), asc(sauces.price))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
-  return sauceListQuery;
+  const [_total, list] = await Promise.all([totalQuery, listQuery]);
+  const total = _total?.[0]?.count;
+
+  return {
+    list: list || [],
+    total: total || list?.length || 0,
+  };
 };
 
 const getSauceList = (params: IParams) =>

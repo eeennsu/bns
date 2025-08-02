@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const DrinkListContent: FC<IProps> = async ({ currentPage, category }) => {
-  const [error, drinkList] = await getDrinkList({
+  const [error, data] = await getDrinkList({
     page: +currentPage,
     pageSize: PER_PAGE_SIZE.PRODUCT,
     category,
@@ -47,13 +47,13 @@ const DrinkListContent: FC<IProps> = async ({ currentPage, category }) => {
         <ErrorMessage />
       ) : (
         <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
-          {drinkList.map(drink => (
+          {data.list.map(drink => (
             <DrinkCard key={drink.id} drink={drink} />
           ))}
         </section>
       )}
 
-      <Pagination total={30} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
+      <Pagination total={data.total} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
     </>
   );
 };

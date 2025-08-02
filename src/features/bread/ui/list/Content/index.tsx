@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const BreadListContent: FC<IProps> = async ({ currentPage, category }) => {
-  const [error, breadList] = await getBreadList({
+  const [error, data] = await getBreadList({
     page: +currentPage,
     pageSize: PER_PAGE_SIZE.PRODUCT,
     category,
@@ -47,13 +47,13 @@ const BreadListContent: FC<IProps> = async ({ currentPage, category }) => {
         <ErrorMessage />
       ) : (
         <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
-          {breadList.map(bread => (
+          {data?.list.map(bread => (
             <BreadCard key={bread.id} bread={bread} />
           ))}
         </section>
       )}
 
-      <Pagination total={30} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
+      <Pagination total={data.total} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
     </>
   );
 };
