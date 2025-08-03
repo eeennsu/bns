@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import getEventList from '@features/event/queries/getList';
 import getSignatureList from '@features/home/queries/getSignatureList';
-import FullPageScroll from '@features/home/ui/FullPageScroll';
+import FullPageScroller from '@features/home/ui/FullPageScroll';
 // import BrushBackground from '@features/home/ui/BrushBackground';
 // import ContactUs from '@features/home/ui/ContactUs';
 // import Hero from '@features/home/ui/Hero';
@@ -21,7 +21,7 @@ const HomePage: FC = async () => {
 
   return (
     <main className='relative size-full'>
-      <FullPageScroll signatures={signatures} events={events?.list || []} />
+      <FullPageScroller signatures={signatures} events={events?.list || []} />
 
       <LoginExpireToast />
       {/* <EventList /> */}

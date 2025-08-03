@@ -19,7 +19,7 @@ interface IProps {
 
 const EventSection: FC<IProps> = ({ events }) => {
   return (
-    <SectionContainer>
+    <SectionContainer id='event-list'>
       <div className='flex h-full w-full items-center gap-40'>
         <div className='flex flex-col gap-16'>
           <SectionTitle title='EVENT' />

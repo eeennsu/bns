@@ -3,7 +3,6 @@
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
-// import Footer from '../Footer';
 import Header from '../Header';
 
 const RootPageContainer: FC<PropsWithChildren> = ({ children }) => {
@@ -14,7 +13,6 @@ const RootPageContainer: FC<PropsWithChildren> = ({ children }) => {
     <>
       {!isAdmin && <Header />}
       <div className='grow'>{children}</div>
-      {/* {!isAdmin && <Footer />} */}
     </>
   );
 };

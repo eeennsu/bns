@@ -1,9 +1,10 @@
+import { PageIndex } from '@shared/consts/commons';
 import { Updater } from '@shared/typings/commons';
 import { create } from 'zustand';
 
 interface IFullPageScrollStore {
-  activeIndex: number;
-  setActiveIndex: Updater<number>;
+  activeIndex: PageIndex;
+  setActiveIndex: Updater<PageIndex>;
 }
 
 const useFullPageScrollStore = create<IFullPageScrollStore>(set => ({

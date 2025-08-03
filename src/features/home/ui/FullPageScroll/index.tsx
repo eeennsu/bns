@@ -10,9 +10,9 @@ import Footer from '@widgets/user/Footer';
 import { IEvent } from '@entities/event/types';
 import { ISignatureProduct } from '@entities/home/types';
 
-import ScrollerNavigation from '../ScrollerNavigation';
 import EventSection from './EventSection';
 import LandingSection from './LandingSection';
+import ScrollerNavigation from './ScrollerNavigation';
 import SignatureSection from './SignatureSection';
 
 interface IProps {
@@ -27,7 +27,7 @@ const FullPageScroller: FC<IProps> = ({ signatures, events }) => {
     <>
       <FullpageContainer
         activeIndex={activeIndex}
-        setActiveIndex={setActiveIndex}
+        setActiveIndex={setActiveIndex as (afterIndex: number) => void}
         transitionDuration={1000}
       >
         <FullpageSection>
@@ -43,7 +43,7 @@ const FullPageScroller: FC<IProps> = ({ signatures, events }) => {
           <Footer />
         </FullpageSection>
       </FullpageContainer>
-      <ScrollerNavigation activeIndex={activeIndex} size={3} />
+      <ScrollerNavigation size={3} />
     </>
   );
 };

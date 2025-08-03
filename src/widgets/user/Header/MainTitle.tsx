@@ -1,7 +1,9 @@
+import { BRAND_TITLE } from '@shared/consts/brand';
 import { WordRotate } from '@shared/magic-ui';
 import { cn } from '@shared/shadcn-ui/utils';
 import useFullPageScrollStore from '@shared/stores/fullPageScroll';
 import useFullMainCarousel from '@shared/stores/mainCarousel';
+import { usePathname } from 'next/navigation';
 import type { FC } from 'react';
 
 interface IProps {
@@ -9,6 +11,7 @@ interface IProps {
 }
 
 const MainTitle: FC<IProps> = ({ className }) => {
+  const pathname = usePathname();
   const { activeIndex: fullPageActiveIndex } = useFullPageScrollStore();
   const { activeIndex: mainCarouselActiveIndex } = useFullMainCarousel();
 
@@ -20,16 +23,22 @@ const MainTitle: FC<IProps> = ({ className }) => {
         className,
       )}
     >
-      Bread &
-      {fullPageActiveIndex === 0 ? (
-        <WordRotate
-          duration={3000}
-          isActive
-          words={['Sauce', 'Coffee', 'Salad', 'Dish', 'Dessert']}
-          customIndex={mainCarouselActiveIndex}
-        />
+      {pathname === '/' ? (
+        fullPageActiveIndex === 0 ? (
+          <>
+            Bread &
+            <WordRotate
+              duration={3000}
+              isActive
+              words={['Sauce', 'Coffee', 'Salad', 'Dish', 'Dessert']}
+              customIndex={mainCarouselActiveIndex}
+            />
+          </>
+        ) : (
+          BRAND_TITLE.EN
+        )
       ) : (
-        ' Sauce'
+        BRAND_TITLE.EN
       )}
     </h1>
   );
