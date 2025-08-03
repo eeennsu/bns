@@ -1,6 +1,7 @@
 import { WordRotate } from '@shared/magic-ui';
 import { cn } from '@shared/shadcn-ui/utils';
 import useFullPageScrollStore from '@shared/stores/fullPageScroll';
+import useFullMainCarousel from '@shared/stores/mainCarousel';
 import type { FC } from 'react';
 
 interface IProps {
@@ -8,22 +9,24 @@ interface IProps {
 }
 
 const MainTitle: FC<IProps> = ({ className }) => {
-  const { activeIndex } = useFullPageScrollStore();
+  const { activeIndex: fullPageActiveIndex } = useFullPageScrollStore();
+  const { activeIndex: mainCarouselActiveIndex } = useFullMainCarousel();
 
   return (
     <h1
       className={cn(
         'font-playwrite flex items-center gap-[9px] text-3xl font-bold transition-colors duration-700',
-        activeIndex === 0 ? 'text-white' : 'text-black',
+        fullPageActiveIndex === 0 ? 'text-white' : 'text-black',
         className,
       )}
     >
       Bread &
-      {activeIndex === 0 ? (
+      {fullPageActiveIndex === 0 ? (
         <WordRotate
           duration={3000}
-          isActive={activeIndex === 0}
+          isActive
           words={['Sauce', 'Coffee', 'Salad', 'Dish', 'Dessert']}
+          customIndex={mainCarouselActiveIndex}
         />
       ) : (
         ' Sauce'

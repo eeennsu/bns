@@ -28,7 +28,7 @@ export default ScrollerNavigation;
 
 const PageNumber: FC<{ page: number }> = ({ page }) => {
   return (
-    <div className='font-montserrat flex size-9 items-center justify-center rounded-full bg-white/60 p-2 text-base font-semibold tracking-wider text-black'>
+    <div className='font-montserrat flex size-9 items-center justify-center rounded-full bg-white/30 p-2 text-base font-semibold tracking-wider text-black'>
       {page.toString().padStart(2, '0')}
     </div>
   );

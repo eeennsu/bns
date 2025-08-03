@@ -7,9 +7,10 @@ const useCurrentPathname = () => {
 
   const getIsCurPathname = (href: string, isLastPathname = false) => {
     if (isLastPathname) {
-      console.log('pathname', pathname.split('/').pop());
-      console.log('href', href.split('/').pop().split('?')[0]);
-      return pathname.split('/').pop() === href.split('/').pop().split('?')[0];
+      const pathnameArr = pathname.split('/').pop();
+      const hrefArr = href.split('/').pop().split('?')[0];
+
+      return pathnameArr === hrefArr;
     }
 
     return pathname !== MAIN_PATHS.home() && href.includes(pathname!);

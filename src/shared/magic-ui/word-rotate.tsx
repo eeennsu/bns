@@ -11,6 +11,7 @@ interface WordRotateProps {
   motionProps?: MotionProps;
   className?: string;
   isActive?: boolean;
+  customIndex?: number;
 }
 
 export function WordRotate({
@@ -24,6 +25,7 @@ export function WordRotate({
   },
   className,
   isActive = true,
+  customIndex = null,
 }: WordRotateProps) {
   const [index, setIndex] = useState(0);
 
@@ -45,7 +47,7 @@ export function WordRotate({
     <div className='overflow-hidden'>
       <AnimatePresence mode='wait'>
         <motion.h1
-          key={words[index]}
+          key={words[customIndex ?? index]}
           variants={variants}
           initial='inactive'
           animate={isActive ? 'active' : 'inactive'}
@@ -53,7 +55,7 @@ export function WordRotate({
           className={cn(className)}
           {...motionProps}
         >
-          {words[index]}
+          {words[customIndex ?? index]}
         </motion.h1>
       </AnimatePresence>
     </div>

@@ -42,8 +42,8 @@ const Section2: FC<IProps> = ({ signatures }) => {
   );
 
   return (
-    <section className='relative mx-auto flex w-full max-w-[1500px] px-32 pt-40'>
-      <div className='flex w-full flex-col gap-32'>
+    <section className='relative mx-auto flex w-full max-w-[1500px] items-center px-36'>
+      <div className='flex w-full flex-col gap-16'>
         <div className='flex items-end gap-3'>
           <h2 className='font-montserrat text-7xl font-[800]'>SIGNATURE MENU</h2>
           <div className='bg-wood mb-2 size-4' />
