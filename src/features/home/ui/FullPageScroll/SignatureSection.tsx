@@ -3,53 +3,33 @@
 import { Carousel, CarouselContent, CarouselItem } from '@shared/shadcn-ui/ui';
 import { cn } from '@shared/shadcn-ui/utils';
 import Autoplay from 'embla-carousel-autoplay';
-import { PackageOpen } from 'lucide-react';
 import Image from 'next/image';
 import { ComponentProps, useMemo, useState, type FC } from 'react';
 
+import { getGroupedSignatures } from '@features/home/libs/getGroupedSignatures';
+
 import { ISignatureProduct } from '@entities/home/types';
+
+import EmptyProduct from './EmptyProduct';
+import SectionContainer from './SectionContainer';
+import SectionTitle from './SectionTitle';
 
 interface IProps {
   signatures: ISignatureProduct[];
 }
 
-const Section2: FC<IProps> = ({ signatures }) => {
+const SignatureSection: FC<IProps> = ({ signatures }) => {
   const [currentType, setCurrentType] = useState<string>('bread');
-  const groupedSignatures = useMemo(
-    () =>
-      signatures.reduce((acc, cur) => {
-        const { type } = cur;
-        let key;
+  const groupedSignatures = useMemo(() => getGroupedSignatures(signatures), [signatures]);
 
-        if (type === 'bread' || type === 'sauce') {
-          key = 'bread';
-        } else if (type === 'drink') {
-          key = 'drink';
-        } else if (type === 'dish' || type === 'dessert') {
-          key = 'dish';
-        } else if (type === 'bundle') {
-          key = 'bundle';
-        }
-
-        if (key) {
-          acc[key] = acc[key] || [];
-          acc[key].push(cur);
-        }
-
-        return acc;
-      }, {}),
-    [signatures],
-  );
+  console.log(groupedSignatures);
 
   return (
-    <section className='relative mx-auto flex w-full max-w-[1500px] items-center px-36'>
+    <SectionContainer>
       <div className='flex w-full flex-col gap-16'>
-        <div className='flex items-end gap-3'>
-          <h2 className='font-montserrat text-7xl font-[800]'>SIGNATURE MENU</h2>
-          <div className='bg-wood mb-2 size-4' />
-        </div>
+        <SectionTitle title='SIGNATURE MENU' />
 
-        <div className='flex grow gap-16 pb-4'>
+        <div className='flex grow gap-16'>
           <div className='flex h-full min-w-[300px] flex-col gap-20 text-3xl font-bold'>
             <SignatureGroupButton
               isCurrentType={currentType === 'bread'}
@@ -73,15 +53,9 @@ const Section2: FC<IProps> = ({ signatures }) => {
             />
           </div>
 
-          {!Array.isArray(groupedSignatures?.[currentType]) ? (
-            <div className='flex h-[330px] w-full items-center justify-center rounded-xl text-center'>
-              <div className='flex flex-col items-center gap-3 p-6'>
-                <PackageOpen className='h-8 w-8 text-neutral-400' />
-                <span className='text-base font-medium text-neutral-600'>상품을 준비 중입니다</span>
-                <p className='text-sm text-neutral-400'>더 나은 품질로 곧 찾아뵐게요.</p>
-              </div>
-            </div>
-          ) : groupedSignatures?.[currentType].length > 1 ? (
+          {groupedSignatures?.[currentType]?.length === 0 ? (
+            <EmptyProduct />
+          ) : groupedSignatures?.[currentType]?.length > 1 ? (
             <Carousel
               opts={{
                 align: 'start',
@@ -113,11 +87,11 @@ const Section2: FC<IProps> = ({ signatures }) => {
           )}
         </div>
       </div>
-    </section>
+    </SectionContainer>
   );
 };
 
-export default Section2;
+export default SignatureSection;
 
 interface ISignatureGroupButtonProps extends ComponentProps<'button'> {
   isCurrentType: boolean;

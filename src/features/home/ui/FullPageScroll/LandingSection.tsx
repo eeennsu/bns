@@ -7,7 +7,7 @@ import { ArrowLeftToLine, ArrowRightToLine } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState, type FC } from 'react';
 
-const Section1: FC = () => {
+const LandingSection: FC = () => {
   const { activeIndex: fullPageActiveIndex } = useFullPageScrollStore();
   const { activeIndex: mainCarouselActiveIndex, setActiveIndex: setMainCarouselActiveIndex } =
     useFullMainCarousel();
@@ -95,12 +95,12 @@ const Section1: FC = () => {
   );
 };
 
-export default Section1;
+export default LandingSection;
 
 const CAROUSEL_IMAGES = [
-  { key: 'bread and sauce', src: UtilLocalImage.IMAGES.HOME.SECTION.BG1 },
-  { key: 'coffee', src: UtilLocalImage.IMAGES.HOME.SECTION.BG2 },
-  { key: 'salad', src: UtilLocalImage.IMAGES.HOME.SECTION.BG3 },
-  { key: 'dish', src: UtilLocalImage.IMAGES.HOME.SECTION.BG4 },
-  { key: 'dessert', src: UtilLocalImage.IMAGES.HOME.SECTION.BG5 },
+  { key: 'bread and sauce', src: UtilLocalImage.IMAGES.HOME.LANDING_SECTION.BG1 },
+  { key: 'coffee', src: UtilLocalImage.IMAGES.HOME.LANDING_SECTION.BG2 },
+  { key: 'salad', src: UtilLocalImage.IMAGES.HOME.LANDING_SECTION.BG3 },
+  { key: 'dish', src: UtilLocalImage.IMAGES.HOME.LANDING_SECTION.BG4 },
+  { key: 'dessert', src: UtilLocalImage.IMAGES.HOME.LANDING_SECTION.BG5 },
 ];

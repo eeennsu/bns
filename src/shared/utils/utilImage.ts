@@ -18,7 +18,7 @@ const UtilLocalImage = {
       KAKAO: '/images/kakao.png',
     },
     HOME: {
-      SECTION: {
+      LANDING_SECTION: {
         BG1: '/images/section-bread.jpg',
         BG2: '/images/section-coffee.jpg',
         BG3: '/images/section-salad.jpg',
@@ -26,6 +26,9 @@ const UtilLocalImage = {
         BG5: '/images/section-dessert.jpg',
       },
     },
+  },
+  SVGS: {
+    GIFT: '/svgs/gift.svg',
   },
 };
 

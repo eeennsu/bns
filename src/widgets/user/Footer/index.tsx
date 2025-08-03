@@ -31,7 +31,7 @@ const Footer: FC = () => {
       <footer className='w-full bg-slate-700 py-10 text-[#FFFDF4]'>
         <div className='mx-auto max-w-6xl space-y-4 px-4 text-center'>
           <div className='flex items-center justify-center gap-2'>
-            <MainTitle />
+            <MainTitle className='text-white' />
             {/* <Image
               src={UtilLocalImage.IMAGES.LOGO}
               alt='logo'

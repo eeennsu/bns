@@ -31,7 +31,7 @@ const Menus: FC = () => {
               key={menu.title}
               href={menu.path}
               isCurrentRoute={getIsCurPathname(menu.path)}
-              className={activeIndex === 0 ? 'text-white' : 'text-black'}
+              activeIndex={activeIndex}
             >
               {menu.title}
             </MenuButton>

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import EventList from '@features/event/ui/list';
+import getEventList from '@features/event/queries/getList';
 import getSignatureList from '@features/home/queries/getSignatureList';
 import FullPageScroll from '@features/home/ui/FullPageScroll';
 // import BrushBackground from '@features/home/ui/BrushBackground';
@@ -11,18 +11,20 @@ import LoginExpireToast from '@features/home/ui/LoginExpireToast';
 // import SignatureProducts from '@features/home/ui/SignatureProducts';
 
 const HomePage: FC = async () => {
-  const [error, signatures] = await getSignatureList();
+  const [signatureResponse, eventResponse] = await Promise.all([
+    getSignatureList(),
+    getEventList(),
+  ]);
 
-  if (error) {
-    console.log(error);
-  }
+  const [, signatures] = signatureResponse;
+  const [, events] = eventResponse;
 
   return (
     <main className='relative size-full'>
-      <FullPageScroll signatures={signatures} />
+      <FullPageScroll signatures={signatures} events={events?.list || []} />
 
       <LoginExpireToast />
-      <EventList />
+      {/* <EventList /> */}
     </main>
   );
 };
