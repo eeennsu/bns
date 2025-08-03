@@ -52,7 +52,7 @@ export const GOWUN_DODUM = Gowun_Dodum({
 
 export const MONTSERRAT = Montserrat({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '700', '800', '900'],
   variable: '--font-montserrat',
   display: 'swap',
   preload: false,

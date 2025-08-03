@@ -1,5 +1,6 @@
 'use client';
 
+import useFullPageScrollStore from '@shared/stores/fullPageScroll';
 import type { FC } from 'react';
 
 import useCurrentPathname from '@hooks/useCurrentPathname';
@@ -11,6 +12,7 @@ import MenuButton from './MenuButton';
 
 const Menus: FC = () => {
   const { getIsCurPathname } = useCurrentPathname();
+  const { activeIndex } = useFullPageScrollStore();
 
   return (
     <nav className='font-asta-sans mr-24 hidden lg:block'>
@@ -29,6 +31,7 @@ const Menus: FC = () => {
               key={menu.title}
               href={menu.path}
               isCurrentRoute={getIsCurPathname(menu.path)}
+              className={activeIndex === 0 ? 'text-white' : 'text-black'}
             >
               {menu.title}
             </MenuButton>

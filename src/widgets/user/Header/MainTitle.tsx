@@ -13,7 +13,8 @@ const MainTitle: FC<IProps> = ({ className }) => {
   return (
     <h1
       className={cn(
-        'font-playwrite flex items-center gap-1 text-3xl font-bold text-white',
+        'font-playwrite flex items-center gap-[9px] text-3xl font-bold transition-colors duration-700',
+        activeIndex === 0 ? 'text-white' : 'text-black',
         className,
       )}
     >
@@ -25,7 +26,7 @@ const MainTitle: FC<IProps> = ({ className }) => {
           words={['Sauce', 'Coffee', 'Salad', 'Dish', 'Dessert']}
         />
       ) : (
-        'Sauce'
+        ' Sauce'
       )}
     </h1>
   );

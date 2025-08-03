@@ -2,6 +2,7 @@
 
 import useCurrentPathname from '@shared/hooks/useCurrentPathname';
 import { cn } from '@shared/shadcn-ui/utils';
+import useFullPageScrollStore from '@shared/stores/fullPageScroll';
 import Link from 'next/link';
 import { type FC, type PropsWithChildren } from 'react';
 
@@ -14,10 +15,17 @@ interface IProps {
 
 const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({ children, href, subMenus = {} }) => {
   const { getIsCurPathname } = useCurrentPathname();
+  const { activeIndex } = useFullPageScrollStore();
 
   return (
     <div className='group relative'>
-      <Link href={href} className='cursor-pointer text-lg font-semibold text-white'>
+      <Link
+        href={href}
+        className={cn(
+          'cursor-pointer text-lg font-semibold text-white transition-colors duration-700',
+          activeIndex === 0 ? 'text-white' : 'text-black',
+        )}
+      >
         {children}
       </Link>
 

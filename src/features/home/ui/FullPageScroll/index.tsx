@@ -7,10 +7,17 @@ import { type FC } from 'react';
 
 import Footer from '@widgets/user/Footer';
 
+import { ISignatureProduct } from '@entities/home/types';
+
 import ScrollerNavigation from '../ScrollerNavigation';
 import Section1 from './Section1';
+import Section2 from './Section2';
 
-const FullPageScroller: FC = () => {
+interface IProps {
+  signatures: ISignatureProduct[];
+}
+
+const FullPageScroller: FC<IProps> = ({ signatures }) => {
   const { activeIndex, setActiveIndex } = useFullPageScrollStore();
 
   return (
@@ -24,7 +31,7 @@ const FullPageScroller: FC = () => {
           <Section1 />
         </FullpageSection>
         <FullpageSection>
-          <div className='w-full'>Section 2</div>
+          <Section2 signatures={signatures} />
         </FullpageSection>
         <FullpageSection>
           <div className='w-full'>Section 3</div>

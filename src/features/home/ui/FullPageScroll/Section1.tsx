@@ -22,7 +22,7 @@ const Section1: FC = () => {
       ]}
       className='w-full'
     >
-      <CarouselContent className='h-dvh bg-black'>
+      <CarouselContent className='h-dvh'>
         {CAROUSEL_IMAGES.map(image => (
           <CarouselItem key={image.key} className='min-h-full basis-full p-0'>
             <figure className='relative size-full'>
