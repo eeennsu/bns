@@ -17,7 +17,7 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({ children, href, sub
 
   return (
     <div className='group relative'>
-      <Link href={href} className='text-wood cursor-pointer text-lg font-semibold'>
+      <Link href={href} className='cursor-pointer text-lg font-semibold text-white'>
         {children}
       </Link>
 

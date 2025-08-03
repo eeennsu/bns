@@ -18,6 +18,9 @@
   --font-nunito: 'Nunito', sans-serif;
   --font-baloo-2: 'Baloo 2', cursive;
   --font-gowun-dodum: 'Gowun Dodum', sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-playwrite: 'Playwrite', sans-serif;
+  --font-asta-sans: 'Asta Sans', sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

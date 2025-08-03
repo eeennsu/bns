@@ -11,10 +11,7 @@ const Header: FC = () => {
   return (
     <header className='fixed top-0 z-40 w-full bg-transparent'>
       <div className='bg-g flex w-full items-center justify-between px-24 py-12'>
-        <Link
-          href={MAIN_PATHS.home()}
-          className='font-baloo-2 text-wood-secondary flex items-center gap-2 text-xl font-bold'
-        >
+        <Link href={MAIN_PATHS.home()} className='flex items-center gap-2 text-xl font-bold'>
           <MainTitle />
         </Link>
         <DrawerMenu triggerClassName='block md:hidden'>

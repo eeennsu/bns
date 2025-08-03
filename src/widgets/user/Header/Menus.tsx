@@ -1,7 +1,5 @@
 'use client';
 
-import { ASTA_SANS } from '@shared/consts/font';
-import { cn } from '@shared/shadcn-ui/utils';
 import type { FC } from 'react';
 
 import useCurrentPathname from '@hooks/useCurrentPathname';
@@ -15,7 +13,7 @@ const Menus: FC = () => {
   const { getIsCurPathname } = useCurrentPathname();
 
   return (
-    <nav className={cn('mr-24 hidden lg:block', ASTA_SANS.className)}>
+    <nav className='font-asta-sans mr-24 hidden lg:block'>
       <div className='flex items-center gap-10'>
         {MAIN_MENU_LIST.map(menu => {
           if (menu?.subMenus) {

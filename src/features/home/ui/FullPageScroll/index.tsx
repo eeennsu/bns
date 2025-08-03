@@ -1,15 +1,18 @@
 'use client';
 
+import useFullPageScrollStore from '@shared/stores/fullPageScroll';
 import { FullpageContainer, FullpageSection } from '@shinyongjun/react-fullpage';
 import '@shinyongjun/react-fullpage/css';
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 
 import Footer from '@widgets/user/Footer';
 
 import ScrollerNavigation from '../ScrollerNavigation';
+import Section1 from './Section1';
 
 const FullPageScroller: FC = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const { activeIndex, setActiveIndex } = useFullPageScrollStore();
+
   return (
     <>
       <FullpageContainer
@@ -18,7 +21,7 @@ const FullPageScroller: FC = () => {
         transitionDuration={1000}
       >
         <FullpageSection>
-          <div className='w-full'>Section 1</div>
+          <Section1 />
         </FullpageSection>
         <FullpageSection>
           <div className='w-full'>Section 2</div>
