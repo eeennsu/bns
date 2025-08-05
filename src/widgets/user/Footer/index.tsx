@@ -28,7 +28,7 @@ const Footer: FC = () => {
 
   return (
     <>
-      <footer className='w-full bg-slate-700 py-10 text-[#FFFDF4]'>
+      <footer className='w-full bg-black/80 py-10 text-[#FFFDF4]'>
         <div className='mx-auto max-w-6xl space-y-4 px-4 text-center'>
           <div className='flex items-center justify-center gap-2'>
             <MainTitle className='text-white' />

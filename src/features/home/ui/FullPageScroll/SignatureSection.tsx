@@ -1,9 +1,11 @@
 'use client';
 
+import { MAIN_PATHS } from '@shared/configs/routes/mainPaths';
 import { Carousel, CarouselContent, CarouselItem } from '@shared/shadcn-ui/ui';
 import { cn } from '@shared/shadcn-ui/utils';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ComponentProps, useMemo, useState, type FC } from 'react';
 
 import { getGroupedSignatures } from '@features/home/libs/getGroupedSignatures';
@@ -21,8 +23,6 @@ interface IProps {
 const SignatureSection: FC<IProps> = ({ signatures }) => {
   const [currentType, setCurrentType] = useState<string>('bread');
   const groupedSignatures = useMemo(() => getGroupedSignatures(signatures), [signatures]);
-
-  console.log(groupedSignatures);
 
   return (
     <SectionContainer>
@@ -129,7 +129,10 @@ interface ISignatureCardProps {
 
 const SignatureCard: FC<ISignatureCardProps> = ({ signature }) => {
   return (
-    <figure className='relative flex h-[330px] w-full flex-col items-center rounded-xl pl-3'>
+    <Link
+      href={MAIN_PATHS.product[signature.type].detail({ slug: signature.id })}
+      className='flex h-[330px] w-full flex-col items-center rounded-xl pl-3'
+    >
       <div className='relative h-[95%] w-full'>
         <Image
           src={signature.image}
@@ -142,6 +145,6 @@ const SignatureCard: FC<ISignatureCardProps> = ({ signature }) => {
           {signature.name}
         </div>
       </div>
-    </figure>
+    </Link>
   );
 };

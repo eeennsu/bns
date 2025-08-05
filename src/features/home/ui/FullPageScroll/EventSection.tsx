@@ -53,7 +53,7 @@ const EventItem: FC<IEventItemProps> = ({ event }) => {
       href={MAIN_PATHS.event.detail({ slug: event.id })}
       className='group relative flex items-start justify-between gap-4 overflow-hidden p-6'
     >
-      <div className='absolute inset-0 z-0 origin-left scale-x-0 bg-slate-700 transition-transform duration-300 ease-out group-hover:scale-x-100' />
+      <div className='absolute inset-0 z-0 origin-left scale-x-0 bg-black/80 transition-transform duration-300 ease-out group-hover:scale-x-100' />
 
       <div className='relative z-10 flex grow flex-col gap-1'>
         <h3 className='text-foreground text-base font-semibold transition-colors duration-150 group-hover:text-white'>

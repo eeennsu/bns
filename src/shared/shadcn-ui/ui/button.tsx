@@ -41,6 +41,7 @@ const buttonVariants = cva(
         meadow:
           'bg-gradient-to-r from-[#90EE90] to-[#3CB371] text-white shadow-xs hover:opacity-90',
         berry: 'bg-gradient-to-r from-[#C71585] to-[#FF69B4] text-white shadow-xs hover:opacity-90',
+        modern: 'bg-black/80 text-white hover:bg-black/70',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

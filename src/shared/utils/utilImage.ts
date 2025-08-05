@@ -2,7 +2,7 @@ const UtilLocalImage = {
   IMAGES: {
     LOGO: '/images/bns-logo.png',
     ABOUT: {
-      BG: '/images/about.png',
+      BG: '/images/about.jpg',
     },
     BREAD: {
       LIST: '/images/bread-bg.jpg',
@@ -29,6 +29,8 @@ const UtilLocalImage = {
   },
   SVGS: {
     GIFT: '/svgs/gift.svg',
+    SHEF: '/svgs/shef.svg',
+    PANCAKE: '/svgs/pancake.svg',
   },
 };
 

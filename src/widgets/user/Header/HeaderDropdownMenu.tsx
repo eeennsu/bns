@@ -11,9 +11,15 @@ import { SubMenu } from '@typings/commons';
 interface IProps {
   href?: string;
   subMenus?: SubMenu;
+  className?: string;
 }
 
-const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({ children, href, subMenus = {} }) => {
+const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
+  children,
+  href,
+  subMenus = {},
+  className,
+}) => {
   const { getIsCurPathname } = useCurrentPathname();
   const { activeIndex } = useFullPageScrollStore();
 
@@ -22,8 +28,9 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({ children, href, sub
       <Link
         href={href}
         className={cn(
-          'cursor-pointer text-lg font-semibold text-white transition-colors duration-700',
+          'cursor-pointer text-lg font-semibold transition-colors duration-700',
           activeIndex === 0 ? 'text-white' : 'text-black',
+          className,
         )}
       >
         {children}

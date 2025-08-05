@@ -9,7 +9,7 @@ import Loader from './Loader';
 import ResetPositionButton from './ResetPositionButton';
 
 const MarkerTag = `
-<div class="w-[100px] sm:w-[120px] text-center px-4 sm:p-[10px] bg-wood-tertiary border-ivory-tertiary border-3 rounded-full shadow-xl font-sans hover:opacity-0 transition-opacity duration-300">
+<div class="w-[100px] sm:w-[120px] text-center px-4 sm:p-[10px] bg-black/80 border-ivory-tertiary border-3 rounded-full shadow-xl font-sans hover:opacity-0 transition-opacity duration-300">
   <div class="text-[10px] sm:text-[12px] font-bold text-ivory">브레드엔소스</div>
 </div>`;
 
@@ -24,7 +24,6 @@ const NaverMap: FC = () => {
     const map = new naver.maps.Map('map', {
       center: new naver.maps.LatLng(GEO_DATA.LAT, GEO_DATA.LON),
       zoom: DEFAULT_ZOOM,
-      zoomControl: true,
       zoomControlOptions: {
         style: naver.maps.ZoomControlStyle.LARGE,
         position: naver.maps.Position.TOP_RIGHT,

@@ -16,7 +16,7 @@ const ScrollerNavigation: FC<IProps> = ({ size }) => {
 
         <div className='relative min-h-24 w-[6px] rounded-sm bg-gray-300'>
           <div
-            className='absolute top-0 left-0 max-h-24 w-full rounded-sm bg-slate-700 transition-all duration-700 ease-in-out'
+            className='absolute top-0 left-0 max-h-24 w-full rounded-sm bg-black/80 transition-all duration-700 ease-in-out'
             style={{ height: ((activeIndex + 1) / size) * 100 }}
           />
         </div>
@@ -37,7 +37,7 @@ interface IPageNumberProps {
 const PageNumber: FC<IPageNumberProps> = ({ page, onClick }) => {
   return (
     <button
-      className='font-montserrat flex size-9 cursor-pointer items-center justify-center rounded-full bg-white/30 p-2 text-base font-semibold tracking-wider text-black hover:bg-gray-100/70'
+      className='font-montserrat flex size-9 cursor-pointer items-center justify-center rounded-full bg-white/30 p-2 text-base font-semibold tracking-wider text-black/80 hover:bg-gray-100/70'
       onClick={onClick}
     >
       {page.toString().padStart(2, '0')}
