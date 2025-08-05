@@ -6,7 +6,10 @@ interface IProps extends ComponentProps<'section'> {}
 const SectionContainer: FC<PropsWithChildren<IProps>> = ({ className, children, ...props }) => {
   return (
     <section
-      className={cn('relative mx-auto flex w-full max-w-[1500px] items-center px-36', className)}
+      className={cn(
+        'relative mx-auto flex w-full max-w-[1500px] items-center px-5 lg:px-36',
+        className,
+      )}
       {...props}
     >
       {children}

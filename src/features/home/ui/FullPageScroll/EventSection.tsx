@@ -20,17 +20,19 @@ interface IProps {
 const EventSection: FC<IProps> = ({ events }) => {
   return (
     <SectionContainer id='event-list'>
-      <div className='flex h-full w-full items-center gap-40'>
-        <div className='flex flex-col gap-16'>
+      <div className='flex h-full w-full flex-col justify-center gap-16 lg:h-auto lg:flex-row lg:justify-start'>
+        <div className='flex flex-col gap-8 lg:gap-16'>
           <SectionTitle title='EVENT' />
 
-          <Image src={UtilLocalImage.SVGS.GIFT} alt='background texture' width={430} height={430} />
+          <figure className='relative size-[180px] max-lg:flex max-lg:w-full max-lg:justify-center lg:size-[430px]'>
+            <Image src={UtilLocalImage.SVGS.GIFT} alt='background texture' fill />
+          </figure>
         </div>
 
         {events.length === 0 ? (
           <EmptyProduct />
         ) : (
-          <div className='divide-border flex grow flex-col divide-y bg-white'>
+          <div className='divide-border flex flex-col divide-y bg-white lg:grow lg:justify-center'>
             {events?.map(event => (
               <EventItem key={`event-${event.id}`} event={event} />
             ))}

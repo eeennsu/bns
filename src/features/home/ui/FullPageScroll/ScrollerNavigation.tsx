@@ -10,7 +10,7 @@ const ScrollerNavigation: FC<IProps> = ({ size }) => {
   const { activeIndex, setActiveIndex } = useFullPageScrollStore();
 
   return (
-    <nav className='fixed top-1/2 right-0 flex -translate-y-1/2 justify-center pr-20'>
+    <nav className='fixed flex justify-center lg:top-1/2 lg:right-0 lg:-translate-y-1/2 lg:pr-20'>
       <div className='flex flex-col items-center gap-[18px]'>
         <PageNumber page={Math.min(activeIndex + 1, size)} onClick={() => setActiveIndex(0)} />
 

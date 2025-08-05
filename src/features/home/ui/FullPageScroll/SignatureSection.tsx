@@ -26,16 +26,17 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
 
   return (
     <SectionContainer>
-      <div className='flex w-full flex-col gap-16'>
+      <div className='flex h-full w-full flex-col justify-center gap-6 lg:h-auto lg:justify-start lg:gap-16'>
         <SectionTitle title='SIGNATURE MENU' />
 
-        <div className='flex grow gap-16'>
-          <div className='flex h-full min-w-[300px] flex-col gap-20 text-3xl font-bold'>
+        <div className='flex flex-col gap-16 lg:grow lg:flex-row'>
+          <div className='flex min-w-[300px] flex-col gap-6 font-bold lg:h-full lg:gap-20'>
             <SignatureGroupButton
               isCurrentType={currentType === 'bread'}
               group={['BREAD', 'SAUCE']}
               description='섬세한 기술과 정성으로 완성된 최고의 빵'
               onClick={() => setCurrentType('bread')}
+              className='items-end'
             />
 
             <SignatureGroupButton
@@ -50,6 +51,7 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
               group={['DISH', 'DESSERT']}
               description='가벼운 달콤한 디저트'
               onClick={() => setCurrentType('dish')}
+              className='items-end'
             />
           </div>
 
@@ -68,7 +70,7 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
               ]}
               className='h-full w-full'
             >
-              <CarouselContent className='h-[330px] pr-[10%]'>
+              <CarouselContent className='h-[330px] pr-[15%] lg:pr-[10%]'>
                 {groupedSignatures?.[currentType]?.map(signature => (
                   <CarouselItem
                     key={`${signature.type}-${signature.id}`}
@@ -107,16 +109,15 @@ const SignatureGroupButton: FC<ISignatureGroupButtonProps> = ({
   ...props
 }) => {
   return (
-    <div className='flex flex-col gap-1'>
+    <div className={cn('flex flex-col gap-1 text-xl lg:items-start lg:text-3xl', className)}>
       <button
         className={cn(
-          'w-fit cursor-pointer text-slate-500 hover:underline',
+          'w-fit cursor-pointer text-gray-600 hover:underline',
           isCurrentType && 'text-black underline',
-          className,
         )}
         {...props}
       >
-        {group[0]} <span className='text-2xl text-slate-800'>&</span> {group[1]}
+        {group[0]} & {group[1]}
       </button>
       {isCurrentType && <p className='text-base font-bold text-black'>{description}</p>}
     </div>

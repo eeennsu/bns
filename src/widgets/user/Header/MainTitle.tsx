@@ -18,7 +18,7 @@ const MainTitle: FC<IProps> = ({ className }) => {
   return (
     <h1
       className={cn(
-        'font-playwrite flex items-center gap-[9px] text-3xl font-bold transition-colors duration-700',
+        'font-playwrite flex items-center gap-[9px] text-lg font-bold transition-colors duration-700 lg:text-3xl',
         fullPageActiveIndex === 0 ? 'text-white' : 'text-black',
         className,
       )}
