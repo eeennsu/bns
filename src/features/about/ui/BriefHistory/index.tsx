@@ -6,7 +6,7 @@ import type { FC } from 'react';
 const BriefHistory: FC = () => {
   return (
     <section className='bg-ivory/90 mx-auto flex max-w-4xl flex-col items-center gap-10 rounded-xl p-6 lg:flex-row lg:p-10'>
-      <div className='flex size-48 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-black/40'>
+      <div className='flex size-48 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-gray-300 shadow-xl'>
         <Image
           src={UtilLocalImage.SVGS.SHEF}
           alt='김현겸'
@@ -32,7 +32,9 @@ const BriefHistory: FC = () => {
           </p>
 
           <div className='mx-auto mt-6 max-w-[600px] rounded-xl px-6 pt-6 text-[15px] leading-relaxed font-medium text-black/80'>
-            <span className='font-serif text-4xl leading-none text-black/30'>“</span>
+            <span className='block text-left font-serif text-4xl leading-none text-black/30'>
+              “
+            </span>
             <TextAnimate
               delay={0.7}
               duration={1.5}

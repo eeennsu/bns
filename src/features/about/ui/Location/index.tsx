@@ -11,7 +11,7 @@ import TransportInfo from './TransportInfo';
 
 const Location: FC = () => {
   return (
-    <section className='flex flex-col gap-10 pb-14'>
+    <section className='flex flex-col gap-10 lg:pb-14'>
       <h2 className='text-center text-3xl font-bold tracking-tight text-black/80'>오시는 길</h2>
 
       <div className='grid items-start gap-10 lg:grid-cols-2'>

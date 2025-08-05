@@ -11,7 +11,7 @@ const AboutPage: FC = () => {
     <>
       <main className='mx-auto h-full bg-white pb-6'>
         <Slogan />
-        <div className='container flex flex-col gap-10 lg:gap-30 lg:pt-20'>
+        <div className='container flex flex-col gap-24 lg:gap-30 lg:pt-20'>
           <Story />
           <BriefHistory />
           <Location />
