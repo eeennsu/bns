@@ -155,6 +155,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     });
   }
 
+  revalidateTag(`${EVENT_CACHE_TAG.GET}:${eventId}`);
   revalidateTag(EVENT_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(updateEvent));
@@ -217,6 +218,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     });
   }
 
+  revalidateTag(`${EVENT_CACHE_TAG.GET}:${eventId}`);
   revalidateTag(EVENT_CACHE_TAG.GET_LIST);
 
   return new NextResponse(null, { status: 204 });

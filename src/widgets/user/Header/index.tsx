@@ -1,13 +1,17 @@
 'use client';
 
+import useModal from '@shared/hooks/useModal';
 import useScrollPosition from '@shared/hooks/useScrollPosition';
 import { cn } from '@shared/shadcn-ui/utils';
 import useFullPageScrollStore from '@shared/stores/fullPageScroll';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type FC } from 'react';
+import { MouseEvent, type FC } from 'react';
 import { MAIN_PATHS } from 'src/shared/configs/routes/mainPaths';
+
+import AdminEntryPoint from '@features/admin/ui/EntryPoint';
+import useGetSession from '@features/auth/hooks/useGetSession';
 
 import DrawerMenu from './DrawerMenu';
 import MainTitle from './MainTitle';
@@ -17,6 +21,15 @@ const Header: FC = () => {
   const pathname = usePathname();
   const { isScrolled } = useScrollPosition({ disabled: pathname === '/', threshold: 10 });
   const { activeIndex } = useFullPageScrollStore();
+
+  const { isOpen, setIsOpen, openModal, closeModal } = useModal();
+  const { session, isLoading: isSessionLoading } = useGetSession();
+
+  const onOpenLoginModal = (e: MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+
+    openModal();
+  };
 
   return (
     <header
@@ -30,7 +43,11 @@ const Header: FC = () => {
       )}
     >
       <div className='bg-g flex w-full items-center justify-between px-10 py-7 lg:px-20 lg:py-9'>
-        <Link href={MAIN_PATHS.home()} className='flex items-center gap-2 text-xl font-bold'>
+        <Link
+          href={MAIN_PATHS.home()}
+          className='flex items-center gap-2 text-xl font-bold'
+          onContextMenu={onOpenLoginModal}
+        >
           <MainTitle
             className={cn(pathname !== '/' ? (isScrolled ? 'text-white' : 'text-black/80') : '')}
           />
@@ -52,6 +69,15 @@ const Header: FC = () => {
 
         <Menus isScrolled={isScrolled} />
       </div>
+      {isOpen && (
+        <AdminEntryPoint
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          closeModal={closeModal}
+          isLoading={isSessionLoading}
+          isAuthorized={session?.isAuthorized}
+        />
+      )}
     </header>
   );
 };

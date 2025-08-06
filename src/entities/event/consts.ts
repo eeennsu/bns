@@ -38,5 +38,6 @@ export const EVENT_CONTEXT = {
 };
 
 export const EVENT_CACHE_TAG = {
+  GET: 'GET_EVENT',
   GET_LIST: 'GET_EVENT_LIST',
 };

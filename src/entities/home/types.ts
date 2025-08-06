@@ -7,3 +7,12 @@ export interface ISignatureProduct {
   description: string;
   image: string;
 }
+
+export interface ISummaryEvent {
+  id: number;
+  name: string;
+  shortDescription: string;
+  startDate: Date;
+  endDate: Date;
+  image: string;
+}

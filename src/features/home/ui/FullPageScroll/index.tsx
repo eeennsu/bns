@@ -7,8 +7,7 @@ import { type FC } from 'react';
 
 import Footer from '@widgets/user/Footer';
 
-import { IEvent } from '@entities/event/types';
-import { ISignatureProduct } from '@entities/home/types';
+import { ISignatureProduct, ISummaryEvent } from '@entities/home/types';
 
 import EventSection from './EventSection';
 import LandingSection from './LandingSection';
@@ -17,10 +16,11 @@ import SignatureSection from './SignatureSection';
 
 interface IProps {
   signatures: ISignatureProduct[];
-  events: Partial<IEvent>[];
+  events: ISummaryEvent[];
+  eventTotal: number;
 }
 
-const FullPageScroller: FC<IProps> = ({ signatures, events }) => {
+const FullPageScroller: FC<IProps> = ({ signatures, events, eventTotal }) => {
   const { activeIndex, setActiveIndex } = useFullPageScrollStore();
 
   return (
@@ -37,12 +37,13 @@ const FullPageScroller: FC<IProps> = ({ signatures, events }) => {
           <SignatureSection signatures={signatures} />
         </FullpageSection>
         <FullpageSection>
-          <EventSection events={events} />
+          <EventSection events={events} total={eventTotal} />
         </FullpageSection>
         <FullpageSection isAutoHeight>
           <Footer />
         </FullpageSection>
       </FullpageContainer>
+      {/* FullPage count = 3 */}
       <ScrollerNavigation size={3} />
     </>
   );

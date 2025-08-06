@@ -91,6 +91,9 @@ export const MAIN_PATHS = {
     root() {
       return MAIN_PATHS.root.concat('/event');
     },
+    list() {
+      return MAIN_PATHS.event.root().concat(LIST_PAGE_ROUTE);
+    },
     detail({ slug }: IPathSlug) {
       return MAIN_PATHS.event.root().concat(`/${slug}`);
     },

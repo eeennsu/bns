@@ -1,12 +1,12 @@
-import { FC } from 'react';
+// import { FC } from 'react';
 
-import getEventList from '@features/event/queries/getList';
-import EventListPopup from '@features/home/ui/EventListPopup';
+// import getEventList from '@features/event/queries/getList';
+// import EventListPopup from '@features/home/ui/EventListPopup';
 
-const EventList: FC = async () => {
-  const [error, data] = await getEventList();
+// const EventList: FC = async () => {
+//   const [error, data] = await getEventList();
 
-  return error ? null : <EventListPopup events={data.list} />;
-};
+//   return error ? null : <EventListPopup events={data.list} />;
+// };
 
-export default EventList;
+// export default EventList;

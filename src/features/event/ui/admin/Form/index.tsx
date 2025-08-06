@@ -10,7 +10,6 @@ import { Form, FormField } from '@shadcn-ui/ui';
 import { EventFormDto } from '@entities/event/types';
 import { FileWithDropzone } from '@entities/image/types';
 
-// import SharedDatePickerFormFieldRender from '@components/DatePickerFormFiledRender';
 import SharedFormFieldRender from '@components/FormFieldRender';
 import SharedFormTextareaFieldRender from '@components/FormTextareaFieldRender';
 import SharedImageFormFieldRender from '@components/ImageFormFieldRender';
