@@ -3,11 +3,8 @@ import { ProductCategorySchema } from '@shared/contracts/common';
 import { parseSchema } from '@shared/libs/parseSchema';
 import type { FC } from 'react';
 
-import BreadListContact from '@features/bread/ui/list/Contact';
 import BreadListContent from '@features/bread/ui/list/Content';
 import BreadListHead from '@features/bread/ui/list/Head';
-
-import BaseContainer from './BaseContainer';
 
 interface IParams {
   searchParams: Promise<{
@@ -21,13 +18,12 @@ const BreadListPage: FC<IParams> = async ({ searchParams }) => {
   const parsedCategory = parseSchema(ProductCategorySchema, category, FILTER_TYPES.ALL);
 
   return (
-    <>
+    <div className='flex flex-col gap-10'>
       <BreadListHead />
-      <BaseContainer>
-        <BreadListContent currentPage={page} category={parsedCategory} />
-        <BreadListContact />
-      </BaseContainer>
-    </>
+
+      <BreadListContent currentPage={page} category={parsedCategory} />
+      {/* <BreadListContact /> */}
+    </div>
   );
 };
 
