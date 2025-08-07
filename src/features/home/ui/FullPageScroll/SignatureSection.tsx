@@ -56,7 +56,7 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
           </div>
 
           {groupedSignatures?.[currentType]?.length === 0 ? (
-            <EmptyProduct />
+            <EmptyProduct size='sm' />
           ) : groupedSignatures?.[currentType]?.length > 1 ? (
             <Carousel
               opts={{
@@ -113,7 +113,7 @@ const SignatureGroupButton: FC<ISignatureGroupButtonProps> = ({
       <button
         className={cn(
           'w-fit cursor-pointer text-gray-600 hover:underline',
-          isCurrentType && 'text-black underline',
+          isCurrentType && 'text-black underline lg:text-4xl',
         )}
         {...props}
       >

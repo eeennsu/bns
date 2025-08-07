@@ -35,7 +35,7 @@ const EventSection: FC<IProps> = ({ events, total }) => {
 
         <div className='flex w-full flex-col gap-4'>
           {events.length === 0 ? (
-            <EmptyProduct />
+            <EmptyProduct size='sm' />
           ) : (
             <div className='divide-border flex flex-col divide-y bg-white lg:grow lg:justify-center'>
               {events?.map(event => (
@@ -84,7 +84,7 @@ const EventItem: FC<IEventItemProps> = ({ event }) => {
         </p>
       </div>
 
-      <div className='relative z-10 flex min-w-[160px] flex-col items-end gap-1 text-right'>
+      <div className='relative z-10 flex h-full min-w-[160px] flex-col items-end justify-end gap-1 text-right'>
         <div className='text-muted-foreground flex items-center gap-1 text-xs transition-colors duration-150 group-hover:text-white'>
           <CalendarDays className='size-4' />
           <span>

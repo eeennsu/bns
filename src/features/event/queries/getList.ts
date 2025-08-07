@@ -4,6 +4,7 @@ import db from '@db/index';
 import { events } from '@db/schemas/events';
 import { imageReferences, images } from '@db/schemas/image';
 import { fetchWithCapture } from '@shared/api/fetchWithCapture';
+import { IPageParams } from '@shared/typings/commons';
 import dayjs from 'dayjs';
 import { and, asc, count, eq, gte } from 'drizzle-orm';
 import { unstable_cacheTag as cacheTag } from 'next/cache';
@@ -11,7 +12,9 @@ import { unstable_cacheTag as cacheTag } from 'next/cache';
 import { EVENT_CACHE_TAG, EVENT_CONTEXT } from '@entities/event/consts';
 import { IMAGE_REF_VALUES } from '@entities/image/consts';
 
-const fetchEventList = async () => {
+interface IParams extends IPageParams {}
+
+const fetchEventList = async ({ page, pageSize }: IParams) => {
   'use cache';
   cacheTag(EVENT_CACHE_TAG.GET_LIST);
 
@@ -39,8 +42,9 @@ const fetchEventList = async () => {
     )
     .leftJoin(images, eq(imageReferences.imageId, images.id))
     .where(whereClause)
-    .limit(3)
-    .orderBy(events.sortOrder, asc(events.startDate));
+    .orderBy(events.sortOrder, asc(events.startDate))
+    .limit(pageSize)
+    .offset((page - 1) * pageSize);
 
   const [[{ count: total }], list] = await Promise.all([totalQuery, listQuery]);
 
@@ -50,11 +54,11 @@ const fetchEventList = async () => {
   };
 };
 
-const getEventList = () =>
+const getEventList = (params: IParams) =>
   fetchWithCapture({
     context: EVENT_CONTEXT.GET_LIST,
     fn: fetchEventList,
-    args: [],
+    args: [params],
   });
 
 export default getEventList;

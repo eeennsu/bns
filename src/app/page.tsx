@@ -8,7 +8,7 @@ import LoginExpireToast from '@features/home/ui/LoginExpireToast';
 const HomePage: FC = async () => {
   const [signatureResponse, eventResponse] = await Promise.all([
     getSignatureList(),
-    getEventList(),
+    getEventList({ page: 1, pageSize: 3 }),
   ]);
 
   const [, signatures] = signatureResponse;

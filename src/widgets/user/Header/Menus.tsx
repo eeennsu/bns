@@ -31,7 +31,7 @@ const Menus: FC<IProps> = ({ isScrolled }) => {
 
   return (
     <nav className='font-asta-sans mr-24 hidden lg:block'>
-      <div className='flex items-center gap-10'>
+      <div className='flex items-center gap-14'>
         <MenuLink
           href={MAIN_PATHS.about()}
           isCurrentRoute={getIsCurPathname(MAIN_PATHS.about())}
@@ -39,6 +39,15 @@ const Menus: FC<IProps> = ({ isScrolled }) => {
           className={cn(pathname !== '/' ? (isScrolled ? 'text-white' : 'text-black/80') : '')}
         >
           소개
+        </MenuLink>
+
+        <MenuLink
+          href={MAIN_PATHS.event.list()}
+          isCurrentRoute={getIsCurPathname(MAIN_PATHS.event.list())}
+          activeIndex={activeIndex}
+          className={cn(pathname !== '/' ? (isScrolled ? 'text-white' : 'text-black/80') : '')}
+        >
+          이벤트
         </MenuLink>
 
         <HeaderDropdownMenu

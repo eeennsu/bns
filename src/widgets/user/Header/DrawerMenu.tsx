@@ -32,6 +32,12 @@ const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName 
           <DrawerMenuItem href={MAIN_PATHS.about()} title='소개' onCloseDrawer={onCloseDrawer} />
 
           <DrawerMenuItem
+            href={MAIN_PATHS.event.list()}
+            title='이벤트'
+            onCloseDrawer={onCloseDrawer}
+          />
+
+          <DrawerMenuItem
             href={MAIN_PATHS.product.bread.list()}
             title='빵'
             onCloseDrawer={onCloseDrawer}
