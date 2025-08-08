@@ -23,7 +23,7 @@ const LinkButton: FC<PropsWithChildren<IProps>> = ({
     <Link href={href} target={target} rel={rel} className='w-fit'>
       <Button
         size={size || 'xl'}
-        variant={variant || 'wood'}
+        variant={variant || 'modern'}
         className={cn('gap-1.5 px-8 py-3 font-medium shadow-md', className)}
         {...buttonProps}
       >

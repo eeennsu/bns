@@ -13,7 +13,7 @@ export const SITE_LINK = ''; // TODO: 링크 추가
 export const BRAND_INFO = {
   TEL: '0507-1380-3068',
   LOCATION: '인천 서구 서곶로 45 B108호',
-  MAIL: '보겸s이메일@naver.com',
+  MAIL: 'khgood@naver.com',
   BUSINESS_HOURS: '매일 오전 8시 - 오후 8시',
 };
 

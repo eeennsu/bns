@@ -15,3 +15,5 @@ export const FILTER_TYPES = {
 export const FIELD_ARRAY_ID = 'fid' as const;
 
 export const UNKNOWN_ERROR_MESSAGE = 'unknown error';
+
+export type PageIndex = 0 | 1 | 2;

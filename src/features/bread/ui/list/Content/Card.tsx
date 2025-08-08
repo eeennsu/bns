@@ -15,25 +15,28 @@ interface Props {
 const BreadCard: FC<Props> = ({ bread }) => {
   return (
     <Link
-      className='overflow-hidden rounded-lg transition-shadow sm:bg-[#FFFFF0]/80 sm:shadow-sm sm:hover:shadow-md'
-      href={MAIN_PATHS.product.bread.detail({ slug: bread.id })}
+      href={MAIN_PATHS.product.bread.detail({ slug: bread?.id })}
       scroll={false}
+      className='group flex flex-col gap-4 overflow-hidden'
     >
-      <div className='relative'>
-        <div className='relative h-40 w-full sm:h-64'>
-          <Image src={bread.image} alt={bread.name} fill className='object-cover' />
-        </div>
-        <div className='absolute top-3 left-3 flex flex-wrap items-center gap-1'>
-          {bread.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
-          {bread.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
+      <div className='relative aspect-square w-full overflow-hidden'>
+        <Image
+          src={bread?.image}
+          alt={bread?.name}
+          fill
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+          className='object-cover transition-transform duration-300 group-hover:scale-105'
+        />
+
+        <div className='absolute top-4 left-4 flex flex-wrap items-center gap-2'>
+          {bread?.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
+          {bread?.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
         </div>
       </div>
 
-      <div className='p-3 sm:space-y-2 sm:p-5'>
-        <h3 className='font-gowun-dodum line-clamp-2 text-center text-base font-bold text-[#8B4513] sm:text-left sm:text-xl'>
-          {bread.name}
-        </h3>
-      </div>
+      <h3 className='line-clamp-2 text-lg font-bold tracking-tight text-black md:text-xl'>
+        {bread?.name}
+      </h3>
     </Link>
   );
 };

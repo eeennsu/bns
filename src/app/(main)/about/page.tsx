@@ -9,9 +9,9 @@ import Story from '@features/about/ui/Story';
 const AboutPage: FC = () => {
   return (
     <>
-      <main className='from-ivory mx-auto h-full space-y-5 bg-gradient-to-br to-[#E8D0A9] pt-18 pb-6 sm:space-y-20 lg:py-19'>
+      <main className='h-full bg-white pb-6 lg:pb-12'>
         <Slogan />
-        <div className='container flex flex-col gap-10 lg:gap-20'>
+        <div className='container flex flex-col !gap-24 lg:!gap-40 lg:!pt-20'>
           <Story />
           <BriefHistory />
           <Location />

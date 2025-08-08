@@ -27,7 +27,7 @@ const BreadListContent: FC<IProps> = async ({ currentPage, category }) => {
 
   return (
     <>
-      <section className='flex flex-wrap justify-center gap-2 sm:justify-start'>
+      <section className='flex flex-wrap justify-center gap-2 lg:justify-start'>
         {BREAD_CATEGORY_SELECT.map(categoryItem => (
           <CategoryLink
             key={categoryItem.id}
@@ -46,7 +46,7 @@ const BreadListContent: FC<IProps> = async ({ currentPage, category }) => {
       {error ? (
         <ErrorMessage />
       ) : (
-        <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
+        <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-9 lg:gap-y-16 xl:grid-cols-4'>
           {data?.list.map(bread => (
             <BreadCard key={bread.id} bread={bread} />
           ))}

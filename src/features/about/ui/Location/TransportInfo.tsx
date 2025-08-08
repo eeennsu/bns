@@ -8,12 +8,12 @@ interface IProps {
 
 const TransportInfo: FC<IProps> = ({ icon, title, description }) => {
   return (
-    <div className='bg-ivory rounded-lg p-4 shadow-sm'>
-      <div className='mb-2 flex items-center gap-2'>
-        <span className='text-wood inline-flex size-5 items-center justify-center'>{icon}</span>
-        <h4 className='text-wood font-bold'>{title}</h4>
+    <div className='space-y-2 rounded-lg bg-white/60 px-4 py-3'>
+      <div className='flex items-center gap-3 text-black/80'>
+        <span className='size-5'>{icon}</span>
+        <h4 className='text-[17px] font-semibold'>{title}</h4>
       </div>
-      <p className='text-wood/85'>{description}</p>
+      <div className='pl-7 text-[15px] leading-relaxed text-black/70'>{description}</div>
     </div>
   );
 };

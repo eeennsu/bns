@@ -42,32 +42,31 @@ const Pagination: FC<IProps> = ({
     <ShadcnPagination className='flex justify-center'>
       <PaginationContent
         className={cn(
-          'inline-flex items-center gap-3 rounded-lg bg-[#FFFFF0]/80 p-1.5 shadow-sm',
+          'inline-flex items-center gap-2 rounded-md bg-white px-3 py-2',
           contentClassName,
         )}
       >
         <PaginationItem>
           <PaginationPrevious
             className={cn(
-              'hover:bg-wood/10',
-              isPrevPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-25',
+              'text-muted-foreground rounded-md px-2 py-1 text-sm transition-colors duration-150 hover:bg-gray-100',
+              isPrevPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
               arrowClassName,
             )}
             onClick={() => onChangePage(currentPage - 1)}
           />
         </PaginationItem>
 
-        <div className='mx-1 flex items-center gap-1.5'>
+        <div className='flex items-center gap-1'>
           {Array.from({ length: maxEndPage }, (_, index) => index + 1).map(page => (
             <PaginationItem key={`pageNum-${page}`}>
               <PaginationLink
                 aria-current={currentPage === page ? 'page' : undefined}
                 className={cn(
-                  'hover:bg-wood/10',
-                  currentPage === page && 'bg-wood hover:bg-wood text-white hover:text-white',
+                  'text-muted-foreground min-w-[32px] rounded-sm px-2 py-1 text-sm transition-colors duration-150 hover:bg-gray-100',
+                  currentPage === page && 'bg-black/80 text-white hover:bg-black hover:text-white',
                   buttonClassName,
                 )}
-                key={page}
                 onClick={() => onChangePage(page)}
               >
                 {page}
@@ -79,8 +78,8 @@ const Pagination: FC<IProps> = ({
         <PaginationItem>
           <PaginationNext
             className={cn(
-              'hover:bg-wood/10',
-              isNextPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-25',
+              'text-muted-foreground rounded-md px-2 py-1 text-sm transition-colors duration-150 hover:bg-gray-100',
+              isNextPage ? 'opacity-100' : 'pointer-events-none cursor-default opacity-50',
               arrowClassName,
             )}
             onClick={() => onChangePage(currentPage + 1)}

@@ -29,9 +29,10 @@ const PageModal: FC<PropsWithChildren<IProps>> = ({ className, children }) => {
     <Dialog defaultOpen open={isOpen} onOpenChange={setIsOpen}>
       <DialogOverlay>
         <DialogContent
-          closeButtonClassName='cursor-pointer hover:bg-gray-100 rounded-full p-1.5 focus:ring-0 focus:ring-offset-0'
+          showCloseButton
+          closeButtonClassName='cursor-pointer hover:bg-gray-100 p-1.5 focus:ring-0 focus:ring-offset-0'
           className={cn(
-            'overflow-y-auto sm:max-h-[85vh] sm:max-w-[70vw] 2xl:max-w-[55vw]',
+            'max-h-[90vh] overflow-y-auto rounded-sm sm:max-h-[85vdh] 2xl:max-w-[65vw]',
             className,
           )}
         >

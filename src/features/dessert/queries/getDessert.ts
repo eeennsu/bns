@@ -16,7 +16,7 @@ interface IParams {
 
 const fetchDessert = async ({ id }: IParams) => {
   'use cache';
-  cacheTag(DESSERT_CACHE_TAG.GET_LIST);
+  cacheTag(`${DESSERT_CACHE_TAG.GET_LIST}:${id}`);
 
   const dessertQuery = await db
     .select({

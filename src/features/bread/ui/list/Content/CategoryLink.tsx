@@ -12,10 +12,8 @@ const CategoryLink: FC<PropsWithChildren<IProps>> = ({ selected, children, ...pr
     <Link
       replace
       className={cn(
-        'cursor-pointer rounded-full px-4 py-2 text-sm',
-        selected
-          ? 'bg-[#8B4513] text-[#FFFFF0]'
-          : 'bg-[#FFFFF0]/70 text-[#3E2723] hover:bg-[#8B4513]/10',
+        'cursor-pointer rounded-full px-4 py-2 text-sm transition-colors',
+        selected ? 'bg-black text-white' : 'bg-neutral-100 text-neutral-800 hover:bg-neutral-200',
       )}
       scroll={false}
       {...props}
@@ -24,5 +22,4 @@ const CategoryLink: FC<PropsWithChildren<IProps>> = ({ selected, children, ...pr
     </Link>
   );
 };
-
 export default CategoryLink;

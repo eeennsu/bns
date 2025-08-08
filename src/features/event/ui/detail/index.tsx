@@ -1,48 +1,60 @@
-import { ScrollArea } from '@shared/shadcn-ui/ui/scroll-area';
+import { dateFormat } from '@shared/libs/date';
 import { ProductData } from '@shared/typings/commons';
+import UtilLocalImage from '@shared/utils/utilImage';
 import dayjs from 'dayjs';
-import { CalendarDays } from 'lucide-react';
+import { ArrowLeft, CalendarDays } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FC } from 'react';
 
 import { IEvent } from '@entities/event/types';
+
+import EventLongDescription from './DynamicEventLongDescription';
 
 interface IProps {
   event: ProductData<IEvent>;
 }
 
-const EventPopup: FC<IProps> = ({ event }) => {
-  const dateFormat = (date: string) => {
-    return dayjs(date).format('YYYY년 MM월 DD일 ddd');
-  };
+const EventDetail: FC<IProps> = ({ event }) => {
+  const { name, startDate, endDate, longDescription, image } = event;
+  const isUpcoming = dayjs().isBefore(startDate);
+  const status = isUpcoming ? '예정' : '진행 중';
+  const statusStyle = isUpcoming ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800';
 
   return (
-    <div className='flex w-full flex-col gap-1.5 p-4 text-[#2f2f2f]'>
-      <figure className='relative flex max-h-[350px] w-full flex-1 overflow-hidden rounded-xl shadow-sm'>
-        <Image
-          src={event.image}
-          alt={event.name}
-          fill
-          className='w-full object-cover transition-transform duration-300 hover:scale-[1.02]'
-        />
-        <div className='absolute right-0 bottom-0 flex items-center gap-2 rounded-tl-md bg-black/50 px-3 py-2 text-xs tracking-wide text-white backdrop-blur-sm'>
-          <CalendarDays className='size-4' />
-          진행 기간
-          <span>
-            {dateFormat(event.startDate.toString())} ~ {dateFormat(event.endDate.toString())}
-          </span>
-        </div>
+    <div className='flex flex-col gap-4'>
+      <Link
+        href='/event'
+        className='text-muted-foreground hidden items-center gap-1 text-sm transition-colors hover:text-black lg:inline-flex'
+      >
+        <ArrowLeft className='size-4' />
+        이벤트 목록으로
+      </Link>
+
+      <figure className='relative mx-auto aspect-[16/9] w-full overflow-hidden rounded-lg bg-gray-100'>
+        <Image src={image || UtilLocalImage.SVGS.GIFT} alt={name} fill className='object-cover' />
       </figure>
 
-      <h3 className='mt-3 text-xl leading-tight font-semibold tracking-tight text-gray-900'>
-        {event.name}
-      </h3>
+      <div className='mt-5 flex flex-col gap-6'>
+        <h1 className='text-xl font-bold tracking-tight text-black lg:text-3xl'>{name}</h1>
 
-      <ScrollArea className='h-fit max-h-[100px] rounded-lg px-3 text-sm leading-relaxed text-gray-700'>
-        {event.shortDescription}
-      </ScrollArea>
+        <div className='text-muted-foreground flex flex-wrap items-center gap-2 text-sm lg:text-base'>
+          <div className='flex items-center gap-1.5'>
+            <CalendarDays className='size-4' />
+            <span>
+              {dateFormat(startDate)} ~ {dateFormat(endDate)}
+            </span>
+          </div>
+
+          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusStyle}`}>
+            {status}
+          </span>
+        </div>
+      </div>
+
+      <EventLongDescription description={longDescription} />
     </div>
   );
 };
 
-export default EventPopup;
+export default EventDetail;

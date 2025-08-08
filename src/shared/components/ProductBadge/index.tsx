@@ -1,16 +1,12 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import type { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
-const badgeVariants = cva('rounded px-2 py-1 text-[10px] font-bold text-[#FFFFF0] sm:text-xs', {
+const badgeVariants = cva('rounded-md px-2.5 py-1 text-[11px] font-bold text-ivory sm:text-xs', {
   variants: {
     variant: {
-      default: 'bg-[#1f1c1c]',
-      signature: 'bg-[#8B4513]',
-      new: 'bg-[#E74C3C]',
+      signature: 'bg-slate-900',
+      new: 'bg-rose-500',
     },
-  },
-  defaultVariants: {
-    variant: 'default',
   },
 });
 
