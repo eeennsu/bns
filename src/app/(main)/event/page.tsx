@@ -11,7 +11,7 @@ const EventListPage: FC<IProps> = async ({ searchParams }) => {
   const { page = '1' } = await searchParams;
 
   return (
-    <div className='container !gap-14 pt-16'>
+    <div className='container !gap-6'>
       <EventListHead />
       <EventListContent currentPage={page} />
     </div>

@@ -17,11 +17,14 @@ const EventCard: FC<IProps> = ({ event, index }) => {
       href={MAIN_PATHS.event.detail({ slug: event.id })}
       className='flex flex-col gap-1 p-5 transition-colors hover:bg-gray-100 lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:p-8'
     >
-      <div className='flex items-center gap-7'>
+      <div className='flex items-center gap-4 lg:gap-7'>
         <span className='text-sm font-bold text-gray-600'>{index}</span>
-        <span className='text-lg font-semibold text-black/80'>{event.name}</span>
+        <p className='line-clamp-3 text-base font-medium text-ellipsis text-black/80 lg:text-lg'>
+          {event.name}
+        </p>
       </div>
-      <div className='text-right text-black/70'>
+
+      <div className='self-end text-black/70 lg:self-auto'>
         <span className='mr-1 hidden text-xs sm:inline-block'>진행 기간 : </span>
         <span className='text-xs font-medium text-black lg:text-base'>
           {dateFormat(event.startDate)} ~ {dateFormat(event.endDate)}

@@ -22,7 +22,7 @@ const EventDetail: FC<IProps> = ({ event }) => {
   const statusStyle = isUpcoming ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800';
 
   return (
-    <div className='lg:pt- flex flex-col gap-4 px-4 pt-4 pb-10 lg:px-0 lg:pt-0'>
+    <div className='flex flex-col gap-4'>
       <Link
         href='/event'
         className='text-muted-foreground hidden items-center gap-1 text-sm transition-colors hover:text-black lg:inline-flex'
