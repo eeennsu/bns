@@ -15,32 +15,28 @@ interface Props {
 const BreadCard: FC<Props> = ({ bread }) => {
   return (
     <Link
-      href={MAIN_PATHS.product.bread.detail({ slug: bread.id })}
+      href={MAIN_PATHS.product.bread.detail({ slug: bread?.id })}
       scroll={false}
-      className='group flex flex-col overflow-hidden border-neutral-200 bg-white transition-all hover:border-black hover:shadow-md'
+      className='group flex flex-col gap-4 overflow-hidden'
     >
-      {/* Image */}
-      <div className='relative h-40 w-full sm:h-64'>
+      <div className='relative aspect-square w-full overflow-hidden'>
         <Image
-          src={bread.image}
-          alt={bread.name}
+          src={bread?.image}
+          alt={bread?.name}
           fill
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           className='object-cover transition-transform duration-300 group-hover:scale-105'
         />
-        {/* Badges */}
-        <div className='absolute top-3 left-3 flex flex-wrap items-center gap-2'>
-          {bread.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
-          {bread.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
+
+        <div className='absolute top-4 left-4 flex flex-wrap items-center gap-2'>
+          {bread?.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
+          {bread?.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
         </div>
       </div>
 
-      {/* Content */}
-      <div className='flex flex-col gap-1 p-4 sm:p-5'>
-        <h3 className='line-clamp-2 text-center text-base font-semibold text-black sm:text-left sm:text-lg'>
-          {bread.name}
-        </h3>
-        <p>{bread.description}</p>
-      </div>
+      <h3 className='line-clamp-2 text-lg font-bold tracking-tight text-black md:text-xl'>
+        {bread?.name}
+      </h3>
     </Link>
   );
 };

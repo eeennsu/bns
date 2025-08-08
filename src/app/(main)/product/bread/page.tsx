@@ -18,11 +18,9 @@ const BreadListPage: FC<IParams> = async ({ searchParams }) => {
   const parsedCategory = parseSchema(ProductCategorySchema, category, FILTER_TYPES.ALL);
 
   return (
-    <div className='flex flex-col gap-10'>
+    <div className='flex flex-col gap-4 lg:gap-6'>
       <BreadListHead />
-
       <BreadListContent currentPage={page} category={parsedCategory} />
-      {/* <BreadListContact /> */}
     </div>
   );
 };

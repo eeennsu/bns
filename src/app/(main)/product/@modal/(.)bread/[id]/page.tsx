@@ -12,7 +12,7 @@ const DetailBreadModalPage: FC<IParams> = async ({ params }) => {
   const breadId = (await params)?.id || '';
 
   return (
-    <PageModal className='bg-[#FFFFF0]'>
+    <PageModal>
       <DetailBreadContent breadId={breadId} />
     </PageModal>
   );
