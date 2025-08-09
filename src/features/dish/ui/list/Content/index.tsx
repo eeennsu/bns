@@ -28,7 +28,7 @@ const DishListContent: FC<IProps> = async ({ currentPage, category }) => {
   });
 
   return (
-    <section className='flex flex-col gap-4 lg:gap-6'>
+    <section className='flex flex-col gap-4 lg:gap-6 lg:px-24'>
       <div className='flex flex-wrap justify-center gap-2 sm:justify-start'>
         {DISH_CATEGORY_SELECT.map(categoryItem => (
           <CategoryLink
@@ -48,7 +48,7 @@ const DishListContent: FC<IProps> = async ({ currentPage, category }) => {
       {error ? (
         <ErrorMessage />
       ) : (
-        <div className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
+        <div className='grid grid-cols-2 gap-4 md:gap-8 lg:grid-cols-3 lg:gap-14'>
           {data.list.length > 0 ? (
             data?.list.map(dish => (
               <ListCardItem

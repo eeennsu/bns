@@ -26,6 +26,7 @@ const fetchDish = async ({ id }: IParams) => {
       price: dishes.price,
       isSignature: dishes.isSignature,
       isNew: dishes.isNew,
+      ingredients: dishes.ingredients,
       image: images.url,
     })
     .from(dishes)

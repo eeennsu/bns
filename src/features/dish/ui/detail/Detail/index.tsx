@@ -8,6 +8,8 @@ import { IDish } from '@entities/dish/types';
 import DrawerAnimation from '@components/DrawerAnimation';
 import ProductBadge from '@components/ProductBadge';
 
+import Ingredients from './Ingredients';
+
 interface IProps {
   dish: ProductData<IDish>;
 }
@@ -51,6 +53,10 @@ const DetailDish: FC<IProps> = async ({ dish }) => {
               {dish.description}
             </p>
           </div>
+
+          <Separator />
+
+          <Ingredients ingredients={dish?.ingredients || []} />
         </div>
       </div>
     </DrawerAnimation>

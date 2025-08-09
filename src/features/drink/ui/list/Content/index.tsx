@@ -27,7 +27,7 @@ const DrinkListContent: FC<IProps> = async ({ currentPage, category }) => {
   });
 
   return (
-    <section className='flex flex-col gap-4 lg:gap-6'>
+    <section className='flex flex-col gap-4 lg:gap-6 lg:px-24'>
       <div className='flex flex-wrap justify-center gap-2 sm:justify-start'>
         {DRINK_CATEGORY_SELECT.map(categoryItem => (
           <CategoryLink
