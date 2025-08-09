@@ -2,8 +2,6 @@ import { FC } from 'react';
 
 import DetailDishContent from '@app/(main)/product/dish/DetailDishContent';
 
-import PageModal from '@components/PageModal';
-
 interface IParams {
   params: Promise<{ id: string }>;
 }
@@ -11,11 +9,7 @@ interface IParams {
 const DetailDishModalPage: FC<IParams> = async ({ params }) => {
   const dishId = (await params).id;
 
-  return (
-    <PageModal className='bg-[#FFFFF0]'>
-      <DetailDishContent dishId={dishId} />
-    </PageModal>
-  );
+  return <DetailDishContent dishId={dishId} />;
 };
 
 export default DetailDishModalPage;

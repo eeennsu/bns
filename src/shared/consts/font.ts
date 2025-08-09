@@ -5,9 +5,6 @@ import {
   Baloo_2,
   Gowun_Dodum,
   Montserrat,
-  Asta_Sans,
-  // Gothic_A1,
-  // Hahmlet
 } from 'next/font/google';
 
 export const NANUM_GOTHIC = Nanum_Gothic({
@@ -56,27 +53,4 @@ export const MONTSERRAT = Montserrat({
   variable: '--font-montserrat',
   display: 'swap',
   preload: false,
-});
-
-// export const GOTHIC_A1 = Gothic_A1({
-//   subsets: ['latin'],
-//   weight: ['400', '700'],
-//   variable: '--font-gothic-a1',
-//   display: 'swap',
-//   preload: false,
-// });
-
-// export const HAHMLET = Hahmlet({
-//   subsets: ['latin'],
-//   weight: ['400', '700'],
-//   variable: '--font-hahmlet',
-//   display: 'swap',
-//   preload: false,
-// });
-
-export const ASTA_SANS = Asta_Sans({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-asta-sans',
-  display: 'swap',
 });

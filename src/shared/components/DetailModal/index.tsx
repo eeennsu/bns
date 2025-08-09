@@ -1,32 +1,25 @@
 'use client';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState, type FC, type PropsWithChildren } from 'react';
+import { type FC, type PropsWithChildren } from 'react';
 
 import { Dialog, DialogContent, DialogOverlay, DialogTitle } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
 
 interface IProps {
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
   className?: string;
 }
 
-const PageModal: FC<PropsWithChildren<IProps>> = ({ className, children }) => {
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (!isOpen) {
-      const timer = setTimeout(() => {
-        router.back();
-      }, 300);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen, router]);
-
+const DetailModal: FC<PropsWithChildren<IProps>> = ({
+  className,
+  children,
+  isOpen,
+  onOpenChange,
+}) => {
   return (
-    <Dialog defaultOpen open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog defaultOpen open={isOpen} onOpenChange={onOpenChange}>
       <DialogOverlay>
         <DialogContent
           showCloseButton
@@ -46,4 +39,4 @@ const PageModal: FC<PropsWithChildren<IProps>> = ({ className, children }) => {
   );
 };
 
-export default PageModal;
+export default DetailModal;

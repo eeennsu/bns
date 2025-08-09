@@ -20,7 +20,7 @@
   --font-gowun-dodum: 'Gowun Dodum', sans-serif;
   --font-montserrat: 'Montserrat', sans-serif;
   --font-playwrite: 'Playwrite', sans-serif;
-  --font-asta-sans: 'Asta Sans', sans-serif;
+  /* --font-asta-sans: 'Asta Sans', sans-serif, cursive, serif; */
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

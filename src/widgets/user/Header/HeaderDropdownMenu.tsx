@@ -28,7 +28,7 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
       <Link
         href={href}
         className={cn(
-          'cursor-pointer text-lg font-semibold transition-colors duration-700',
+          'cursor-pointer font-medium transition-colors duration-700',
           activeIndex === 0 ? 'text-white' : 'text-black',
           className,
         )}

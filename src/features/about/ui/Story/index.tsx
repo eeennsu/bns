@@ -6,7 +6,7 @@ const Story: FC = () => {
   return (
     <section className='grid items-center gap-x-10 gap-y-4 rounded-xl lg:grid-cols-2'>
       <div className='order-2 space-y-4 pt-10 lg:order-1'>
-        <h1 className='font-asta-sans mb-6 text-center text-4xl font-bold text-black sm:text-left xl:text-4xl'>
+        <h1 className='font-nanum-gothic mb-6 text-center text-4xl font-bold text-black sm:text-left xl:text-4xl'>
           특별하게 먹고 싶은 빵
         </h1>
         <div className='space-y-4 text-black/85'>
