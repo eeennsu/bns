@@ -14,7 +14,7 @@ interface Props {
 
 const BreadCard: FC<Props> = ({ bread }) => {
   return (
-    <Link href={MAIN_PATHS.product.bread.detail({ slug: bread?.id })} scroll>
+    <Link href={MAIN_PATHS.product.bread.detail({ slug: bread?.id })} scroll={false}>
       <div className='group flex flex-col gap-4 overflow-hidden'>
         <div className='relative aspect-square w-full overflow-hidden'>
           <Image
