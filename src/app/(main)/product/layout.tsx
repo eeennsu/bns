@@ -1,4 +1,6 @@
-import type { FC, PropsWithChildren, ReactNode } from 'react';
+import { Suspense, type FC, type PropsWithChildren, type ReactNode } from 'react';
+
+import ModalShell from './ModalShell';
 
 interface IProps {
   modal: ReactNode;
@@ -8,7 +10,9 @@ const ProductLayout: FC<PropsWithChildren<IProps>> = ({ children, modal }) => {
   return (
     <main className='container'>
       {children}
-      {modal}
+      <Suspense fallback={null}>
+        <ModalShell>{modal}</ModalShell>
+      </Suspense>
     </main>
   );
 };

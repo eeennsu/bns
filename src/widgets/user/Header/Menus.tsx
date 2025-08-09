@@ -30,7 +30,7 @@ const Menus: FC<IProps> = ({ isScrolled }) => {
   }, [pathname]);
 
   return (
-    <nav className='font-asta-sans mr-24 hidden lg:block'>
+    <nav className='mr-24 hidden lg:block'>
       <div className='flex items-center gap-14'>
         <MenuLink
           href={MAIN_PATHS.about()}

@@ -131,7 +131,7 @@ interface ISignatureCardProps {
 const SignatureCard: FC<ISignatureCardProps> = ({ signature }) => {
   return (
     <Link
-      href={MAIN_PATHS.product[signature.type].detail({ slug: signature.id })}
+      href={MAIN_PATHS.product[signature.type].list()}
       className='flex h-[330px] w-full flex-col items-center rounded-xl pl-3'
     >
       <div className='relative h-[95%] w-full'>

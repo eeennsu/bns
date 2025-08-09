@@ -2,8 +2,6 @@ import { FC } from 'react';
 
 import DetailSauceContent from '@app/(main)/product/sauce/DetailSauceContent';
 
-import PageModal from '@components/PageModal';
-
 interface IParams {
   params: Promise<{ id: string }>;
 }
@@ -11,11 +9,7 @@ interface IParams {
 const DetailSauceModalPage: FC<IParams> = async ({ params }) => {
   const sauceId = (await params).id;
 
-  return (
-    <PageModal className='bg-[#FFFFF0]'>
-      <DetailSauceContent sauceId={sauceId} />
-    </PageModal>
-  );
+  return <DetailSauceContent sauceId={sauceId} />;
 };
 
 export default DetailSauceModalPage;

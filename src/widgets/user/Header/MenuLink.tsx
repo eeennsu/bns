@@ -40,7 +40,7 @@ const MenuLink: FC<PropsWithChildren<IProps>> = ({
   return (
     <Link
       className={cn(
-        'relative text-lg font-semibold transition-colors duration-700',
+        'relative font-medium transition-colors duration-700',
         isCurrentRoute && 'after:w-full',
         activeIndex === 0 ? 'text-white' : 'text-black',
         className,
