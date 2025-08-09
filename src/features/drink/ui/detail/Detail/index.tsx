@@ -15,7 +15,7 @@ interface IProps {
 const DetailDrink: FC<IProps> = async ({ drink }) => {
   return (
     <DrawerAnimation>
-      <div className='mx-auto w-full max-w-5xl items-center bg-white p-3 lg:grid lg:grid-cols-2 lg:gap-x-20 lg:p-10'>
+      <div className='mx-auto w-full max-w-5xl items-center bg-white p-3 lg:grid lg:grid-cols-2 lg:gap-x-20 lg:p-5'>
         <div className='flex flex-col gap-3 lg:gap-5'>
           <div className='relative aspect-square w-full overflow-hidden rounded-sm shadow-md'>
             <Image

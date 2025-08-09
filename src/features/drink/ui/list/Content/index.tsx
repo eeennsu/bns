@@ -48,7 +48,7 @@ const DrinkListContent: FC<IProps> = async ({ currentPage, category }) => {
       {error ? (
         <ErrorMessage />
       ) : (
-        <div className='grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-9 lg:gap-y-16 xl:grid-cols-4'>
+        <div className='grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-7'>
           {data.list.map(drink => (
             <ListCardItem
               key={drink.id}

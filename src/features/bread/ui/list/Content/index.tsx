@@ -48,7 +48,7 @@ const BreadListContent: FC<IProps> = async ({ currentPage, category }) => {
       {error ? (
         <ErrorMessage />
       ) : (
-        <div className='grid grid-cols-2 gap-4 md:gap-8 lg:grid-cols-3 lg:gap-14'>
+<div className='grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-7'>
           {data.list.length > 0 ? (
             data?.list.map(bread => (
               <ListCardItem

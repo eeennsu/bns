@@ -1,3 +1,5 @@
+import { IBundleDisplay } from './types';
+
 export const ADMIN_BUNDLE_KEYS = {
   GET: 'GET_BUNDLE',
   GET_LIST: 'GET_BUNDLE_LIST',
@@ -85,3 +87,11 @@ export const BUNDLE_CACHE_TAG = {
   GET: 'GET_BUNDLE',
   GET_LIST: 'GET_BUNDLE_LIST',
 };
+
+export const CATEGORY_ORDER: (keyof IBundleDisplay['products'])[] = [
+  'breads',
+  'sauces',
+  'dishes',
+  'drinks',
+  'desserts',
+];

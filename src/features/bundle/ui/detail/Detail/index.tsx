@@ -5,6 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { getDetailPath, sortItems } from '@features/bundle/libs/detailBundle';
+
+import { CATEGORY_ORDER } from '@entities/bundle/consts';
 import { IBundleDisplay } from '@entities/bundle/types';
 
 interface IProps {
@@ -16,41 +19,11 @@ const DetailBundle: FC<IProps> = ({ bundle }) => {
     ((bundle.price - bundle.discountedPrice) / bundle.price) * 100,
   );
 
-  const CATEGORY_ORDER: (keyof IBundleDisplay['products'])[] = [
-    'breads',
-    'sauces',
-    'dishes',
-    'drinks',
-    'desserts',
-  ];
-
-  const getDetailPath = (type: keyof IBundleDisplay['products'], id: number) => {
-    const pathMapper = {
-      breads: '/product/bread/', // 실제 라우팅 경로에 따라 수정 필요
-      sauces: '/product/sauce/',
-      dishes: '/product/dish/',
-      drinks: '/product/drink/',
-      desserts: '/product/dessert/',
-    } as const;
-
-    return `${pathMapper[type]}${encodeURIComponent(id)}`;
-  };
-
-  const sortItems = (items: IBundleDisplay['products'][keyof IBundleDisplay['products']]) =>
-    [...items].sort((a, b) => {
-      if (a.quantity !== b.quantity) return a.quantity - b.quantity;
-      return a.name.localeCompare(b.name, 'ko');
-    });
-
   return (
-    <section className='flex flex-col gap-6'>
-      {/* 이미지 리스트 */}
-      <div className='grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4'>
+    <section className='flex flex-col gap-8 max-lg:mt-5 lg:gap-4'>
+      <div className='flex flex-wrap justify-center gap-4'>
         {bundle.images.map((img, idx) => (
-          <div
-            key={img.id ?? idx}
-            className='bg-muted relative aspect-square w-full overflow-hidden rounded-xl border shadow-sm'
-          >
+          <div key={img.id ?? idx} className='relative aspect-square w-[45%] lg:w-[30%]'>
             <Image
               src={img.url}
               alt={`bundle image ${idx + 1}`}
@@ -62,41 +35,43 @@ const DetailBundle: FC<IProps> = ({ bundle }) => {
         ))}
       </div>
 
-      {/* 이름 + 가격 */}
-      <div>
-        <h2 className='mb-2 text-xl font-bold text-[#4E342E]'>{bundle.name}</h2>
+      <div className='px-1 lg:px-2'>
+        <h2 className='mb-3 text-xl font-bold text-black/80'>{bundle.name}</h2>
 
         {bundle.discountedPrice < bundle.price ? (
-          <div className='flex items-center gap-3'>
-            <span className='text-wood text-2xl font-bold'>
-              {bundle.discountedPrice.toLocaleString()}원
-            </span>
-            <span className='text-base text-[#9E9E9E] line-through'>
+          <div className='flex flex-wrap items-center gap-3 max-lg:items-end max-lg:justify-end lg:mb-4'>
+            <span className='text-base text-gray-400 line-through'>
               {bundle.price.toLocaleString()}원
             </span>
-            <Badge variant='default' className='text-sm'>
+            <span className='text-2xl font-bold text-black'>
+              {bundle.discountedPrice.toLocaleString()}원
+            </span>
+
+            <Badge variant='secondary' className='bg-black/80 text-sm font-medium text-white'>
               {discountPercentage}% 할인
             </Badge>
           </div>
         ) : (
-          <span className='text-xl font-bold text-[#6D4C41]'>
+          <span className='text-xl font-bold text-black/80 lg:mb-4'>
             {bundle.price.toLocaleString()}원
           </span>
         )}
       </div>
 
-      {/* 구성 목록 */}
-      <ul className='mt-3 rounded-lg text-sm text-[#5D4037]'>
+      <ul className='divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white text-sm text-gray-700'>
         {CATEGORY_ORDER.flatMap(type =>
           sortItems(bundle.products[type]).map((item, index) => (
             <li
               key={`${type}-${item.id}-${index}`}
-              className='flex items-center gap-2 border-b border-[#e8e2d8] py-1.5 last:border-none sm:py-2'
+              className='flex items-center justify-between p-3'
             >
-              <Link href={getDetailPath(type, item.id)} className='hover:underline'>
+              <Link
+                href={getDetailPath(type, item.id)}
+                className='hover:text-black hover:underline'
+              >
                 {item.name}
               </Link>
-              <span className='text-[#9E9E9E]'>× {item.quantity}</span>
+              <span className='text-gray-500'>× {item.quantity}</span>
             </li>
           )),
         )}
