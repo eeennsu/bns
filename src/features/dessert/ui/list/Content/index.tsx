@@ -1,34 +1,36 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
+import { MAIN_PATHS } from '@shared/configs/routes/mainPaths';
 import { ProductCategory } from '@shared/typings/commons';
 import type { FC } from 'react';
 
-import CategoryLink from '@features/bread/ui/list/Content/CategoryLink';
-import getDrinkList from '@features/drink/queries/getList';
+import CategoryLink from '@app/(main)/product/CategoryLink';
+import ListCardItem from '@app/(main)/product/ListCardItem';
 
-import { DRINK_CATEGORY_SELECT } from '@entities/drink/consts';
+import getDessertList from '@features/dessert/queries/getList';
+import EmptyProduct from '@features/home/ui/FullPageScroll/EmptyProduct';
+
+import { DESSERT_CATEGORY_SELECT } from '@entities/dessert/consts';
 
 import { PER_PAGE_SIZE } from '@consts/commons';
 
 import Pagination from '@components/Pagination';
-
-import DrinkCard from './Card';
 
 interface IProps {
   currentPage: string;
   category: ProductCategory;
 }
 
-const DrinkListContent: FC<IProps> = async ({ currentPage, category }) => {
-  const [error, data] = await getDrinkList({
+const DessertListContent: FC<IProps> = async ({ currentPage, category }) => {
+  const [error, data] = await getDessertList({
     page: +currentPage,
     pageSize: PER_PAGE_SIZE.PRODUCT,
     category,
   });
 
   return (
-    <>
+    <section className='flex flex-col gap-4 lg:gap-6'>
       <div className='flex flex-wrap justify-center gap-2 sm:justify-start'>
-        {DRINK_CATEGORY_SELECT.map(categoryItem => (
+        {DESSERT_CATEGORY_SELECT.map(categoryItem => (
           <CategoryLink
             key={categoryItem.id}
             selected={categoryItem.id === category}
@@ -46,16 +48,24 @@ const DrinkListContent: FC<IProps> = async ({ currentPage, category }) => {
       {error ? (
         <ErrorMessage />
       ) : (
-        <section className='grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4'>
-          {data.list.map(drink => (
-            <DrinkCard key={drink.id} drink={drink} />
-          ))}
-        </section>
+        <div className='grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-9 lg:gap-y-16 xl:grid-cols-4'>
+          {data.list.length > 0 ? (
+            data?.list.map(dessert => (
+              <ListCardItem
+                key={dessert.id}
+                href={MAIN_PATHS.product.dessert.detail({ slug: dessert.id })}
+                {...dessert}
+              />
+            ))
+          ) : (
+            <EmptyProduct />
+          )}
+        </div>
       )}
 
       <Pagination total={data.total} currentPage={+currentPage} perPage={PER_PAGE_SIZE.PRODUCT} />
-    </>
+    </section>
   );
 };
 
-export default DrinkListContent;
+export default DessertListContent;

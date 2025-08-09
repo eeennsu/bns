@@ -25,7 +25,7 @@ const Mbti: FC<Props> = ({ mbti }) => {
               <span
                 className={cn(
                   'flex items-center gap-3 text-sm transition-colors',
-                  isRightAligned ? 'text-gray-400' : 'font-semibold text-black',
+                  isRightAligned ? 'text-gray-500' : 'font-semibold text-black',
                 )}
               >
                 <span
@@ -33,7 +33,7 @@ const Mbti: FC<Props> = ({ mbti }) => {
                     'inline-flex size-6 items-center justify-center rounded-full border text-xs transition-all duration-200',
                     !isRightAligned
                       ? 'scale-105 border-gray-900 bg-gray-900 text-white shadow-sm'
-                      : 'border-gray-300 text-gray-400',
+                      : 'border-gray-300 text-gray-500',
                   )}
                 >
                   {pair.left.type}
@@ -44,7 +44,7 @@ const Mbti: FC<Props> = ({ mbti }) => {
               <span
                 className={cn(
                   'flex items-center gap-3 text-sm transition-colors',
-                  isRightAligned ? 'font-semibold text-black' : 'text-gray-400',
+                  isRightAligned ? 'font-semibold text-black' : 'text-gray-500',
                 )}
               >
                 <span
@@ -52,7 +52,7 @@ const Mbti: FC<Props> = ({ mbti }) => {
                     'inline-flex size-6 items-center justify-center rounded-full border text-xs transition-all duration-200',
                     isRightAligned
                       ? 'scale-105 border-gray-900 bg-gray-900 text-white shadow-sm'
-                      : 'border-gray-300 text-gray-400',
+                      : 'border-gray-300 text-gray-500',
                   )}
                 >
                   {pair.right.type}

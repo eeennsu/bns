@@ -10,6 +10,15 @@ const UtilLocalImage = {
     SAUCE: {
       LIST: '/images/sauce-bg.jpg',
     },
+    DISH: {
+      LIST: '/images/dish-bg.jpg',
+    },
+    DRINK: {
+      LIST: '/images/drink-bg.jpg',
+    },
+    DESSERT: {
+      LIST: '/images/dessert-bg.jpg',
+    },
     BUNDLE: {
       LIST: '/images/bundle-bg.jpg',
     },
