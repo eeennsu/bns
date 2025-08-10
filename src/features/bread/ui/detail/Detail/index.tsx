@@ -1,3 +1,4 @@
+import { Separator } from '@shared/shadcn-ui/ui';
 import { ProductData } from '@shared/typings/commons';
 import Image from 'next/image';
 import { FC } from 'react';
@@ -16,9 +17,9 @@ interface IProps {
 const DetailBread: FC<IProps> = async ({ bread }) => {
   return (
     <DrawerAnimation>
-      <div className='mx-auto w-full max-w-5xl bg-white p-3 lg:grid lg:grid-cols-2 lg:gap-x-20 lg:p-10'>
-        <div className='flex flex-col gap-3 lg:gap-4'>
-          <div className='relative aspect-square w-full overflow-hidden rounded-md shadow-md'>
+      <div className='mx-auto w-full max-w-5xl items-center bg-white p-3 lg:grid lg:grid-cols-2 lg:gap-x-20 lg:p-5'>
+        <div className='flex flex-col gap-3 lg:gap-5'>
+          <div className='relative aspect-square w-full overflow-hidden rounded-sm shadow-md'>
             <Image
               src={bread.image}
               alt={`${bread.name} 상세 이미지`}
@@ -46,10 +47,14 @@ const DetailBread: FC<IProps> = async ({ bread }) => {
               </p>
             </div>
 
+            <Separator />
+
             <p className='text-base leading-relaxed whitespace-pre-line text-gray-600'>
               {bread.description}
             </p>
           </div>
+
+          <Separator />
 
           <Mbti mbti={bread.mbti} />
         </div>

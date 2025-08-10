@@ -1,34 +1,65 @@
+import { Separator } from '@shared/shadcn-ui/ui';
 import { ProductData } from '@shared/typings/commons';
 import Image from 'next/image';
 import { FC } from 'react';
 
 import { IDish } from '@entities/dish/types';
 
+import DrawerAnimation from '@components/DrawerAnimation';
+import ProductBadge from '@components/ProductBadge';
+
+import Ingredients from './Ingredients';
+
 interface IProps {
   dish: ProductData<IDish>;
 }
 
-const DetailDish: FC<IProps> = ({ dish }) => {
+const DetailDish: FC<IProps> = async ({ dish }) => {
   return (
-    <section className='bg-[#fdfcf8] px-4 py-6 sm:px-6 lg:py-12'>
-      <div className='mx-auto max-w-md space-y-6 rounded-xl bg-white p-6 shadow-xl sm:max-w-lg sm:p-8 lg:max-w-xl'>
-        {/* 이미지 */}
-        <div className='relative h-48 w-full overflow-hidden rounded-lg sm:h-60 md:h-72'>
-          <Image src={dish.image} alt={dish.name} fill className='object-cover' />
+    <DrawerAnimation>
+      <div className='mx-auto w-full max-w-5xl items-center bg-white p-3 lg:grid lg:grid-cols-2 lg:gap-x-20 lg:p-5'>
+        <div className='flex flex-col gap-3 lg:gap-5'>
+          <div className='relative aspect-square w-full overflow-hidden rounded-sm shadow-md'>
+            <Image
+              src={dish.image}
+              alt={`${dish.name} 상세 이미지`}
+              fill
+              className='object-cover shadow-xl'
+            />
+          </div>
+
+          {(dish.isNew || dish.isSignature) && (
+            <div className='flex gap-2'>
+              {dish.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
+              {dish.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
+            </div>
+          )}
         </div>
 
-        {/* 텍스트 */}
-        <div className='text-center'>
-          <h1 className='text-xl font-semibold text-[#2F2F2F] sm:text-2xl'>{dish.name}</h1>
-          <p className='mt-2 text-base font-bold text-[#4A4A4A] sm:text-lg'>
-            {dish.price.toLocaleString()}원
-          </p>
-          <p className='mt-4 text-sm leading-[1.8] whitespace-pre-line text-[#5A5A5A] sm:text-base'>
-            {dish.description}
-          </p>
+        <div className='mt-4 flex flex-col justify-between gap-5 lg:mt-0'>
+          <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-2'>
+              <h2 className='text-2xl font-bold tracking-tight text-gray-900 lg:text-4xl'>
+                {dish.name}
+              </h2>
+              <p className='text-xl font-semibold text-gray-800 max-lg:text-right'>
+                {dish.price?.toLocaleString()}원
+              </p>
+            </div>
+
+            <Separator />
+
+            <p className='text-base leading-relaxed whitespace-pre-line text-gray-600'>
+              {dish.description}
+            </p>
+          </div>
+
+          <Separator />
+
+          <Ingredients ingredients={dish?.ingredients || []} />
         </div>
       </div>
-    </section>
+    </DrawerAnimation>
   );
 };
 

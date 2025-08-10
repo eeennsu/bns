@@ -36,7 +36,14 @@ const Menus: FC<IProps> = ({ isScrolled }) => {
           href={MAIN_PATHS.about()}
           isCurrentRoute={getIsCurPathname(MAIN_PATHS.about())}
           activeIndex={activeIndex}
-          className={cn(pathname !== '/' ? (isScrolled ? 'text-white' : 'text-black/80') : '')}
+          isScrolled={isScrolled}
+          className={cn(
+            pathname === '/'
+              ? activeIndex === 0
+                ? 'text-white after:bg-white'
+                : 'text-black after:bg-black'
+              : '',
+          )}
         >
           소개
         </MenuLink>
@@ -45,7 +52,14 @@ const Menus: FC<IProps> = ({ isScrolled }) => {
           href={MAIN_PATHS.event.list()}
           isCurrentRoute={getIsCurPathname(MAIN_PATHS.event.list())}
           activeIndex={activeIndex}
-          className={cn(pathname !== '/' ? (isScrolled ? 'text-white' : 'text-black/80') : '')}
+          isScrolled={isScrolled}
+          className={cn(
+            pathname === '/'
+              ? activeIndex === 0
+                ? 'text-white after:bg-white'
+                : 'text-black after:bg-black'
+              : '',
+          )}
         >
           이벤트
         </MenuLink>
@@ -53,7 +67,14 @@ const Menus: FC<IProps> = ({ isScrolled }) => {
         <HeaderDropdownMenu
           href={MAIN_PATHS.product.bread.list()}
           subMenus={HEADER_PRODUCT_SUB_MENUS}
-          className={cn(pathname !== '/' ? (isScrolled ? 'text-white' : 'text-black/80') : '')}
+          isScrolled={isScrolled}
+          className={cn(
+            pathname === '/'
+              ? activeIndex === 0
+                ? 'text-white after:bg-white'
+                : 'text-black after:bg-black'
+              : '',
+          )}
         >
           상품 안내
         </HeaderDropdownMenu>

@@ -16,7 +16,8 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
   const pageName = getAdminPageName(pathname);
   const url = typeof window !== 'undefined' ? window.location.href : '';
 
-  const isDev = url.includes('localhost');
+  const isLocal = url.includes('localhost');
+  const isDev = url.includes('dev');
   const isBeta = url.includes('beta');
   const isLive = !isBeta && process.env.NODE_ENV === 'production';
 
@@ -32,6 +33,7 @@ const RightWidget: FC<PropsWithChildren> = ({ children }) => {
           <div className='bg-primary z-10 flex w-full items-center justify-between rounded-b-3xl px-7 py-6 shadow-md'>
             <h2 className='ml-6 font-bold tracking-tight text-white'>{pageName}</h2>
             <Badge variant={isLive ? 'destructive' : 'secondary'}>
+              {isLocal && 'LOCAL'}
               {isDev && 'DEV'}
               {isBeta && 'BETA'}
               {isLive && 'LIVE'}

@@ -41,7 +41,7 @@ const ModalShell: FC<PropsWithChildren<IProps>> = ({ className, children }) => {
           showCloseButton
           closeButtonClassName='cursor-pointer hover:bg-gray-100 p-1.5 focus:ring-0 focus:ring-offset-0'
           className={cn(
-            'max-h-[90vh] overflow-y-auto rounded-sm sm:max-h-[85vdh] 2xl:max-w-[65vw]',
+            'max-h-[95vh] max-w-[80vw] overflow-y-auto rounded-xs sm:max-h-[85vdh] sm:max-w-[65vw]',
             className,
           )}
         >

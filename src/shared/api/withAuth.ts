@@ -35,12 +35,7 @@ export const withAuth = (apiHandler: ApiHandler) => {
       return NextResponse.json({ error: ADMIN_ERRORS.INVALID_ACCESS_TOKEN }, { status: 401 });
     }
 
-    if (
-      typeof payload !== 'object' ||
-      !payload?.id ||
-      !payload?.username ||
-      payload?.role !== 'admin'
-    ) {
+    if (!payload?.id || !payload?.username || payload?.role !== 'admin') {
       return NextResponse.json({ error: ADMIN_ERRORS.INVALID_TOKEN_PAYLOAD }, { status: 401 });
     }
 

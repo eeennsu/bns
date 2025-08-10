@@ -8,10 +8,13 @@ import { type FC, type PropsWithChildren } from 'react';
 
 import { SubMenu } from '@typings/commons';
 
+import { menuLinkVariants } from './MenuLink';
+
 interface IProps {
   href?: string;
   subMenus?: SubMenu;
   className?: string;
+  isScrolled: boolean;
 }
 
 const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
@@ -19,6 +22,7 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
   href,
   subMenus = {},
   className,
+  isScrolled,
 }) => {
   const { getIsCurPathname } = useCurrentPathname();
   const { activeIndex } = useFullPageScrollStore();
@@ -28,8 +32,7 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
       <Link
         href={href}
         className={cn(
-          'cursor-pointer font-medium transition-colors duration-700',
-          activeIndex === 0 ? 'text-white' : 'text-black',
+          menuLinkVariants({ activeIndex, isCurrentRoute: getIsCurPathname(href), isScrolled }),
           className,
         )}
       >
@@ -47,8 +50,8 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
                   key={subMenu.title}
                   href={subMenu.path}
                   className={cn(
-                    'font-normal text-gray-600 hover:text-black',
-                    isCurrentRoute && 'text-black',
+                    'font-normal whitespace-nowrap text-gray-600 hover:text-black',
+                    isCurrentRoute && 'font-semibold text-black',
                   )}
                 >
                   {subMenu.title}
@@ -63,12 +66,3 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
 };
 
 export default HeaderDropdownMenu;
-
-/*
- <Link
-                  href={subMenu.path}
-                  className='text-wood hover:text-wood focus:text-wood !min-w-22 px-3 py-2 font-medium'
-                >
-                  {subMenu.title}
-                </Link>
-*/
