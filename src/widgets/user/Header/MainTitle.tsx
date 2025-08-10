@@ -30,7 +30,7 @@ const MainTitle: FC<IProps> = ({ className }) => {
             <WordRotate
               duration={3000}
               isActive
-              words={['Sauce', 'Coffee', 'Salad', 'Dish', 'Dessert']}
+              words={['Sauce', 'Coffee', 'Salad', 'Pasta', 'Dessert']}
               customIndex={mainCarouselActiveIndex}
             />
           </>

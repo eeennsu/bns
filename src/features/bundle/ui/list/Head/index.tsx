@@ -13,13 +13,13 @@ const BundleListHead: FC = () => {
           backgroundPosition: 'center',
         }}
       >
-        <div className='absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent' />
+        <div className='via-black/05 absolute inset-0 bg-gradient-to-t from-black/40 to-transparent' />
 
         <div className='font-montserrat absolute bottom-10 left-1/2 w-full max-w-6xl -translate-x-1/2 px-4 text-center'>
           <h1 className='text-2xl font-medium text-white drop-shadow-md lg:text-4xl'>
             세트 구성 상품
           </h1>
-          <div className='mt-2 text-base font-medium text-white/80 lg:text-xl'>
+          <div className='mt-2 text-base font-medium text-white lg:text-xl'>
             <TextAnimate animation='fadeIn' delay={1} duration={0.2}>
               모든 맛이 하나로 완성되는 조합을 만나보세요.
             </TextAnimate>

@@ -20,7 +20,7 @@ const UtilLocalImage = {
       LIST: '/images/dessert-bg.jpg',
     },
     BUNDLE: {
-      LIST: '/images/bundle-bg.jpg',
+      LIST: '/images/bundle-bg.webp',
     },
     SNS: {
       INSTAGRAM: '/images/insta.png',

@@ -51,7 +51,7 @@ const HeaderDropdownMenu: FC<PropsWithChildren<IProps>> = ({
                   href={subMenu.path}
                   className={cn(
                     'font-normal whitespace-nowrap text-gray-600 hover:text-black',
-                    isCurrentRoute && 'text-black',
+                    isCurrentRoute && 'font-semibold text-black',
                   )}
                 >
                   {subMenu.title}

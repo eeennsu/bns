@@ -22,7 +22,7 @@ const SauceListPage: FC<IParams> = async ({ searchParams }) => {
   return (
     <>
       <ListHead
-        title='소스 한 스푼'
+        title='소스와 함께'
         summary='빵과 만나 완성되는 맛'
         description='향긋한 잼과 깊이 있는 소스가 바삭하고 부드러운 빵의 매력을 한층 더 끌어올립니다.'
         image={UtilLocalImage.IMAGES.SAUCE.LIST}

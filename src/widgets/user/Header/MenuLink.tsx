@@ -6,7 +6,7 @@ import type { ComponentProps, FC, PropsWithChildren } from 'react';
 import { cn } from '@shadcn-ui/utils';
 
 export const menuLinkVariants = cva(
-  'after-bg-black relative text-lg font-semibold transition-colors duration-700 after:absolute after:-bottom-[4px] after:left-0 after:h-[1.5px] after:w-0 after:rounded-xl after:transition-all after:duration-300 hover:after:w-full',
+  'after-bg-black relative text-sm font-semibold transition-colors duration-700 after:absolute after:-bottom-[4px] after:left-0 after:h-[1.5px] after:w-0 after:rounded-xl after:transition-all after:duration-300 hover:after:w-full',
   {
     variants: {
       activeIndex: {
