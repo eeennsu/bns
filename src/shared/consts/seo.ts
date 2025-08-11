@@ -1,0 +1,25 @@
+export const SITE_LINK = ''; // TODO: 링크 추가
+
+export const KEYWORDS = [
+  '빵',
+  '파스타',
+  '잼',
+  '가정동 빵집',
+  '가정중앙시장',
+  '기정중앙시장역',
+  '수제 빵',
+  '소스',
+  '베이커리',
+  'Bread & Sauce',
+  '브레드엔소스',
+  '브레드앤소스',
+  '브래드엔소스',
+  '브래드앤소스',
+  '브레드 엔 소스',
+  '브레드엔 소스',
+  '브레드 앤소스',
+  'Bread and Sauce',
+  'bread and sauce',
+  'BNS',
+  'bns',
+];
