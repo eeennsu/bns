@@ -23,7 +23,7 @@ const BundleListContent: FC<IProps> = async ({ currentPage }) => {
       {error ? (
         <ErrorMessage />
       ) : (
-<div className='grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-7'>
+        <div className='grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-7'>
           {data.list.length > 0 ? (
             data.list.map(bundle => <BundleCard key={bundle.id} bundle={bundle} />)
           ) : (

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import ModalShell from '@app/(main)/product/ModalShell';
 import DetailBundleContent from '@app/(main)/product/bundle/DetailBundleContent';
 
 interface IParams {
@@ -7,9 +8,13 @@ interface IParams {
 }
 
 const DetailBundleModalPage: FC<IParams> = async ({ params }) => {
-  const bundleId = (await params).id;
+  const bundleId = (await params)?.id || '';
 
-  return <DetailBundleContent bundleId={bundleId} />;
+  return (
+    <ModalShell>
+      <DetailBundleContent bundleId={bundleId} />
+    </ModalShell>
+  );
 };
 
 export default DetailBundleModalPage;

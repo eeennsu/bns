@@ -1,8 +1,8 @@
 'use client';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState, type FC, type PropsWithChildren } from 'react';
+import { useRouter } from 'next/navigation';
+import { type FC, type PropsWithChildren } from 'react';
 
 import { Dialog, DialogContent, DialogOverlay, DialogTitle } from '@shadcn-ui/ui';
 import { cn } from '@shadcn-ui/utils';
@@ -13,29 +13,13 @@ interface IProps {
 
 const ModalShell: FC<PropsWithChildren<IProps>> = ({ className, children }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const page = searchParams.get('page') || '';
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const onCloseModal = useCallback(
-    (open: boolean) => {
-      setIsOpen(open);
-      if (!open) router.back();
-    },
-    [router],
-  );
-
-  useEffect(() => {
-    if (!page) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
-  }, [page, onCloseModal]);
+  const onClose = (open: boolean) => {
+    if (!open) router.back();
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onCloseModal}>
+    <Dialog defaultOpen onOpenChange={onClose}>
       <DialogOverlay>
         <DialogContent
           showCloseButton

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import ModalShell from '@app/(main)/product/ModalShell';
 import DetailDrinkContent from '@app/(main)/product/drink/DetailDrinkContent';
 
 interface IParams {
@@ -7,9 +8,13 @@ interface IParams {
 }
 
 const DetailDrinkModalPage: FC<IParams> = async ({ params }) => {
-  const drinkId = (await params).id;
+  const drinkId = (await params)?.id || '';
 
-  return <DetailDrinkContent drinkId={drinkId} />;
+  return (
+    <ModalShell>
+      <DetailDrinkContent drinkId={drinkId} />
+    </ModalShell>
+  );
 };
 
 export default DetailDrinkModalPage;

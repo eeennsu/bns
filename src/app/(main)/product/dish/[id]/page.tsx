@@ -7,7 +7,7 @@ interface IParams {
 }
 
 const DetailDishPage: FC<IParams> = async ({ params }) => {
-  const dishId = (await params).id;
+  const dishId = (await params)?.id || '';
 
   return <DetailDishContent dishId={dishId} />;
 };
