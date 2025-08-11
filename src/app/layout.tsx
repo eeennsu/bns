@@ -1,6 +1,7 @@
 import ConfigProviders from '@configs/providers';
 import '@configs/setup';
 import ClientSetup from '@configs/setup';
+import { KEYWORDS, SITE_LINK } from '@shared/consts/seo';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 
@@ -8,7 +9,7 @@ import RootPageContainer from '@widgets/user/RootPageContainer';
 
 import getSignatureList from '@features/home/queries/getSignatureList';
 
-import { BRAND_TITLE, SITE_LINK } from '@consts/brand';
+import { BRAND_TITLE } from '@consts/brand';
 import { NANUM_GOTHIC, OPEN_SANS } from '@consts/font';
 
 import './globals.css';
@@ -26,26 +27,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   return {
     title: BRAND_TITLE.EN,
     description: `${BRAND_TITLE.KO}의 공식 웹사이트입니다.`,
-    keywords: [
-      '빵',
-      '파스타',
-      '잼',
-      '가정동 빵집',
-      '가정중앙시장',
-      '기정중앙시장역',
-      '수제 빵',
-      '소스',
-      '베이커리',
-      'Bread & Sauce',
-      '브레드엔소스',
-      '브레드앤소스',
-      '브래드엔소스',
-      '브래드앤소스',
-      '브레드 엔 소스',
-      '브레드엔 소스',
-      '브레드 앤소스',
-      ...(error ? ['시그니처 빵'] : signatureNames),
-    ],
+    keywords: [...KEYWORDS, ...(error ? ['시그니처 빵'] : signatureNames)],
     authors: [{ name: BRAND_TITLE.EN, url: SITE_LINK }],
     openGraph: {
       title: `${BRAND_TITLE.KO} | ${BRAND_TITLE.EN}`,
