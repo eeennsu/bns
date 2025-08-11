@@ -1,3 +1,5 @@
+import { IBundleDisplay } from './types';
+
 export const ADMIN_BUNDLE_KEYS = {
   GET: 'GET_BUNDLE',
   GET_LIST: 'GET_BUNDLE_LIST',
@@ -68,4 +70,28 @@ export const ORDER_BY_SELECT = [
   '정렬 느린순',
   '가격 낮은순',
   '가격 높은순',
+];
+
+export const BUNDLE_CONTEXT = {
+  GET: 'GET_BUNDLE',
+  GET_LIST: 'GET_BUNDLE_LIST',
+  CREATE: 'CREATE_BUNDLE',
+  MODIFY: 'MODIFY_BUNDLE',
+  DELETE: 'DELETE_BUNDLE',
+  GET_PRODUCT_LIST: 'GET_BUNDLE_PRODUCT_LIST',
+  CREATE_PRODUCT: 'CREATE_BUNDLE_PRODUCT',
+  MODIFY_PRODUCT: 'MODIFY_BUNDLE_PRODUCT',
+} as const;
+
+export const BUNDLE_CACHE_TAG = {
+  GET: 'GET_BUNDLE',
+  GET_LIST: 'GET_BUNDLE_LIST',
+};
+
+export const CATEGORY_ORDER: (keyof IBundleDisplay['products'])[] = [
+  'breads',
+  'sauces',
+  'dishes',
+  'drinks',
+  'desserts',
 ];

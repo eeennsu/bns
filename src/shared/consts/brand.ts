@@ -8,13 +8,11 @@ export const HERO_ANIM_DURATIONS = {
   IMAGE: HERO_TITLE_DURATIONS.DESCRIPTION + 0.5,
 };
 
-export const SITE_LINK = ''; // TODO: 링크 추가
-
 export const BRAND_INFO = {
   TEL: '0507-1380-3068',
   LOCATION: '인천 서구 서곶로 45 B108호',
-  MAIL: '보겸s이메일@naver.com',
-  BUSINESS_HOURS: '매일 오전 10시 - 오후 8시',
+  MAIL: 'khgood@naver.com',
+  BUSINESS_HOURS: '매일 오전 8시 - 오후 8시',
 };
 
 export const BRAND_TRAFFIC = {
@@ -33,7 +31,7 @@ export const GEO_DATA = {
 
 export const BRAND_TITLE = {
   EN: 'Bread & Sauce',
-  KO: '브래드앤소스',
+  KO: '브래드 앤 소스',
 } as const;
 
 export const BUSINESS_INFO = {

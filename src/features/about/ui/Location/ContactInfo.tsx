@@ -7,8 +7,8 @@ interface IProps {
 
 const ContactInfo: FC<IProps> = ({ icon, text }) => {
   return (
-    <div className='text-wood/85 flex items-center gap-3.5'>
-      <span className='text-wood size-5'>{icon}</span>
+    <div className='flex items-center gap-3.5 text-black/80'>
+      <span className='size-5 text-black/60'>{icon}</span>
       <span className='mt-[2px] text-sm sm:text-base'>{text}</span>
     </div>
   );

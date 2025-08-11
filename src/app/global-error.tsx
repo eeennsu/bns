@@ -1,8 +1,8 @@
 'use client';
 
 import * as Sentry from '@sentry/nextjs';
-import { GlobalErrorPageError } from '@shared/class/customError';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
+import { GlobalErrorPageError } from '@shared/libs/customError';
 import NextError from 'next/error';
 import { FC, useEffect } from 'react';
 

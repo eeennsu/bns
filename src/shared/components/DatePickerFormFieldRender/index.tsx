@@ -65,6 +65,7 @@ const SharedDatePickerFormFieldRender = <TName extends string>({
           <Calendar
             mode='single'
             {...restProps}
+            defaultMonth={field.value}
             selected={field.value}
             onSelect={e => {
               field.onChange(e);

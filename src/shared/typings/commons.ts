@@ -1,4 +1,4 @@
-import { FILTER_TYPES } from '@shared/consts/commons';
+import { FILTER_TYPES, PageIndex } from '@shared/consts/commons';
 import { JSX } from 'react';
 import { z } from 'zod';
 
@@ -19,13 +19,14 @@ export interface IPathSlug {
 
 export interface IMenu {
   title: string;
-  path: string;
+  path?: string;
 }
 
 export type SubMenu = Record<string, IMenu>;
 
 export interface IHeaderMenu extends IMenu {
   subMenus?: SubMenu;
+  pageIndex?: PageIndex;
 }
 
 export type Direction = 'left' | 'right';

@@ -1,0 +1,54 @@
+import 'server-only';
+
+import db from '@db/index';
+import { dishes } from '@db/schemas/dishes';
+import { imageReferences, images } from '@db/schemas/image';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
+import { and, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
+
+import { DISH_CACHE_TAG, DISH_CONTEXT } from '@entities/dish/consts';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
+
+interface IParams {
+  id: number;
+}
+
+const fetchDish = async ({ id }: IParams) => {
+  'use cache';
+  cacheTag(`${DISH_CACHE_TAG.GET}:${id}`);
+
+  const dishQuery = await db
+    .select({
+      id: dishes.id,
+      name: dishes.name,
+      description: dishes.description,
+      price: dishes.price,
+      isSignature: dishes.isSignature,
+      isNew: dishes.isNew,
+      ingredients: dishes.ingredients,
+      image: images.url,
+    })
+    .from(dishes)
+    .innerJoin(
+      imageReferences,
+      and(
+        eq(dishes.id, imageReferences.refId),
+        eq(imageReferences.refTable, IMAGE_REF_VALUES.DISH),
+      ),
+    )
+    .innerJoin(images, eq(imageReferences.imageId, images.id))
+    .where(eq(dishes.id, id))
+    .limit(1);
+
+  return dishQuery.at(0);
+};
+
+const getDish = (params: IParams) =>
+  fetchWithCapture({
+    context: DISH_CONTEXT.GET,
+    fn: fetchDish,
+    args: [params],
+  });
+
+export default getDish;

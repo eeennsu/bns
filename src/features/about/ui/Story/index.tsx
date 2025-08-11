@@ -1,68 +1,39 @@
+import UtilLocalImage from '@shared/utils/utilImage';
 import Image from 'next/image';
 import type { FC } from 'react';
 
-import { BRAND_TITLE } from '@consts/brand';
-
-import StoryCard from './StoryCard';
-
 const Story: FC = () => {
   return (
-    <section
-      className='grid scroll-m-25 items-center gap-x-12 gap-y-4 rounded-xl lg:grid-cols-2'
-      id='brand-story'
-    >
-      <div className='order-2 space-y-4 lg:order-1'>
-        <h1 className='text-wood text-center text-3xl font-bold sm:text-left xl:text-4xl'>
-          <span className='font-baloo-2'>{BRAND_TITLE.EN}</span> 이야기
+    <section className='grid items-center gap-x-10 gap-y-4 rounded-xl lg:grid-cols-2'>
+      <div className='order-2 space-y-4 pt-10 lg:order-1'>
+        <h1 className='font-nanum-gothic mb-6 text-center text-4xl font-bold text-black sm:text-left xl:text-4xl'>
+          특별하게 먹고 싶은 빵
         </h1>
-        <div className='text-wood/85 space-y-4'>
+        <div className='space-y-4 text-black/85'>
           <p>
-            아티산 브레드는 2005년, 전통적인 빵 제조 방식을 현대적으로 재해석하고자 하는 열정으로
-            시작되었습니다. 우리는 자연 발효종을 사용한 건강한 빵을 만들기 위해 끊임없이 연구하고
-            발전해왔습니다.
+            오늘은, 조금 특별한 빵이 당긴다. 매일 먹는 익숙한 빵이지만, 가끔은 색다른 한 입이 하루를
+            다르게 만들어주죠. 우리의 시그니처 브레드는 오랜 시간 정성 들여 반죽하고 구워내, 겉은
+            바삭하고 속은 촉촉한 완벽한 식감을 자랑해요.
           </p>
           <p>
-            최고 품질의 유기농 재료만을 사용하며, 인공 첨가물이나 방부제를 전혀 사용하지 않습니다.
-            모든 빵은 장인의 손길로 하나하나 정성껏 만들어지며, 매일 아침 신선한 빵을 제공하기 위해
-            새벽부터 준비합니다.
+            그런 빵을 더욱 완성시키는 건, 바로 소스입니다. 바질 페스토의 신선함, 갈릭 버터의 고소함,
+            그리고 직접 끓여낸 수제 크림 소스의 부드러움까지. 각 빵에 어울리는 소스를 더하면, 그
+            자체로 하나의 요리가 되죠.
           </p>
           <p>
-            아티산 브레드는 단순히 빵을 파는 곳이 아닌, 지역 사회와 함께 성장하는 공간이 되고자
-            합니다. 지역 농산물을 적극 활용하고, 다양한 베이킹 클래스를 통해 빵 문화를 나누고
-            있습니다.
+            한 조각 한 조각이 단순한 간식을 넘어, 새로운 미식의 순간이 됩니다. 출출한 오후에도,
+            여유로운 브런치 타임에도, Bread & Sauce의 조합은 언제나 좋은 선택이 되어줄 거예요.
           </p>
-        </div>
-
-        <div className='mt-8 grid gap-6 sm:grid-cols-2'>
-          <StoryCard
-            title='우리의 철학'
-            description='자연의 맛을 살린 건강한 빵으로 일상에 행복을 더합니다.'
-          />
-          <StoryCard
-            title='우리의 약속'
-            description='매일 신선한 재료로 정성을 다해 최고의 빵을 만듭니다.'
-          />
+          <p>
+            지금, 당신이 찾던 그 특별한 조각을 만나보세요. 입안 가득 퍼지는 풍미와 따뜻함이 오늘
+            하루를 조금 더 풍성하게 채워줄 거예요.
+          </p>
         </div>
       </div>
 
-      <div className='relative order-1 h-full lg:order-2'>
-        <div className='relative h-full max-h-[400px] overflow-hidden rounded-lg shadow-xl'>
-          <Image
-            src='https://picsum.photos/id/93/723/400'
-            alt='베이커리 전경'
-            fill
-            className='object-cover'
-          />
-        </div>
-        <div className='border-ivory absolute -bottom-6 -left-6 hidden size-48 overflow-hidden rounded-lg border-4 shadow-lg lg:block'>
-          <Image
-            src='https://picsum.photos/id/235/184/184'
-            alt='빵 제작 과정'
-            fill
-            className='object-cover'
-          />
-        </div>
-      </div>
+      <figure className='relative order-1 h-full max-w-[1000px] lg:order-2'>
+        <Image src={UtilLocalImage.SVGS.PANCAKE} alt='background texture' fill />
+      </figure>
     </section>
   );
 };

@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from '@shadcn-ui/ui';
 
-import getSignatureList from '@features/home/actions/getSignatureList';
+import getSignatureList from '@features/home/queries/getSignatureList';
 
 import SignatureCard from './SignatureCard';
 

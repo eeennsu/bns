@@ -6,6 +6,7 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { IMAGE_CONTEXT } from '@entities/image/consts';
 import { IUploadImage } from '@entities/image/types';
 
 export const POST = withAuth(async (request: NextRequest) => {
@@ -41,7 +42,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_SAVE,
-      context: 'CREATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.CREATE,
       payload: {
         imageFiles,
       },

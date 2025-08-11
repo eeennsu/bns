@@ -7,7 +7,7 @@ interface IParams {
 }
 
 const DetailBundleModalPage: FC<IParams> = async ({ params }) => {
-  const bundleId = (await params).id;
+  const bundleId = (await params)?.id || '';
 
   return <DetailBundleContent bundleId={bundleId} />;
 };

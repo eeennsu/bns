@@ -1,3 +1,4 @@
+import { Separator } from '@shared/shadcn-ui/ui';
 import { ProductData } from '@shared/typings/commons';
 import Image from 'next/image';
 import { FC } from 'react';
@@ -5,6 +6,7 @@ import { FC } from 'react';
 import { IBread } from '@entities/bread/types';
 
 import DrawerAnimation from '@components/DrawerAnimation';
+import ProductBadge from '@components/ProductBadge';
 
 import Mbti from './Mbti';
 
@@ -15,53 +17,46 @@ interface IProps {
 const DetailBread: FC<IProps> = async ({ bread }) => {
   return (
     <DrawerAnimation>
-      <div className='flex items-center justify-center bg-gradient-to-br px-4 py-6 sm:px-6 md:px-8'>
-        <div className='w-full max-w-4xl space-y-6 md:grid md:grid-cols-2 md:gap-8 md:space-y-0'>
-          <div className='relative h-60 w-full overflow-hidden rounded-lg shadow-2xl sm:h-72 md:h-[400px]'>
+      <div className='mx-auto w-full max-w-5xl items-center bg-white p-3 lg:grid lg:grid-cols-2 lg:gap-x-20 lg:p-5'>
+        <div className='flex flex-col gap-3 lg:gap-5'>
+          <div className='relative aspect-square w-full overflow-hidden rounded-sm shadow-md'>
             <Image
-              src='https://picsum.photos/id/600/400/300'
-              alt={bread.name}
+              src={bread.image}
+              alt={`${bread.name} 상세 이미지`}
               fill
-              className='object-cover'
+              className='object-cover shadow-xl'
             />
           </div>
 
-          <div className='flex flex-col justify-between gap-4 pt-2'>
-            <div className='space-y-2'>
-              <h2 className='text-2xl font-bold text-[#8B4513] md:text-3xl'>{bread.name}</h2>
+          {(bread.isNew || bread.isSignature) && (
+            <div className='flex gap-2'>
+              {bread.isNew && <ProductBadge variant='new'>NEW</ProductBadge>}
+              {bread.isSignature && <ProductBadge variant='signature'>Signature</ProductBadge>}
+            </div>
+          )}
+        </div>
 
-              <div className='flex items-center justify-between gap-3 sm:gap-2'>
-                <p className='text-lg font-bold text-[#3E2723] md:text-xl'>
-                  {bread.price?.toLocaleString()}원
-                </p>
-                {(bread?.isNew || bread.isSignature) && (
-                  <div className='flex items-center gap-2'>
-                    {bread.isNew && (
-                      <div className='rounded bg-[#E74C3C] px-2 py-1 text-xs font-bold text-white'>
-                        NEW
-                      </div>
-                    )}
-                    {bread.isSignature && (
-                      <div className='rounded bg-[#8B4513] px-2 py-1 text-xs font-bold text-[#FFFFF0]'>
-                        SIGNATURE
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+        <div className='mt-4 flex flex-col justify-between gap-5 lg:mt-0'>
+          <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-2'>
+              <h2 className='text-2xl font-bold tracking-tight text-gray-900 lg:text-4xl'>
+                {bread.name}
+              </h2>
+              <p className='text-xl font-semibold text-gray-800 max-lg:text-right'>
+                {bread.price?.toLocaleString()}원
+              </p>
             </div>
 
-            <div className='space-y-5'>
-              <div className='space-y-2'>
-                <h3 className='text-base font-bold text-[#8B4513] md:text-lg'>상세 설명</h3>
-                <p className='text-sm leading-relaxed whitespace-pre-line text-[#3E2723]'>
-                  {bread.description}
-                </p>
-              </div>
+            <Separator />
 
-              <Mbti mbti={bread.mbti} />
-            </div>
+            <p className='text-base leading-relaxed whitespace-pre-line text-gray-600'>
+              {bread.description}
+            </p>
           </div>
+
+          <Separator />
+
+          <Mbti mbti={bread.mbti} />
         </div>
       </div>
     </DrawerAnimation>

@@ -1,18 +1,21 @@
 import { FC } from 'react';
 
-import BundleListContact from '@features/bundle/ui/list/Contact';
 import BundleListContent from '@features/bundle/ui/list/Content';
 import BundleListHead from '@features/bundle/ui/list/Head';
 
-const BundleListPage: FC = () => {
-  return (
-    <div className='bg-[#fefcf7] sm:pb-10'>
-      <BundleListHead />
+interface IParams {
+  searchParams: Promise<{
+    page: string;
+  }>;
+}
 
-      <div className='flex flex-col gap-4'>
-        <BundleListContent />
-        <BundleListContact />
-      </div>
+const BundleListPage: FC<IParams> = async ({ searchParams }) => {
+  const { page = '1' } = await searchParams;
+
+  return (
+    <div className='-mt-5 flex flex-col gap-5 lg:gap-10'>
+      <BundleListHead />
+      <BundleListContent currentPage={page} />
     </div>
   );
 };

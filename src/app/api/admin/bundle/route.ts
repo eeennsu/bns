@@ -17,10 +17,12 @@ import { withAuth } from '@shared/api/withAuth';
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@shared/consts/commons';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, inArray, isNull } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { BUNDLE_CACHE_TAG, BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { BundleFormDto } from '@entities/bundle/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 export const GET = withAuth(async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
@@ -60,7 +62,7 @@ export const GET = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.GET_LIST_FAILED,
-      context: 'GET_BUNDLE',
+      context: BUNDLE_CONTEXT.GET,
       payload: {
         searchParams,
       },
@@ -88,7 +90,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return NextResponse.json({ error: IMAGE_ERRORS.MISSING_IMAGE_FILES }, { status: 400 });
   }
 
-  if (products.length === 0) {
+  if (!products || products?.length === 0) {
     return NextResponse.json({ error: BUNDLE_ERRORS.MISSING_PRODUCT }, { status: 400 });
   }
 
@@ -108,7 +110,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.CREATE_FAILED,
-      context: 'CREATE_BUNDLE',
+      context: BUNDLE_CONTEXT.CREATE,
       payload: {
         body,
       },
@@ -181,7 +183,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.CREATE_PRODUCT_FAILED,
-      context: 'CREATE_BUNDLE_PRODUCT',
+      context: BUNDLE_CONTEXT.CREATE_PRODUCT,
       payload: {
         body,
       },
@@ -203,12 +205,14 @@ export const POST = withAuth(async (request: NextRequest) => {
       )
       .returning();
 
+    revalidateTag(BUNDLE_CACHE_TAG.GET_LIST);
+
     return NextResponse.json(setSucResponseItem(newBundle), { status: 201 });
   } catch (error) {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         body,
       },

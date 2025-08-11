@@ -43,3 +43,23 @@ export const BREAD_CATEGORY_SELECT = [
   { id: 'signature', name: '시그니처' },
   { id: 'new', name: '신제품' },
 ];
+
+export const BREAD_CONTEXT = {
+  GET: 'GET_BREAD',
+  GET_LIST: 'GET_BREAD_LIST',
+  CREATE: 'CREATE_BREAD',
+  MODIFY: 'MODIFY_BREAD',
+  DELETE: 'DELETE_BREAD',
+} as const;
+
+export const BREAD_CACHE_TAG = {
+  GET: 'GET_BREAD',
+  GET_LIST: 'GET_BREAD_LIST',
+};
+
+export const MBTI_MAP = [
+  { left: { type: 'I', name: '내향' }, right: { type: 'E', name: '외향' } },
+  { left: { type: 'N', name: '직관' }, right: { type: 'S', name: '감각' } },
+  { left: { type: 'F', name: '감정' }, right: { type: 'T', name: '사고' } },
+  { left: { type: 'P', name: '인식' }, right: { type: 'J', name: '판단' } },
+];

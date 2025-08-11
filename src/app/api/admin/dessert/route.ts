@@ -7,12 +7,14 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { DESSERT_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
+import { DESSERT_CACHE_TAG, DESSERT_CONTEXT } from '@entities/dessert/consts';
 import { DessertFormDto } from '@entities/dessert/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
 
@@ -54,7 +56,7 @@ export const GET = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: DESSERT_ERRORS.GET_LIST_FAILED,
-      context: 'GET_DESSERT',
+      context: DESSERT_CONTEXT.GET,
       payload: {
         searchParams,
       },
@@ -97,7 +99,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: DESSERT_ERRORS.CREATE_FAILED,
-      context: 'CREATE_DESSERT',
+      context: DESSERT_CONTEXT.CREATE,
       payload: {
         body,
       },
@@ -121,12 +123,14 @@ export const POST = withAuth(async (request: NextRequest) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         body,
       },
     });
   }
+
+  revalidateTag(DESSERT_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(newDessert), { status: 201 });
 });

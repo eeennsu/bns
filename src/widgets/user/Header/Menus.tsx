@@ -1,43 +1,84 @@
 'use client';
 
-import type { FC } from 'react';
+import { MAIN_PATHS } from '@shared/configs/routes/mainPaths';
+import { cn } from '@shared/shadcn-ui/utils';
+import useFullPageScrollStore from '@shared/stores/fullPageScroll';
+import { usePathname } from 'next/navigation';
+import { useEffect, type FC } from 'react';
 
 import useCurrentPathname from '@hooks/useCurrentPathname';
 
-import { MAIN_MENU_LIST } from '@consts/nav';
+import { HEADER_PRODUCT_SUB_MENUS } from '@consts/nav';
 
 import HeaderDropdownMenu from './HeaderDropdownMenu';
-import MenuButton from './MenuButton';
+import MenuLink from './MenuLink';
 
-const Menus: FC = () => {
+interface IProps {
+  isScrolled: boolean;
+}
+
+const Menus: FC<IProps> = ({ isScrolled }) => {
   const { getIsCurPathname } = useCurrentPathname();
+  const { activeIndex, setActiveIndex } = useFullPageScrollStore();
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setActiveIndex(0);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return (
-    <nav className='mr-20 hidden items-center gap-8 lg:flex'>
-      {MAIN_MENU_LIST.map(menu => {
-        const isCurrentRoute = getIsCurPathname(menu.path);
+    <nav className='mr-24 hidden lg:block'>
+      <div className='flex items-center gap-14'>
+        <MenuLink
+          href={MAIN_PATHS.about()}
+          isCurrentRoute={getIsCurPathname(MAIN_PATHS.about())}
+          activeIndex={activeIndex}
+          isScrolled={isScrolled}
+          className={cn(
+            pathname === '/'
+              ? activeIndex === 0
+                ? 'text-white after:bg-white'
+                : 'text-black after:bg-black'
+              : '',
+          )}
+        >
+          소개
+        </MenuLink>
 
-        if (menu?.subMenus) {
-          return (
-            <HeaderDropdownMenu
-              key={menu.title}
-              href={menu.path}
-              isCurrentRoute={Object.values(menu.subMenus).some(subMenu =>
-                getIsCurPathname(subMenu.path),
-              )}
-              subMenus={menu.subMenus}
-            >
-              {menu.title}
-            </HeaderDropdownMenu>
-          );
-        }
+        <MenuLink
+          href={MAIN_PATHS.event.list()}
+          isCurrentRoute={getIsCurPathname(MAIN_PATHS.event.list())}
+          activeIndex={activeIndex}
+          isScrolled={isScrolled}
+          className={cn(
+            pathname === '/'
+              ? activeIndex === 0
+                ? 'text-white after:bg-white'
+                : 'text-black after:bg-black'
+              : '',
+          )}
+        >
+          이벤트
+        </MenuLink>
 
-        return (
-          <MenuButton key={menu.title} href={menu.path} isCurrentRoute={isCurrentRoute}>
-            {menu.title}
-          </MenuButton>
-        );
-      })}
+        <HeaderDropdownMenu
+          href={MAIN_PATHS.product.bread.list()}
+          subMenus={HEADER_PRODUCT_SUB_MENUS}
+          isScrolled={isScrolled}
+          className={cn(
+            pathname === '/'
+              ? activeIndex === 0
+                ? 'text-white after:bg-white'
+                : 'text-black after:bg-black'
+              : '',
+          )}
+        >
+          상품 안내
+        </HeaderDropdownMenu>
+      </div>
     </nav>
   );
 };

@@ -1,12 +1,10 @@
 'use client';
 
+import { MAIN_PATHS } from '@shared/configs/routes/mainPaths';
 import { X } from 'lucide-react';
 import { useState, type FC, type PropsWithChildren } from 'react';
 
 import { Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger } from '@shadcn-ui/ui';
-
-import { NANUM_GOTHIC } from '@consts/font';
-import { MAIN_MENU_LIST } from '@consts/nav';
 
 import DrawerMenuItem from './DrawerMenuItem';
 
@@ -16,29 +14,64 @@ interface IProps {
 
 const DrawerMenu: FC<PropsWithChildren<IProps>> = ({ children, triggerClassName }) => {
   const [open, setOpen] = useState(false);
-
   const onCloseDrawer = () => setOpen(false);
-
-  const menuItems = MAIN_MENU_LIST.flatMap(item =>
-    item.subMenus ? Object.values(item.subMenus) : [item],
-  );
 
   return (
     <Drawer direction='right' open={open} onOpenChange={setOpen}>
       <DrawerTrigger className={triggerClassName}>{children}</DrawerTrigger>
-      <DrawerContent className='bg-ivory-tertiary space-y-10 px-6 pt-6 md:hidden'>
+      <DrawerContent className='z-999 space-y-10 bg-white px-4 pt-4 lg:hidden'>
         <div className='flex items-center justify-between'>
-          <DrawerTitle className={`text-wood-tertiary text-lg font-bold ${NANUM_GOTHIC.className}`}>
+          <DrawerTitle className='font-nanum-gothic p-2 text-base font-bold text-black/80'>
             메뉴
           </DrawerTitle>
           <DrawerClose className='cursor-pointer'>
-            <X className='text-wood-tertiary h-6 w-6 hover:text-[#a86b4c]' />
+            <X className='size-6 rounded-full p-1 text-black/80 hover:bg-black/80 hover:text-white' />
           </DrawerClose>
         </div>
-        <nav className='space-y-7'>
-          {menuItems.map(({ title, path }) => (
-            <DrawerMenuItem key={title} href={path} title={title} onCloseDrawer={onCloseDrawer} />
-          ))}
+        <nav className=''>
+          <DrawerMenuItem href={MAIN_PATHS.about()} title='소개' onCloseDrawer={onCloseDrawer} />
+
+          <DrawerMenuItem
+            href={MAIN_PATHS.event.list()}
+            title='이벤트'
+            onCloseDrawer={onCloseDrawer}
+          />
+
+          <DrawerMenuItem
+            href={MAIN_PATHS.product.bread.list()}
+            title='빵'
+            onCloseDrawer={onCloseDrawer}
+          />
+
+          <DrawerMenuItem
+            href={MAIN_PATHS.product.sauce.list()}
+            title='소스'
+            onCloseDrawer={onCloseDrawer}
+          />
+
+          <DrawerMenuItem
+            href={MAIN_PATHS.product.dish.list()}
+            title='디쉬'
+            onCloseDrawer={onCloseDrawer}
+          />
+
+          <DrawerMenuItem
+            href={MAIN_PATHS.product.drink.list()}
+            title='음료'
+            onCloseDrawer={onCloseDrawer}
+          />
+
+          <DrawerMenuItem
+            href={MAIN_PATHS.product.dessert.list()}
+            title='디저트'
+            onCloseDrawer={onCloseDrawer}
+          />
+
+          <DrawerMenuItem
+            href={MAIN_PATHS.product.bundle.list()}
+            title='세트 구성'
+            onCloseDrawer={onCloseDrawer}
+          />
         </nav>
       </DrawerContent>
     </Drawer>

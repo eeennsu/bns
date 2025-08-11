@@ -16,10 +16,12 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { WithImageIdsSortOrder } from '@shared/api/typings';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { BUNDLE_CACHE_TAG, BUNDLE_CONTEXT } from '@entities/bundle/consts';
 import { BundleFormDto } from '@entities/bundle/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -120,7 +122,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.GET_LIST_FAILED,
-      context: 'GET_BUNDLE',
+      context: BUNDLE_CONTEXT.GET,
       payload: {
         bundleId,
       },
@@ -169,7 +171,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.MODIFY_FAILED,
-      context: 'MODIFY_BUNDLE',
+      context: BUNDLE_CONTEXT.MODIFY,
       payload: {
         bundleId,
         body,
@@ -186,7 +188,7 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.MODIFY_PRODUCT_FAILED,
-      context: 'MODIFY_BUNDLE_PRODUCT',
+      context: BUNDLE_CONTEXT.MODIFY_PRODUCT,
       payload: {
         bundleId,
         body,
@@ -205,13 +207,16 @@ export const PUT = withAuth(async (request: NextRequest, { params }: IParams) =>
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         bundleId,
         body,
       },
     });
   }
+
+  revalidateTag(BUNDLE_CACHE_TAG.GET_LIST);
+  revalidateTag(`${BUNDLE_CACHE_TAG.GET}:${bundleId}`);
 
   return NextResponse.json(setSucResponseItem(updateBundle));
 });
@@ -241,7 +246,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.GET_FAILED,
-      context: 'GET_BUNDLE',
+      context: BUNDLE_CONTEXT.GET,
       payload: {
         bundleId,
       },
@@ -301,7 +306,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.GET_PRODUCT_LIST_FAILED,
-      context: 'GET_BUNDLE_PRODUCT',
+      context: BUNDLE_CONTEXT.GET_PRODUCT_LIST,
       payload: {
         bundleId,
       },
@@ -314,7 +319,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: BUNDLE_ERRORS.DELETE_FAILED,
-      context: 'DELETE_BUNDLE',
+      context: BUNDLE_CONTEXT.DELETE,
       payload: {
         bundleId,
       },
@@ -330,12 +335,15 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.DELETE,
       payload: {
         bundleId,
       },
     });
   }
+
+  revalidateTag(BUNDLE_CACHE_TAG.GET_LIST);
+  revalidateTag(`${BUNDLE_CACHE_TAG.GET}:${bundleId}`);
 
   return new NextResponse(null, { status: 204 });
 });

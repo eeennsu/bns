@@ -1,7 +1,7 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
 import { FC } from 'react';
 
-import getDrink from '@features/drink/actions/getDrink';
+import getDrink from '@features/drink/queries/getDrink';
 import DetailDrink from '@features/drink/ui/detail/Detail';
 
 interface IProps {

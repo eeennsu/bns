@@ -1,0 +1,54 @@
+import 'server-only';
+
+import db from '@db/index';
+import { breads } from '@db/schemas/breads';
+import { imageReferences, images } from '@db/schemas/image';
+import { fetchWithCapture } from '@shared/api/fetchWithCapture';
+import { and, eq } from 'drizzle-orm';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
+
+import { BREAD_CACHE_TAG, BREAD_CONTEXT } from '@entities/bread/consts';
+import { IMAGE_REF_VALUES } from '@entities/image/consts';
+
+interface IParams {
+  id: number;
+}
+
+const fetchBread = async ({ id }: IParams) => {
+  'use cache';
+  cacheTag(`${BREAD_CACHE_TAG.GET}:${id}`);
+
+  const breadQuery = await db
+    .select({
+      id: breads.id,
+      name: breads.name,
+      description: breads.description,
+      price: breads.price,
+      mbti: breads.mbti,
+      isSignature: breads.isSignature,
+      isNew: breads.isNew,
+      image: images.url,
+    })
+    .from(breads)
+    .innerJoin(
+      imageReferences,
+      and(
+        eq(breads.id, imageReferences.refId),
+        eq(imageReferences.refTable, IMAGE_REF_VALUES.BREAD),
+      ),
+    )
+    .innerJoin(images, eq(imageReferences.imageId, images.id))
+    .where(eq(breads.id, id))
+    .limit(1);
+
+  return breadQuery.at(0);
+};
+
+const getBread = (params: IParams) =>
+  fetchWithCapture({
+    context: BREAD_CONTEXT.GET,
+    fn: fetchBread,
+    args: [params],
+  });
+
+export default getBread;

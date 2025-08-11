@@ -1,106 +1,85 @@
 'use client';
 
 import { Badge } from '@shared/shadcn-ui/ui';
+import { cn } from '@shared/shadcn-ui/utils';
+import { Tag } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import { IBundleDisplay } from '@entities/bundle/types';
+
+import BundleProducts from './BundleProducts';
 
 interface IProps {
   bundle: IBundleDisplay;
 }
 
+function percentOff(price: number, discounted: number) {
+  if (price <= 0 || discounted >= price) return 0;
+  return Math.round(((price - discounted) / price) * 100);
+}
+
 const DetailBundle: FC<IProps> = ({ bundle }) => {
-  const discountPercentage = Math.round(
-    ((bundle.price - bundle.discountedPrice) / bundle.price) * 100,
-  );
+  const [mainImageIndex, setMainImageIndex] = useState<number>(0);
 
-  const CATEGORY_ORDER: (keyof IBundleDisplay['products'])[] = [
-    'breads',
-    'sauces',
-    'dishes',
-    'drinks',
-    'desserts',
-  ];
-
-  const getDetailPath = (type: keyof IBundleDisplay['products'], id: number) => {
-    const pathMapper = {
-      breads: '/product/bread/', // 실제 라우팅 경로에 따라 수정 필요
-      sauces: '/product/sauce/',
-      dishes: '/product/dish/',
-      drinks: '/product/drink/',
-      desserts: '/product/dessert/',
-    } as const;
-
-    return `${pathMapper[type]}${encodeURIComponent(id)}`;
-  };
-
-  const sortItems = (items: IBundleDisplay['products'][keyof IBundleDisplay['products']]) =>
-    [...items].sort((a, b) => {
-      if (a.quantity !== b.quantity) return a.quantity - b.quantity;
-      return a.name.localeCompare(b.name, 'ko');
-    });
+  const hasDiscount = bundle.discountedPrice > 0 && bundle.discountedPrice < bundle.price;
+  const off = useMemo(() => percentOff(bundle.price, bundle.discountedPrice), [bundle]);
+  const displayPrice = hasDiscount ? bundle.discountedPrice : bundle.price;
 
   return (
-    <section className='flex flex-col gap-6'>
-      {/* 이미지 리스트 */}
-      <div className='grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4'>
-        {bundle.images.map((img, idx) => (
-          <div
-            key={img.id ?? idx}
-            className='bg-muted relative aspect-square w-full overflow-hidden rounded-xl border shadow-sm'
-          >
-            <Image
-              src={img.url}
-              alt={`bundle image ${idx + 1}`}
-              fill
-              className='object-cover'
-              sizes='(min-width: 768px) 25vw, 50vw'
-            />
-          </div>
-        ))}
-      </div>
+    <section className='flex flex-col gap-3 p-1 lg:flex-row lg:gap-6 lg:p-2'>
+      <div className='flex grow flex-col gap-3'>
+        <figure className='relative aspect-square overflow-hidden rounded-md shadow-sm lg:min-w-[200px]'>
+          <Image
+            src={bundle.images[mainImageIndex]?.url}
+            alt='bundle image'
+            fill
+            className='object-cover'
+            sizes='(min-width: 768px) 25vw, 50vw'
+          />
+        </figure>
 
-      {/* 이름 + 가격 */}
-      <div>
-        <h2 className='mb-2 text-xl font-bold text-[#4E342E]'>{bundle.name}</h2>
-
-        {bundle.discountedPrice < bundle.price ? (
-          <div className='flex items-center gap-3'>
-            <span className='text-wood text-2xl font-bold'>
-              {bundle.discountedPrice.toLocaleString()}원
-            </span>
-            <span className='text-base text-[#9E9E9E] line-through'>
-              {bundle.price.toLocaleString()}원
-            </span>
-            <Badge variant='default' className='text-sm'>
-              {discountPercentage}% 할인
-            </Badge>
+        {bundle.images.length > 1 && (
+          <div className='flex flex-wrap gap-2'>
+            {bundle.images.map((img, index) => (
+              <figure
+                key={index}
+                className={cn(
+                  'relative aspect-square w-full max-w-[60px] cursor-pointer overflow-hidden rounded-md transition-all hover:opacity-80',
+                  index === mainImageIndex && 'ring-2 ring-black',
+                )}
+                onClick={() => setMainImageIndex(index)}
+              >
+                <Image src={img.url} alt='bundle image' fill className='object-cover' />
+              </figure>
+            ))}
           </div>
-        ) : (
-          <span className='text-xl font-bold text-[#6D4C41]'>
-            {bundle.price.toLocaleString()}원
-          </span>
         )}
       </div>
+      <div className='flex grow flex-col gap-4 bg-white lg:p-4'>
+        <div className='flex flex-col gap-1'>
+          <h2 className='text-xl font-bold text-gray-900 lg:text-3xl'>{bundle.name}</h2>
+          <p className='text-xs text-gray-600 lg:text-sm'>{bundle.description}</p>
+        </div>
 
-      {/* 구성 목록 */}
-      <ul className='mt-3 rounded-lg text-sm text-[#5D4037]'>
-        {CATEGORY_ORDER.flatMap(type =>
-          sortItems(bundle.products[type]).map((item, index) => (
-            <li
-              key={`${type}-${item.id}-${index}`}
-              className='flex items-center gap-2 border-b border-[#e8e2d8] py-1.5 last:border-none sm:py-2'
-            >
-              <Link href={getDetailPath(type, item.id)} className='hover:underline'>
-                {item.name}
-              </Link>
-              <span className='text-[#9E9E9E]'>× {item.quantity}</span>
-            </li>
-          )),
-        )}
-      </ul>
+        <div className='flex flex-col gap-3 lg:gap-6'>
+          <div className='flex items-center gap-1 lg:gap-2'>
+            <h3 className='text-xl font-semibold text-gray-900 lg:text-2xl'>
+              {displayPrice.toLocaleString()}원
+            </h3>
+            {hasDiscount && (
+              <Badge
+                variant='secondary'
+                className='flex items-center gap-1 rounded-full bg-gray-900 px-2 py-0.5 text-xs font-medium text-white shadow-sm'
+              >
+                <Tag className='size-3' />
+                {`-${off}%`}
+              </Badge>
+            )}
+          </div>
+          <BundleProducts products={bundle?.products} />
+        </div>
+      </div>
     </section>
   );
 };

@@ -7,12 +7,14 @@ import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { SEARCH_PARAMS_KEYS } from '@shared/consts/storage';
 import { and, asc, count, desc, eq, ilike, isNull } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { BREAD_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 import { OrderByType, WithImageId } from 'src/shared/api/typings';
 
+import { BREAD_CACHE_TAG, BREAD_CONTEXT } from '@entities/bread/consts';
 import { BreadFormDto } from '@entities/bread/types';
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 import { FILTER_TYPES, PER_PAGE_SIZE } from '@consts/commons';
 
@@ -53,7 +55,7 @@ export const GET = withAuth(async (request: NextRequest) => {
   } catch (error) {
     return responseWithCapture({
       error,
-      context: 'GET_BREAD',
+      context: BREAD_CONTEXT.GET,
       message: BREAD_ERRORS.GET_FAILED,
       payload: {
         searchParams,
@@ -98,7 +100,7 @@ export const POST = withAuth(async (request: NextRequest) => {
   } catch (error) {
     return responseWithCapture({
       error,
-      context: 'CREATE_BREAD',
+      context: BREAD_CONTEXT.CREATE,
       message: BREAD_ERRORS.CREATE_FAILED,
       payload: {
         body,
@@ -120,12 +122,14 @@ export const POST = withAuth(async (request: NextRequest) => {
         ),
       );
 
+    revalidateTag(BREAD_CACHE_TAG.GET_LIST);
+
     return NextResponse.json(setSucResponseItem(newBread), { status: 201 });
   } catch (error) {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPLOAD,
-      context: 'UPDATE_IMAGE',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         body,
       },

@@ -55,7 +55,6 @@ const useCreateBundleForm = () => {
     const imageIds = await fetchUploadApi(data.imageFiles, IMAGE_REF_VALUES.BUNDLE);
 
     delete data.imageFiles;
-    delete data.products;
 
     if (isNaN(Number(data?.discountedPrice))) {
       delete data.discountedPrice;

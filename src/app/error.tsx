@@ -1,8 +1,8 @@
 'use client';
 
 import * as Sentry from '@sentry/nextjs';
-import { ErrorPageError } from '@shared/class/customError';
 import { UNKNOWN_ERROR_MESSAGE } from '@shared/consts/commons';
+import { ErrorPageError } from '@shared/libs/customError';
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 

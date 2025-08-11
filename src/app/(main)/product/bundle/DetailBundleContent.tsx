@@ -1,7 +1,7 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
 import { FC } from 'react';
 
-import getBundle from '@features/bundle/actions/getBundle';
+import getBundle from '@features/bundle/queries/getBundle';
 import DetailBundle from '@features/bundle/ui/detail/Detail';
 
 interface IProps {

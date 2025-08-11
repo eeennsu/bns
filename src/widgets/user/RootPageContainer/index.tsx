@@ -13,8 +13,8 @@ const RootPageContainer: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       {!isAdmin && <Header />}
-      <div className='flex-1'>{children}</div>
-      {!isAdmin && <Footer />}
+      <div className='grow'>{children}</div>
+      {!isAdmin && pathname !== '/' && <Footer />}
     </>
   );
 };

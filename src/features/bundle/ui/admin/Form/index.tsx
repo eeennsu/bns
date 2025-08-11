@@ -183,6 +183,7 @@ const BundleForm: FC<IProps> = ({
                   />
                 </div>
                 <SelectedProductList
+                  form={form}
                   setCommandGroups={setCommandGroups}
                   productFields={productFields}
                   updateProduct={updateProduct}

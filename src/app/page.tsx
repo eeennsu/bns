@@ -1,24 +1,29 @@
 import { FC } from 'react';
 
-import EventList from '@features/event/ui/list';
-import BrushBackground from '@features/home/ui/BrushBackground';
-import ContactUs from '@features/home/ui/ContactUs';
-import Hero from '@features/home/ui/Hero';
+import getEventList from '@features/event/queries/getList';
+import getSignatureList from '@features/home/queries/getSignatureList';
+import FullPageScroller from '@features/home/ui/FullPageScroll';
 import LoginExpireToast from '@features/home/ui/LoginExpireToast';
-import SignatureProducts from '@features/home/ui/SignatureProducts';
 
 const HomePage: FC = async () => {
+  const [signatureResponse, eventResponse] = await Promise.all([
+    getSignatureList(),
+    getEventList({ page: 1, pageSize: 3 }),
+  ]);
+
+  const [, signatures] = signatureResponse;
+  const [, events] = eventResponse;
+
   return (
     <main className='relative size-full'>
-      <div className='relative container flex flex-col gap-10 px-4 pt-24'>
-        <Hero />
-        <SignatureProducts />
-        <BrushBackground />
-      </div>
+      <FullPageScroller
+        signatures={signatures ?? []}
+        events={events?.list || []}
+        eventTotal={events?.total || 0}
+      />
 
-      <ContactUs />
       <LoginExpireToast />
-      <EventList />
+      {/* <EventList /> */}
     </main>
   );
 };

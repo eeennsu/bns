@@ -7,10 +7,12 @@ import { setSucResponseItem } from '@shared/api/response';
 import { responseWithCapture } from '@shared/api/responseWithCapture';
 import { withAuth } from '@shared/api/withAuth';
 import { and, eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { DESSERT_ERRORS, IMAGE_ERRORS } from 'src/shared/api/errorMessage';
 
-import { IMAGE_REF_VALUES } from '@entities/image/consts';
+import { DESSERT_CACHE_TAG, DESSERT_CONTEXT } from '@entities/dessert/consts';
+import { IMAGE_CONTEXT, IMAGE_REF_VALUES } from '@entities/image/consts';
 
 interface IParams {
   params: Promise<{ id: string }>;
@@ -52,7 +54,7 @@ export const GET = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DESSERT_ERRORS.GET_FAILED,
-      context: 'GET_DESSERT',
+      context: DESSERT_CONTEXT.GET,
       payload: {
         dessertId,
       },
@@ -114,7 +116,7 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DESSERT_ERRORS.MODIFY_FAILED,
-      context: 'MODIFY_DESSERT',
+      context: DESSERT_CONTEXT.MODIFY,
       payload: {
         dessertId,
         body,
@@ -132,13 +134,16 @@ export const PUT = withAuth(async (req: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_UPDATE_IMAGE_DATAS,
-      context: 'UPDATE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.UPDATE,
       payload: {
         dessertId,
         body,
       },
     });
   }
+
+  revalidateTag(`${DESSERT_CACHE_TAG.GET}:${dessertId}`);
+  revalidateTag(DESSERT_CACHE_TAG.GET_LIST);
 
   return NextResponse.json(setSucResponseItem(updateDessert));
 });
@@ -179,7 +184,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DESSERT_ERRORS.GET_FAILED,
-      context: 'GET_DESSERT',
+      context: DESSERT_CONTEXT.GET,
       payload: {
         dessertId,
       },
@@ -192,7 +197,7 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: DESSERT_ERRORS.DELETE_FAILED,
-      context: 'DELETE_DESSERT',
+      context: DESSERT_CONTEXT.DELETE,
       payload: {
         dessertId,
       },
@@ -208,12 +213,15 @@ export const DELETE = withAuth(async (_: NextRequest, { params }: IParams) => {
     return responseWithCapture({
       error,
       message: IMAGE_ERRORS.FAILED_DELETE_IMAGE_DATAS,
-      context: 'DELETE_IMAGE_DATAS',
+      context: IMAGE_CONTEXT.DELETE,
       payload: {
         dessertId,
       },
     });
   }
+
+  revalidateTag(`${DESSERT_CACHE_TAG.GET}:${dessertId}`);
+  revalidateTag(DESSERT_CACHE_TAG.GET_LIST);
 
   return new NextResponse(null, { status: 204 });
 });

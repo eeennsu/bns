@@ -1,7 +1,7 @@
 import ErrorMessage from '@shared/components/ErrorMessage';
 import { FC } from 'react';
 
-import getDish from '@features/dish/actions/getDish';
+import getDish from '@features/dish/queries/getDish';
 import DetailDish from '@features/dish/ui/detail/Detail';
 
 interface IProps {

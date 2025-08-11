@@ -1,20 +1,19 @@
 import { FC } from 'react';
 
+import ModalShell from '@app/(main)/product/ModalShell';
 import DetailDishContent from '@app/(main)/product/dish/DetailDishContent';
-
-import PageModal from '@components/PageModal';
 
 interface IParams {
   params: Promise<{ id: string }>;
 }
 
 const DetailDishModalPage: FC<IParams> = async ({ params }) => {
-  const dishId = (await params).id;
+  const dishId = (await params)?.id || '';
 
   return (
-    <PageModal className='bg-[#FFFFF0]'>
+    <ModalShell>
       <DetailDishContent dishId={dishId} />
-    </PageModal>
+    </ModalShell>
   );
 };
 

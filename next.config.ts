@@ -3,6 +3,9 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  experimental: {
+    useCache: true,
+  },
   images: {
     remotePatterns: [
       {
