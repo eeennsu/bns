@@ -12,7 +12,7 @@ const DetailBreadModalPage: FC<IParams> = async ({ params }) => {
 
   return (
     <ModalShell>
-      <DetailBreadContent breadId={breadId} />;
+      <DetailBreadContent breadId={breadId} />
     </ModalShell>
   );
 };

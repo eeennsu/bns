@@ -7,7 +7,7 @@ interface IParams {
 }
 
 const DetailSaucePage: FC<IParams> = async ({ params }) => {
-  const sauceId = (await params).id;
+  const sauceId = (await params)?.id || '';
 
   return <DetailSauceContent sauceId={sauceId} />;
 };

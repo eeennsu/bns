@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import ModalShell from '@app/(main)/product/ModalShell';
 import DetailSauceContent from '@app/(main)/product/sauce/DetailSauceContent';
 
 interface IParams {
@@ -7,9 +8,13 @@ interface IParams {
 }
 
 const DetailSauceModalPage: FC<IParams> = async ({ params }) => {
-  const sauceId = (await params).id;
+  const sauceId = (await params)?.id || '';
 
-  return <DetailSauceContent sauceId={sauceId} />;
+  return (
+    <ModalShell>
+      <DetailSauceContent sauceId={sauceId} />
+    </ModalShell>
+  );
 };
 
 export default DetailSauceModalPage;

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import ModalShell from '@app/(main)/product/ModalShell';
 import DetailDishContent from '@app/(main)/product/dish/DetailDishContent';
 
 interface IParams {
@@ -7,9 +8,13 @@ interface IParams {
 }
 
 const DetailDishModalPage: FC<IParams> = async ({ params }) => {
-  const dishId = (await params).id;
+  const dishId = (await params)?.id || '';
 
-  return <DetailDishContent dishId={dishId} />;
+  return (
+    <ModalShell>
+      <DetailDishContent dishId={dishId} />
+    </ModalShell>
+  );
 };
 
 export default DetailDishModalPage;
