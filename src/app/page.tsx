@@ -23,8 +23,10 @@ const HomePage: FC = async () => {
       />
 
       <LoginExpireToast />
-      {/* <EventList /> */}
     </main>
   );
 };
 export default HomePage;
+
+// export const revalidate = 600; // 10분 마다 새로고침
+export const dynamic = 'force-dynamic';
