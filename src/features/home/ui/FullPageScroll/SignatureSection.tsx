@@ -35,7 +35,7 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
           className='flex flex-col gap-16 lg:grow lg:flex-row'
           orientation='vertical'
         >
-          <TabsList className='flex min-w-[300px] flex-col gap-6 bg-white p-0 font-bold lg:h-full lg:gap-20'>
+          <TabsList className='relative flex min-w-[300px] gap-6 bg-white p-0 font-bold lg:h-full lg:flex-col lg:gap-20'>
             <TabsTrigger
               value='bread'
               onClick={() => setCurrentType('bread')}
@@ -84,13 +84,15 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
               <TabsContent key={type} value={type} className='mt-0'>
                 {items.length === 0 ? (
                   <EmptyProduct size='sm' />
-                ) : items.length > 1 ? (
+                ) : items.length === 1 ? (
+                  <SignatureCard signature={items.at(0)} className='mx-auto lg:w-1/2' />
+                ) : (
                   <Carousel
                     opts={{ align: 'start', loop: true }}
                     plugins={[Autoplay({ delay: 4000 })]}
                     className='h-full w-full'
                   >
-                    <CarouselContent className='h-[330px] pr-[15%] lg:pr-[10%]'>
+                    <CarouselContent className='h-[330px] lg:pr-[10%]'>
                       {items.map(signature => (
                         <CarouselItem
                           key={`${signature.type}-${signature.id}`}
@@ -101,8 +103,6 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
                       ))}
                     </CarouselContent>
                   </Carousel>
-                ) : (
-                  <SignatureCard signature={items[0]} />
                 )}
               </TabsContent>
             ))}
@@ -139,20 +139,28 @@ const SignatureGroupButton: FC<ISignatureGroupButtonProps> = ({
       >
         {group[0]} & {group[1]}
       </button>
-      {isCurrentType && <p className='text-base font-bold text-black'>{description}</p>}
+      {isCurrentType && (
+        <p className='font-nanum-gothic absolute inset-x-0 top-[52px] text-center text-base font-bold text-black lg:static'>
+          {description}
+        </p>
+      )}
     </div>
   );
 };
 
 interface ISignatureCardProps {
   signature: ISignatureProduct;
+  className?: string;
 }
 
-const SignatureCard: FC<ISignatureCardProps> = ({ signature }) => {
+const SignatureCard: FC<ISignatureCardProps> = ({ signature, className }) => {
   return (
     <Link
       href={MAIN_PATHS.product[signature.type].list()}
-      className='flex h-[330px] w-full flex-col items-center rounded-xl pl-3'
+      className={cn(
+        'group flex h-[330px] w-full flex-col items-center overflow-hidden rounded-xl pl-3',
+        className,
+      )}
     >
       <div className='relative h-[95%] w-full'>
         <Image
@@ -160,7 +168,7 @@ const SignatureCard: FC<ISignatureCardProps> = ({ signature }) => {
           alt={signature.name}
           width={350}
           height={180}
-          className='size-full rounded-xl object-cover'
+          className='size-full rounded-xl object-cover transition-all group-hover:scale-105'
         />
         <div className='absolute bottom-0 left-1/2 z-10 w-[80%] -translate-x-1/2 translate-y-1/2 rounded-md bg-black/80 px-3 py-1 text-center text-sm font-semibold text-white shadow-lg'>
           {signature.name}
