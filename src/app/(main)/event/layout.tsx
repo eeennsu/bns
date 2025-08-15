@@ -11,15 +11,15 @@ export const metadata: Metadata = {
   keywords: [...KEYWORDS],
   authors: [{ name: BRAND_TITLE.EN, url: SITE_LINK }],
   openGraph: {
-    title: `${BRAND_TITLE.KO} | ${BRAND_TITLE.EN}`,
+    title: BRAND_TITLE.EN,
     description: `${BRAND_TITLE.KO}의 이벤트 목록 페이지입니다.`,
     url: SITE_LINK,
-    siteName: `${BRAND_TITLE.KO} | ${BRAND_TITLE.EN}`,
+    siteName: BRAND_TITLE.EN,
     locale: 'ko_KR',
     type: 'website',
   },
   twitter: {
-    title: `${BRAND_TITLE.KO} | ${BRAND_TITLE.EN}`,
+    title: BRAND_TITLE.EN,
     description: `${BRAND_TITLE.KO}의 이벤트 목록 페이지입니다.`,
   },
   robots: {
