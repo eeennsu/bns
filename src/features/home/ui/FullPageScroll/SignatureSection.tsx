@@ -11,6 +11,7 @@ import { ComponentProps, useMemo, useState, type FC } from 'react';
 
 import { getGroupedSignatures } from '@features/home/libs/getGroupedSignatures';
 
+import { SIGNATURE_CATEGORY_DESCRIPTION } from '@entities/home/consts';
 import { ISignatureProduct } from '@entities/home/types';
 
 import EmptyProduct from './EmptyProduct';
@@ -32,52 +33,60 @@ const SignatureSection: FC<IProps> = ({ signatures }) => {
 
         <Tabs
           value={currentType}
-          className='flex flex-col gap-16 lg:grow lg:flex-row'
+          className='flex flex-col gap-4 lg:grow lg:flex-row lg:gap-16'
           orientation='vertical'
         >
-          <TabsList className='relative flex min-w-[300px] gap-6 bg-white p-0 font-bold lg:h-full lg:flex-col lg:gap-20'>
-            <TabsTrigger
-              value='bread'
-              onClick={() => setCurrentType('bread')}
-              asChild
-              className='w-full gap-1 p-0 font-bold'
-            >
-              <SignatureGroupButton
-                isCurrentType={currentType === 'bread'}
-                group={['BREAD', 'SAUCE']}
-                description='섬세한 기술과 정성으로 완성된 최고의 빵'
-                className='items-end'
-              />
-            </TabsTrigger>
+          <div className='overflow-x-auto'>
+            <TabsList className='flex gap-6 bg-white p-0 font-bold lg:h-full lg:min-w-[300px] lg:flex-col lg:gap-20'>
+              <TabsTrigger
+                value='bread'
+                onClick={() => setCurrentType('bread')}
+                asChild
+                className='w-full gap-1 p-0 font-bold'
+              >
+                <SignatureGroupButton
+                  isCurrentType={currentType === 'bread'}
+                  group={['BREAD', 'SAUCE']}
+                  description={SIGNATURE_CATEGORY_DESCRIPTION.bread}
+                  className='items-end'
+                />
+              </TabsTrigger>
 
-            <TabsTrigger
-              value='drink'
-              onClick={() => setCurrentType('drink')}
-              asChild
-              className='w-full gap-1 p-0 font-bold'
-            >
-              <SignatureGroupButton
-                isCurrentType={currentType === 'drink'}
-                group={['COFFEE', 'DRINK']}
-                description='하루를 채울 신선한 커피와 음료'
-                className='items-end'
-              />
-            </TabsTrigger>
+              <TabsTrigger
+                value='drink'
+                onClick={() => setCurrentType('drink')}
+                asChild
+                className='w-full gap-1 p-0 font-bold'
+              >
+                <SignatureGroupButton
+                  isCurrentType={currentType === 'drink'}
+                  group={['COFFEE', 'DRINK']}
+                  description={SIGNATURE_CATEGORY_DESCRIPTION.drink}
+                  className='items-end'
+                />
+              </TabsTrigger>
 
-            <TabsTrigger
-              value='dish'
-              onClick={() => setCurrentType('dish')}
-              asChild
-              className='w-full gap-1 p-0 font-bold'
-            >
-              <SignatureGroupButton
-                isCurrentType={currentType === 'dish'}
-                group={['DISH', 'DESSERT']}
-                description='가벼운 달콤한 디저트'
-                className='items-end'
-              />
-            </TabsTrigger>
-          </TabsList>
+              <TabsTrigger
+                value='dish'
+                onClick={() => setCurrentType('dish')}
+                asChild
+                className='w-full gap-1 p-0 font-bold'
+              >
+                <SignatureGroupButton
+                  isCurrentType={currentType === 'dish'}
+                  group={['DISH', 'DESSERT']}
+                  description={SIGNATURE_CATEGORY_DESCRIPTION.dish}
+                  className='items-end'
+                />
+              </TabsTrigger>
+            </TabsList>
+          </div>
+
+          <div className='block text-center lg:hidden'>
+            {currentType === 'bread' && SIGNATURE_CATEGORY_DESCRIPTION.bread}
+            {currentType === 'drink' && SIGNATURE_CATEGORY_DESCRIPTION.drink}
+            {currentType === 'dish' && SIGNATURE_CATEGORY_DESCRIPTION.dish}
+          </div>
 
           <div className='flex-1'>
             {Object.entries(groupedSignatures).map(([type, items]) => (
@@ -140,7 +149,7 @@ const SignatureGroupButton: FC<ISignatureGroupButtonProps> = ({
         {group[0]} & {group[1]}
       </button>
       {isCurrentType && (
-        <p className='font-nanum-gothic absolute inset-x-0 top-[52px] text-center text-base font-bold text-black lg:static'>
+        <p className='font-nanum-gothic hidden text-center text-base font-bold text-black lg:block'>
           {description}
         </p>
       )}
