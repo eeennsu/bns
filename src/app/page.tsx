@@ -28,5 +28,4 @@ const HomePage: FC = async () => {
 };
 export default HomePage;
 
-// export const revalidate = 600; // 10분 마다 새로고침
-export const dynamic = 'force-dynamic';
+export const revalidate = 600; // 10분 마다 새로고침

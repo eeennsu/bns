@@ -42,7 +42,7 @@ const Header: FC = () => {
             : 'bg-white',
       )}
     >
-      <div className='bg-g flex w-full items-center justify-between px-10 py-7 lg:px-20 lg:py-9'>
+      <div className='flex w-full items-center justify-between px-10 py-7 lg:px-20 lg:py-9'>
         <Link
           href={MAIN_PATHS.home()}
           className='flex items-center gap-2 text-xl font-bold'
