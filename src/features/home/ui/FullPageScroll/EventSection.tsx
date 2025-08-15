@@ -1,5 +1,6 @@
 import { MAIN_PATHS } from '@shared/configs/routes/mainPaths';
 import { dateFormat } from '@shared/libs/date';
+import { cn } from '@shared/shadcn-ui/utils';
 import UtilLocalImage from '@shared/utils/utilImage';
 import dayjs from 'dayjs';
 import { CalendarDays, MoveRight } from 'lucide-react';
@@ -24,11 +25,16 @@ const EventSection: FC<IProps> = ({ events, total }) => {
 
   return (
     <SectionContainer id='event-list'>
-      <div className='flex h-full w-full flex-col justify-center gap-16 lg:h-auto lg:flex-row lg:justify-start'>
+      <div className='gap- flex h-full w-full flex-col justify-center gap-6 lg:h-auto lg:flex-row lg:justify-start lg:gap-16'>
         <div className='flex flex-col gap-8 lg:gap-16'>
           <SectionTitle title='EVENT' />
 
-          <figure className='relative size-[180px] max-lg:flex max-lg:w-full max-lg:justify-center lg:size-[430px]'>
+          <figure
+            className={cn(
+              'relative size-[120px] max-lg:w-full max-lg:justify-center lg:size-[430px]',
+              events.length < 3 ? 'block' : 'hidden',
+            )}
+          >
             <Image src={UtilLocalImage.SVGS.GIFT} alt='event illustration' fill />
           </figure>
         </div>
@@ -71,20 +77,20 @@ const EventItem: FC<IEventItemProps> = ({ event }) => {
   return (
     <Link
       href={MAIN_PATHS.event.detail({ slug: event.id })}
-      className='group relative flex items-start justify-between gap-4 overflow-hidden p-6'
+      className='group relative flex flex-col items-start justify-between gap-4 overflow-hidden p-6 lg:flex-row'
     >
       <div className='absolute inset-0 z-0 origin-left scale-x-0 bg-black/80 transition-transform duration-300 ease-out group-hover:scale-x-100' />
 
       <div className='relative z-10 flex grow flex-col gap-1'>
-        <h3 className='text-foreground text-base font-semibold transition-colors duration-150 group-hover:text-white'>
+        <h3 className='text-foreground text-sm font-semibold transition-colors duration-150 group-hover:text-white lg:text-base'>
           {event.name}
         </h3>
-        <p className='text-muted-foreground text-sm transition-colors duration-150 group-hover:text-white'>
+        <p className='text-muted-foreground text-xs transition-colors duration-150 group-hover:text-white lg:text-sm'>
           {event.shortDescription}
         </p>
       </div>
 
-      <div className='relative z-10 flex h-full min-w-[160px] flex-col items-end justify-end gap-1 text-right'>
+      <div className='relative z-10 flex h-full w-full min-w-[160px] items-end justify-end gap-1 text-right lg:flex-col'>
         <div className='text-muted-foreground flex items-center gap-1 text-xs transition-colors duration-150 group-hover:text-white'>
           <CalendarDays className='size-4' />
           <span>
@@ -93,9 +99,11 @@ const EventItem: FC<IEventItemProps> = ({ event }) => {
         </div>
 
         {remainDay === 0 ? (
-          <p className='animate-caret-blink text-xs font-bold text-red-500'>D - Day</p>
+          <p className='animate-caret-blink text-[10px] font-bold text-red-500 lg:text-xs'>
+            D - Day
+          </p>
         ) : (
-          <p className='text-xs font-medium text-red-500'>D - {remainDay}</p>
+          <p className='hidden text-xs font-medium text-red-500 lg:block'>D - {remainDay}</p>
         )}
       </div>
     </Link>

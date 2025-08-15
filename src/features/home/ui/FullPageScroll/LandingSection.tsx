@@ -76,7 +76,7 @@ const LandingSection: FC = () => {
           >
             <ArrowLeftToLine className='size-4.5 text-white' />
           </button>
-          <p className='flex items-center gap-1'>
+          <p className='flex items-center gap-1 whitespace-nowrap'>
             <span className='font-medium text-white'>{mainCarouselActiveIndex + 1}</span>
             <span className='text-white/50'>/ {CAROUSEL_IMAGES.length}</span>
           </p>
