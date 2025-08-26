@@ -35,17 +35,17 @@ export const BRAND_TITLE = {
 } as const;
 
 export const BUSINESS_INFO = {
-  BUSINESS_NUMBER: {
-    label: '사업자 등록번호',
-    value: '123-45-67890',
-  },
+  // BUSINESS_NUMBER: {
+  //   label: '사업자 등록번호',
+  //   value: '123-45-67890',
+  // },
   REPRESENTATIVE: {
     label: '대표자명',
     value: '김현겸',
   },
   PHONE: {
     label: '전화번호',
-    value: '010-1234-5678',
+    value: '0507-1380-3068',
   },
 } as const;
 
